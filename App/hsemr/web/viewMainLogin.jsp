@@ -30,14 +30,14 @@
 
                     %> 
 
-                    <form action = "ProcessLogin" method = "post">
+                    <form action="ProcessLogin" method="post">
                         <table>
                             <tr>
                                 <td>
                                     <label for="userid">User ID: </label>
                                 </td>
                                 <td>
-                                    <input type = "text" id = "userid" placeholder = "User ID" name = "userid" value = <%= userid%> >
+                                    <input type="text" id="userid" placeholder="User ID" name="userid" value=<%=userid%> >
                                 </td>
                             </tr>
                             <tr>
@@ -45,7 +45,7 @@
                                     <label for="password">Password: </label>
                                 </td>
                                 <td>
-                                    <input type = "password" class = "password" placeholder = "Password" name = "password">
+                                    <input type="password" class="password" placeholder="Password" name="password">
                                 </td>
                             </tr>
                             <tr>    
@@ -53,7 +53,7 @@
                                     Domain: 
                                 </td>
                                 <td>
-                                    <select name = "userType">
+                                    <select name="userType">
                                         <option value="student">NPSTUDENT</option>
                                         <option value="lecturer">NPSTAFF</option>
                                         <option value="admin">Admin</option>
@@ -61,7 +61,7 @@
                                 </td>
                             </tr>
                         </table>
-                        <p><input type = "submit" class="button tiny" value = "Enter"></p>
+                        <p><input type="submit" class="button tiny" value = "Enter"></p>
                     </form>
             </center>
     </body>

@@ -5,12 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
-    <body>
+       <body>
         <nav class="top-bar" data-topbar>
             <ul class="title-area">
                 <li class="name">
@@ -24,7 +23,14 @@
                 
                 <ul class="left">
                     <li> <a href="#">Case Management</a></li>
-                    <li><a href="#">User Management</a></li>
+                    <li class="has-dropdown">
+                        <a href="#">User Management</a>
+                        <ul class="dropdown">
+                            <li><a href="./viewAdminAccounts.jsp">Admin</a></li>
+                            <li><a href="./viewLecturerAccounts.jsp">Lecturer</a></li>
+                            <li><a href="./viewNurseAccounts.jsp">Nurse</a></li>
+                        </ul>   
+                    </li>
                 </ul>
 
                 <ul class="right"> 
@@ -32,7 +38,7 @@
                     <li><a href="ProcessLogout">Log Out</a></li>
                 </ul>
 
-            </section>
+            </secion>
         </nav>
 
         <script src ="js/vendor/jquery.js"></script>
