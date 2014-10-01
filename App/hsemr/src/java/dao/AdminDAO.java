@@ -25,7 +25,7 @@ public class AdminDAO {
         
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from admin where adminID = ?");
+            stmt = conn.prepareStatement("select * from ADMIN where adminID = ?");
             stmt.setString(1, userid);
             
             rs = stmt.executeQuery();
@@ -50,7 +50,7 @@ public class AdminDAO {
         
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from admin");
+            stmt = conn.prepareStatement("select * from ADMIN");
             
             rs = stmt.executeQuery();
             while (rs.next()) {

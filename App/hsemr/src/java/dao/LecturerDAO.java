@@ -27,7 +27,7 @@ public class LecturerDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from lecturer where LecturerID = ?");
+            stmt = conn.prepareStatement("select * from LECTURER where LecturerID = ?");
             stmt.setString(1, userid);
 
             rs = stmt.executeQuery();
@@ -52,7 +52,7 @@ public class LecturerDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from lecturer");
+            stmt = conn.prepareStatement("select * from LECTURER");
 
             rs = stmt.executeQuery();
             while (rs.next()) {

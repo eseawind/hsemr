@@ -27,7 +27,7 @@ public class NurseDAO {
         
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from nurse where nurseID = ?");
+            stmt = conn.prepareStatement("select * from NURSE where nurseID = ?");
             stmt.setString(1, userid);
             
             rs = stmt.executeQuery();
@@ -51,7 +51,7 @@ public class NurseDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from nurse");
+            stmt = conn.prepareStatement("select * from NURSE");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -68,7 +68,7 @@ public class NurseDAO {
     public static void update(String userID, String password) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query= "UPDATE nurse SET nursePassword =? WHERE nurseID =?";  
+        String query= "UPDATE NURSE SET nursePassword =? WHERE nurseID =?";  
         
         try {
             conn = ConnectionManager.getConnection();

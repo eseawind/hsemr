@@ -3,11 +3,9 @@
     Created on : Sep 24, 2014, 4:48:29 PM
     Author     : Jocelyn
 --%>
-<%@page import="dao.AdminDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
     <head>
         <link rel="stylesheet" href="css/foundation.css" />
 
@@ -66,7 +64,7 @@
                         <p><input type="submit" class="button tiny" value = "Enter"></p>
                     </form>
             </center>
-
-        </div>
     </body>
+</div>
+</div>
 </html>
