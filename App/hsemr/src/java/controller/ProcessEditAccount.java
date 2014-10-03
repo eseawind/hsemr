@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package controller;
 
 import dao.AdminDAO;
@@ -11,6 +10,7 @@ import dao.LecturerDAO;
 import dao.NurseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,20 +37,29 @@ public class ProcessEditAccount extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-      
+
         String userType = request.getParameter("type");
         String userID = request.getParameter("userID");
         String password = request.getParameter("password");
-        
+
         if (userType.equals("admin")) {
             AdminDAO.update(userID, password);
-            response.sendRedirect("./viewAdminAccounts.jsp");
+            request.setAttribute("success", "Successfully edited: " + userID);
+            RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
+            rd.forward(request, response);
+            // response.sendRedirect("./viewAdminAccounts.jsp");
         } else if (userType.equals("lecturer")) {
             LecturerDAO.update(userID, password);
-            response.sendRedirect("./viewLecturerAccounts.jsp");
-        } else { 
+            request.setAttribute("success", "Successfully edited: " + userID);
+            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
+            rd.forward(request, response); 
+            //response.sendRedirect("./viewLecturerAccounts.jsp");
+        } else {
             NurseDAO.update(userID, password);
-            response.sendRedirect("./viewNurseAccounts.jsp");
+           request.setAttribute("success", "Successfully edited: " + userID);
+            RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
+            rd.forward(request, response);
+            //response.sendRedirect("./viewNurseAccounts.jsp");
         }
     }
 
@@ -81,8 +90,7 @@ public class ProcessEditAccount extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-       
-        
+
     }
 
     /**

@@ -40,14 +40,24 @@
         <title>Accounts Management</title>
     </head>
     <body>
-        <%            List<Nurse> nurseList = NurseDAO.retrieveAll();
-        %>
+        <%            
+            List<Nurse> nurseList = NurseDAO.retrieveAll();
 
+        %>
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center>
                     <h1>Nurse Accounts Management</h1>
-
+                    <%
+                    String success = (String) request.getAttribute("success");
+                    if (success != null) {
+                    %>
+                    <div data-alert class="alert-box success radius">
+                        <%=success%>
+                    </div>
+                    <%
+                    }   
+                    %>
                     <table class="responsive" id="cssTable">
                         <col width="40%">
                         <col width="40%">
@@ -58,7 +68,7 @@
                             <td>Password</td>
                             <td colspan="2" align="center" valign="middle">Actions</td>
                         </tr>
-                        <%                            
+                        <%
                             for (Nurse nurse : nurseList) {
                         %>
                         <tr>

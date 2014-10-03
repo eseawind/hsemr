@@ -11,6 +11,7 @@ import dao.LecturerDAO;
 import dao.NurseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,13 +43,25 @@ public class ProcessDeleteAccount extends HttpServlet {
         
          if (userType.equals("admin")) {
             AdminDAO.delete(userID);
-            response.sendRedirect("./viewAdminAccounts.jsp");
+            request.setAttribute("success", "Successfully deleted: " + userID);
+            RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
+            rd.forward(request, response);
+
+            //response.sendRedirect("./viewAdminAccounts.jsp");
         } else if (userType.equals("lecturer")) {
             LecturerDAO.delete(userID);
-            response.sendRedirect("./viewLecturerAccounts.jsp");
+            request.setAttribute("success", "Successfully deleted: " + userID);
+            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
+            rd.forward(request, response);
+
+            //response.sendRedirect("./viewLecturerAccounts.jsp");
         } else { 
             NurseDAO.delete(userID);
-            response.sendRedirect("./viewNurseAccounts.jsp");
+            request.setAttribute("success", "Successfully deleted: " + userID);
+            RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
+            rd.forward(request, response);
+
+            //response.sendRedirect("./viewNurseAccounts.jsp");
         }
     }
 

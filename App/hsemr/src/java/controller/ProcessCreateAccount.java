@@ -49,7 +49,10 @@ public class ProcessCreateAccount extends HttpServlet {
                 rd.forward(request, response);
             } else {
                 AdminDAO.add(userID, password);
-                response.sendRedirect("./viewAdminAccounts.jsp");
+                request.setAttribute("success", "Successfully created: " + userID);
+                RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
+                rd.forward(request, response);
+                //response.sendRedirect("./viewAdminAccounts.jsp");
             }
             
         } else if (userType.equals("lecturer")) {
@@ -59,7 +62,10 @@ public class ProcessCreateAccount extends HttpServlet {
                 rd.forward(request, response);
             } else {
                 LecturerDAO.add(userID, password);
-                response.sendRedirect("./viewLecturerAccounts.jsp");
+                request.setAttribute("success", "Successfully created: " + userID);
+                RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
+                rd.forward(request, response);
+                //response.sendRedirect("./viewLecturerAccounts.jsp");
             }
             
         } else {
@@ -69,7 +75,10 @@ public class ProcessCreateAccount extends HttpServlet {
                 rd.forward(request, response);
             } else {
                 NurseDAO.add(userID, password);
-                response.sendRedirect("./viewNurseAccounts.jsp");
+                request.setAttribute("success", "Successfully created: " + userID);
+                RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
+                rd.forward(request, response);
+                //response.sendRedirect("./viewNurseAccounts.jsp");
             }
             
         }
