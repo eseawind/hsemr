@@ -5,11 +5,8 @@
  */
 package controller;
 
-import dao.AdminDAO;
-import dao.LecturerDAO;
-import dao.NurseDAO;
+import dao.ScenarioDAO;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,10 +16,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author weiyi.ngow.2012
+ * @author Administrator
  */
-@WebServlet(name = "ProcessEditAccount", urlPatterns = {"/ProcessEditAccount"})
-public class ProcessEditAccount extends HttpServlet {
+@WebServlet(name = "ProcessEditScenario", urlPatterns = {"/ProcessEditScenario"})
+public class ProcessEditScenario extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,31 +32,19 @@ public class ProcessEditAccount extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
 
-        String userType = request.getParameter("type");
-        String userID = request.getParameter("userID");
-        String password = request.getParameter("password");
+        String scenarioID = request.getParameter("scenarioID");
+        String scenarioName = request.getParameter("scenarioName");
+        String status = request.getParameter("status");
+        String scenarioDescription = request.getParameter("scenarioDescription");
+        String admissionInfo = request.getParameter("admissionInfo");
 
-        if (userType.equals("admin")) {
-            AdminDAO.update(userID, password);
-            request.setAttribute("success", "Successfully edited: " + userID);
-            RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
-            rd.forward(request, response);
-            // response.sendRedirect("./viewAdminAccounts.jsp");
-        } else if (userType.equals("lecturer")) {
-            LecturerDAO.update(userID, password);
-            request.setAttribute("success", "Successfully edited: " + userID);
-            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
-            rd.forward(request, response); 
-            //response.sendRedirect("./viewLecturerAccounts.jsp");
-        } else {
-            NurseDAO.update(userID, password);
-            request.setAttribute("success", "Successfully edited: " + userID);
-            RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
-            rd.forward(request, response);
-            //response.sendRedirect("./viewNurseAccounts.jsp");
-        }
+        ScenarioDAO.update(scenarioID, scenarioName, status, scenarioDescription, admissionInfo);
+
+        HttpSession session = request.getSession(false);
+        session.setAttribute("successMessageEditScenario", "New case has been editted successfully!");
+        response.sendRedirect("./viewScenarioAdmin.jsp");
+        return;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -89,7 +74,6 @@ public class ProcessEditAccount extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**

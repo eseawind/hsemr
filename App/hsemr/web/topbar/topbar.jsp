@@ -30,7 +30,6 @@
                  <ul class="left">
                     <li><a href="#">Patient Management</a></li>
                     <li><a href="#">Ward Management</a></li>
-                    <li><a href="#">Medical Management</a></li>
                   </ul>
                 
                 <ul class="right"> 

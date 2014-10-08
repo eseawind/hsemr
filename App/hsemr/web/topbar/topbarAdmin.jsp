@@ -22,7 +22,13 @@
             <section class="top-bar-section">
                 
                 <ul class="left">
-                    <li> <a href="#">Case Management</a></li>
+                    <li class="has-dropdown">
+                        <a href="#">Case Management</a>
+                        <ul class="dropdown">
+                            <li><a href="./viewScenarioAdmin.jsp">Manage Case</a></li>
+                            <li><a href="./createCase.jsp">Create Case</a></li>
+                        </ul>   
+                    </li>
                     <li class="has-dropdown">
                         <a href="#">User Management</a>
                         <ul class="dropdown">

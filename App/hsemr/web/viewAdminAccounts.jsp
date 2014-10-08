@@ -17,9 +17,10 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/foundation.css" />
-        <link rel="stylesheet" href="responsive-tables.css">
-        <script src="responsive-tables.js"></script>
+        <script src="js/vendor/modernizr.js"></script>
         <%@include file="/topbar/topbarAdmin.jsp" %>
 
         <script type="text/javascript">
@@ -39,25 +40,25 @@
         <title>Accounts Management</title>
     </head>
     <body>
-        <%            
-            List<Admin> adminList = AdminDAO.retrieveAll();
+        <%            List<Admin> adminList = AdminDAO.retrieveAll();
         %>
-        
+
 
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center>
                     <h1>Administrator Accounts Management</h1>
-                    <%
-                    String success = (String) request.getAttribute("success");
-                    if (success != null) {
-                    %>
-                    <div data-alert class="alert-box success radius">
-                        <%=success%>
+
+                    <div class ="large-11">
+                        <%if (session.getAttribute("successMessageCreateAccount") != null) {%>
+                        <div data-alert class="alert-box success radius">
+                            The account has been created successfully! 
+                            <a href="#" class="close">&times;</a>
+                        </div>
+                        <%}
+                            session.removeAttribute("successMessageCreateAccount"); %>
                     </div>
-                    <%
-                    }   
-                    %>
+
                     <table class="responsive" id="cssTable">
                         <col width="40%">
                         <col width="40%">
@@ -68,7 +69,7 @@
                             <td>Password</td>
                             <td colspan="2" align="center" valign="middle">Actions</td>
                         </tr>
-                        <%                            
+                        <%
                             for (Admin admin : adminList) {
                         %>
                         <tr>
@@ -99,7 +100,7 @@
                                     } else {
                                     %>
                                     <input type="submit" class="button tinytable" onclick="if (!deleteConfirmation())
-                                                  return false" value="delete" >
+                                                return false" value="delete" >
                                     <%
                                         }
                                     %>
@@ -120,5 +121,11 @@
 
             </div>
         </div>
+        <script src="js/vendor/jquery.js"></script>
+        <script src="js/foundation.min.js"></script>
+        <script>
+                                        $(document).foundation();
+        </script>                
+
     </body>
 </html>

@@ -3,26 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package controller;
 
-import dao.AdminDAO;
-import dao.LecturerDAO;
-import dao.NurseDAO;
-import java.io.IOException;
-import javax.servlet.RequestDispatcher;
+import dao.*;
+import entity.Scenario;
+import java.io.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author weiyi.ngow.2012
+ * @author Administrator
  */
-@WebServlet(name = "ProcessEditAccount", urlPatterns = {"/ProcessEditAccount"})
-public class ProcessEditAccount extends HttpServlet {
+@WebServlet(name = "ProcessDeleteScenario", urlPatterns = {"/ProcessDeleteScenario"})
+public class ProcessDeleteScenario extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,30 +34,16 @@ public class ProcessEditAccount extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        String scenarioID = request.getParameter("scenarioID");
+        String scenarioIDTrimmed = scenarioID.trim();
+        //ReportDAO.delete(scenarioID);
+        //StateDAO.delete(scenarioID);
+        ScenarioDAO.delete(scenarioID);
+        
+        response.sendRedirect("./viewScenarioAdmin.jsp");
 
-        String userType = request.getParameter("type");
-        String userID = request.getParameter("userID");
-        String password = request.getParameter("password");
 
-        if (userType.equals("admin")) {
-            AdminDAO.update(userID, password);
-            request.setAttribute("success", "Successfully edited: " + userID);
-            RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
-            rd.forward(request, response);
-            // response.sendRedirect("./viewAdminAccounts.jsp");
-        } else if (userType.equals("lecturer")) {
-            LecturerDAO.update(userID, password);
-            request.setAttribute("success", "Successfully edited: " + userID);
-            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
-            rd.forward(request, response); 
-            //response.sendRedirect("./viewLecturerAccounts.jsp");
-        } else {
-            NurseDAO.update(userID, password);
-            request.setAttribute("success", "Successfully edited: " + userID);
-            RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
-            rd.forward(request, response);
-            //response.sendRedirect("./viewNurseAccounts.jsp");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -89,7 +73,6 @@ public class ProcessEditAccount extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**

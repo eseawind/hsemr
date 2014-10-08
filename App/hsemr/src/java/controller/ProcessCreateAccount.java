@@ -10,13 +10,13 @@ import dao.AdminDAO;
 import dao.LecturerDAO;
 import dao.NurseDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -48,39 +48,40 @@ public class ProcessCreateAccount extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
                 rd.forward(request, response);
             } else {
+
+                HttpSession session = request.getSession(false);
+                session.setAttribute("successMessageCreateAccount", "New account: " + userID+ " has been created successfully!");
                 AdminDAO.add(userID, password);
-                request.setAttribute("success", "Successfully created: " + userID);
-                RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
-                rd.forward(request, response);
-                //response.sendRedirect("./viewAdminAccounts.jsp");
+                response.sendRedirect("./viewAdminAccounts.jsp");
+                return;
             }
-            
+
         } else if (userType.equals("lecturer")) {
             if (InputValidation.validateUser(userType, userID) == false) {
                 request.setAttribute("error", "user already exist");
                 RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
                 rd.forward(request, response);
             } else {
+                HttpSession session = request.getSession(false);
+                session.setAttribute("successMessageCreateAccount", "New account: " + userID+ " has been created successfully!");
                 LecturerDAO.add(userID, password);
-                request.setAttribute("success", "Successfully created: " + userID);
-                RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
-                rd.forward(request, response);
-                //response.sendRedirect("./viewLecturerAccounts.jsp");
+                response.sendRedirect("./viewLecturerAccounts.jsp");
+                return;
             }
-            
+
         } else {
             if (InputValidation.validateUser(userType, userID) == false) {
                 request.setAttribute("error", "user already exist");
                 RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
                 rd.forward(request, response);
             } else {
+                HttpSession session = request.getSession(false);
+                session.setAttribute("successMessageCreateAccount", "New account: " + userID+ " has been created successfully!");
                 NurseDAO.add(userID, password);
-                request.setAttribute("success", "Successfully created: " + userID);
-                RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
-                rd.forward(request, response);
-                //response.sendRedirect("./viewNurseAccounts.jsp");
+                response.sendRedirect("./viewNurseAccounts.jsp");
+                return;
             }
-            
+
         }
 
     }
