@@ -18,5 +18,6 @@
     </head>
     <body>
         <h1>Welcome, lecturer</h1>
+    <center><jsp:include page="viewScenarioLecturer.jsp" /></center>
     </body>
 </html>
