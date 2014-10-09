@@ -48,13 +48,16 @@
                 <center>
                     <h1>Lecturer Accounts Management</h1>
                     <div class ="large-11">
-                        <%if (session.getAttribute("successMessageCreateAccount") != null) {%>
+                           <div class ="medium-11">
+                        <%if (session.getAttribute("successLecturer") != null) {%>
                         <div data-alert class="alert-box success radius">
-                            The account has been created successfully! 
+                           <%=session.getAttribute("successLecturer")%>
                             <a href="#" class="close">&times;</a>
                         </div>
-                        <%}
-                            session.removeAttribute("successMessageCreateAccount"); %>
+                        <%
+                            session.setAttribute("successLecturer",null);                        
+                            }
+                        %>
                     </div>
                     <table class="responsive" id="cssTable">
                         <col width="40%">

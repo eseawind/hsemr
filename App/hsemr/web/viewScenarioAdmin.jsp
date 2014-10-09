@@ -42,7 +42,20 @@
                 The case has been created successfully! 
                 <a href="#" class="close">&times;</a>
             </div>
-            <%} session.removeAttribute("successMessageEditScenario"); %>
+            <%} session.removeAttribute("successMessageEditScenario"); 
+                String successMessageDeleteScenario = (String)session.getAttribute("successMessageDeleteScenario");
+            %>
+            
+            
+            <%
+            if(successMessageDeleteScenario != null){%>
+            <div data-alert class="alert-box success radius">
+                <%=successMessageDeleteScenario%>
+                <a href="#" class="close">&times;</a>
+            </div>
+            <%} session.removeAttribute("successMessageDeleteScenario");
+            
+            %>
         </div>
 
         <%List<Scenario> scenarioList = ScenarioDAO.retrieveAll();%>

@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -43,25 +44,29 @@ public class ProcessDeleteAccount extends HttpServlet {
         
          if (userType.equals("admin")) {
             AdminDAO.delete(userID);
-            request.setAttribute("success", "Successfully deleted: " + userID);
-            RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
-            rd.forward(request, response);
+            HttpSession session = request.getSession(false);
+            session.setAttribute("successAdmin", "Account \"" + userID + "\" has been deleted successfully.");
+       
+//            RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
+//            rd.forward(request, response);
 
-            //response.sendRedirect("./viewAdminAccounts.jsp");
+           response.sendRedirect("./viewAdminAccounts.jsp");
         } else if (userType.equals("lecturer")) {
             LecturerDAO.delete(userID);
-            request.setAttribute("success", "Successfully deleted: " + userID);
-            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
-            rd.forward(request, response);
+            HttpSession session = request.getSession(false);
+            session.setAttribute("successLecturer", "Account \"" + userID + "\" has been deleted successfully.");
+//            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
+//            rd.forward(request, response);
 
-            //response.sendRedirect("./viewLecturerAccounts.jsp");
+            response.sendRedirect("./viewLecturerAccounts.jsp");
         } else { 
             NurseDAO.delete(userID);
-            request.setAttribute("success", "Successfully deleted: " + userID);
-            RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
-            rd.forward(request, response);
+            HttpSession session = request.getSession(false);
+            session.setAttribute("successNurse", "Account \"" + userID + "\" has been deleted successfully.");
+//            RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
+//            rd.forward(request, response);
 
-            //response.sendRedirect("./viewNurseAccounts.jsp");
+            response.sendRedirect("./viewNurseAccounts.jsp");
         }
     }
 

@@ -48,12 +48,10 @@ public class ProcessCreateAccount extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
                 rd.forward(request, response);
             } else {
-
-                HttpSession session = request.getSession(false);
-                session.setAttribute("successMessageCreateAccount", "New account: " + userID+ " has been created successfully!");
                 AdminDAO.add(userID, password);
+                HttpSession session = request.getSession();
+                session.setAttribute("successAdmin", "New account \"" + userID+  "\" has been created successfully!");
                 response.sendRedirect("./viewAdminAccounts.jsp");
-                return;
             }
 
         } else if (userType.equals("lecturer")) {
@@ -62,11 +60,10 @@ public class ProcessCreateAccount extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
                 rd.forward(request, response);
             } else {
-                HttpSession session = request.getSession(false);
-                session.setAttribute("successMessageCreateAccount", "New account: " + userID+ " has been created successfully!");
                 LecturerDAO.add(userID, password);
+                HttpSession session = request.getSession();
+                session.setAttribute("successLecturer", "New account \"" + userID+  "\" has been created successfully!");                LecturerDAO.add(userID, password);
                 response.sendRedirect("./viewLecturerAccounts.jsp");
-                return;
             }
 
         } else {
@@ -75,11 +72,10 @@ public class ProcessCreateAccount extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
                 rd.forward(request, response);
             } else {
-                HttpSession session = request.getSession(false);
-                session.setAttribute("successMessageCreateAccount", "New account: " + userID+ " has been created successfully!");
                 NurseDAO.add(userID, password);
+                HttpSession session = request.getSession();
+                session.setAttribute("successNurse", "New account \"" + userID+  "\" has been created successfully!");
                 response.sendRedirect("./viewNurseAccounts.jsp");
-                return;
             }
 
         }

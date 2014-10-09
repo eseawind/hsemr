@@ -26,7 +26,11 @@
 
                             String error = (String) request.getAttribute("error");
                             if (error != null) {
-                                out.println(error);
+                                %>
+                                <div data-alert class="alert-box alert radius">
+                           <%=error%>
+                           <a href="#" class="close">&times;</a></div>
+                            <%
                             }
 
                         %> 

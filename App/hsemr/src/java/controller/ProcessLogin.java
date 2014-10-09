@@ -13,7 +13,6 @@ import entity.Lecturer;
 import entity.Admin;
 import entity.Nurse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -115,7 +114,7 @@ public class ProcessLogin extends HttpServlet {
 
                 if (correctPassword.equals(password)) {
                     session.setAttribute("user", userid);
-                    response.sendRedirect("viewNurseHomePage.jsp");
+                    response.sendRedirect("viewPatientInformation.jsp");
                 } else {
                     request.setAttribute("error", "Invalid userid/password");
                     RequestDispatcher rd = request.getRequestDispatcher("viewMainLogin.jsp");

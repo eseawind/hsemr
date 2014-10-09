@@ -49,15 +49,19 @@
                 <center>
                     <h1>Administrator Accounts Management</h1>
 
-                    <div class ="large-11">
-                        <%if (session.getAttribute("successMessageCreateAccount") != null) {%>
+                    <div class ="medium-11">
+                        <%if (session.getAttribute("successAdmin") != null) {%>
                         <div data-alert class="alert-box success radius">
-                            The account has been created successfully! 
+                           <%=session.getAttribute("successAdmin")%>
                             <a href="#" class="close">&times;</a>
                         </div>
-                        <%}
-                            session.removeAttribute("successMessageCreateAccount"); %>
+                        <%
+                            session.setAttribute("successAdmin",null);                        
+                            }
+                        %>
+                            
                     </div>
+                    
 
                     <table class="responsive" id="cssTable">
                         <col width="40%">

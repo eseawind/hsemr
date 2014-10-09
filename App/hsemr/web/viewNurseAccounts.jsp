@@ -49,13 +49,16 @@
                 <center>
                     <h1>Nurse Accounts Management</h1>
                     <div class ="large-11">
-                        <%if (session.getAttribute("successMessageCreateAccount") != null) {%>
+                         <div class ="medium-11">
+                        <%if (session.getAttribute("successNurse") != null) {%>
                         <div data-alert class="alert-box success radius">
-                            The account has been created successfully! 
+                           <%=session.getAttribute("successNurse")%>
                             <a href="#" class="close">&times;</a>
                         </div>
-                        <%}
-                            session.removeAttribute("successMessageCreateAccount"); %>
+                        <%
+                            session.setAttribute("successNurse",null);                        
+                            }
+                        %>
                     </div>
                     <table class="responsive" id="cssTable">
                         <col width="40%">

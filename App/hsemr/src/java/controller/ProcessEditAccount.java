@@ -43,22 +43,25 @@ public class ProcessEditAccount extends HttpServlet {
 
         if (userType.equals("admin")) {
             AdminDAO.update(userID, password);
-            request.setAttribute("success", "Successfully edited: " + userID);
-            RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
-            rd.forward(request, response);
-            // response.sendRedirect("./viewAdminAccounts.jsp");
+            HttpSession session = request.getSession(false);
+            session.setAttribute("successAdmin", "Account \"" + userID + "\" has been edited successfully.");
+            //RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
+            //rd.forward(request, response);
+             response.sendRedirect("./viewAdminAccounts.jsp");
         } else if (userType.equals("lecturer")) {
             LecturerDAO.update(userID, password);
-            request.setAttribute("success", "Successfully edited: " + userID);
-            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
-            rd.forward(request, response); 
-            //response.sendRedirect("./viewLecturerAccounts.jsp");
+            HttpSession session = request.getSession(false);
+           session.setAttribute("successLecturer", "Account \"" + userID + "\" has been edited successfully.");
+//            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
+//            rd.forward(request, response); 
+            response.sendRedirect("./viewLecturerAccounts.jsp");
         } else {
             NurseDAO.update(userID, password);
-            request.setAttribute("success", "Successfully edited: " + userID);
-            RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
-            rd.forward(request, response);
-            //response.sendRedirect("./viewNurseAccounts.jsp");
+            HttpSession session = request.getSession(false);
+            session.setAttribute("successNurse", "Account \"" + userID + "\" has been edited successfully.");
+           // RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
+           // rd.forward(request, response);
+            response.sendRedirect("./viewNurseAccounts.jsp");
         }
     }
 

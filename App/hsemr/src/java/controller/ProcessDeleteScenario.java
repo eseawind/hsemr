@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -41,6 +42,8 @@ public class ProcessDeleteScenario extends HttpServlet {
         //StateDAO.delete(scenarioID);
         ScenarioDAO.delete(scenarioID);
         
+        HttpSession session = request.getSession(false);
+        session.setAttribute("successMessageDeleteScenario", "Successfully deleted: " + scenarioID);
         response.sendRedirect("./viewScenarioAdmin.jsp");
 
 
