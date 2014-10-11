@@ -6,14 +6,17 @@
 package controller;
 
 import dao.ScenarioDAO;
+import entity.Scenario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -44,16 +47,26 @@ public class ProcessActivateScenario extends HttpServlet {
             //to know which page it comes from then redirect to the correct page
 
             //call scenarioDAO to update the status of the scenario
-            ScenarioDAO.updateScenarioStatus(scenarioID, status);
-            
             if (status.equals("deactivated")) {
-                request.setAttribute("successMessageDeactivateCase", "You have successfully deactivated the case!");
+                ScenarioDAO.updateScenarioStatus(scenarioID, status);
+                request.setAttribute("successMessageDeactivateCase", "You have successfully deactivated the case \"" + scenarioID + "\" !");
+                RequestDispatcher rd = request.getRequestDispatcher("/viewLecturerHomePage.jsp");
+                rd.forward(request, response);
             } else {
-                request.setAttribute("successMessageActivateCase", "You have successfully activated the case!");
+                List<Scenario> activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+                if (activatedScenario.size() >= 1) {
+                    for (Scenario scenario : activatedScenario) {
+                        if (!scenario.getScenarioID().equals(scenarioID)) {
+                            ScenarioDAO.updateScenarioStatus(scenario.getScenarioID(), "deactivate");
+                        }
+                    }
+                }
+                ScenarioDAO.updateScenarioStatus(scenarioID, status);
+                request.setAttribute("successMessageActivateCase", "You have successfully activated the case \"" + scenarioID + "\" !");
+                RequestDispatcher rd = request.getRequestDispatcher("/viewLecturerHomePage.jsp");
+                rd.forward(request, response);
             }
 
-            RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/viewLecturerHomePage.jsp");
-            dispatch.forward(request, response);
         } finally {
             out.close();
         }

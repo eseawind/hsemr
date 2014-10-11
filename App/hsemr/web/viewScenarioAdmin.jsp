@@ -28,6 +28,15 @@
                     return false;
                 }
             }
+            function activateConfirmation() {
+                var activateButton = confirm("Only one case can be activate each round. Activating this case will deactivate the rest.")
+                if (activateButton) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
 
         </script>
         <title>HS EMR - Case Management</title>
@@ -37,9 +46,21 @@
     <center>
         <h1>Case Management</h1>
         <div class ="large-11">
-            <%if (session.getAttribute("successMessageEditScenario") != null) {%>
+            <% String error = (String) session.getAttribute("error"); 
+            
+                        if (error != null) {
+                            %>
+                              <div data-alert class="alert-box alert radius">
+
+                            <%=error%>
+                             <a href="#" class="close">&times;</a>
+                              </div>
+                            <%
+                            session.setAttribute("error",null);
+                        }
+            if (session.getAttribute("successMessageEditScenario") != null) {%>
             <div data-alert class="alert-box success radius">
-                The case has been created successfully! 
+                The case has been editted successfully! 
                 <a href="#" class="close">&times;</a>
             </div>
             <%} session.removeAttribute("successMessageEditScenario"); 
@@ -74,12 +95,14 @@
                 </tr>
             </thead>
             <tbody>
+                
                 <% for (Scenario scenario : scenarioList) {
                         String scenarioID = scenario.getScenarioID();
                         String scenarioName = scenario.getScenarioName();
                         String scenarioDescription = scenario.getScenarioDescription();
                         String status = scenario.getStatus();
                         String admissionInfo = scenario.getAdmissionInfo();%>
+                       
                 <tr>
                     <td><%=scenarioID%></td>
                     <td><%=scenarioName%></td>
@@ -111,9 +134,15 @@
                             <% if (status.equals("activated")) {%>
                             <input type ="submit" class="button tiny" value = "deactivate">
                             <input type="hidden" name="status" value="deactivated">
-                            <%} else {%>
-                            <input type ="submit" class="button tiny" value = "activate">
-                            <%}%>
+                            <%} else {
+                            List<Scenario> activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+                             if (activatedScenario.size() >= 1) { %>
+                            <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
+                                                return false" value="activate" >
+                            <%} else { %>
+                                    <input type ="submit" class="button tiny" value="activate">
+                            <% }
+                            }%>
                             <input type="hidden" name="status" value="activated">
                         </form>
                     </td>

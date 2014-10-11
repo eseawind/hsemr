@@ -6,13 +6,16 @@
 package controller;
 
 import dao.ScenarioDAO;
+import entity.Scenario;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,11 +38,20 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
         //To retrieve the selected id to activate or deactive
         String status = (String) request.getParameter("status");
         String scenarioID = (String) request.getParameter("scenarioID");
+      //make sure no other case are activated before activating a new case
+        //prevents having more than 1 case activated 
+        List<Scenario> activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+        if (activatedScenario.size() >= 1) {
+            for (Scenario scenario : activatedScenario) {
+                if (!scenario.getScenarioID().equals(scenarioID)) {
+                    ScenarioDAO.updateScenarioStatus(scenario.getScenarioID(), "deactivate");
+                }
+            }
+        }
         //call scenarioDAO to update the status of the scenario
         ScenarioDAO.updateScenarioStatus(scenarioID, status);
-
-        RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/viewScenarioAdmin.jsp");
-        dispatch.forward(request, response);
+        RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioAdmin.jsp");
+        rd.forward(request, response);
 
     }
 

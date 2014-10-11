@@ -50,7 +50,7 @@
                             </tr>
                             <tr>    
                                 <td>
-                                    Domain: 
+                                    Role: 
                                 </td>
                                 <td>
                                     <select name="userType">

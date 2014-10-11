@@ -15,7 +15,19 @@
         <title>View Scenario</title>
         <link rel="stylesheet" href="css/foundation.css" />
         <script src="js/vendor/modernizr.js"></script>
+        <script type="text/javascript">
+            function activateConfirmation() {
+                var activateButton = confirm("Only one case can be activate each round. Activating this case will deactivate the rest.")
+                if (activateButton) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        </script>
         <script>
+            
             $(document).ready(function () {
                 $(document).foundation();
             });
@@ -39,9 +51,9 @@
             String successMessageDeactivateCase = (String) request.getAttribute("successMessageDeactivateCase");
             String successMessageActivateCase = (String) request.getAttribute("successMessageActivateCase");
             
-                if (successMessageDeactivateCase!= null) {%>
+            if (successMessageDeactivateCase!= null) {%>
             <div data-alert class="alert-box success radius">
-                You have successfully deactivated the case!
+                <%=successMessageDeactivateCase%>
                 <a href="#" class="close">&times;</a>
             </div>
             <%}
@@ -51,7 +63,7 @@
         <div class ="large-11">
             <%if (successMessageActivateCase != null) {%>
             <div data-alert class="alert-box success radius">
-                You have successfully activated the case!
+                <%=successMessageActivateCase%>
                 <a href="#" class="close">&times;</a>
             </div>
             <%}
@@ -164,8 +176,14 @@
 
                 Case is deactivated. 
                 <input type ="hidden" id= "status" name = "status" value = "activated">               
-                <input type ="submit" class="button tiny" value = "Activate Case">
-                <%  }%>
+               <% List<Scenario> activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+                    if (activatedScenario.size() >= 1) { %>
+                   <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
+                                       return false" value="Activate Case" >
+                   <%} else { %>
+                       <input type ="submit" class="button tiny" value="Activate Case">
+                   <% }
+                  }%>
 
                 <p class="lead"><b>Case Number:</b> <%=scenario.getScenarioID()%> </p>
                 <p class="lead"><b>Case Name:</b> <%=scenario.getScenarioName()%> </p>

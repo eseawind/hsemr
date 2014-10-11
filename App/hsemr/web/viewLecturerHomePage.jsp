@@ -11,7 +11,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="css/foundation.css" />
-        <%@include file="/topbar/topbar.jsp" %>
+        <%@include file="/topbar/topbarLecturer.jsp" %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Hospital Ward Management System for NP Health Sciences</title>
          
