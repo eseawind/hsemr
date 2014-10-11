@@ -28,6 +28,7 @@
         <%@include file="/topbar/topbar.jsp" %> 
     </head>
     <body>
+        
         <%            String active = active = (String) session.getAttribute("active");
 
             //retrieve all successfulmessages
@@ -42,7 +43,16 @@
             //retrieve current scenario
             List<Scenario> scenarioActivatedList = ScenarioDAO.retrieveActivatedStatus();
 
-            if (scenarioActivatedList.size() != 0) {
+            if (scenarioActivatedList.size() <= 0) {
+                %> 
+                <div align ="center">
+            <div class="large-centered large-10 columns">
+                <p><h1>No Case Activated</h1></p>
+                    Please contact administrator/lecturer for case activation.
+            </div>
+                    <%
+            } else {
+
                 //get the most recently activated scenario
                 retrieveLastScenario = scenarioActivatedList.get(scenarioActivatedList.size() - 1);
 
@@ -50,7 +60,7 @@
                 retrieveScenarioState = StateDAO.retrieveActivateScenarioPatient(retrieveLastScenario.getScenarioID());
                 patientNRIC = retrieveScenarioState.getPatientNRIC();
                 retrievePatient = PatientDAO.retrieve(patientNRIC);
-            }
+            
 
             State stateRetrieved = StateDAO.retrieve(retrieveScenarioState.getStateID(), retrieveLastScenario.getScenarioID());
 
@@ -174,7 +184,7 @@
 
         </div>
 
-
+<% } %>
 
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
