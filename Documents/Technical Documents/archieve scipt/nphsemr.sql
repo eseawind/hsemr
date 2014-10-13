@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 13, 2014 at 08:01 AM
+-- Generation Time: Oct 11, 2014 at 01:24 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -137,12 +137,7 @@ CREATE TABLE IF NOT EXISTS `lecturer` (
 --
 
 INSERT INTO `lecturer` (`lecturerID`, `lecturerPassword`) VALUES
-('lec1', 'lec1'),
-('lec2', 'lec2'),
-('lec3', 'lec3'),
-('lec4', 'lec4'),
-('lec5', 'lec5'),
-('lec6', 'lec6');
+('lec1', 'lec1');
 
 -- --------------------------------------------------------
 
@@ -202,22 +197,24 @@ INSERT INTO `medicine_prescription` (`medicineBarcode`, `scenarioID`, `stateID`,
 CREATE TABLE IF NOT EXISTS `note` (
   `noteID` int(11) NOT NULL AUTO_INCREMENT,
   `multidisciplinaryNote` varchar(15000) NOT NULL,
+  `practicalGroup` varchar(5) NOT NULL,
   `grpNumber` smallint(6) NOT NULL,
   `grpMemberNames` varchar(500) NOT NULL,
   `noteDatetime` varchar(30) NOT NULL,
-  `practicalgroupID` varchar(5) NOT NULL,
+  `nurseID` varchar(20) NOT NULL,
+  `lecturerID` varchar(20) NOT NULL,
   PRIMARY KEY (`noteID`),
-  KEY `praticalgroupID` (`practicalgroupID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  KEY `nurseID` (`nurseID`),
+  KEY `lecturerID` (`lecturerID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `note`
 --
 
-INSERT INTO `note` (`noteID`, `multidisciplinaryNote`, `grpNumber`, `grpMemberNames`, `noteDatetime`, `practicalgroupID`) VALUES
-(1, 'taken down hr,bp,intake, output, administer medicine', 1, 'xuanqi, linwei, qiwei, linxuan, qiping', 'Fri Sep 19 22:18:02 SGT 2014', 'P02'),
-(2, 'testestest', 2, 'shiqi, weiyi, gladys, jocelyn, grace', 'Fri Sep 19 22:18:02 SGT 2014', 'P01'),
-(3, 'testestest', 4, 'tingting, shiqi, weiyi, gladys, jocelyn, grace', 'Sun Oct 12 22:56:02 SGT 2014', 'P03');
+INSERT INTO `note` (`noteID`, `multidisciplinaryNote`, `practicalGroup`, `grpNumber`, `grpMemberNames`, `noteDatetime`, `nurseID`, `lecturerID`) VALUES
+(1, 'taken down hr,bp,intake, output, administer medicine', 'P01', 1, 'xuanqi, linwei, qiwei, linxuan, qiping', 'Fri Sep 19 22:18:02 SGT 2014', 'nurse1', 'lec1'),
+(2, 'testestest', 'P02', 2, 'shiqi, weiyi, gladys, jocelyn, grace', 'Fri Sep 19 22:18:02 SGT 2014', 'nurse1', 'lec1');
 
 -- --------------------------------------------------------
 
@@ -290,35 +287,6 @@ INSERT INTO `patient` (`patientNRIC`, `firstName`, `lastName`, `gender`, `DOB`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `practicalgroup`
---
-
-CREATE TABLE IF NOT EXISTS `practicalgroup` (
-  `practicalgroupID` varchar(5) NOT NULL,
-  `lecturerID` varchar(20) NOT NULL,
-  `groupSize` int(50) NOT NULL,
-  PRIMARY KEY (`practicalgroupID`),
-  KEY `lecturerID` (`lecturerID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `practicalgroup`
---
-
-INSERT INTO `practicalgroup` (`practicalgroupID`, `lecturerID`, `groupSize`) VALUES
-('P01', 'lec1', 30),
-('P02', 'lec1', 40),
-('P03', 'lec2', 35),
-('P04', 'lec3', 35),
-('P05', 'lec4', 45),
-('P06', 'lec4', 30),
-('P07', 'lec5', 35),
-('P08', 'lec6', 40),
-('P09', 'lec6', 30);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `prescription`
 --
 
@@ -351,7 +319,7 @@ CREATE TABLE IF NOT EXISTS `report` (
   `reportDatetime` varchar(30) NOT NULL,
   `reportName` varchar(30) NOT NULL,
   `reportFile` varchar(200) NOT NULL,
-  `dispatchStatus` tinyint(1) NOT NULL,
+  `reportStatus` tinyint(1) NOT NULL,
   `scenarioID` varchar(5) NOT NULL,
   `stateID` varchar(5) NOT NULL,
   PRIMARY KEY (`reportDatetime`,`reportName`,`scenarioID`,`stateID`),
@@ -363,7 +331,7 @@ CREATE TABLE IF NOT EXISTS `report` (
 -- Dumping data for table `report`
 --
 
-INSERT INTO `report` (`reportDatetime`, `reportName`, `reportFile`, `dispatchStatus`, `scenarioID`, `stateID`) VALUES
+INSERT INTO `report` (`reportDatetime`, `reportName`, `reportFile`, `reportStatus`, `scenarioID`, `stateID`) VALUES
 ('Fri Sep 19 22:18:02 SGT 2014', 'Chemistry', 'http://exampleChemistry', 1, 'SC1', 'ST1'),
 ('Fri Sep 19 22:18:02 SGT 2014', 'FBC', 'http://exampleFBC', 1, 'SC1', 'ST1');
 
@@ -467,16 +435,16 @@ INSERT INTO `state` (`stateID`, `scenarioID`, `stateDescription`, `stateStatus`,
 
 CREATE TABLE IF NOT EXISTS `vital` (
   `vitalDatetime` varchar(30) NOT NULL,
+  `temperature` decimal(4,2) DEFAULT NULL,
+  `RR` int(11) DEFAULT NULL,
+  `BPsystolic` int(11) DEFAULT NULL,
+  `BPdiastolic` int(11) DEFAULT NULL,
+  `HR` int(11) DEFAULT NULL,
+  `SPO` int(11) DEFAULT NULL,
+  `intake` varchar(50) DEFAULT NULL,
+  `ouput` varchar(50) NOT NULL,
   `patientNRIC` varchar(10) NOT NULL,
-  `temperature` decimal(4,2) NOT NULL,
-  `RR` int(10) NOT NULL,
-  `BPsystolic` int(10) NOT NULL,
-  `BPdiastolic` int(10) NOT NULL,
-  `HR` int(10) NOT NULL,
-  `SPO` int(10) NOT NULL,
-  `intake` varchar(50) NOT NULL,
-  `output` varchar(50) NOT NULL,
-  PRIMARY KEY (`vitalDatetime`,`patientNRIC`),
+  PRIMARY KEY (`vitalDatetime`),
   KEY `patientNRIC` (`patientNRIC`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -484,8 +452,8 @@ CREATE TABLE IF NOT EXISTS `vital` (
 -- Dumping data for table `vital`
 --
 
-INSERT INTO `vital` (`vitalDatetime`, `patientNRIC`, `temperature`, `RR`, `BPsystolic`, `BPdiastolic`, `HR`, `SPO`, `intake`, `output`) VALUES
-('11/10/2014 15:00', 'S7843522B', '37.50', 45, 92, 52, 100, 92, 'fruits', '50');
+INSERT INTO `vital` (`vitalDatetime`, `temperature`, `RR`, `BPsystolic`, `BPdiastolic`, `HR`, `SPO`, `intake`, `ouput`, `patientNRIC`) VALUES
+('11/10/2014 15:00', '37.50', 45, 95, 52, 100, 92, 'fruits', '50ml/hr', 'S7843522B');
 
 -- --------------------------------------------------------
 
@@ -509,19 +477,15 @@ INSERT INTO `ward` (`wardID`, `bedNumber`, `availabilityStatus`) VALUES
 ('ward 1', 1, 1),
 ('ward 1', 2, 0),
 ('ward 1', 3, 0),
-('ward 1', 4, 0),
 ('ward 2', 1, 1),
 ('ward 2', 2, 0),
 ('ward 2', 3, 0),
-('ward 2', 4, 0),
 ('ward 3', 1, 1),
 ('ward 3', 2, 0),
 ('ward 3', 3, 0),
-('ward 3', 4, 0),
 ('ward 4', 1, 1),
 ('ward 4', 2, 0),
-('ward 4', 3, 0),
-('ward 4', 4, 0);
+('ward 4', 3, 0);
 
 --
 -- Constraints for dumped tables
@@ -552,7 +516,8 @@ ALTER TABLE `medicine_prescription`
 -- Constraints for table `note`
 --
 ALTER TABLE `note`
-  ADD CONSTRAINT `note_ibfk_1` FOREIGN KEY (`practicalgroupID`) REFERENCES `practicalgroup` (`practicalgroupID`);
+  ADD CONSTRAINT `note_ibfk_2` FOREIGN KEY (`lecturerID`) REFERENCES `lecturer` (`lecturerID`),
+  ADD CONSTRAINT `note_ibfk_1` FOREIGN KEY (`nurseID`) REFERENCES `nurse` (`nurseID`);
 
 --
 -- Constraints for table `nurse_patient`
@@ -569,12 +534,6 @@ ALTER TABLE `patient`
   ADD CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`bedNumber`) REFERENCES `ward` (`bedNumber`);
 
 --
--- Constraints for table `practicalgroup`
---
-ALTER TABLE `practicalgroup`
-  ADD CONSTRAINT `practicalgroup_ibfk_1` FOREIGN KEY (`lecturerID`) REFERENCES `lecturer` (`lecturerID`);
-
---
 -- Constraints for table `prescription`
 --
 ALTER TABLE `prescription`
@@ -586,8 +545,8 @@ ALTER TABLE `prescription`
 -- Constraints for table `report`
 --
 ALTER TABLE `report`
-  ADD CONSTRAINT `report_ibfk_2` FOREIGN KEY (`stateID`) REFERENCES `state` (`stateID`),
-  ADD CONSTRAINT `report_ibfk_3` FOREIGN KEY (`scenarioID`) REFERENCES `state` (`scenarioID`);
+  ADD CONSTRAINT `report_ibfk_3` FOREIGN KEY (`scenarioID`) REFERENCES `state` (`scenarioID`),
+  ADD CONSTRAINT `report_ibfk_2` FOREIGN KEY (`stateID`) REFERENCES `state` (`stateID`);
 
 --
 -- Constraints for table `state`
