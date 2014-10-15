@@ -56,7 +56,7 @@
                                     <select name="userType">
                                         <option value="student">NPSTUDENT</option>
                                         <option value="lecturer">NPSTAFF</option>
-                                        <option value="admin">Admin</option>
+                                        <option value="admin">ADMIN</option>
                                     </select>
                                 </td>
                             </tr>

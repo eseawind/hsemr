@@ -22,7 +22,7 @@
             </ul>
                 
             <% 
-                String nurseId = (String)session.getAttribute("user");
+                String nurseId = (String)session.getAttribute("nurse");
             %>
             <secion class="top-bar-section">
                 <!-- Right Nav Section -->
@@ -34,7 +34,7 @@
                 
                 <ul class="right"> 
                         <li><a href="#">Welcome, <%= nurseId%>!</a></li>
-                    <li><a href="ProcessLogout">Log Out</a></li>
+                    <li><a href="ProcessLogoutNurse">Log Out</a></li>
                 </ul>
             </secion>
         </nav>

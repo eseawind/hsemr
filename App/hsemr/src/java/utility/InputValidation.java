@@ -1,12 +1,15 @@
-package dao;
+package utility;
 
 
 import dao.AdminDAO;
+import dao.AdminDAO;
 import dao.LecturerDAO;
-import dao.NurseDAO;
+import dao.LecturerDAO;
+import dao.PracticalGroupDAO;
+import dao.PracticalGroupDAO;
 import entity.Admin;
 import entity.Lecturer;
-import entity.Nurse;
+import entity.PracticalGroup;
 import java.util.List;
 
 /*
@@ -39,9 +42,9 @@ public class InputValidation {
                 }
             }
         } else {
-            List<Nurse> nurses = NurseDAO.retrieveAll();
-            for(Nurse nurse: nurses) { 
-                if (nurse.getNurseID().equals(userID)) {
+            List<PracticalGroup> practicalGroups = PracticalGroupDAO.retrieveAll();
+            for(PracticalGroup practicalGroup: practicalGroups) { 
+                if (practicalGroup.getPracticalGroupID().equals(userID)) {
                    return false; 
                 }
             }

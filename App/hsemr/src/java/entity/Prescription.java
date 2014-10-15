@@ -11,34 +11,34 @@ package entity;
  * @author weiyi.ngow.2012
  */
 public class Prescription {
-   private String patientNRIC;
-   private String prescriptionDate;
+   private String scenarioID;
+   private State stateID;
    private String doctorName;
    private String doctorOrder;
    private String freqAbbr;
 
-    public Prescription(String patientNRIC, String prescriptionDate, String doctorName, String doctorOrder, String freqAbbr) {
-        this.patientNRIC = patientNRIC;
-        this.prescriptionDate = prescriptionDate;
+    public Prescription(String scenarioID, State stateID, String doctorName, String doctorOrder, String freqAbbr) {
+        this.scenarioID = scenarioID;
+        this.stateID = stateID;
         this.doctorName = doctorName;
         this.doctorOrder = doctorOrder;
         this.freqAbbr = freqAbbr;
     }
 
-    public String getPatientNRIC() {
-        return patientNRIC;
+    public String getScenarioID() {
+        return scenarioID;
     }
 
-    public void setPatientNRIC(String patientNRIC) {
-        this.patientNRIC = patientNRIC;
+    public void setScenarioID(String scenarioID) {
+        this.scenarioID = scenarioID;
     }
 
-    public String getPrescriptionDate() {
-        return prescriptionDate;
+    public State getStateID() {
+        return stateID;
     }
 
-    public void setPrescriptionDate(String prescriptionDate) {
-        this.prescriptionDate = prescriptionDate;
+    public void setStateID(State stateID) {
+        this.stateID = stateID;
     }
 
     public String getDoctorName() {
@@ -64,6 +64,6 @@ public class Prescription {
     public void setFreqAbbr(String freqAbbr) {
         this.freqAbbr = freqAbbr;
     }
-   
+
    
 }

@@ -7,7 +7,7 @@
 <%@page import="dao.ScenarioDAO"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="protect.jsp" %>
+<%@include file="protectPage/protectLecturer.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -87,7 +87,7 @@
             %>
 
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <!-- <span class="label"><%= scenario.getStatus()%></span> -->
+            <!-- <span class="label"> scenario.getScenarioStatus()%></span> -->
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <%
                 }
@@ -127,7 +127,7 @@
                         %>
                         <a href="#" data-reveal-id="<%=scenarioID%>">
 
-                            <% if (scenario.getStatus().equals("activated")) {%>
+                            <% if (scenario.getScenarioStatus() == 1) {%>
                             <img class="opaque" src="<%=imgName%>" style="float:left; padding-right:5px;"/></a>           
 
                         <% } else {%>
@@ -158,7 +158,7 @@
 
         <%            for (int i = 0; i < scenarioList.size(); i++) {
                 Scenario scenario = scenarioList.get(i);
-                String status = scenario.getStatus();
+                int status = scenario.getScenarioStatus();
         %>
 
         <div id="<%=scenario.getScenarioID()%>" class="reveal-modal" data-reveal>
@@ -166,7 +166,7 @@
             <form action = "ProcessActivateScenario" method = "POST">   
                 <h2>Case Information</h2> 
                 <%
-                    if (status.equals("activated")) {
+                    if (status == 1) {
                 %>
                 Case is currently activated. 
                 <input type ="hidden" id= "status" name = "status" value = "deactivated">
@@ -176,8 +176,8 @@
 
                 Case is deactivated. 
                 <input type ="hidden" id= "status" name = "status" value = "activated">               
-               <% List<Scenario> activatedScenario = ScenarioDAO.retrieveActivatedStatus();
-                    if (activatedScenario.size() >= 1) { %>
+               <% Scenario activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+                    if (activatedScenario != null) { %>
                    <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
                                        return false" value="Activate Case" >
                    <%} else { %>
@@ -188,7 +188,7 @@
                 <p class="lead"><b>Case Number:</b> <%=scenario.getScenarioID()%> </p>
                 <p class="lead"><b>Case Name:</b> <%=scenario.getScenarioName()%> </p>
                 <p class="lead"><b>Case Description:</b> <%=scenario.getScenarioDescription()%> </p>
-                <p class="lead"><b>Admission Info:</b> <%=scenario.getAdmissionInfo()%> </p>
+                <p class="lead"><b>Admission Info:</b> <%=scenario.getAdmissionNote()%> </p>
 
                 <input type ="hidden" id= "scenarioID" name = "scenarioID" value = "<%=scenario.getScenarioID()%>">
 

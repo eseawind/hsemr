@@ -8,7 +8,7 @@
 <%@page import="java.util.List"%>
 <%@page import="dao.ScenarioDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="protect.jsp" %>
+<%@include file="protectPage/protectAdmin.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -60,7 +60,7 @@
                         }
             if (session.getAttribute("successMessageEditScenario") != null) {%>
             <div data-alert class="alert-box success radius">
-                The case has been editted successfully! 
+                The case has been edited successfully! 
                 <a href="#" class="close">&times;</a>
             </div>
             <%} session.removeAttribute("successMessageEditScenario"); 
@@ -100,16 +100,16 @@
                         String scenarioID = scenario.getScenarioID();
                         String scenarioName = scenario.getScenarioName();
                         String scenarioDescription = scenario.getScenarioDescription();
-                        String status = scenario.getStatus();
-                        String admissionInfo = scenario.getAdmissionInfo();%>
+                        int status = scenario.getScenarioStatus();
+                        String admissionInfo = scenario.getAdmissionNote();%>
                        
                 <tr>
                     <td><%=scenarioID%></td>
                     <td><%=scenarioName%></td>
-                    <td><% if (status.equals("activated")) {%>
-                        <font color= limegreen><%=status%></font>
+                    <td><% if (status == 1) {%>
+                        <font color= limegreen>Activated</font>
                         <%} else {%>
-                        <font color= red><%=status%></font>
+                        <font color= red>Deactivated</font>
                         <%}%></td>
                     <td><%=scenarioDescription%></td>
                     <td><%=admissionInfo%></td>
@@ -131,12 +131,12 @@
                     <td>
                         <form action ="ProcessActivateScenarioAdmin" method ="POST">
                             <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                            <% if (status.equals("activated")) {%>
+                            <% if (status == 1) {%>
                             <input type ="submit" class="button tiny" value = "deactivate">
                             <input type="hidden" name="status" value="deactivated">
                             <%} else {
-                            List<Scenario> activatedScenario = ScenarioDAO.retrieveActivatedStatus();
-                             if (activatedScenario.size() >= 1) { %>
+                            Scenario activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+                             if (activatedScenario != null) { %>
                             <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
                                                 return false" value="activate" >
                             <%} else { %>

@@ -4,16 +4,16 @@
     Author     : weiyi.ngow.2012
 --%>
 
-<%@page import="entity.Nurse"%>
+<%@page import="entity.PracticalGroup"%>
 <%@page import="entity.Lecturer"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.List"%>
 <%@page import="entity.Admin"%>
-<%@page import="dao.NurseDAO"%>
+<%@page import="dao.PracticalGroupDAO"%>
 <%@page import="dao.LecturerDAO"%>
 <%@page import="dao.AdminDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="protect.jsp" %>
+<%@include file="protectPage/protectAdmin.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -88,7 +88,7 @@
                                 </form>
                             </td>
                             <%
-                                String userLoggedIn = (String) session.getAttribute("user");
+                                String userLoggedIn = (String) session.getAttribute("admin");
                             %>
                             <td>
                                 <form action="ProcessDeleteAccount" method="post">

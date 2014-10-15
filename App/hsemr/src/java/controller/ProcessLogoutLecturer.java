@@ -17,10 +17,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author jocelyn.ng.2012
+ * @author weiyi.ngow.2012
  */
-@WebServlet(name = "ProcessLogout", urlPatterns = {"/ProcessLogout"})
-public class ProcessLogout extends HttpServlet {
+@WebServlet(name = "ProcessLogoutLecturer", urlPatterns = {"/ProcessLogoutLecturer"})
+public class ProcessLogoutLecturer extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,18 +37,8 @@ public class ProcessLogout extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             HttpSession session = request.getSession();
-            session.removeAttribute("user");
+            session.removeAttribute("lecturer");
             response.sendRedirect("viewMainLogin.jsp");
-            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet LoginServlet</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
         } finally {
             out.close();
         }
@@ -81,9 +71,6 @@ public class ProcessLogout extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        //HttpSession session = request.getSession();
-        //session.removeAttribute("User");
-        //response.sendRedirect("mainLogin.jsp");
     }
 
     /**

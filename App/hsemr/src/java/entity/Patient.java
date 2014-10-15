@@ -16,29 +16,17 @@ public class Patient {
     private String lastName;
     private String gender; 
     private String dob;
-    private String maritalStatus;
-    private double weight; 
-    private double height;
-    private String occupation;
-    private String race; 
-    private String religion; 
-    private String nationality;
-    private int wardID;
+    private String wardID;
+    private int bedNumber; 
 
-    public Patient(String patientNRIC, String firstName, String lastName, String gender, String dob, String maritalStatus, double weight, double height, String occupation, String race, String religion, String nationality, int wardID) {
+    public Patient(String patientNRIC, String firstName, String lastName, String gender, String dob, String wardID, int bedNumber) {
         this.patientNRIC = patientNRIC;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.dob = dob;
-        this.maritalStatus = maritalStatus;
-        this.weight = weight;
-        this.height = height;
-        this.occupation = occupation;
-        this.race = race;
-        this.religion = religion;
-        this.nationality = nationality;
         this.wardID = wardID;
+        this.bedNumber = bedNumber;
     }
 
     public String getPatientNRIC() {
@@ -81,71 +69,21 @@ public class Patient {
         this.dob = dob;
     }
 
-    public String getMaritalStatus() {
-        return maritalStatus;
-    }
-
-    public void setMaritalStatus(String maritalStatus) {
-        this.maritalStatus = maritalStatus;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public String getOccupation() {
-        return occupation;
-    }
-
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
-    }
-
-    public String getRace() {
-        return race;
-    }
-
-    public void setRace(String race) {
-        this.race = race;
-    }
-
-    public String getReligion() {
-        return religion;
-    }
-
-    public void setReligion(String religion) {
-        this.religion = religion;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
-
-    public int getWardID() {
+    public String getWardID() {
         return wardID;
     }
 
-    public void setWardID(int wardID) {
+    public void setWardID(String wardID) {
         this.wardID = wardID;
     }
-    
-    
-    
+
+    public int getBedNumber() {
+        return bedNumber;
+    }
+
+    public void setBedNumber(int bedNumber) {
+        this.bedNumber = bedNumber;
+    }
+
     
 }

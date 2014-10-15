@@ -12,12 +12,8 @@ package entity;
  */
 public class Ward {
     private String wardID;
-    private String wardType;
-
-    public Ward(String wardID, String wardType) {
-        this.wardID = wardID;
-        this.wardType = wardType;
-    }
+    private int bedNumber;
+    private int availabilityStatus;
 
     public String getWardID() {
         return wardID;
@@ -27,11 +23,26 @@ public class Ward {
         this.wardID = wardID;
     }
 
-    public String getWardType() {
-        return wardType;
+    public int getBedNumber() {
+        return bedNumber;
     }
 
-    public void setWardType(String wardType) {
-        this.wardType = wardType;
+    public void setBedNumber(int bedNumber) {
+        this.bedNumber = bedNumber;
     }
+
+    public int getAvailabilityStatus() {
+        return availabilityStatus;
+    }
+
+    public void setAvailabilityStatus(int availabilityStatus) {
+        this.availabilityStatus = availabilityStatus;
+    }
+
+    public Ward(String wardID, int bedNumber, int availabilityStatus) {
+        this.wardID = wardID;
+        this.bedNumber = bedNumber;
+        this.availabilityStatus = availabilityStatus;
+    }
+
 }

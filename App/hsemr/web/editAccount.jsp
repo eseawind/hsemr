@@ -4,16 +4,16 @@
     Author     : weiyi.ngow.2012
 --%>
 
-<%@page import="entity.Nurse"%>
+<%@page import="entity.PracticalGroup"%>
 <%@page import="entity.Lecturer"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.List"%>
 <%@page import="entity.Admin"%>
-<%@page import="dao.NurseDAO"%>
+<%@page import="dao.PracticalGroupDAO"%>
 <%@page import="dao.LecturerDAO"%>
 <%@page import="dao.AdminDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="protect.jsp" %>
+<%@include file="protectPage/protectAdmin.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,12 +51,14 @@
 
                                     <%
                                         String location = "";
-                                        if (request.getParameter("type").equals("admin")) {
-                                            location = "viewAdminAccounts.jsp";
-                                        } else if (request.getParameter("type").equals("lecturer")) {
-                                            location = "viewLecturerAccounts.jsp";
-                                        } else {
-                                            location = "viewNurseAccounts.jsp";
+                                        if (request.getParameter("type") != null && !request.getParameter("type").equals("")) {
+                                            if (request.getParameter("type").equals("admin")) {
+                                                location = "viewAdminAccounts.jsp";
+                                            } else if (request.getParameter("type").equals("lecturer")) {
+                                                location = "viewLecturerAccounts.jsp";
+                                            } else {
+                                                location = "viewPracticalGroupAccounts.jsp";
+                                            }
                                         }
                                     %>
                                     <input type="button" value="Cancel" class="button tiny" onClick="window.location='<%=location%>'"/>

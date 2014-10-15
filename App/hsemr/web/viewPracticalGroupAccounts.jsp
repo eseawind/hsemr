@@ -1,19 +1,20 @@
 <%-- 
-    Document   : viewNurseAccounts
-    Created on : Sep 30, 2014, 8:57:53 PM
+    Document   : viewPracticalGroupAccounts
+    Created on : Oct 15, 2014, 2:04:52 PM
     Author     : weiyi.ngow.2012
 --%>
 
-<%@page import="entity.Nurse"%>
+
+<%@page import="entity.PracticalGroup"%>
 <%@page import="entity.Lecturer"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.List"%>
 <%@page import="entity.Admin"%>
-<%@page import="dao.NurseDAO"%>
+<%@page import="dao.PracticalGroupDAO"%>
 <%@page import="dao.LecturerDAO"%>
 <%@page import="dao.AdminDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="protect.jsp" %>
+<%@include file="protectPage/protectAdmin.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -41,13 +42,13 @@
         <title>Accounts Management</title>
     </head>
     <body>
-        <%            List<Nurse> nurseList = NurseDAO.retrieveAll();
+        <%            List<PracticalGroup> practicalGroupList = PracticalGroupDAO.retrieveAll();
 
         %>
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center>
-                    <h1>Nurse Accounts Management</h1>
+                    <h1>Practical Group Accounts Management</h1>
                     <div class ="large-11">
                          <div class ="medium-11">
                         <%if (session.getAttribute("successNurse") != null) {%>
@@ -61,39 +62,42 @@
                         %>
                     </div>
                     <table class="responsive" id="cssTable">
-                        <col width="40%">
-                        <col width="40%">
+                        <col width="25%">
+                        <col width="25%">
+                        <col width="25%">
                         <col width="10%">
                         <col width="10%">
                         <tr>
                             <td>User Id</td>
                             <td>Password</td>
+                            <td>Lecturer Id</td>
                             <td colspan="2" align="center" valign="middle">Actions</td>
                         </tr>
                         <%
-                            for (Nurse nurse : nurseList) {
+                            for (PracticalGroup practicalGroup : practicalGroupList) {
                         %>
                         <tr>
-                            <td> <%= nurse.getNurseID()%> </td>
-                            <td> <%= nurse.getNursePassword()%> </td>
+                            <td> <%=practicalGroup.getPracticalGroupID()%> </td>
+                            <td> <%=practicalGroup.getPracticalGroupPassword()%> </td>
+                            <td> <%=practicalGroup.getLecturerID()%> </td>
                             <td> 
-                                <form action="editAccount.jsp" method="post">
-                                    <input type="hidden" name="userID" value="<%= nurse.getNurseID()%>">
-                                    <input type="hidden" name="password" value="<%= nurse.getNursePassword()%>">
+                                <form action="editPracticalGroupAccount.jsp" method="post">
+                                    <input type="hidden" name="userID" value="<%=practicalGroup.getPracticalGroupID()%>">
+                                    <input type="hidden" name="password" value="<%=practicalGroup.getPracticalGroupPassword()%>">
+                                    <input type="hidden" name="lecturerID" value="<%=practicalGroup.getLecturerID()%>">
                                     <input type="hidden" name="type" value="nurse">
                                     <input type="submit" class="button tinytable" value="edit">
                                 </form>
                             </td>
                             <%
-                                String userLoggedIn = (String) session.getAttribute("user");
+                                String userLoggedIn = (String) session.getAttribute("nurse");
                             %>
                             <td>
                                 <form action="ProcessDeleteAccount" method="post">
-                                    <input type="hidden" name="userID" value="<%=nurse.getNurseID()%>">
-                                    <input type="hidden" name="password" value="<%=nurse.getNursePassword()%>">
+                                    <input type="hidden" name="userID" value="<%=practicalGroup.getPracticalGroupID()%>">
                                     <input type="hidden" name="type" value="nurse">
                                     <%
-                                        if (userLoggedIn != null && userLoggedIn.equals(nurse.getNurseID())) {
+                                        if (userLoggedIn != null && userLoggedIn.equals(practicalGroup.getPracticalGroupID())) {
                                     %>
                                     <!--<input type = "submit" class="button tinytable" value="delete" disabled>-->
                                     Logged in
@@ -113,7 +117,7 @@
                         </tr>
 
                     </table>
-                    <form action="createAccount.jsp" method="post">
+                    <form action="createPracticalGroupAccount.jsp" method="post">
                         <input type="hidden" name="type" value="nurse">
                         <input type="submit" class="button tiny" value="Create New Account">
                     </form>

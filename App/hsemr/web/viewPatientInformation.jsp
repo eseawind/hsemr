@@ -15,7 +15,7 @@
 <%@page import="entity.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="dao.*"%>
-<%@include file="protect.jsp" %>
+<%@include file="protectPage/protectNurse.jsp" %>
 <!DOCTYPE html>
 
 <html>
@@ -29,7 +29,8 @@
     </head>
     <body>
         
-        <%            String active = active = (String) session.getAttribute("active");
+        <%            
+        String active = active = (String) session.getAttribute("active");
 
             //retrieve all successfulmessages
             
@@ -37,13 +38,13 @@
             //retrieve patient's information
             String patientNRIC = "";
             Patient retrievePatient = PatientDAO.retrieve(patientNRIC);
-            Scenario retrieveLastScenario = null;
+            
             State retrieveScenarioState = null;
 
             //retrieve current scenario
-            List<Scenario> scenarioActivatedList = ScenarioDAO.retrieveActivatedStatus();
-
-            if (scenarioActivatedList.size() <= 0) {
+            Scenario scenarioActivated = ScenarioDAO.retrieveActivatedStatus();
+           
+            if (scenarioActivated == null) {
                 %> 
                 <div align ="center">
             <div class="large-centered large-10 columns">
@@ -53,19 +54,14 @@
                     <%
             } else {
 
-                //get the most recently activated scenario
-                retrieveLastScenario = scenarioActivatedList.get(scenarioActivatedList.size() - 1);
-
                 //get the most recently activated scenario's state
-                retrieveScenarioState = StateDAO.retrieveActivateScenarioPatient(retrieveLastScenario.getScenarioID());
+                retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
+                
                 patientNRIC = retrieveScenarioState.getPatientNRIC();
                 retrievePatient = PatientDAO.retrieve(patientNRIC);
-            
-
-            State stateRetrieved = StateDAO.retrieve(retrieveScenarioState.getStateID(), retrieveLastScenario.getScenarioID());
-
+           
             //retrieve case's information
-            String admissionNotes = retrieveLastScenario.getAdmissionInfo();
+            String admissionNotes = scenarioActivated.getAdmissionNote();
 
             //retrieve note's information
             //List<Note> notesListRetrieved = NoteDAO.retrieveAll();
@@ -76,17 +72,26 @@
             String dob = retrievePatient.getDob();
             String gender = retrievePatient.getGender();
             String allergy = PatientDAO.retrieveAllergy(patientNRIC);
+            
+            Vital vital = VitalDAO.retrieveByDatetime(patientNRIC,"11/10/2014 15:00");
 
             //retrieve state's information
-            String RR = stateRetrieved.getRR();
-            String BP = stateRetrieved.getBP();
-            String HR = stateRetrieved.getHR();
-            String SPO = stateRetrieved.getSPO();
-            String intake = stateRetrieved.getIntake();
-            String output = stateRetrieved.getOutput();
-            double temperature = stateRetrieved.getTemperature();
-            String stateID = stateRetrieved.getStateID();
-            String scenarioID = retrieveLastScenario.getScenarioID();
+             double temperature = vital.getTemperature();
+             int rr = vital.getRr();
+             int bpSystolic = vital.getBpSystolic();
+             int bpDiasolic = vital.getBpDiastolic();
+             int hr = vital.getHr();
+             int spo = vital.getSpo();
+             String output = vital.getOutput();
+            String oralType = vital.getOralType();
+            String oralAmount = vital.getOralAmount();
+            String intravenousType = vital.getIntravenousType();
+            String intravenousAmoun = vital.getIntravenousAmount();
+
+             
+           
+            String stateID = retrieveScenarioState.getStateID();
+            String scenarioID = scenarioActivated.getScenarioID();
 
         %>
         <br>

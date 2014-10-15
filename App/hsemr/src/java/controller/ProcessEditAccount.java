@@ -7,7 +7,7 @@ package controller;
 
 import dao.AdminDAO;
 import dao.LecturerDAO;
-import dao.NurseDAO;
+import dao.PracticalGroupDAO;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,6 +40,7 @@ public class ProcessEditAccount extends HttpServlet {
         String userType = request.getParameter("type");
         String userID = request.getParameter("userID");
         String password = request.getParameter("password");
+        String lecturerID = request.getParameter("lecturerID");
 
         if (userType.equals("admin")) {
             AdminDAO.update(userID, password);
@@ -56,12 +57,12 @@ public class ProcessEditAccount extends HttpServlet {
 //            rd.forward(request, response); 
             response.sendRedirect("./viewLecturerAccounts.jsp");
         } else {
-            NurseDAO.update(userID, password);
+            PracticalGroupDAO.update(userID, password, lecturerID);
             HttpSession session = request.getSession(false);
             session.setAttribute("successNurse", "Account \"" + userID + "\" has been edited successfully.");
            // RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
            // rd.forward(request, response);
-            response.sendRedirect("./viewNurseAccounts.jsp");
+            response.sendRedirect("./viewPracticalGroupAccounts.jsp");
         }
     }
 

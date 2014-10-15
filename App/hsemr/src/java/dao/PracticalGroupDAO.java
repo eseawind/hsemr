@@ -6,7 +6,7 @@
 
 package dao;
 
-import entity.Nurse;
+import entity.PracticalGroup;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,23 +16,23 @@ import java.util.List;
 
 /**
  *
- * @author jocelyn.ng.2012
+ * @author weiyi.ngow.2012
  */
-public class NurseDAO {
-        public static Nurse retrieve(String userid){
+public class PracticalGroupDAO {
+        public static PracticalGroup retrieve(String practicalGroupID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Nurse nurse = null; 
+        PracticalGroup practicalGroup = null;
         
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from NURSE where nurseID = ?");
-            stmt.setString(1, userid);
+            stmt = conn.prepareStatement("select * from practicalgroup where practicalGroupID = ?");
+            stmt.setString(1, practicalGroupID);
             
             rs = stmt.executeQuery();
             while (rs.next()) {
-               nurse = new Nurse(rs.getString(1), rs.getString(2));
+                practicalGroup = new PracticalGroup(rs.getString(1), rs.getString(2), rs.getString(3));
             }
 
         } catch (SQLException e) {
@@ -40,23 +40,24 @@ public class NurseDAO {
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return nurse;
+        
+        return practicalGroup;
     }
     
-    public static List<Nurse> retrieveAll() {
-        List<Nurse> list = new ArrayList<Nurse>();
+    public static List<PracticalGroup> retrieveAll() {
+        List<PracticalGroup> list = new ArrayList<PracticalGroup>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from NURSE");
+            stmt = conn.prepareStatement("select * from practicalgroup");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Nurse nurse = new Nurse(rs.getString(1), rs.getString(2));
-                list.add(nurse);
+                PracticalGroup practicalGroup = new PracticalGroup(rs.getString(1), rs.getString(2), rs.getString(3));
+                list.add(practicalGroup);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,17 +66,19 @@ public class NurseDAO {
         }
         return list;
     }
-    public static void update(String userID, String password) {
+    
+    public static void update(String practicalGroupID, String practicalGroupPassword, String lecturerID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query= "UPDATE NURSE SET nursePassword =? WHERE nurseID =?";  
+        String query= "UPDATE practicalgroup SET practicalGroupPassword =?, lecturerID = ? WHERE practicalGroupID =?";  
         
         try {
             conn = ConnectionManager.getConnection();
 
             preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1,password);
-            preparedStatement.setString(2,userID);
+            preparedStatement.setString(1,practicalGroupPassword);
+            preparedStatement.setString(2,lecturerID);
+            preparedStatement.setString(3,practicalGroupID);
             preparedStatement.executeUpdate();
             
         } catch(SQLException e) {
@@ -85,16 +88,16 @@ public class NurseDAO {
         }        
     }
     
-    public static void delete(String userID) {
+    public static void delete(String practicalGroupID) {
          Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query= "DELETE FROM nurse WHERE nurseID =?";  
+        String query= "DELETE FROM practicalgroup WHERE practicalGroupID =?";  
         
         try {
             conn = ConnectionManager.getConnection();
 
             preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1,userID);
+            preparedStatement.setString(1,practicalGroupID);
             preparedStatement.executeUpdate();
             
         } catch(SQLException e) {
@@ -104,11 +107,11 @@ public class NurseDAO {
         }        
     }
    
-    public static void add(String userID, String password) {
+    public static void add(String practicalGroupID, String practicalGroupPassword, String lecturerID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String queryLine = "INSERT INTO nurse VALUES ('"
-                + userID + "','" + password + "')";
+        String queryLine = "INSERT INTO practicalgroup VALUES ('"
+                + practicalGroupID + "','" + practicalGroupPassword + "','" + lecturerID + "')";
 
         try {
             conn = ConnectionManager.getConnection();

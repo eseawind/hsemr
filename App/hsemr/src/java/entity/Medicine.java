@@ -11,24 +11,26 @@ package entity;
  * @author weiyi.ngow.2012
  */
 public class Medicine {
-    private String medicineBarCode;
+    private String medicineBarcode;
     private String medicineName;
-    private String medicineDosage;
+    private String dosage;
+    private String medicineDatetime;
     private String routeAbbr;
 
-    public Medicine(String medicineBarCode, String medicineName, String medicineDosage, String routeAbbr) {
-        this.medicineBarCode = medicineBarCode;
+    public Medicine(String medicineBarcode, String medicineName, String dosage, String medicineDatetime, String routeAbbr) {
+        this.medicineBarcode = medicineBarcode;
         this.medicineName = medicineName;
-        this.medicineDosage = medicineDosage;
+        this.dosage = dosage;
+        this.medicineDatetime = medicineDatetime;
         this.routeAbbr = routeAbbr;
     }
 
-    public String getMedicineBarCode() {
-        return medicineBarCode;
+    public String getMedicineBarcode() {
+        return medicineBarcode;
     }
 
-    public void setMedicineBarCode(String medicineBarCode) {
-        this.medicineBarCode = medicineBarCode;
+    public void setMedicineBarcode(String medicineBarcode) {
+        this.medicineBarcode = medicineBarcode;
     }
 
     public String getMedicineName() {
@@ -39,12 +41,20 @@ public class Medicine {
         this.medicineName = medicineName;
     }
 
-    public String getMedicineDosage() {
-        return medicineDosage;
+    public String getDosage() {
+        return dosage;
     }
 
-    public void setMedicineDosage(String medicineDosage) {
-        this.medicineDosage = medicineDosage;
+    public void setDosage(String dosage) {
+        this.dosage = dosage;
+    }
+
+    public String getMedicineDatetime() {
+        return medicineDatetime;
+    }
+
+    public void setMedicineDatetime(String medicineDatetime) {
+        this.medicineDatetime = medicineDatetime;
     }
 
     public String getRouteAbbr() {
@@ -54,6 +64,6 @@ public class Medicine {
     public void setRouteAbbr(String routeAbbr) {
         this.routeAbbr = routeAbbr;
     }
-    
+
     
 }

@@ -11,16 +11,28 @@ package entity;
  * @author weiyi.ngow.2012
  */
 public class Report {
+    private String reportDatetime;
     private String reportName;
     private String reportFile;
+    private int dispatchStatus; 
     private String scenarioID;
     private String stateID;
 
-    public Report(String reportName, String reportFile, String scenarioID, String stateID) {
+    public Report(String reportDatetime, String reportName, String reportFile, int dispatchStatus, String scenarioID, String stateID) {
+        this.reportDatetime = reportDatetime;
         this.reportName = reportName;
         this.reportFile = reportFile;
+        this.dispatchStatus = dispatchStatus;
         this.scenarioID = scenarioID;
         this.stateID = stateID;
+    }
+
+    public String getReportDatetime() {
+        return reportDatetime;
+    }
+
+    public void setReportDatetime(String reportDatetime) {
+        this.reportDatetime = reportDatetime;
     }
 
     public String getReportName() {
@@ -39,6 +51,14 @@ public class Report {
         this.reportFile = reportFile;
     }
 
+    public int getDispatchStatus() {
+        return dispatchStatus;
+    }
+
+    public void setDispatchStatus(int dispatchStatus) {
+        this.dispatchStatus = dispatchStatus;
+    }
+
     public String getScenarioID() {
         return scenarioID;
     }
@@ -54,5 +74,6 @@ public class Report {
     public void setStateID(String stateID) {
         this.stateID = stateID;
     }
-    
+
+     
 }

@@ -5,10 +5,10 @@
  */
 package controller;
 
-import dao.InputValidation;
+import utility.InputValidation;
 import dao.AdminDAO;
 import dao.LecturerDAO;
-import dao.NurseDAO;
+import dao.PracticalGroupDAO;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,6 +41,7 @@ public class ProcessCreateAccount extends HttpServlet {
         String userType = request.getParameter("type");
         String userID = request.getParameter("userID");
         String password = request.getParameter("password");
+        String lecturerID = request.getParameter("lecturerID");
 
         if (userType.equals("admin")) {
             if (InputValidation.validateUser(userType, userID) == false) {
@@ -66,16 +67,17 @@ public class ProcessCreateAccount extends HttpServlet {
                 response.sendRedirect("./viewLecturerAccounts.jsp");
             }
 
-        } else {
+        } else if(userType.equals("nurse")) { 
             if (InputValidation.validateUser(userType, userID) == false) {
                 request.setAttribute("error", "user already exist");
-                RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("createPracticalGroupAccount.jsp");
                 rd.forward(request, response);
             } else {
-                NurseDAO.add(userID, password);
+                
+                PracticalGroupDAO.add(userID, password, lecturerID);
                 HttpSession session = request.getSession();
                 session.setAttribute("successNurse", "New account \"" + userID+  "\" has been created successfully!");
-                response.sendRedirect("./viewNurseAccounts.jsp");
+                response.sendRedirect("./viewPracticalGroupAccounts.jsp");
             }
 
         }

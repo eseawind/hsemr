@@ -8,7 +8,7 @@ package controller;
 
 import dao.AdminDAO;
 import dao.LecturerDAO;
-import dao.NurseDAO;
+import dao.PracticalGroupDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -60,13 +60,13 @@ public class ProcessDeleteAccount extends HttpServlet {
 
             response.sendRedirect("./viewLecturerAccounts.jsp");
         } else { 
-            NurseDAO.delete(userID);
+            PracticalGroupDAO.delete(userID);
             HttpSession session = request.getSession(false);
             session.setAttribute("successNurse", "Account \"" + userID + "\" has been deleted successfully.");
 //            RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
 //            rd.forward(request, response);
 
-            response.sendRedirect("./viewNurseAccounts.jsp");
+            response.sendRedirect("./viewPracticalGroupAccounts.jsp");
         }
     }
 

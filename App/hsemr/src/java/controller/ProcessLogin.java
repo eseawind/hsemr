@@ -7,11 +7,11 @@
 package controller;
 
 import dao.AdminDAO;
-import dao.NurseDAO;
+import dao.PracticalGroupDAO;
 import dao.LecturerDAO;
 import entity.Lecturer;
 import entity.Admin;
-import entity.Nurse;
+import entity.PracticalGroup;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -70,7 +70,7 @@ public class ProcessLogin extends HttpServlet {
                 
                 // If password matches the one in DB
                 if (correctPassword.equals(password)) {
-                    session.setAttribute("user", userid);
+                    session.setAttribute("admin", userid);
                     response.sendRedirect("viewAdminHomePage.jsp");
                 } else {
                     request.setAttribute("error", "Invalid userid/password");
@@ -91,7 +91,7 @@ public class ProcessLogin extends HttpServlet {
                 
                 // If password matches the one in DB
                 if (correctPassword.equals(password)) {
-                    session.setAttribute("user", userid);
+                    session.setAttribute("lecturer", userid);
                     response.sendRedirect("viewLecturerHomePage.jsp");
                 } else {
                     request.setAttribute("error", "Invalid userid/password");
@@ -102,18 +102,18 @@ public class ProcessLogin extends HttpServlet {
             
         } else { 
             
-            Nurse nurse = NurseDAO.retrieve(userid);
+            PracticalGroup practicalGroup = PracticalGroupDAO.retrieve(userid);
             
             // If no such student exist in DB
-            if (nurse == null) {
+            if (practicalGroup == null) {
                 request.setAttribute("error", "Invalid userid/password");
                 RequestDispatcher rd = request.getRequestDispatcher("viewMainLogin.jsp");
                 rd.forward(request, response);
             } else { 
-                String correctPassword = nurse.getNursePassword();
+                String correctPassword = practicalGroup.getPracticalGroupPassword();
 
                 if (correctPassword.equals(password)) {
-                    session.setAttribute("user", userid);
+                    session.setAttribute("nurse", userid);
                     response.sendRedirect("viewPatientInformation.jsp");
                 } else {
                     request.setAttribute("error", "Invalid userid/password");

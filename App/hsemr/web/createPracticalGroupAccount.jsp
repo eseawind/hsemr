@@ -1,9 +1,14 @@
 <%-- 
-    Document   : createAccount
-    Created on : Sep 30, 2014, 8:24:24 PM
+    Document   : createPracticalGroupAccount
+    Created on : Oct 15, 2014, 2:37:12 PM
     Author     : weiyi.ngow.2012
 --%>
 
+<%@page import="dao.LecturerDAO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="entity.Lecturer"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="protectPage/protectAdmin.jsp" %>
 <!DOCTYPE html>
@@ -21,7 +26,7 @@
             <div class="large-centered large-12 columns">
                 <center>
                     <h1>Create Account</h1>
-                    <h4>Account Type: <%=request.getParameter("type")%><br></h4>
+                    <h4>Account Type: practical group<br></h4>
                         <%
 
                             String error = (String) request.getAttribute("error");
@@ -42,10 +47,21 @@
                                     <div class="small-7 columns">
                                         <label for="userID" class="right inline">User ID</label>
                                         <label for="password" class="right inline">Password</label>
+                                        <label for="lecturerID" class="right inline">Lecturer in-charge</label>
                                     </div>
                                     <div class="small-5 columns">
                                         <input type="text" id="userID" name="userID" required autofocus>
                                         <input type="text" id="password" name="password" required>
+                                        <select name="lecturerID">
+                                            <% 
+                                                List<Lecturer> lecturerList = LecturerDAO.retrieveAll();
+                                                for(Lecturer lecturer: lecturerList) {
+                                                    %>
+                                                    <option value="<%=lecturer.getLecturerID()%>"><%=lecturer.getLecturerID()%></option>
+                                                    <%
+                                                }
+                                            %>
+                                        </select>
                                         <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
                                     </div>
                                     <input type="submit" class="button tiny" value="Add account"> 

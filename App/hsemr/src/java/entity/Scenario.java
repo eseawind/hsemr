@@ -15,15 +15,15 @@ public class Scenario {
     private String scenarioID;
     private String scenarioName;
     private String scenarioDescription;
-    private String status;
-    private String admissionInfo;
+    private int scenarioStatus;
+    private String admissionNote;
 
-    public Scenario(String scenarioID, String scenarioName, String scenarioDescription, String status, String admissionInfo) {
+    public Scenario(String scenarioID, String scenarioName, String scenarioDescription, int scenarioStatus, String admissionNote) {
         this.scenarioID = scenarioID;
         this.scenarioName = scenarioName;
         this.scenarioDescription = scenarioDescription;
-        this.status = status;
-        this.admissionInfo = admissionInfo;
+        this.scenarioStatus = scenarioStatus;
+        this.admissionNote = admissionNote;
     }
 
     public String getScenarioID() {
@@ -50,24 +50,20 @@ public class Scenario {
         this.scenarioDescription = scenarioDescription;
     }
 
-    public String getStatus() {
-        return status;
+    public int getScenarioStatus() {
+        return scenarioStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setScenarioStatus(int scenarioStatus) {
+        this.scenarioStatus = scenarioStatus;
     }
 
-    public String getAdmissionInfo() {
-        return admissionInfo;
+    public String getAdmissionNote() {
+        return admissionNote;
     }
 
-    public void setAdmissionInfo(String admissionInfo) {
-        this.admissionInfo = admissionInfo;
+    public void setAdmissionNote(String admissionNote) {
+        this.admissionNote = admissionNote;
     }
-
-  
-    
-    
          
 }

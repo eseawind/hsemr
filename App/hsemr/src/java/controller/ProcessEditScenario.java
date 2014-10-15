@@ -6,6 +6,7 @@
 package controller;
 
 import dao.ScenarioDAO;
+import entity.Scenario;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,11 +39,24 @@ public class ProcessEditScenario extends HttpServlet {
         String status = request.getParameter("status");
         String scenarioDescription = request.getParameter("scenarioDescription");
         String admissionInfo = request.getParameter("admissionInfo");
-
-        ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, status, admissionInfo);
+        
+        int scenarioStatus = 0;
+        
+        if (status.equals("activated")) {
+            Scenario activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+            if (activatedScenario != null) {
+                if (!activatedScenario.getScenarioID().equals(scenarioID)) {
+                    ScenarioDAO.updateScenarioStatus(activatedScenario.getScenarioID(), 0);
+                }
+            }
+            
+            scenarioStatus = 1;
+        }
+        
+        ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, scenarioStatus, admissionInfo);
         
         HttpSession session = request.getSession(false);
-        session.setAttribute("successMessageEditScenario", "The case has been editted successfully!");
+        session.setAttribute("successMessageEditScenario", "The case has been edited successfully!");
         response.sendRedirect("./viewScenarioAdmin.jsp");
         return;
     }

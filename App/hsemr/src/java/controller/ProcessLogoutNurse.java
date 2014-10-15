@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package controller;
 
-import dao.ScenarioDAO;
-import entity.Scenario;
 import java.io.IOException;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,10 +17,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Administrator
+ * @author weiyi.ngow.2012
  */
-@WebServlet(name = "ProcessActivateScenarioAdmin", urlPatterns = {"/ProcessActivateScenarioAdmin"})
-public class ProcessActivateScenarioAdmin extends HttpServlet {
+@WebServlet(name = "ProcessLogoutNurse", urlPatterns = {"/ProcessLogoutNurse"})
+public class ProcessLogoutNurse extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,29 +33,15 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //To retrieve the selected id to activate or deactive
-        String status = (String) request.getParameter("status");
-        String scenarioID = (String) request.getParameter("scenarioID");
-      //make sure no other case are activated before activating a new case
-        //prevents having more than 1 case activated 
-        if (status.equals("deactivated")) {
-            ScenarioDAO.updateScenarioStatus(scenarioID, 0);
-            request.setAttribute("successMessageDeactivateCase", "You have successfully deactivated the case \"" + scenarioID + "\" !");
-            RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioAdmin.jsp");
-            rd.forward(request, response);
-        } else {
-            Scenario activatedScenario = ScenarioDAO.retrieveActivatedStatus();
-            if (activatedScenario != null) {
-                if (!activatedScenario.getScenarioID().equals(scenarioID)) {
-                    ScenarioDAO.updateScenarioStatus(activatedScenario.getScenarioID(), 0);
-                }
-            }
-             ScenarioDAO.updateScenarioStatus(scenarioID, 1);
-            request.setAttribute("successMessageActivateCase", "You have successfully activated the case \"" + scenarioID + "\" !");
-            RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioAdmin.jsp");
-            rd.forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        try {
+            HttpSession session = request.getSession();
+            session.removeAttribute("nurse");
+            response.sendRedirect("viewMainLogin.jsp");
+        } finally {
+            out.close();
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

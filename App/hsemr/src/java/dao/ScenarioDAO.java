@@ -32,7 +32,7 @@ public class ScenarioDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
             }
 
         } catch (SQLException e) {
@@ -43,20 +43,20 @@ public class ScenarioDAO {
         return scenario;
     }
 
-    public static List<Scenario> retrieveActivatedStatus() {
+    public static Scenario retrieveActivatedStatus() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        List<Scenario> scenarioList = new ArrayList<Scenario>();
+        Scenario scenario = null;
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from scenario where status = ?");
-            stmt.setString(1, "activated");
+            stmt = conn.prepareStatement("select * from scenario where scenarioStatus = ?");
+            stmt.setInt(1, 1);
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                scenarioList.add(new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
             }
 
         } catch (SQLException e) {
@@ -64,7 +64,7 @@ public class ScenarioDAO {
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return scenarioList;
+        return scenario;
     }
 
     public static List<Scenario> retrieveAll() {
@@ -79,7 +79,7 @@ public class ScenarioDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Scenario newScenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                Scenario newScenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
                 scenarioList.add(newScenario);
             }
 
@@ -91,14 +91,14 @@ public class ScenarioDAO {
         return scenarioList;
     }
 
-    public static void updateScenarioStatus(String scenarioID, String status) {
+    public static void updateScenarioStatus(String scenarioID, int scenarioStatus) {
         Connection conn = null;
         PreparedStatement stmt = null;
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("UPDATE scenario SET status = ? WHERE  scenarioID = ?");
-            stmt.setString(1, status);
+            stmt = conn.prepareStatement("UPDATE scenario SET scenarioStatus = ? WHERE  scenarioID = ?");
+            stmt.setInt(1, scenarioStatus);
             stmt.setString(2, scenarioID);
 
             stmt.executeUpdate();
@@ -111,10 +111,10 @@ public class ScenarioDAO {
 
     }
 
-    public static void update(String scenarioID, String scenarioName, String scenarioDescription, String status, String admissionInfo) {
+    public static void update(String scenarioID, String scenarioName, String scenarioDescription, int scenarioStatus, String admissionNote) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "UPDATE scenario SET  scenarioName=?, scenarioDescription=?, status =?, admissionInfo =?  WHERE scenarioID =?";
+        String query = "UPDATE scenario SET  scenarioName=?, scenarioDescription=?, scenarioStatus =?, admissionNote =?  WHERE scenarioID =?";
 
         try {
             conn = ConnectionManager.getConnection();
@@ -122,8 +122,8 @@ public class ScenarioDAO {
             preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, scenarioName);
             preparedStatement.setString(2, scenarioDescription);
-            preparedStatement.setString(3, status);
-            preparedStatement.setString(4, admissionInfo);
+            preparedStatement.setInt(3, scenarioStatus);
+            preparedStatement.setString(4, admissionNote);
             preparedStatement.setString(5, scenarioID);
             preparedStatement.executeUpdate();
 

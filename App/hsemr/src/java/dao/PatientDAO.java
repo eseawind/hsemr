@@ -30,7 +30,7 @@ public class PatientDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                patient = new Patient(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDouble(7), rs.getDouble(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getInt(13));
+                patient = new Patient(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
             }
 
         } catch (SQLException e) {
@@ -41,11 +41,11 @@ public class PatientDAO {
         return patient;
     }
 
-    public static void add(String patientNRIC, String firstName, String lastName, String gender, String dob, String maritalStatus, double weight, double height, String occupation, String race, String religion, String nationality, int wardID) {
+    public static void add(String patientNRIC, String firstName, String lastName, String gender, String dob, String wardID, int bedNumber) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         String queryLine = "INSERT INTO patient VALUES ('"
-                + patientNRIC + "','" + firstName + "','" + lastName + "','" + gender + "','" + dob + "','" + maritalStatus+ "','" + weight+ "','" + height+ "','" + occupation+ "','" + race+ "','" + religion+ "','" + nationality+ "','" + wardID + "')";
+                + patientNRIC + "','" + firstName + "','" + lastName + "','" + gender + "','" + dob + "','" + wardID+ "','" + bedNumber + "')";
 
         try {
             conn = ConnectionManager.getConnection();

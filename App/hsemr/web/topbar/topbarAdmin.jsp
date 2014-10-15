@@ -19,6 +19,7 @@
                 <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
                 <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
             </ul>
+         
             <section class="top-bar-section">
                 
                 <ul class="left">
@@ -34,17 +35,17 @@
                         <ul class="dropdown">
                             <li><a href="./viewAdminAccounts.jsp">Admin</a></li>
                             <li><a href="./viewLecturerAccounts.jsp">Lecturer</a></li>
-                            <li><a href="./viewNurseAccounts.jsp">Nurse</a></li>
+                            <li><a href="./viewPracticalGroupAccounts.jsp">Practical Group</a></li>
                         </ul>   
                     </li>
                 </ul>
 
                 <ul class="right"> 
                     <li><a href="./viewAdminHomePage.jsp">Welcome, Admin!</a></li>
-                    <li><a href="ProcessLogout">Log Out</a></li>
+                    <li><a href="ProcessLogoutAdmin">Log Out</a></li>
                 </ul>
 
-            </secion>
+            </section>
         </nav>
 
         <script src ="js/vendor/jquery.js"></script>

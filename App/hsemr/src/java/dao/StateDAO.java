@@ -31,7 +31,7 @@ public class StateDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                state = new State(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getDouble(9), rs.getString(10), rs.getString(11));
+                state = new State(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
             }
 
         } catch (SQLException e) {
@@ -42,7 +42,7 @@ public class StateDAO {
         return state;
     }
     
-    public static State retrieveActivateScenarioPatient(String scenarioID) {
+    public static State retrieveActivateState(String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -50,12 +50,13 @@ public class StateDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from state where scenarioID =?");
+            stmt = conn.prepareStatement("select * from state where scenarioID =? and stateStatus = ?");
             stmt.setString(1, scenarioID);
+            stmt.setInt(2, 1);
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                state = new State(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getDouble(9), rs.getString(10), rs.getString(11));
+                state = new State(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
             }
 
         } catch (SQLException e) {
@@ -66,41 +67,20 @@ public class StateDAO {
         return state;
     }
     
-    public static void add(String stateID, String scenarioID, String RR, String BP, String HR, String SPO, String intake, String output, double temperature, String stateDescription, String patientNRIC) {
+    
+
+    public static void updateState(String stateID, String scenarioID, int stateStatus) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String queryLine = "INSERT INTO state VALUES ('"
-                + stateID + "','" + scenarioID + "','" + RR + "','" + BP+ "','" + HR+ "','" + SPO+ "','" + intake + "','" + output + "','" + temperature + "','" + stateDescription + "','" + patientNRIC +  "')";
-
-        try {
-            conn = ConnectionManager.getConnection();
-            preparedStatement = conn.prepareStatement(queryLine);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionManager.close(conn, preparedStatement, null);
-        }
-    }
-
-    public static void updateState(String stateID, String scenarioID, String RR, String BP, String HR, String SPO, String intake, String output, double temperature) {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        String query = "UPDATE state SET RR = ?, BP = ?, HR = ?, SPO = ?, intake = ?, output = ?, temperature =? WHERE stateID =? and scenarioID = ?";
+        String query = "UPDATE state SET stateStatus =? WHERE stateID =? and scenarioID = ?";
 
         try {
             conn = ConnectionManager.getConnection();
 
             preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, RR);
-            preparedStatement.setString(2, BP);
-            preparedStatement.setString(3, HR);
-            preparedStatement.setString(4, SPO);
-            preparedStatement.setString(5, intake);
-            preparedStatement.setString(6, output);
-            preparedStatement.setDouble(7, temperature);
-            preparedStatement.setString(8, stateID);
-            preparedStatement.setString(9, scenarioID);
+            preparedStatement.setInt(1, stateStatus);
+            preparedStatement.setString(2, stateID);
+            preparedStatement.setString(3, scenarioID);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

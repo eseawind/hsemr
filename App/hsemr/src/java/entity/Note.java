@@ -14,16 +14,18 @@ public class Note {
     
     private int noteID;
     private String multidisciplinaryNote;
-    private String tutorialGroup;
-    private String grpMemberName;
-    private String noteDate;
+    private String grpMemberNames;
+    private String noteDatetime;
+    private String practicalGroupID;
+    private String scenarioID;
 
-    public Note(int noteID, String multidisciplinaryNote, String tutorialGroup, String grpMemberName, String noteDate) {
+    public Note(int noteID, String multidisciplinaryNote, String grpMemberNames, String noteDatetime, String practicalGroupID, String scenarioID) {
         this.noteID = noteID;
         this.multidisciplinaryNote = multidisciplinaryNote;
-        this.tutorialGroup = tutorialGroup;
-        this.grpMemberName = grpMemberName;
-        this.noteDate = noteDate;
+        this.grpMemberNames = grpMemberNames;
+        this.noteDatetime = noteDatetime;
+        this.practicalGroupID = practicalGroupID;
+        this.scenarioID = scenarioID;
     }
 
     public int getNoteID() {
@@ -34,30 +36,45 @@ public class Note {
         this.noteID = noteID;
     }
 
-    public String getTutorialGroup() {
-        return tutorialGroup;
+    public String getMultidisciplinaryNote() {
+        return multidisciplinaryNote;
     }
 
-    public void setTutorialGroup(String tutorialGroup) {
-        this.tutorialGroup = tutorialGroup;
+    public void setMultidisciplinaryNote(String multidisciplinaryNote) {
+        this.multidisciplinaryNote = multidisciplinaryNote;
     }
 
-    public String getGrpMemberName() {
-        return grpMemberName;
+    public String getGrpMemberNames() {
+        return grpMemberNames;
     }
 
-    public void setGrpMemberName(String grpMemberName) {
-        this.grpMemberName = grpMemberName;
+    public void setGrpMemberNames(String grpMemberNames) {
+        this.grpMemberNames = grpMemberNames;
     }
 
-    public String getNoteDate() {
-        return noteDate;
+    public String getNoteDatetime() {
+        return noteDatetime;
     }
 
-    public void setNoteDate(String noteDate) {
-        this.noteDate = noteDate;
+    public void setNoteDatetime(String noteDatetime) {
+        this.noteDatetime = noteDatetime;
     }
-   
-    
+
+    public String getPracticalGroupID() {
+        return practicalGroupID;
+    }
+
+    public void setPracticalGroupID(String practicalGroupID) {
+        this.practicalGroupID = practicalGroupID;
+    }
+
+    public String getScenarioID() {
+        return scenarioID;
+    }
+
+    public void setScenarioID(String scenarioID) {
+        this.scenarioID = scenarioID;
+    }
+
     
 }
