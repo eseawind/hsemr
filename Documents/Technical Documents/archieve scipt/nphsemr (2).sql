@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 14, 2014 at 04:45 PM
+-- Generation Time: Oct 13, 2014 at 08:01 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -202,23 +202,64 @@ INSERT INTO `medicine_prescription` (`medicineBarcode`, `scenarioID`, `stateID`,
 CREATE TABLE IF NOT EXISTS `note` (
   `noteID` int(11) NOT NULL AUTO_INCREMENT,
   `multidisciplinaryNote` varchar(15000) NOT NULL,
+  `grpNumber` smallint(6) NOT NULL,
   `grpMemberNames` varchar(500) NOT NULL,
   `noteDatetime` varchar(30) NOT NULL,
-  `practicalGroupID` varchar(5) NOT NULL,
-  `scenarioID` varchar(5) NOT NULL,
+  `practicalgroupID` varchar(5) NOT NULL,
   PRIMARY KEY (`noteID`),
-  KEY `praticalgroupID` (`practicalGroupID`),
-  KEY `ScenarioID` (`scenarioID`)
+  KEY `praticalgroupID` (`practicalgroupID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `note`
 --
 
-INSERT INTO `note` (`noteID`, `multidisciplinaryNote`, `grpMemberNames`, `noteDatetime`, `practicalGroupID`, `scenarioID`) VALUES
-(1, 'taken down hr,bp,intake, output, administer medicine', 'xuanqi, linwei, qiwei, linxuan, qiping', 'Fri Sep 19 22:18:02 SGT 2014', 'P02', 'SC1'),
-(2, 'testestest', 'shiqi, weiyi, gladys, jocelyn, grace', 'Fri Sep 19 22:18:02 SGT 2014', 'P01', 'SC1'),
-(3, 'testestest', 'tingting, shiqi, weiyi, gladys, jocelyn, grace', 'Sun Oct 12 22:56:02 SGT 2014', 'P03', 'SC2');
+INSERT INTO `note` (`noteID`, `multidisciplinaryNote`, `grpNumber`, `grpMemberNames`, `noteDatetime`, `practicalgroupID`) VALUES
+(1, 'taken down hr,bp,intake, output, administer medicine', 1, 'xuanqi, linwei, qiwei, linxuan, qiping', 'Fri Sep 19 22:18:02 SGT 2014', 'P02'),
+(2, 'testestest', 2, 'shiqi, weiyi, gladys, jocelyn, grace', 'Fri Sep 19 22:18:02 SGT 2014', 'P01'),
+(3, 'testestest', 4, 'tingting, shiqi, weiyi, gladys, jocelyn, grace', 'Sun Oct 12 22:56:02 SGT 2014', 'P03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nurse`
+--
+
+CREATE TABLE IF NOT EXISTS `nurse` (
+  `nurseID` varchar(20) NOT NULL,
+  `nursePassword` varchar(20) NOT NULL,
+  PRIMARY KEY (`nurseID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `nurse`
+--
+
+INSERT INTO `nurse` (`nurseID`, `nursePassword`) VALUES
+('nurse1', 'nurse1'),
+('nurse2', 'nurse2'),
+('nurse3', 'nurse3'),
+('nurse4', 'nurse4');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nurse_patient`
+--
+
+CREATE TABLE IF NOT EXISTS `nurse_patient` (
+  `nurseID` varchar(20) NOT NULL,
+  `patientNRIC` varchar(10) NOT NULL,
+  PRIMARY KEY (`nurseID`,`patientNRIC`),
+  KEY `patientNRIC` (`patientNRIC`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `nurse_patient`
+--
+
+INSERT INTO `nurse_patient` (`nurseID`, `patientNRIC`) VALUES
+('nurse1', 'S7843522B');
 
 -- --------------------------------------------------------
 
@@ -244,7 +285,6 @@ CREATE TABLE IF NOT EXISTS `patient` (
 --
 
 INSERT INTO `patient` (`patientNRIC`, `firstName`, `lastName`, `gender`, `DOB`, `wardID`, `bedNumber`) VALUES
-('S12345689', 'Sheng Meng', 'Xia', 'male', '05/08/1993', 'ward 4', 1),
 ('S7843522B', 'Mei Mei', 'Tan', 'female', '10/10/1978', 'ward 2', 1);
 
 -- --------------------------------------------------------
@@ -254,10 +294,10 @@ INSERT INTO `patient` (`patientNRIC`, `firstName`, `lastName`, `gender`, `DOB`, 
 --
 
 CREATE TABLE IF NOT EXISTS `practicalgroup` (
-  `practicalGroupID` varchar(5) NOT NULL,
-  `practicalGroupPassword` varchar(20) NOT NULL,
+  `practicalgroupID` varchar(5) NOT NULL,
   `lecturerID` varchar(20) NOT NULL,
-  PRIMARY KEY (`practicalGroupID`),
+  `groupSize` int(50) NOT NULL,
+  PRIMARY KEY (`practicalgroupID`),
   KEY `lecturerID` (`lecturerID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -265,16 +305,16 @@ CREATE TABLE IF NOT EXISTS `practicalgroup` (
 -- Dumping data for table `practicalgroup`
 --
 
-INSERT INTO `practicalgroup` (`practicalGroupID`, `practicalGroupPassword`, `lecturerID`) VALUES
-('P01', 'P01', 'lec1'),
-('P02', 'P02', 'lec1'),
-('P03', 'P03', 'lec2'),
-('P04', 'P04', 'lec3'),
-('P05', 'P05', 'lec4'),
-('P06', 'P06', 'lec4'),
-('P07', 'P07', 'lec5'),
-('P08', 'P08', 'lec6'),
-('P09', 'P09', 'lec6');
+INSERT INTO `practicalgroup` (`practicalgroupID`, `lecturerID`, `groupSize`) VALUES
+('P01', 'lec1', 30),
+('P02', 'lec1', 40),
+('P03', 'lec2', 35),
+('P04', 'lec3', 35),
+('P05', 'lec4', 45),
+('P06', 'lec4', 30),
+('P07', 'lec5', 35),
+('P08', 'lec6', 40),
+('P09', 'lec6', 30);
 
 -- --------------------------------------------------------
 
@@ -412,7 +452,7 @@ CREATE TABLE IF NOT EXISTS `state` (
 
 INSERT INTO `state` (`stateID`, `scenarioID`, `stateDescription`, `stateStatus`, `patientNRIC`) VALUES
 ('ST0', 'SC1', 'just admitted', 1, 'S7843522B'),
-('ST0', 'SC2', 'hello test', 1, 'S12345689'),
+('ST0', 'SC2', 'hello test', 1, 'S7843522B'),
 ('ST1', 'SC1', 'Initial Assessment at 0800 Hours', 0, 'S7843522B'),
 ('ST2', 'SC1', 'Blood Started at 1000 Hours', 0, 'S7843522B'),
 ('ST3', 'SC1', 'Beginning Anaphylax in 30 minutes later', 0, 'S7843522B'),
@@ -434,11 +474,8 @@ CREATE TABLE IF NOT EXISTS `vital` (
   `BPdiastolic` int(10) NOT NULL,
   `HR` int(10) NOT NULL,
   `SPO` int(10) NOT NULL,
+  `intake` varchar(50) NOT NULL,
   `output` varchar(50) NOT NULL,
-  `oralType` varchar(100) NOT NULL,
-  `oralAmount` varchar(30) NOT NULL,
-  `intravenousType` varchar(100) NOT NULL,
-  `intravenousAmount` varchar(30) NOT NULL,
   PRIMARY KEY (`vitalDatetime`,`patientNRIC`),
   KEY `patientNRIC` (`patientNRIC`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -447,8 +484,8 @@ CREATE TABLE IF NOT EXISTS `vital` (
 -- Dumping data for table `vital`
 --
 
-INSERT INTO `vital` (`vitalDatetime`, `patientNRIC`, `temperature`, `RR`, `BPsystolic`, `BPdiastolic`, `HR`, `SPO`, `output`, `oralType`, `oralAmount`, `intravenousType`, `intravenousAmount`) VALUES
-('11/10/2014 15:00', 'S7843522B', '37.50', 45, 92, 52, 100, 92, '50', '', '', '', '');
+INSERT INTO `vital` (`vitalDatetime`, `patientNRIC`, `temperature`, `RR`, `BPsystolic`, `BPdiastolic`, `HR`, `SPO`, `intake`, `output`) VALUES
+('11/10/2014 15:00', 'S7843522B', '37.50', 45, 92, 52, 100, 92, 'fruits', '50');
 
 -- --------------------------------------------------------
 
@@ -506,25 +543,30 @@ ALTER TABLE `medicine`
 -- Constraints for table `medicine_prescription`
 --
 ALTER TABLE `medicine_prescription`
+  ADD CONSTRAINT `medicine_prescription_ibfk_4` FOREIGN KEY (`freqAbbr`) REFERENCES `frequency` (`freqAbbr`),
   ADD CONSTRAINT `medicine_prescription_ibfk_1` FOREIGN KEY (`medicineBarcode`) REFERENCES `medicine` (`medicineBarcode`),
   ADD CONSTRAINT `medicine_prescription_ibfk_2` FOREIGN KEY (`scenarioID`) REFERENCES `prescription` (`scenarioID`),
-  ADD CONSTRAINT `medicine_prescription_ibfk_3` FOREIGN KEY (`stateID`) REFERENCES `prescription` (`stateID`),
-  ADD CONSTRAINT `medicine_prescription_ibfk_4` FOREIGN KEY (`freqAbbr`) REFERENCES `frequency` (`freqAbbr`);
+  ADD CONSTRAINT `medicine_prescription_ibfk_3` FOREIGN KEY (`stateID`) REFERENCES `prescription` (`stateID`);
 
 --
 -- Constraints for table `note`
 --
 ALTER TABLE `note`
-  ADD CONSTRAINT `note_ibfk_3` FOREIGN KEY (`practicalGroupID`) REFERENCES `practicalgroup` (`practicalGroupID`),
-  ADD CONSTRAINT `note_ibfk_1` FOREIGN KEY (`practicalgroupID`) REFERENCES `practicalgroup` (`practicalgroupID`),
-  ADD CONSTRAINT `note_ibfk_2` FOREIGN KEY (`scenarioID`) REFERENCES `scenario` (`scenarioID`);
+  ADD CONSTRAINT `note_ibfk_1` FOREIGN KEY (`practicalgroupID`) REFERENCES `practicalgroup` (`practicalgroupID`);
+
+--
+-- Constraints for table `nurse_patient`
+--
+ALTER TABLE `nurse_patient`
+  ADD CONSTRAINT `nurse_patient_ibfk_2` FOREIGN KEY (`patientNRIC`) REFERENCES `patient` (`patientNRIC`),
+  ADD CONSTRAINT `nurse_patient_ibfk_1` FOREIGN KEY (`nurseID`) REFERENCES `nurse` (`nurseID`);
 
 --
 -- Constraints for table `patient`
 --
 ALTER TABLE `patient`
-  ADD CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`bedNumber`) REFERENCES `ward` (`bedNumber`),
-  ADD CONSTRAINT `patient_ibfk_2` FOREIGN KEY (`wardID`) REFERENCES `ward` (`wardID`);
+  ADD CONSTRAINT `patient_ibfk_2` FOREIGN KEY (`wardID`) REFERENCES `ward` (`wardID`),
+  ADD CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`bedNumber`) REFERENCES `ward` (`bedNumber`);
 
 --
 -- Constraints for table `practicalgroup`
@@ -536,9 +578,9 @@ ALTER TABLE `practicalgroup`
 -- Constraints for table `prescription`
 --
 ALTER TABLE `prescription`
+  ADD CONSTRAINT `prescription_ibfk_3` FOREIGN KEY (`freqAbbr`) REFERENCES `frequency` (`freqAbbr`),
   ADD CONSTRAINT `prescription_ibfk_1` FOREIGN KEY (`scenarioID`) REFERENCES `state` (`scenarioID`),
-  ADD CONSTRAINT `prescription_ibfk_2` FOREIGN KEY (`stateID`) REFERENCES `state` (`stateID`),
-  ADD CONSTRAINT `prescription_ibfk_3` FOREIGN KEY (`freqAbbr`) REFERENCES `frequency` (`freqAbbr`);
+  ADD CONSTRAINT `prescription_ibfk_2` FOREIGN KEY (`stateID`) REFERENCES `state` (`stateID`);
 
 --
 -- Constraints for table `report`
@@ -551,8 +593,8 @@ ALTER TABLE `report`
 -- Constraints for table `state`
 --
 ALTER TABLE `state`
-  ADD CONSTRAINT `state_ibfk_1` FOREIGN KEY (`scenarioID`) REFERENCES `scenario` (`scenarioID`),
-  ADD CONSTRAINT `state_ibfk_2` FOREIGN KEY (`patientNRIC`) REFERENCES `patient` (`patientNRIC`);
+  ADD CONSTRAINT `state_ibfk_2` FOREIGN KEY (`patientNRIC`) REFERENCES `patient` (`patientNRIC`),
+  ADD CONSTRAINT `state_ibfk_1` FOREIGN KEY (`scenarioID`) REFERENCES `scenario` (`scenarioID`);
 
 --
 -- Constraints for table `vital`
