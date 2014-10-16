@@ -12,7 +12,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>View Scenario</title>
+        <title>NP Health Sciences | View Scenario</title>
         <link rel="stylesheet" href="css/foundation.css" />
         <script src="js/vendor/modernizr.js"></script>
         <script type="text/javascript">

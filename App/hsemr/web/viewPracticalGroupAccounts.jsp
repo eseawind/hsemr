@@ -39,7 +39,7 @@
         </script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Accounts Management</title>
+        <title>NP Health Sciences | Accounts Management</title>
     </head>
     <body>
         <%            List<PracticalGroup> practicalGroupList = PracticalGroupDAO.retrieveAll();

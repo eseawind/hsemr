@@ -20,11 +20,11 @@
 
 <html>
     <head>
-        <meta charset="utf-8" />
+<meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/foundation.css" />
         <script src="js/vendor/modernizr.js"></script>
-        <title>Patient Information</title>
+        <title>NP Health Sciences | Patient Information</title>
         <%@include file="/topbar/topbar.jsp" %> 
     </head>
     <body>
@@ -96,17 +96,14 @@
         %>
         <br>
         <div align ="center">
-            <div class="large-centered large-10 columns">
-
-                                       
-                <div class="panel">
-                    <h5>Patient's Information</h5>
+            <div class="large-centered large-10 columns">                  
+                <div class="panel" style="background-color: white">
+                    <h4>Patient's Information</h4><br/>
                     <span class="label">Name</span> <%=fullName%>&nbsp;
                     <span class="label">NRIC</span> <%=patientNRIC%>&nbsp;
                     <span class="label">DOB</span> <%=dob%>&nbsp;
                     <span class="label">Gender</span> <%=gender%>&nbsp;
                     <span class="label">Allergy</span> <%=allergy%>&nbsp;
-                    </p>
                 </div></div>
 
             <div class="large-centered large-10 columns">
