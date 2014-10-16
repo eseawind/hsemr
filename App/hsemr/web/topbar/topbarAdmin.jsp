@@ -8,16 +8,18 @@
 <!DOCTYPE html><html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <!--ICON-->
+        <link rel="stylesheet" type="text/css" href="css/foundation-icons/foundation-icons.css">
+        <link rel="stylesheet" type="text/css" href="css/foundation-icons/foundation-icons.svg">
+
     </head>
        <body>
         <nav class="top-bar" data-topbar>
             <ul class="title-area">
                 <li class="name">
-                    <h1><a href="./viewAdminHomePage.jsp">HSEMR<img src="img/healthlablogo.jpg" height = "40"></a></h1>
-
+                    <h1><a href="./viewAdminHomePage.jsp"><i class="fi-home size-24"></i>    HS EMR</a></h1>
                 </li>
-                <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-                <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
             </ul>
          
             <section class="top-bar-section">
