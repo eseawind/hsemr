@@ -45,7 +45,16 @@
                                     <div class="small-5 columns">
                                         <input type="text" id="right-label" name="userID" value="<%=request.getParameter("userID")%>" readonly>
                                         <input type="text" id="right-label" name="password" value="<%=request.getParameter("password")%>" required autofocus>
-                                        <input type="text" id="right-label" name="lecturerID" value="<%=request.getParameter("lecturerID")%>" required>
+                                         <select name="lecturerID">
+                                            <% 
+                                                List<Lecturer> lecturerList = LecturerDAO.retrieveAll();
+                                                for(Lecturer lecturer: lecturerList) {
+                                                    %>
+                                                    <option value="<%=lecturer.getLecturerID()%>"><%=lecturer.getLecturerID()%></option>
+                                                    <%
+                                                }
+                                            %>
+                                        </select>
                                         <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
                                     </div>
                                     <input type="submit" class="button tiny" value="Save"> 

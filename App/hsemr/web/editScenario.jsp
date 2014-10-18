@@ -108,6 +108,7 @@
                             <% }
                             }
                             %>
+                            <input type="button" value="Cancel" class="button tiny" onClick="window.location = 'viewScenarioAdmin.jsp'"/>
                             </form>
                             </center>
                         </div>

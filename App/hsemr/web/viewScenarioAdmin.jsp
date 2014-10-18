@@ -52,6 +52,7 @@
         <%            //Retrieve all the successful messages 
             String successMessageCreateScenario = (String) session.getAttribute("successMessageCreateScenario");
             String successMessageEditScenario = (String) session.getAttribute("successMessageEditScenario");
+            String successMessageDeleteScenario = (String) session.getAttribute("successMessageDeleteScenario");
         %>
 
         <div class ="large-11">
@@ -70,6 +71,14 @@
             </div>
             <%}
                 session.removeAttribute("successMessageEditScenario"); %>
+
+            <%if (successMessageDeleteScenario != null) {%>
+            <div data-alert class="alert-box success radius">
+                <%=successMessageDeleteScenario%>
+                <a href="#" class="close">&times;</a>
+            </div>
+            <%}
+                session.removeAttribute("successMessageDeleteScenario"); %>
 
             <%List<Scenario> scenarioList = ScenarioDAO.retrieveAll();%>
             <table border="1" style="border-collapse: collapse;">
@@ -126,14 +135,14 @@
                                 <input type ="submit" class="button tiny" value = "deactivate">
                                 <input type="hidden" name="status" value="deactivated">
                                 <%} else {
-                            Scenario activatedScenario = ScenarioDAO.retrieveActivatedStatus();
-                            if (activatedScenario != null) { %>
+                                    Scenario activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+                                    if (activatedScenario != null) { %>
                                 <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
                                             return false" value="activate" >
                                 <%} else { %>
                                 <input type ="submit" class="button tiny" value="activate">
                                 <% }
-                            }%>
+                                    }%>
                                 <input type="hidden" name="status" value="activated">
                             </form>
                         </td>
@@ -147,7 +156,7 @@
     <script src="js/foundation.min.js"></script>
 
     <script>
-    $(document).foundation();
+                                    $(document).foundation();
     </script>
 </body>
 </html>

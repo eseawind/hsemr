@@ -5,11 +5,8 @@
  */
 package controller;
 
-import dao.AdminDAO;
-import dao.LecturerDAO;
-import dao.PracticalGroupDAO;
+import dao.*;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -56,7 +53,7 @@ public class ProcessEditAccount extends HttpServlet {
 //            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
 //            rd.forward(request, response); 
             response.sendRedirect("./viewLecturerAccounts.jsp");
-        } else {
+        } else { // practical group
             PracticalGroupDAO.update(userID, password, lecturerID);
             HttpSession session = request.getSession(false);
             session.setAttribute("successNurse", "Account \"" + userID + "\" has been edited successfully.");

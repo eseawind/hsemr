@@ -73,6 +73,10 @@
             String gender = retrievePatient.getGender();
             String allergy = PatientDAO.retrieveAllergy(patientNRIC);
             
+            if(allergy == null){
+                allergy = "none";
+            }
+            
             Vital vital = VitalDAO.retrieveByDatetime(patientNRIC,"11/10/2014 15:00");
 
             //retrieve state's information
