@@ -46,7 +46,7 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioAdmin.jsp");
             rd.forward(request, response);
         } else {
-            Scenario activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+            Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
             if (activatedScenario != null) {
                 if (!activatedScenario.getScenarioID().equals(scenarioID)) {
                     ScenarioDAO.updateScenarioStatus(activatedScenario.getScenarioID(), 0);

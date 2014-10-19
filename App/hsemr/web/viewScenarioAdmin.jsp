@@ -39,6 +39,18 @@
                     return false;
                 }
             }
+            
+            function activateConfirmation() {
+                
+                var activateButton = confirm("Only one case can be activate each round. Activating this case will deactivate the rest.")
+                if (activateButton) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+
         </script>
 
         <title>NP Health Sciences | Case Management</title>
@@ -135,7 +147,7 @@
                                 <input type ="submit" class="button tiny" value = "deactivate">
                                 <input type="hidden" name="status" value="deactivated">
                                 <%} else {
-                                    Scenario activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+                                    Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
                                     if (activatedScenario != null) { %>
                                 <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
                                             return false" value="activate" >

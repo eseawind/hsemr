@@ -43,7 +43,7 @@ public class ScenarioDAO {
         return scenario;
     }
 
-    public static Scenario retrieveActivatedStatus() {
+    public static Scenario retrieveActivatedScenario() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;

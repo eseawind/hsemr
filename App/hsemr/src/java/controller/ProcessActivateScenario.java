@@ -53,7 +53,7 @@ public class ProcessActivateScenario extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("/viewLecturerHomePage.jsp");
                 rd.forward(request, response);
             } else {
-                Scenario activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+                Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
                 if (activatedScenario != null) {
                     if (!activatedScenario.getScenarioID().equals(scenarioID)) {
                         ScenarioDAO.updateScenarioStatus(activatedScenario.getScenarioID(), 0);

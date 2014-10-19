@@ -42,7 +42,7 @@
             State retrieveScenarioState = null;
 
             //retrieve current scenario
-            Scenario scenarioActivated = ScenarioDAO.retrieveActivatedStatus();
+            Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
            
             if (scenarioActivated == null) {
                 %> 

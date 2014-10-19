@@ -17,8 +17,9 @@
         <%@include file="/topbar/topbarAdmin.jsp" %>
         
         
-          <script type="text/javascript">
+<!--          <script type="text/javascript">
             function activateConfirmation() {
+                
                 var activateButton = confirm("Only one case can be activate each round. Activating this case will deactivate the rest.")
                 if (activateButton) {
                     return true;
@@ -28,7 +29,7 @@
                 }
             }
 
-        </script>
+        </script>-->
         <title>HS EMR - Edit Scenario</title>
     </head>
 
@@ -36,11 +37,13 @@
         <%            
             String scenarioID = request.getParameter("scenarioID");
             Scenario retrievedScenario = ScenarioDAO.retrieve(scenarioID);
+            Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
         %>
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center>
                     <h1>Edit Case's details</h1>
+                    
                     <form action = "ProcessEditScenario" method = "POST">
                         <div class="row">
 
@@ -62,10 +65,13 @@
                                     <input id="right-label" name="status" type="radio" value="deactivated" /> deactivate
                                     <% } else { %>
 
-                                    <input id="right-label" name="status" type="radio" value="activated" />activate
+                                    <p><input id="right-label" name="status" type="radio" value="activated" />activate
                                     <input id="right-label" name="status" type="radio" value="deactivated" checked/> deactivate
-                                    <% }%>
-                                    <br><br>
+                                    <% if (activatedScenario != null) { %>
+                                    <label><font color="red">Note: Activating this case will deactivate the rest.</font></label></p>
+                                    <%
+                                        } 
+                                    }%>
                                 </div>
                             </div>
                             <div class="row">
@@ -98,11 +104,12 @@
                                <input type ="submit" class="button tiny" value="Save">
                                <%
                             } else {
-                                Scenario activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+                                
                             
                                 if (activatedScenario != null) { %>
-                                    <input type = "submit" class="button tiny" onclick="if (!activateConfirmation())
-                                            return false" value="Save" >
+<!--                                    <input type = "submit" class="button tiny" onclick="if (!activateConfirmation())
+                                            return false" value="Save" >-->
+                                    <input type ="submit" class="button tiny" value="Save">
                             <%} else { %>
                                     <input type ="submit" class="button tiny" value="Save">
                             <% }

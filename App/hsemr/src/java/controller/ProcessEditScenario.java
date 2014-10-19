@@ -43,7 +43,7 @@ public class ProcessEditScenario extends HttpServlet {
         int scenarioStatus = 0;
         
         if (status.equals("activated")) {
-            Scenario activatedScenario = ScenarioDAO.retrieveActivatedStatus();
+            Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
             if (activatedScenario != null) {
                 if (!activatedScenario.getScenarioID().equals(scenarioID)) {
                     ScenarioDAO.updateScenarioStatus(activatedScenario.getScenarioID(), 0);
