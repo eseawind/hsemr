@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 21, 2014 at 02:12 PM
+-- Generation Time: Oct 21, 2014 at 02:54 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -216,9 +216,9 @@ CREATE TABLE IF NOT EXISTS `note` (
 --
 
 INSERT INTO `note` (`noteID`, `multidisciplinaryNote`, `grpMemberNames`, `noteDatetime`, `practicalGroupID`, `scenarioID`) VALUES
-(1, 'taken down hr,bp,intake, output, administer medicine', 'xuanqi, linwei, qiwei, linxuan, qiping', '0000-00-00 00:00:00', 'P02', 'SC1'),
-(2, 'testestest', 'shiqi, weiyi, gladys, jocelyn, grace', '0000-00-00 00:00:00', 'P01', 'SC1'),
-(3, 'testestest', 'tingting, shiqi, weiyi, gladys, jocelyn, grace', '0000-00-00 00:00:00', 'P03', 'SC2');
+(1, 'taken down hr,bp,intake, output, administer medicine', 'xuanqi, linwei, qiwei, linxuan, qiping', '2014-10-17 14:00:00', 'P02', 'SC1'),
+(2, 'testestest', 'shiqi, weiyi, gladys, jocelyn, grace', '2014-10-20 16:00:00', 'P01', 'SC1'),
+(3, 'testestest', 'tingting, shiqi, weiyi, gladys, jocelyn, grace', '2014-10-21 11:25:00', 'P03', 'SC2');
 
 -- --------------------------------------------------------
 
@@ -324,8 +324,8 @@ CREATE TABLE IF NOT EXISTS `report` (
 --
 
 INSERT INTO `report` (`reportDatetime`, `reportName`, `reportFile`, `dispatchStatus`, `scenarioID`, `stateID`) VALUES
-('0000-00-00 00:00:00', 'Chemistry', 'http://exampleChemistry', 1, 'SC1', 'ST1'),
-('0000-00-00 00:00:00', 'FBC', 'http://exampleFBC', 1, 'SC1', 'ST1');
+('2014-10-20 14:00:00', 'Chemistry', 'http://exampleChemistry', 1, 'SC1', 'ST1'),
+('2014-10-21 17:00:00', 'FBC', 'http://exampleFBC', 1, 'SC1', 'ST1');
 
 -- --------------------------------------------------------
 
@@ -448,7 +448,7 @@ CREATE TABLE IF NOT EXISTS `vital` (
 --
 
 INSERT INTO `vital` (`vitalDatetime`, `patientNRIC`, `temperature`, `RR`, `BPsystolic`, `BPdiastolic`, `HR`, `SPO`, `output`, `oralType`, `oralAmount`, `intravenousType`, `intravenousAmount`) VALUES
-('0000-00-00 00:00:00', 'S2315479I', '37.50', 45, 92, 52, 100, 92, '50', 'water', '50', 'saline', '100');
+('2014-10-11 15:00:00', 'S2315479I', '37.50', 45, 92, 52, 100, 92, '50', 'water', '50', 'saline', '100');
 
 -- --------------------------------------------------------
 
