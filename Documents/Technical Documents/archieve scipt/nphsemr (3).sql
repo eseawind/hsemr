@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 21, 2014 at 02:12 PM
+-- Generation Time: Oct 14, 2014 at 04:45 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -56,8 +56,8 @@ CREATE TABLE IF NOT EXISTS `allergy_patient` (
 --
 
 INSERT INTO `allergy_patient` (`patientNRIC`, `allergy`) VALUES
-('S2315479I', 'batrium'),
-('S2315479I', 'seafood');
+('S7843522B', 'batrium'),
+('S7843522B', 'seafood');
 
 -- --------------------------------------------------------
 
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `medicine` (
   `medicineBarcode` varchar(10) NOT NULL,
   `medicineName` varchar(30) NOT NULL,
   `dosage` varchar(10) NOT NULL,
-  `medicineDatetime` datetime NOT NULL,
+  `medicineDatetime` varchar(30) NOT NULL,
   `routeAbbr` varchar(10) NOT NULL,
   PRIMARY KEY (`medicineBarcode`),
   KEY `routeAbbr` (`routeAbbr`)
@@ -165,9 +165,9 @@ CREATE TABLE IF NOT EXISTS `medicine` (
 --
 
 INSERT INTO `medicine` (`medicineBarcode`, `medicineName`, `dosage`, `medicineDatetime`, `routeAbbr`) VALUES
-('E35435', 'Epinephrine', '200mL', '2014-10-21 01:00:00', 'I.V.'),
-('G12334', 'Cough Syrup', '2 spoons', '2014-10-20 04:00:00', 'AU'),
-('G24342', 'Panadol', '2 pills', '2014-10-19 13:00:00', 'P.O.');
+('E35435', 'Epinephrine', '200mL', 'Fri Sep 19 22:18:02 SGT 2014', 'I.V.'),
+('G12334', 'Cough Syrup', '2 spoons', 'Fri Sep 19 22:18:02 SGT 2014', 'AU'),
+('G24342', 'Panadol', '2 pills', 'Fri Sep 19 22:18:02 SGT 2014', 'P.O.');
 
 -- --------------------------------------------------------
 
@@ -203,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `note` (
   `noteID` int(11) NOT NULL AUTO_INCREMENT,
   `multidisciplinaryNote` varchar(15000) NOT NULL,
   `grpMemberNames` varchar(500) NOT NULL,
-  `noteDatetime` datetime NOT NULL,
+  `noteDatetime` varchar(30) NOT NULL,
   `practicalGroupID` varchar(5) NOT NULL,
   `scenarioID` varchar(5) NOT NULL,
   PRIMARY KEY (`noteID`),
@@ -216,9 +216,9 @@ CREATE TABLE IF NOT EXISTS `note` (
 --
 
 INSERT INTO `note` (`noteID`, `multidisciplinaryNote`, `grpMemberNames`, `noteDatetime`, `practicalGroupID`, `scenarioID`) VALUES
-(1, 'taken down hr,bp,intake, output, administer medicine', 'xuanqi, linwei, qiwei, linxuan, qiping', '0000-00-00 00:00:00', 'P02', 'SC1'),
-(2, 'testestest', 'shiqi, weiyi, gladys, jocelyn, grace', '0000-00-00 00:00:00', 'P01', 'SC1'),
-(3, 'testestest', 'tingting, shiqi, weiyi, gladys, jocelyn, grace', '0000-00-00 00:00:00', 'P03', 'SC2');
+(1, 'taken down hr,bp,intake, output, administer medicine', 'xuanqi, linwei, qiwei, linxuan, qiping', 'Fri Sep 19 22:18:02 SGT 2014', 'P02', 'SC1'),
+(2, 'testestest', 'shiqi, weiyi, gladys, jocelyn, grace', 'Fri Sep 19 22:18:02 SGT 2014', 'P01', 'SC1'),
+(3, 'testestest', 'tingting, shiqi, weiyi, gladys, jocelyn, grace', 'Sun Oct 12 22:56:02 SGT 2014', 'P03', 'SC2');
 
 -- --------------------------------------------------------
 
@@ -244,8 +244,8 @@ CREATE TABLE IF NOT EXISTS `patient` (
 --
 
 INSERT INTO `patient` (`patientNRIC`, `firstName`, `lastName`, `gender`, `DOB`, `wardID`, `bedNumber`) VALUES
-('S2315479I', 'Ho Yin', 'Lee', 'female', '10/10/1938', 'ward 2', 2),
-('S7843522B', 'Mei Mei', 'Tan', 'female', '10/10/1968', 'ward 2', 1);
+('S12345689', 'Sheng Meng', 'Xia', 'male', '05/08/1993', 'ward 4', 1),
+('S7843522B', 'Mei Mei', 'Tan', 'female', '10/10/1978', 'ward 2', 1);
 
 -- --------------------------------------------------------
 
@@ -298,8 +298,8 @@ CREATE TABLE IF NOT EXISTS `prescription` (
 --
 
 INSERT INTO `prescription` (`scenarioID`, `stateID`, `doctorName`, `doctorOrder`, `freqAbbr`) VALUES
-('SC1', 'ST1', 'Dr Fong Pei Yin', 'PRBCs two units NOW', 'ASAP'),
-('SC1', 'ST2', 'Dr Fong Pei Yin', 'ECG ', 'ac ');
+('SC1', 'ST1', 'john tan', 'PRBCs two units NOW', 'ASAP'),
+('SC1', 'ST2', 'john tan', 'ECG ', 'ac ');
 
 -- --------------------------------------------------------
 
@@ -308,7 +308,7 @@ INSERT INTO `prescription` (`scenarioID`, `stateID`, `doctorName`, `doctorOrder`
 --
 
 CREATE TABLE IF NOT EXISTS `report` (
-  `reportDatetime` datetime NOT NULL,
+  `reportDatetime` varchar(30) NOT NULL,
   `reportName` varchar(30) NOT NULL,
   `reportFile` varchar(200) NOT NULL,
   `dispatchStatus` tinyint(1) NOT NULL,
@@ -324,8 +324,8 @@ CREATE TABLE IF NOT EXISTS `report` (
 --
 
 INSERT INTO `report` (`reportDatetime`, `reportName`, `reportFile`, `dispatchStatus`, `scenarioID`, `stateID`) VALUES
-('0000-00-00 00:00:00', 'Chemistry', 'http://exampleChemistry', 1, 'SC1', 'ST1'),
-('0000-00-00 00:00:00', 'FBC', 'http://exampleFBC', 1, 'SC1', 'ST1');
+('Fri Sep 19 22:18:02 SGT 2014', 'Chemistry', 'http://exampleChemistry', 1, 'SC1', 'ST1'),
+('Fri Sep 19 22:18:02 SGT 2014', 'FBC', 'http://exampleFBC', 1, 'SC1', 'ST1');
 
 -- --------------------------------------------------------
 
@@ -411,13 +411,13 @@ CREATE TABLE IF NOT EXISTS `state` (
 --
 
 INSERT INTO `state` (`stateID`, `scenarioID`, `stateDescription`, `stateStatus`, `patientNRIC`) VALUES
-('ST0', 'SC1', 'just admitted', 1, 'S2315479I'),
-('ST0', 'SC2', 'hello test', 0, 'S7843522B'),
-('ST1', 'SC1', 'Initial Assessment at 0800 Hours', 0, 'S2315479I'),
-('ST2', 'SC1', 'Blood Started at 1000 Hours', 0, 'S2315479I'),
-('ST3', 'SC1', 'Beginning Anaphylax in 30 minutes later', 0, 'S2315479I'),
-('ST4', 'SC1', 'Mild Anaphylaxis', 0, 'S2315479I'),
-('ST5', 'SC1', 'Worsening Anaphylaxis', 0, 'S2315479I');
+('ST0', 'SC1', 'just admitted', 1, 'S7843522B'),
+('ST0', 'SC2', 'hello test', 1, 'S12345689'),
+('ST1', 'SC1', 'Initial Assessment at 0800 Hours', 0, 'S7843522B'),
+('ST2', 'SC1', 'Blood Started at 1000 Hours', 0, 'S7843522B'),
+('ST3', 'SC1', 'Beginning Anaphylax in 30 minutes later', 0, 'S7843522B'),
+('ST4', 'SC1', 'Mild Anaphylaxis', 0, 'S7843522B'),
+('ST5', 'SC1', 'Worsening Anaphylaxis', 0, 'S7843522B');
 
 -- --------------------------------------------------------
 
@@ -426,7 +426,7 @@ INSERT INTO `state` (`stateID`, `scenarioID`, `stateDescription`, `stateStatus`,
 --
 
 CREATE TABLE IF NOT EXISTS `vital` (
-  `vitalDatetime` datetime NOT NULL,
+  `vitalDatetime` varchar(30) NOT NULL,
   `patientNRIC` varchar(10) NOT NULL,
   `temperature` decimal(4,2) NOT NULL,
   `RR` int(10) NOT NULL,
@@ -448,7 +448,7 @@ CREATE TABLE IF NOT EXISTS `vital` (
 --
 
 INSERT INTO `vital` (`vitalDatetime`, `patientNRIC`, `temperature`, `RR`, `BPsystolic`, `BPdiastolic`, `HR`, `SPO`, `output`, `oralType`, `oralAmount`, `intravenousType`, `intravenousAmount`) VALUES
-('0000-00-00 00:00:00', 'S2315479I', '37.50', 45, 92, 52, 100, 92, '50', 'water', '50', 'saline', '100');
+('11/10/2014 15:00', 'S7843522B', '37.50', 45, 92, 52, 100, 92, '50', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -515,9 +515,9 @@ ALTER TABLE `medicine_prescription`
 -- Constraints for table `note`
 --
 ALTER TABLE `note`
+  ADD CONSTRAINT `note_ibfk_3` FOREIGN KEY (`practicalGroupID`) REFERENCES `practicalgroup` (`practicalGroupID`),
   ADD CONSTRAINT `note_ibfk_1` FOREIGN KEY (`practicalgroupID`) REFERENCES `practicalgroup` (`practicalgroupID`),
-  ADD CONSTRAINT `note_ibfk_2` FOREIGN KEY (`scenarioID`) REFERENCES `scenario` (`scenarioID`),
-  ADD CONSTRAINT `note_ibfk_3` FOREIGN KEY (`practicalGroupID`) REFERENCES `practicalgroup` (`practicalGroupID`);
+  ADD CONSTRAINT `note_ibfk_2` FOREIGN KEY (`scenarioID`) REFERENCES `scenario` (`scenarioID`);
 
 --
 -- Constraints for table `patient`
