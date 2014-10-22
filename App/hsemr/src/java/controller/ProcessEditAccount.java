@@ -7,6 +7,7 @@ package controller;
 
 import dao.*;
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,28 +39,56 @@ public class ProcessEditAccount extends HttpServlet {
         String userID = request.getParameter("userID");
         String password = request.getParameter("password");
         String lecturerID = request.getParameter("lecturerID");
-
+        String confirmPassword = request.getParameter("confirmPassword");
+        
         if (userType.equals("admin")) {
-            AdminDAO.update(userID, password);
-            HttpSession session = request.getSession(false);
-            session.setAttribute("successAdmin", "Account \"" + userID + "\" has been edited successfully.");
-            //RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
-            //rd.forward(request, response);
-             response.sendRedirect("./viewAdminAccounts.jsp");
+            if (password.equals(confirmPassword)) { 
+                AdminDAO.update(userID, password);
+                HttpSession session = request.getSession(false);
+                session.setAttribute("successAdmin", "Account \"" + userID + "\" has been edited successfully.");
+                //RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
+                //rd.forward(request, response);
+                 response.sendRedirect("./viewAdminAccounts.jsp");
+            } else { 
+                request.setAttribute("error", "Password mismatch"); 
+                request.setAttribute("userID", userID);
+                request.setAttribute("password", password);
+                RequestDispatcher rd = request.getRequestDispatcher("./editAccount.jsp");
+                rd.forward(request, response);
+               
+            }
         } else if (userType.equals("lecturer")) {
-            LecturerDAO.update(userID, password);
-            HttpSession session = request.getSession(false);
-           session.setAttribute("successLecturer", "Account \"" + userID + "\" has been edited successfully.");
-//            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
-//            rd.forward(request, response); 
+            if (password.equals(confirmPassword)) { 
+                LecturerDAO.update(userID, password);
+                HttpSession session = request.getSession(false);
+               session.setAttribute("successLecturer", "Account \"" + userID + "\" has been edited successfully.");
+    //            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
+    //            rd.forward(request, response); 
             response.sendRedirect("./viewLecturerAccounts.jsp");
+            }else { 
+                request.setAttribute("error", "Password mismatch"); 
+                request.setAttribute("userID", userID);
+                request.setAttribute("password", password);
+                RequestDispatcher rd = request.getRequestDispatcher("./editAccount.jsp");
+                rd.forward(request, response);
+               
+            }
         } else { // practical group
-            PracticalGroupDAO.update(userID, password, lecturerID);
-            HttpSession session = request.getSession(false);
-            session.setAttribute("successNurse", "Account \"" + userID + "\" has been edited successfully.");
-           // RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
-           // rd.forward(request, response);
-            response.sendRedirect("./viewPracticalGroupAccounts.jsp");
+            if (password.equals(confirmPassword)) { 
+                PracticalGroupDAO.update(userID, password, lecturerID);
+                HttpSession session = request.getSession(false);
+                session.setAttribute("successNurse", "Account \"" + userID + "\" has been edited successfully.");
+               // RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
+               // rd.forward(request, response);
+                response.sendRedirect("./viewPracticalGroupAccounts.jsp");
+            }else { 
+                request.setAttribute("error", "Password mismatch"); 
+                request.setAttribute("userID", userID);
+                request.setAttribute("password", password);
+                RequestDispatcher rd = request.getRequestDispatcher("./editPracticalGroupAccount.jsp");
+                rd.forward(request, response);
+               
+            }
         }
     }
 

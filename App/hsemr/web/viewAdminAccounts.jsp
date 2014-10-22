@@ -78,7 +78,7 @@
                         %>
                         <tr>
                             <td> <%=admin.getAdminID()%> </td>
-                            <td> <%=admin.getAdminPassword()%> </td>
+                            <td> ************** </td>
                             <td> 
                                 <form action="editAccount.jsp" method="post">
                                     <input type="hidden" name="userID" value="<%=admin.getAdminID()%>">

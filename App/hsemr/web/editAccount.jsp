@@ -31,19 +31,33 @@
             <div class="large-centered large-12 columns">
                 <center>
                     <h1>Edit <%=request.getParameter("userID")%>'s details</h1>
+                    <%
+
+                            String error = (String) request.getAttribute("error");
+                            if (error != null) {
+                                %>
+                                <div data-alert class="alert-box alert radius">
+                           <%=error%>
+                           <a href="#" class="close">&times;</a></div>
+                            <%
+                            }
+
+                        %> 
 
                     <form action = "ProcessEditAccount" method = "post">
                         <div class="row">
                             <div class="large-8 columns">
                                 <div class="row">
                                     <div class="small-7 columns">
-                                        <label for="right-label" class="right inline">User ID</label>
-                                        <label for="right-label" class="right inline">Password</label>
+                                        <label for="userID" class="right inline">User ID</label>
+                                        <label for="password" class="right inline">Password</label>
+                                         <label for="right-label" class="right inline">Confirm Password</label>
                                     </div>
                                     
                                     <div class="small-5 columns">
-                                        <input type="text" id="right-label" name="userID" value="<%=request.getParameter("userID")%>" readonly>
-                                        <input type="text" id="right-label" name="password" value="<%=request.getParameter("password")%>" required autofocus>
+                                        <input type="text" id="userID" name="userID" value="<%=request.getParameter("userID")%>" readonly>
+                                        <input type="password" id="password" name="password" value="<%=request.getParameter("password")%>" required autofocus>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" required>
                                         <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
                                     </div>
                                     <input type="submit" class="button tiny" value="Save"> 

@@ -74,7 +74,7 @@
                         %>
                         <tr>
                             <td> <%=lecturer.getLecturerID()%> </td>
-                            <td> <%=lecturer.getLecturerPassword()%> </td>
+                            <td> ************** </td>
                             <td> 
                                 <form action="editAccount.jsp" method="post">
                                     <input type="hidden" name="userID" value="<%=lecturer.getLecturerID()%>">

@@ -37,8 +37,14 @@
                            <a href="#" class="close">&times;</a></div>
                             <%
                             }
+                        String userID = "";
 
-                        %> 
+                        if (request.getParameter("userID") != null || !userID.equals("")) {
+                            userID = (String) request.getParameter("userID"); 
+                        }
+                            
+                    %> 
+                    
 
                     <form action="ProcessCreateAccount" method="post">
                         <div class="row">
@@ -47,11 +53,13 @@
                                     <div class="small-7 columns">
                                         <label for="userID" class="right inline">User ID</label>
                                         <label for="password" class="right inline">Password</label>
+                                        <label for="confirmPassword" class="right inline">Confirm Password</label>
                                         <label for="lecturerID" class="right inline">Lecturer in-charge</label>
                                     </div>
                                     <div class="small-5 columns">
-                                        <input type="text" id="userID" name="userID" required autofocus>
-                                        <input type="text" id="password" name="password" required>
+                                        <input type="text" id="userID" name="userID" value="<%=userID%>" required autofocus>
+                                        <input type="password" id="password" name="password" required>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" required>
                                         <select name="lecturerID">
                                             <% 
                                                 List<Lecturer> lecturerList = LecturerDAO.retrieveAll();

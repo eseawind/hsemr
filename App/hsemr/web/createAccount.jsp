@@ -32,9 +32,16 @@
                            <a href="#" class="close">&times;</a></div>
                             <%
                             }
-
-                        %> 
-
+                    String userID = "";
+                    
+                    if (request.getParameter("userID") != null || !userID.equals("")) {
+                        userID = (String) request.getParameter("userID"); 
+                    }
+                            
+                            %> 
+                    
+                    
+                    
                     <form action="ProcessCreateAccount" method="post">
                         <div class="row">
                             <div class="large-8 columns">
@@ -42,10 +49,12 @@
                                     <div class="small-7 columns">
                                         <label for="userID" class="right inline">User ID</label>
                                         <label for="password" class="right inline">Password</label>
+                                        <label for="confirmPassword" class="right inline">Confirm Password</label>
                                     </div>
                                     <div class="small-5 columns">
-                                        <input type="text" id="userID" name="userID" required autofocus>
-                                        <input type="text" id="password" name="password" required>
+                                        <input type="text" id="userID" name="userID" value="<%=userID%>" required autofocus>
+                                        <input type="password" id="password" name="password" required>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" required>
                                         <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
                                     </div>
                                     <input type="submit" class="button tiny" value="Add account"> 

@@ -36,7 +36,7 @@ public class NoteDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                note = new Note(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4), rs.getString(5), rs.getString(6));
+                note = new Note(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getString(5), rs.getString(6));
             }
 
         } catch (SQLException e) {
@@ -60,7 +60,7 @@ public class NoteDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Note newNote = new Note(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4), rs.getString(5), rs.getString(6));
+                Note newNote = new Note(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getString(5), rs.getString(6));
                 noteList.add(newNote);
             }
 
@@ -84,7 +84,7 @@ public class NoteDAO {
           
          
             DateFormat dateFormatter;
-            dateFormatter = new SimpleDateFormat("yyyy-M-d H:m:s");
+            dateFormatter = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
            
             stmt.setString(1, multidisciplinaryNote);
             stmt.setString(2, grpMemberNames);

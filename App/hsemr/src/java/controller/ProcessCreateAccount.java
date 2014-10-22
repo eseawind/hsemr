@@ -41,11 +41,17 @@ public class ProcessCreateAccount extends HttpServlet {
         String userType = request.getParameter("type");
         String userID = request.getParameter("userID");
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
         String lecturerID = request.getParameter("lecturerID");
 
         if (userType.equals("admin")) {
             if (InputValidation.validateUser(userType, userID) == false) {
-                request.setAttribute("error", "user already exist");
+                request.setAttribute("error", "User already exist");
+                RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
+                rd.forward(request, response);
+            }else if (!password.equals(confirmPassword)) { 
+                request.setAttribute("error", "Password mismatch");
+                request.setAttribute("userID", userID);
                 RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
                 rd.forward(request, response);
             } else {
@@ -57,8 +63,13 @@ public class ProcessCreateAccount extends HttpServlet {
 
         } else if (userType.equals("lecturer")) {
             if (InputValidation.validateUser(userType, userID) == false) {
-                request.setAttribute("error", "user already exist");
+                request.setAttribute("error", "User already exist");
                 RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
+                rd.forward(request, response);
+            }else if (!password.equals(confirmPassword)) { 
+                request.setAttribute("error", "Password mismatch");
+                RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
+                 request.setAttribute("userID", userID);
                 rd.forward(request, response);
             } else {
                 LecturerDAO.add(userID, password);
@@ -69,11 +80,15 @@ public class ProcessCreateAccount extends HttpServlet {
 
         } else if(userType.equals("nurse")) { 
             if (InputValidation.validateUser(userType, userID) == false) {
-                request.setAttribute("error", "user already exist");
+                request.setAttribute("error", "User already exist");
+                RequestDispatcher rd = request.getRequestDispatcher("createPracticalGroupAccount.jsp");
+                rd.forward(request, response);
+            }else if (!password.equals(confirmPassword)) { 
+                request.setAttribute("error", "Password mismatch");
+                request.setAttribute("userID", userID);
                 RequestDispatcher rd = request.getRequestDispatcher("createPracticalGroupAccount.jsp");
                 rd.forward(request, response);
             } else {
-                
                 PracticalGroupDAO.add(userID, password, lecturerID);
                 HttpSession session = request.getSession();
                 session.setAttribute("successNurse", "New account \"" + userID+  "\" has been created successfully!");

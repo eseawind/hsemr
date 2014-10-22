@@ -14,7 +14,7 @@
 <%@page import="java.util.List"%>
 <%@page import="entity.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="dao.*"%>
+<%@page import="dao.*"%> 
 <%@include file="protectPage/protectNurse.jsp" %>
 <!DOCTYPE html>
 
@@ -183,6 +183,91 @@
                             out.println("content");
                         } %>" id="reports">
 
+                        <h4>Doctor's Order</h4>
+                        
+                   <% 
+                            List<Report> stateReports = ReportDAO.retrieveReportsByState(scenarioID, stateID);
+                            if(stateReports != null && stateReports.size() != 0) {
+                                %>
+                                
+                                <table>
+                                    <tr>
+                                        <td><b>Reports Ordered</b></td>
+                                        <td><b>Last Updated</b></td>
+                                        <td><b>Action</b></td>
+                                        <td><b>Report Results</b></td>
+                                    </tr>
+                                    
+                                <%
+                                // Create an instance of SimpleDateFormat used for formatting 
+                                // the string representation of date (month/day/year)
+                                DateFormat df = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
+ 
+                                for(Report report : stateReports) {
+                                    String reportName = report.getReportName();
+                                    String reportFile = report.getReportFile();
+                                    
+                                    String reportDatetime = df.format(report.getReportDatetime());
+                                    int dispatchStatus = report.getDispatchStatus();
+                                    
+                                    String reportResults = "";
+                                    
+                                    if (dispatchStatus == 1) {
+                                       
+                                        reportResults = "reports/" + reportFile;
+                                    }
+                                    
+                                    
+                                    %> 
+                                    <tr>
+                                        <td><%=reportName%></td>
+                                        <td><%=reportDatetime%></td>
+                                        <td><%
+                                        if (dispatchStatus == 1) {
+                                            out.println("Already despatched");
+                                        } else {
+                                            %>
+                                            <form action="ProcessDespatch" method="POST">
+                                                <input type="hidden" name="reportName" value="<%=reportName%>">
+                                                <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                                                <input type="hidden" name="stateID" value="<%=stateID%>">
+                                                
+                                                <input type="submit" class="button tinytable" value="Depatch">
+                                            
+                                            </form>
+                                            
+                                            
+                                            <% } %>
+                                        </td>
+                                                                                <td>
+                                            <% 
+                                            if (dispatchStatus == 1) {
+                                            %>
+                                            <a href="<%=reportResults%>" target="_blank">View Report</a>
+                                        <% } else { 
+                                                out.println("N/A");
+
+                                            }
+                                            %>
+                                        </td>
+
+                                        
+                                    </tr>
+                                    
+                                    
+                                <% 
+                                } 
+                                %>
+                                </table>
+                             <%       
+                            } else { 
+                                out.println("No doctor's order at the moment.");
+                                
+                            } 
+                            session.setAttribute("active", null);
+                            
+                        %>  
+                        
 
                     </div>
 

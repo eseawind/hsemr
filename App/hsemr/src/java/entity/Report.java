@@ -6,19 +6,21 @@
 
 package entity;
 
+import java.util.Date;
+
 /**
  * 
  * @author weiyi.ngow.2012
  */
 public class Report {
-    private String reportDatetime;
+    private Date reportDatetime;
     private String reportName;
     private String reportFile;
     private int dispatchStatus; 
     private String scenarioID;
     private String stateID;
 
-    public Report(String reportDatetime, String reportName, String reportFile, int dispatchStatus, String scenarioID, String stateID) {
+    public Report(Date reportDatetime, String reportName, String reportFile, int dispatchStatus, String scenarioID, String stateID) {
         this.reportDatetime = reportDatetime;
         this.reportName = reportName;
         this.reportFile = reportFile;
@@ -27,11 +29,11 @@ public class Report {
         this.stateID = stateID;
     }
 
-    public String getReportDatetime() {
+    public Date getReportDatetime() {
         return reportDatetime;
     }
 
-    public void setReportDatetime(String reportDatetime) {
+    public void setReportDatetime(Date reportDatetime) {
         this.reportDatetime = reportDatetime;
     }
 
@@ -75,5 +77,4 @@ public class Report {
         this.stateID = stateID;
     }
 
-     
 }

@@ -78,7 +78,7 @@
                         %>
                         <tr>
                             <td> <%=practicalGroup.getPracticalGroupID()%> </td>
-                            <td> <%=practicalGroup.getPracticalGroupPassword()%> </td>
+                            <td> ************** </td>
                             <td> <%=practicalGroup.getLecturerID()%> </td>
                             <td> 
                                 <form action="editPracticalGroupAccount.jsp" method="post">
