@@ -29,11 +29,13 @@
     </head>
     <body>
         
+      
+        
         <%            
         String active = active = (String) session.getAttribute("active");
 
             //retrieve all successfulmessages
-            
+           
 
             //retrieve patient's information
             String patientNRIC = "";
@@ -51,9 +53,11 @@
                 <p><h1>No Case Activated</h1></p>
                     Please contact administrator/lecturer for case activation.
             </div>
+            
                     <%
             } else {
-
+                
+                
                 //get the most recently activated scenario's state
                 retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
                 
@@ -77,7 +81,7 @@
                 allergy = "none";
             }
             
-            Vital vital = VitalDAO.retrieveByDatetime(patientNRIC,"11/10/2014 15:00");
+            Vital vital = VitalDAO.retrieveByDatetime(patientNRIC,"2014-10-11 15:00:00");
 
             //retrieve state's information
              double temperature = vital.getTemperature();
@@ -109,6 +113,30 @@
                     <span class="label">Gender</span> <%=gender%>&nbsp;
                     <span class="label">Allergy</span> <%=allergy%>&nbsp;
                 </div></div>
+                
+                
+            <div class ="large-centered large-10 columns">
+                        <%if (session.getAttribute("success") != null) {%>
+                        <div data-alert class="alert-box success radius">
+                           <%=session.getAttribute("success")%>
+                            <a href="#" class="close">&times;</a>
+                        </div>
+                        <%
+                            session.setAttribute("success",null);                        
+                            }
+                        %>
+                        
+                        <%if (session.getAttribute("error") != null) {%>
+                        <div data-alert class="alert-box alert radius">
+                           <%=session.getAttribute("error")%>
+                            <a href="#" class="close">&times;</a>
+                        </div>
+                        <%
+                            session.setAttribute("error",null);                        
+                            }
+                        %>
+                            
+            </div>
 
             <div class="large-centered large-10 columns">
                 <div class="tabs-content">
@@ -183,6 +211,42 @@
                         } else {
                             out.println("content");
                         }%>" id="multidisciplinary">
+                        
+                         <form action="ProcessAddNote" method="POST">
+                            <%
+                                String grpNames = (String) request.getAttribute("grpNames");
+                                String notes = (String) request.getAttribute("notes");
+                                   
+                            %> 
+                             <div class="small-8">
+                                    <div class="row">
+                                        <div class="small-3 columns">
+
+                                            <label for="right-label" class="right inline">Group Member Names</label>
+                                            <label for="right-label" class="right inline">Multidisciplinary Note</label>
+                                        </div>
+                                        <div class="small-9 columns">
+                                            <input type ="hidden" name="scenarioID" value="<%=scenarioID%>"/>
+
+                                            <input type ="text" id= "grpNames" name="grpNames" value="<% if (grpNames == null || grpNames =="") {
+                                                    out.print("");
+                                                } else {
+                                                    out.print(grpNames);
+                                                }%>" >
+                                            <textarea name="notes" id="notes" rows="7" cols="10" ><% if (notes == null || notes == "") {
+                                                    out.print("");
+                                                } else {
+                                                    out.print(notes);
+                                                }%></textarea>
+
+                                        </div>
+                                    </div>
+                                </div>
+                             <br>
+                                            <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
+                                            <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
+                                            <input type="button" value="Cancel" class="button tiny" onClick="window.location = 'viewPatientInformation.jsp'"/>
+                         </form>
                     </div>
                 </div>
 

@@ -6,6 +6,8 @@
 
 package entity;
 
+import java.util.Date;
+
 /**
  * 
  * @author weiyi.ngow.2012
@@ -15,11 +17,11 @@ public class Note {
     private int noteID;
     private String multidisciplinaryNote;
     private String grpMemberNames;
-    private String noteDatetime;
+    private Date noteDatetime;
     private String practicalGroupID;
     private String scenarioID;
 
-    public Note(int noteID, String multidisciplinaryNote, String grpMemberNames, String noteDatetime, String practicalGroupID, String scenarioID) {
+    public Note(int noteID, String multidisciplinaryNote, String grpMemberNames, Date noteDatetime, String practicalGroupID, String scenarioID) {
         this.noteID = noteID;
         this.multidisciplinaryNote = multidisciplinaryNote;
         this.grpMemberNames = grpMemberNames;
@@ -52,11 +54,11 @@ public class Note {
         this.grpMemberNames = grpMemberNames;
     }
 
-    public String getNoteDatetime() {
+    public Date getNoteDatetime() {
         return noteDatetime;
     }
 
-    public void setNoteDatetime(String noteDatetime) {
+    public void setNoteDatetime(Date noteDatetime) {
         this.noteDatetime = noteDatetime;
     }
 

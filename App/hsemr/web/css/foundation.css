@@ -93,7 +93,8 @@ img {
 
 textarea {
     height: auto;
-    min-height: 50px; }
+    min-height: 50px; 
+    resize: none; }
 
 select {
     width: 100%; }
