@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class VitalDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Vital vital = new Vital(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13));
+                Vital vital = new Vital(rs.getDate(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13));
                 vitals.add(vital);
             }
 
@@ -44,8 +46,8 @@ public class VitalDAO {
         }
         return vitals;
     }
-    
-    public static Vital retrieveByDatetime(String patientNRIC, String vitalDatetime) {
+
+    public static Vital retrieveLatestDateTime(String patientNRIC) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -53,13 +55,12 @@ public class VitalDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from vital where patientNRIC = ? and vitalDatetime = ? ");
+            stmt = conn.prepareStatement("select * from vital where patientNRIC = ? order by vitalDateTime desc limit 1");
             stmt.setString(1, patientNRIC);
-            stmt.setString(2, vitalDatetime);
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                vital = new Vital(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13));
+                vital = new Vital(rs.getDate(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13));
             }
 
         } catch (SQLException e) {
@@ -71,8 +72,7 @@ public class VitalDAO {
     }
     
     
-    
-     public static void add(String patientNRIC, double temperature, int RR, int BPsystolic, int BPdiastolic, int HR, int SPO, String output, String oralType, String oralAmount, String intravenousType, String intravenousAmount) {
+      public static void add(String patientNRIC, double temperature, int RR, int BPsystolic, int BPdiastolic, int HR, int SPO, String output, String oralType, String oralAmount, String intravenousType, String intravenousAmount) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         //String query = "UPDATE vital SET vitalDatetime = ?, patientNRIC =?, temperature = ?, RR = ?, BPsystolic = ?, BPdiastolic = ?,  HR = ?, SPO = ?, intake = ?, output = ?";
@@ -80,10 +80,14 @@ public class VitalDAO {
 
         try {
             conn = ConnectionManager.getConnection();
+
+            Date dateTime = new Date();
             
-            Date dateTime= new Date();
+            DateFormat dateFormatter;
+            dateFormatter = new SimpleDateFormat("yyyy-M-d H:m:s");
+            
             preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, dateTime.toString());
+            preparedStatement.setString(1, dateFormatter.format(dateTime));
             preparedStatement.setString(2, patientNRIC);
             preparedStatement.setDouble(3, temperature);
             preparedStatement.setInt(4, RR);

@@ -6,12 +6,14 @@
 
 package entity;
 
+import java.util.Date;
+
 /**
  *
  * @author weiyi.ngow.2012
  */
 public class Vital {
-    private String vitalDatetime;
+    private Date vitalDatetime;
     private String patientNRIC;
     private double temperature;
     private int rr;
@@ -25,7 +27,7 @@ public class Vital {
     private String intravenousType;
     private String intravenousAmount;
 
-    public Vital(String vitalDatetime, String patientNRIC, double temperature, int rr, int bpSystolic, int bpDiastolic, int hr, int spo, String output, String oralType, String oralAmount, String intravenousType, String intravenousAmount) {
+    public Vital(Date vitalDatetime, String patientNRIC, double temperature, int rr, int bpSystolic, int bpDiastolic, int hr, int spo, String output, String oralType, String oralAmount, String intravenousType, String intravenousAmount) {
         this.vitalDatetime = vitalDatetime;
         this.patientNRIC = patientNRIC;
         this.temperature = temperature;
@@ -41,11 +43,11 @@ public class Vital {
         this.intravenousAmount = intravenousAmount;
     }
 
-    public String getVitalDatetime() {
+    public Date getVitalDatetime() {
         return vitalDatetime;
     }
 
-    public void setVitalDatetime(String vitalDatetime) {
+    public void setVitalDatetime(Date vitalDatetime) {
         this.vitalDatetime = vitalDatetime;
     }
 

@@ -81,20 +81,20 @@
                 allergy = "none";
             }
             
-            Vital vital = VitalDAO.retrieveByDatetime(patientNRIC,"2014-10-11 15:00:00");
+//            Vital vital = VitalDAO.retrieveByDatetime(patientNRIC,"2014-10-11 15:00:00");
 
             //retrieve state's information
-             double temperature = vital.getTemperature();
-             int rr = vital.getRr();
-             int bpSystolic = vital.getBpSystolic();
-             int bpDiasolic = vital.getBpDiastolic();
-             int hr = vital.getHr();
-             int spo = vital.getSpo();
-             String output = vital.getOutput();
-            String oralType = vital.getOralType();
-            String oralAmount = vital.getOralAmount();
-            String intravenousType = vital.getIntravenousType();
-            String intravenousAmoun = vital.getIntravenousAmount();
+//             double temperature = vital.getTemperature();
+//             int rr = vital.getRr();
+//             int bpSystolic = vital.getBpSystolic();
+//             int bpDiasolic = vital.getBpDiastolic();
+//             int hr = vital.getHr();
+//             int spo = vital.getSpo();
+//             String output = vital.getOutput();
+//            String oralType = vital.getOralType();
+//            String oralAmount = vital.getOralAmount();
+//            String intravenousType = vital.getIntravenousType();
+//            String intravenousAmoun = vital.getIntravenousAmount();
 
              
            
@@ -286,6 +286,141 @@
                         } else {
                             out.println("content");
                         } %>" id="vital">
+                        
+                        <%
+                    
+                        Date currentDateTime = new Date();
+                        DateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy H:m:s");
+                        String currentDateFormatted = dateFormatter.format(currentDateTime);
+                        
+                        %>
+                         <form data-abide action="ProcessAddVital" method="POST">
+                                <table>
+                                    <th>Vital Signs/Input/Output</th>
+                                    <th>Current as of <%=currentDateFormatted%></th>
+                                    <tr><td><b>Temperature</b><img src="img/Historial.jpg"></td>
+                                        <td><div class="row">
+                                            <div class="small-4 columns" style="width:200px">
+                                                <!--validates for 1 decimal place-->
+                                                <input type="text" name ="temperature" maxlength="4" pattern ="[0-9]+(\.[0-9][0-9]?)?" />
+                                                <small class="error">Must be numeric, cannot contain alphabets. E.g: 37.3 or 37</small>
+                                              </div>
+                                              <label for="right-label" class="left inline">ºC</label>
+                                        </div></td>
+                                    </tr> 
+                                    
+                                    <tr><td><b>Respiratory Rate<img src="img/Historial.jpg"></b></td>
+                                        <td><div class="row">
+                                                <div class="small-4 columns" style="width:200px">
+                                                    <input type="text" name ="RR" maxlength="2" pattern ="integer"/>
+                                                    <small class="error">RR must be 2 digits.</small>
+                                                </div>
+                                         
+                                                <label for="right-label" class="left inline">breaths/min</label>
+                                             
+                                            </div>
+                                    </tr>
+                                            
+                                    <tr><td><b>Heart Rate<img src="img/Historial.jpg"></b></td>
+                                        <td><div class="row">
+                                                <div class="small-4 columns" style="width:200px">
+                                                    <!--validates between 0 - 200-->
+                                                    <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$"/>
+                                                    <small class="error">HR must be between 0 - 200.</small>
+                                                </div>
+                                                    <label for="right-label" class="left inline">beats/min</label>
+                                            </div></td>
+                                    </tr>
+                                    
+                                    <tr><td><b>Blood Pressure<img src="img/Historial.jpg"></b></td>
+                                        <td><div class="row">
+                                                <div class="small-4 columns" style="width:200px">
+                                                    <!--<input type="text" name ="BPsystolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
+                                                    <input type="text" name ="BPsystolic" maxlength = "3" pattern = "integer"/>
+                                                    <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
+                                                </div>
+                                               
+                                                    <label for="right-label" class="left inline">mm (Systolic)</label>
+                                                
+                                            </div>
+                                            <div class="row">
+                                                <div class="small-4 columns" style="width:200px">
+                                                    <!--<input type="text" name ="BPdiastolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
+                                                    <input type="text" name ="BPdiastolic" maxlength = "3" pattern = "integer"/>
+                                                    <div class ="input wrapper">
+                                                        <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
+                                                    </div>
+                                                </div>
+                                               
+                                                <label for="right-label" class="left inline">Hg (Diastolic)</label>
+                                            
+                                            </div>
+                                        </td></tr>
+                                    <tr><td><b>SPO<img src="img/Historial.jpg"></b></td>
+                                
+                                        <td><div class="row">
+                                                <div class="small-4 columns" style="width:200px">
+                                                    <input type="text" name ="SPO" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$"/>
+                                                    <small class="error">SPO must be numeric and between 0 - 100%.</small>
+                                                </div>
+                                                
+                                                <label for="right-label" class="left inline">% with O<sub>2</sub></label>
+                                             
+                                            </div></td></tr>
+                                    <tr><td><b>Intake - Oral/Intragastric</b></td>
+                                     
+                                        <td><div class="row">
+                                                <div class="small-4 columns" style="width:200px">
+                                                    <input type="text" name ="oralType" value= " "/>
+                                                </div>
+                                             
+                                                    <label for="left-label" class="left inline">Type</label>
+                                   
+                                            </div>
+                                            <div class="row">
+                                                <div class="small-4 columns" style="width:200px">
+                                                    <input type="text" name ="oralAmount"  value= " "/>
+                                                </div>
+                                           
+                                                    <label for="left-label" class="left inline">Amount</label>
+                                         
+                                            </div>
+                                        </td></tr>
+                                    
+                                    <tr><td><b>Intake - Intravenous</b></td>
+                                     
+                                        <td><div class="row">
+                                                <div class="small-4 columns" style="width:200px">
+                                                    <input type="text" name ="intravenousType" value= " "/>
+                                                </div>
+                                             
+                                                    <label for="left-label" class="left inline">Type</label>
+                                   
+                                            </div>
+                                            <div class="row">
+                                                <div class="small-4 columns" style="width:200px">
+                                                    <input type="text" name ="intravenousAmount"  value= " "/>
+                                                </div>
+                                           
+                                                    <label for="left-label" class="left inline">Amount</label>
+                                         
+                                            </div>
+                                        </td></tr>
+
+                                    <tr><td><b>Output</b></td>
+                                        
+                                        <td><div class="row">
+                                                <div class="small-4 columns" style="width:200px">
+                                                    <input type="text" name ="output" style="width:170px" value= " "/>
+                                                </div>
+                                                    <label for="left-label" class="left inline"></label>
+                                            </div>
+                                        </td></tr>
+
+                                </table>
+                                <input type ="hidden" value ="<%=patientNRIC%>" name = "patientNRIC">
+                                <input type="submit" value="Update Vital Signs" class="button tiny"> 
+                            </form>
 
 
                     </div>
