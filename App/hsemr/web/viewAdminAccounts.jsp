@@ -49,7 +49,7 @@
                 <center>
                     <h1>Administrator Accounts Management</h1>
 
-                    <div class ="medium-11">
+                    <div class ="large-11">
                         <%if (session.getAttribute("successAdmin") != null) {%>
                         <div data-alert class="alert-box success radius">
                            <%=session.getAttribute("successAdmin")%>
@@ -59,8 +59,7 @@
                             session.setAttribute("successAdmin",null);                        
                             }
                         %>
-                            
-                    </div>
+                          
                     
 
                     <table class="responsive" id="cssTable">
@@ -120,7 +119,7 @@
                         <input type="hidden" name="type" value="admin">
                         <input type="submit" class="button tiny" value="Create New Account">
                     </form>
-
+                    </div>
                 </center>
 
             </div>

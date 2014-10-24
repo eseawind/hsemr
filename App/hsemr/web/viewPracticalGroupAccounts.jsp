@@ -50,7 +50,6 @@
                 <center>
                     <h1>Practical Group Accounts Management</h1>
                     <div class ="large-11">
-                         <div class ="medium-11">
                         <%if (session.getAttribute("successNurse") != null) {%>
                         <div data-alert class="alert-box success radius">
                            <%=session.getAttribute("successNurse")%>
@@ -60,7 +59,7 @@
                             session.setAttribute("successNurse",null);                        
                             }
                         %>
-                    </div>
+                        
                     <table class="responsive" id="cssTable">
                         <col width="25%">
                         <col width="25%">
@@ -70,7 +69,7 @@
                         <tr>
                             <td>User Id</td>
                             <td>Password</td>
-                            <td>Lecturer Id</td>
+                            <td>Lecturer in-charge</td>
                             <td colspan="2" align="center" valign="middle">Actions</td>
                         </tr>
                         <%

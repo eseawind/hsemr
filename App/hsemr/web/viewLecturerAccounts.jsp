@@ -47,8 +47,9 @@
             <div class="large-centered large-12 columns">
                 <center>
                     <h1>Lecturer Accounts Management</h1>
+        
                     <div class ="large-11">
-                           <div class ="medium-11">
+                          
                         <%if (session.getAttribute("successLecturer") != null) {%>
                         <div data-alert class="alert-box success radius">
                            <%=session.getAttribute("successLecturer")%>
@@ -58,7 +59,18 @@
                             session.setAttribute("successLecturer",null);                        
                             }
                         %>
-                    </div>
+                        
+                        <%
+
+                            String error = (String) session.getAttribute("error");
+                            if (error != null) {
+                                %>
+                                <div data-alert class="alert-box alert radius">
+                                 <%=error%>
+                           <a href="#" class="close">&times;</a></div>
+                            <%
+                            } session.setAttribute("error", null);
+                    %>
                     <table class="responsive" id="cssTable">
                         <col width="40%">
                         <col width="40%">

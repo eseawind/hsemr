@@ -67,6 +67,32 @@ public class PracticalGroupDAO {
         return list;
     }
     
+    public static PracticalGroup retrieveByLecturer(String lecturerID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        PracticalGroup practicalGroup = null;
+        
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from practicalgroup where lecturerID = ?");
+            stmt.setString(1, lecturerID);
+            
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                practicalGroup = new PracticalGroup(rs.getString(1), rs.getString(2), rs.getString(3));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        
+        return practicalGroup;
+    }
+    
+    
     public static void update(String practicalGroupID, String practicalGroupPassword, String lecturerID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;

@@ -17,7 +17,11 @@
          
     </head>
     <body>
-        <h1>Welcome, lecturer</h1>
+<div class="row" style="padding-top: 30px;">
+            <div class="large-centered large-12 columns">
+                <center>
+                    <h1>Select case to view details</h1></center>
+            </div></div>
     <center><jsp:include page="viewScenarioLecturer.jsp" /></center>
     </body>
 </html>

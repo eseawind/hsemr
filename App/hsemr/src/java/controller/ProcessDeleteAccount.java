@@ -52,13 +52,21 @@ public class ProcessDeleteAccount extends HttpServlet {
 
            response.sendRedirect("./viewAdminAccounts.jsp");
         } else if (userType.equals("lecturer")) {
-            LecturerDAO.delete(userID);
-            HttpSession session = request.getSession(false);
-            session.setAttribute("successLecturer", "Account \"" + userID + "\" has been deleted successfully.");
-//            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
-//            rd.forward(request, response);
+           if(PracticalGroupDAO.retrieveByLecturer(userID) == null) {
 
-            response.sendRedirect("./viewLecturerAccounts.jsp");
+                LecturerDAO.delete(userID);
+                HttpSession session = request.getSession(false);
+                session.setAttribute("successLecturer", "Account \"" + userID + "\" has been deleted successfully.");
+    //            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
+    //            rd.forward(request, response);
+
+                response.sendRedirect("./viewLecturerAccounts.jsp");
+           } else { 
+               HttpSession session = request.getSession(false);
+               session.setAttribute("error", "Please modify/delete <a href='./viewPracticalGroupAccounts.jsp'><font color='white'><u>Practical Group account(s)</u></font></a> with \"" + userID + "\" as Lecturer in-charge before deleting the account");
+                response.sendRedirect("./viewLecturerAccounts.jsp");
+           }
+           
         } else { 
             PracticalGroupDAO.delete(userID);
             HttpSession session = request.getSession(false);

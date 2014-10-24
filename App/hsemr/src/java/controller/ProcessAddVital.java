@@ -39,8 +39,8 @@ public class ProcessAddVital extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             String patientNRIC = (String) request.getParameter("patientNRIC");
-            String oralType = (String) (request.getParameter("intragastricType"));
-            String oralAmount = (String) (request.getParameter("intragastricAmount"));
+            String oralType = (String) (request.getParameter("oralType"));
+            String oralAmount = (String) (request.getParameter("oralAmount"));
             String intravenousType = (String) (request.getParameter("intravenousType"));
             String intravenousAmount = (String) (request.getParameter("intravenousAmount"));
             String output = (String) (request.getParameter("output"));
