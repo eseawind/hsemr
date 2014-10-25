@@ -19,7 +19,7 @@
         <nav class="top-bar" data-topbar>
             <ul class="title-area">
                 <li class="name">
-                    <h1><a href="#"><i class="fi-home size-24"></i>    HS EMR</a></h1>
+                    <h1><a href="viewScenarioLecturer.jsp"><img src="./img/DefaultLogo.png" width="30" height="30"/> EMR</a></h1>
 
                 </li>
                 <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
