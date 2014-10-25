@@ -18,7 +18,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>NP Health Sciences | Hospital Ward Management System</title>
     </head>
-    <body>
+    <!--<body style="background-image:url(img/Rate.png)"></body>-->
         <div class="row" style="padding-top: 10px;">
             <div class="large-centered large-5 columns" style = "padding-top:30px;">
                 <img src="img/Home.png" width="1388" height="586" alt="Home"/>
@@ -91,7 +91,7 @@
                 </form>
             </div>
         </div>
-
+        
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
         <script>
