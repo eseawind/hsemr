@@ -46,9 +46,11 @@
 
     </head>
     <body>
-
-        <div class ="large-11">
-
+        <div class="row" style="padding-top: 30px;">
+            <div class="large-centered large-12 columns">
+                <center>
+                    <h1>Select case to view details</h1></center>
+          
             <%            
             String successMessageDeactivateCase = (String) request.getAttribute("successMessageDeactivateCase");
             String successMessageActivateCase = (String) request.getAttribute("successMessageActivateCase");
@@ -60,9 +62,7 @@
             </div>
             <%}
                 session.removeAttribute("successMessageDeactivateCase"); %>
-        </div>
 
-        <div class ="large-11">
             <%if (successMessageActivateCase != null) {%>
             <div data-alert class="alert-box success radius">
                 <%=successMessageActivateCase%>
@@ -70,13 +70,7 @@
             </div>
             <%}
                 session.removeAttribute("successMessageActivateCase"); %>
-        </div>
-
-
-       
-        <div align ="center">
-
-
+         
             <%
                 int caseNo = 0;
                 String scenarioID = "";
@@ -93,9 +87,7 @@
             <%
                 }
             %>
-        </div>
-
-        <div class="large-centered large-6 columns">
+            
             <table>
 
 
@@ -149,6 +141,7 @@
 
                 </tr>
             </table>
+           </div>
         </div>
 
         <%            for (int i = 0; i < scenarioList.size(); i++) {
