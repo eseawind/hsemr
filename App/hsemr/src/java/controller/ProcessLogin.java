@@ -71,7 +71,7 @@ public class ProcessLogin extends HttpServlet {
                 // If password matches the one in DB
                 if (correctPassword.equals(password)) {
                     session.setAttribute("admin", userid);
-                    response.sendRedirect("viewAdminHomePage.jsp");
+                    response.sendRedirect("viewScenarioAdmin.jsp");
                 } else {
                     request.setAttribute("error", "Invalid userid/password");
                     RequestDispatcher rd = request.getRequestDispatcher("viewMainLogin.jsp");
@@ -92,7 +92,7 @@ public class ProcessLogin extends HttpServlet {
                 // If password matches the one in DB
                 if (correctPassword.equals(password)) {
                     session.setAttribute("lecturer", userid);
-                    response.sendRedirect("viewLecturerHomePage.jsp");
+                    response.sendRedirect("viewScenarioLecturer.jsp");
                 } else {
                     request.setAttribute("error", "Invalid userid/password");
                     RequestDispatcher rd = request.getRequestDispatcher("viewMainLogin.jsp");
