@@ -1083,6 +1083,36 @@ select {
         position: relative;
         right: 91.66667%;
         left: auto; } }
+case, .case {
+    border-style: solid;
+    border-width: 0px;
+    cursor: pointer;
+    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    line-height: normal;
+    margin: 0 0 1.25rem;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    display: inline-block;
+    padding-top: 1rem;
+    padding-right: 2rem;
+    padding-bottom: 1rem;
+    padding-left: 2rem;
+    font-size: 4rem;
+    background-color: #800040;
+    border-color: #007E00;
+    color: white;
+    border-radius: 15px;
+    transition: background-color 300ms ease-out; }
+case:hover, case:focus, .case:hover, .case:focus {
+    background-color: #4d0027; }
+case:hover, case:focus, .case:hover, .case:focus {
+    color: white; }
+case.off, .case.off {
+    background-color: #4d0027; }
 button, .button {
     border-style: solid;
     border-width: 0px;
@@ -1298,7 +1328,7 @@ meta.foundation-mq-topbar {
 .top-bar .name h1 {
     line-height: 55px;
     font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-size: 1.0000rem;
+    font-size: 1.2000rem;
     margin: 0; }
 .top-bar .name h1 a {
     font-weight: normal;
@@ -1378,7 +1408,7 @@ meta.foundation-mq-topbar {
     padding: 12px 0 12px 0;
     padding-left: 15px;
     font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-size: 0.90000rem;
+    font-size: 0.98000rem;
     font-weight: normal;
     text-transform: none; }
 .top-bar-section ul li > a.button {
@@ -1585,7 +1615,7 @@ meta.foundation-mq-topbar {
         background: #333333; }
     .top-bar-section li:not(.has-form) a:not(.button):hover {
         background-color: #555555;
-        background: #333333; }
+        background: #404040; }
     .top-bar-section li.active:not(.has-form) a:not(.button) {
         padding: 0 15px;
         line-height: 55px;
@@ -1643,11 +1673,11 @@ meta.foundation-mq-topbar {
         background: #404040; }
     .top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button) {
         color: white;
-        background: #404040; }
+        background: #333333; }
     .top-bar-section .dropdown li:not(.has-form):not(.active):hover > a:not(.button) {
         color: white;
         background-color: #555555;
-        background: #333333; }
+        background: #404040; }
     .top-bar-section .dropdown li label {
         white-space: nowrap;
         background: #333333; }
@@ -1749,7 +1779,7 @@ meta.foundation-mq-topbar {
     margin-bottom: 1.25rem;
     position: relative;
     padding: 0.875rem 1.5rem 0.875rem 0.875rem;
-    font-size: 0.8125rem;
+    font-size: 0.9800rem;
     transition: opacity 300ms ease-out;
     background-color: #008cba;
     border-color: #0078a0;
@@ -1762,7 +1792,7 @@ meta.foundation-mq-topbar {
     top: 50%;
     margin-top: -0.6875rem;
     right: 0.25rem;
-    color: #333333;
+    color: #ffffff;
     opacity: 0.3; }
 .alert-box .close:hover, .alert-box .close:focus {
     opacity: 0.5; }
@@ -1771,11 +1801,11 @@ meta.foundation-mq-topbar {
 .alert-box.round {
     border-radius: 1000px; }
 .alert-box.success {
-    background-color: #43ac6a;
+    background-color: #28653f;
     border-color: #3a945b;
     color: white; }
 .alert-box.alert {
-    background-color: #f04124;
+    background-color: #d22a0e;
     border-color: #de2d0f;
     color: white; }
 .alert-box.secondary {
@@ -2912,7 +2942,6 @@ blockquote p {
 .tabs {
     margin-bottom: 0 !important;
     margin-left: 0; 
-    background: white;
 }
 .tabs:before, .tabs:after {
     content: " ";
@@ -2924,18 +2953,16 @@ blockquote p {
     position: relative;
     margin-bottom: 0 !important;
     list-style: none;
-    float: left; 
-    border: #cccccc solid 1px;
-    border-bottom: none;}
+    float: left; }
 .tabs dd > a, .tabs .tab-title > a {
     display: block;
-    background: white;
-    color: #222222;
+    background: #333333;
+    color: white;
     padding: 1rem 1rem;
     font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-size: 0.9rem; }
+    font-size: 0.92rem; }
 .tabs dd > a:hover, .tabs .tab-title > a:hover {
-    background: #e1e1e1; }
+    background: #555555; }
 .tabs dd.active a, .tabs .tab-title.active a {
     background: white;
     color: #222222; 
@@ -2973,7 +3000,7 @@ blockquote p {
 .tabs-content > .content.active {
     display: block;
     float: none; 
-    border: #000 #cccccc 1px;}
+    border: #000 #cccccc 1px;}s
 .tabs-content > .content.contained {
     padding: 0.9375rem; }
 .tabs-content.vertical {
