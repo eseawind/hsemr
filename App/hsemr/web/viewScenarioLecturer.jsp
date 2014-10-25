@@ -13,6 +13,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>NP Health Sciences | View Scenario</title>
+         <!-- LECTURER TOP BAR-->
+        <%@include file="/topbar/topbarLecturer.jsp" %>
         <link rel="stylesheet" href="css/foundation.css" />
         <script src="js/vendor/modernizr.js"></script>
         <script type="text/javascript">
@@ -76,8 +78,7 @@
 
 
             <%
-
-                String imgName = "";
+                int caseNo = 0;
                 String scenarioID = "";
 
                 List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
@@ -122,21 +123,15 @@
 
                                 scenarioID = scenario.getScenarioID();
                                 counter++;
-                                imgName = "img/0" + counter + ".jpg";
-
+                                caseNo = counter; 
                         %>
                         <a href="#" data-reveal-id="<%=scenarioID%>">
 
-                            <% if (scenario.getScenarioStatus() == 1) {%>
-                            <img class="opaque" src="<%=imgName%>" style="float:left; padding-right:5px;"/></a>           
+                        <% if (scenario.getScenarioStatus() == 1) {%>
+                             <input type="submit" class="case" value="<%=counter%>">
 
                         <% } else {%>
-
-                        <div id="color">
-                            <div id="opacity">
-                                <img class="opaque" src="<%=imgName%>" style="float:left; padding-right:5px;"/><a>
-                            </div>
-                        </div>
+                             <input type="submit" class="case off" value="<%=counter%>">
 
                         <%
                                 }
