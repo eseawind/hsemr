@@ -106,12 +106,12 @@
         <div align ="center">
             <div class="large-centered large-10 columns">                  
                 <div class="panel" style="background-color: white">
-                    <h4>Patient's Information</h4><br/>
-                    <span class="label">Name</span> <%=fullName%>&nbsp;
-                    <span class="label">NRIC</span> <%=patientNRIC%>&nbsp;
-                    <span class="label">DOB</span> <%=dob%>&nbsp;
-                    <span class="label">Gender</span> <%=gender%>&nbsp;
-                    <span class="label">Allergy</span> <%=allergy%>&nbsp;
+                    <h3>Patient's Information</h3><br/>
+                    <h4><font color="#666666">Name: </font><%=fullName%>&nbsp;&nbsp;
+                    <font color="#666666">NRIC: </font><%=patientNRIC%>&nbsp;&nbsp;
+                    <font color="#666666">DOB: </font><%=dob%>&nbsp;&nbsp;
+                    <font color="#666666">Gender: </font><%=gender%>&nbsp;&nbsp;
+                    <font color="#666666">Allergy: </font><%=allergy%>&nbsp;</h4>
                 </div></div>
                 
                 
@@ -295,7 +295,8 @@
                         
                         %>
                          <form data-abide action="ProcessAddVital" method="POST">
-                                <table>
+                                <table width="1000px">
+                                    <br/>
                                     <th>Vital Signs/Input/Output</th>
                                     <th>Current as of <%=currentDateFormatted%></th>
                                     <tr><td><b>Temperature</b><img src="img/Historial.jpg"></td>
