@@ -19,7 +19,7 @@
         <title>NP Health Sciences | Hospital Ward Management System</title>
     </head>
     <!--<body style="background-image:url(img/Rate.png)">-->
-    <body>
+    <body style="background-color: #ffffff">
         <div class="row" style="padding-top: 10px;">
             <div class="large-centered large-5 columns" style = "padding-top:30px;">
                 <img src="img/Home.png" width="1388" height="586" alt="Home"/>
