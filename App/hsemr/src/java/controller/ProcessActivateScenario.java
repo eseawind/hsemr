@@ -50,7 +50,7 @@ public class ProcessActivateScenario extends HttpServlet {
             if (status.equals("deactivated")) {
                 ScenarioDAO.updateScenarioStatus(scenarioID, 0);
                 request.setAttribute("successMessageDeactivateCase", "You have successfully deactivated the case \"" + scenarioID + "\" !");
-                RequestDispatcher rd = request.getRequestDispatcher("/viewLecturerHomePage.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
                 rd.forward(request, response);
             } else {
                 Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
@@ -61,7 +61,7 @@ public class ProcessActivateScenario extends HttpServlet {
                 }
                 ScenarioDAO.updateScenarioStatus(scenarioID, 1);
                 request.setAttribute("successMessageActivateCase", "You have successfully activated the case \"" + scenarioID + "\" !");
-                RequestDispatcher rd = request.getRequestDispatcher("/viewLecturerHomePage.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
                 rd.forward(request, response);
             }
 
