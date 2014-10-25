@@ -303,7 +303,7 @@
                                         <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
                                                 <!--validates for 1 decimal place-->
-                                                <input type="text" name ="temperature" maxlength="4" pattern ="[0-9]+(\.[0-9][0-9]?)?" />
+                                                <input type="text" name ="temperature" maxlength="4" pattern ="[0-9]+(\.[0-9][0-9]?)?" required/>
                                                 <small class="error">Must be numeric, cannot contain alphabets. E.g: 37.3 or 37</small>
                                               </div>
                                               <label for="right-label" class="left inline">ºC</label>
@@ -313,7 +313,7 @@
                                     <tr><td><b>Respiratory Rate<img src="img/Historial.jpg"></b></td>
                                         <td><div class="row">
                                                 <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="RR" maxlength="2" pattern ="integer"/>
+                                                    <input type="text" name ="RR" maxlength="2" pattern ="integer" required/>
                                                     <small class="error">RR must be 2 digits.</small>
                                                 </div>
                                          
@@ -326,7 +326,7 @@
                                         <td><div class="row">
                                                 <div class="small-4 columns" style="width:200px">
                                                     <!--validates between 0 - 200-->
-                                                    <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$"/>
+                                                    <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$" required/>
                                                     <small class="error">HR must be between 0 - 200.</small>
                                                 </div>
                                                     <label for="right-label" class="left inline">beats/min</label>
@@ -337,7 +337,7 @@
                                         <td><div class="row">
                                                 <div class="small-4 columns" style="width:200px">
                                                     <!--<input type="text" name ="BPsystolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
-                                                    <input type="text" name ="BPsystolic" maxlength = "3" pattern = "integer"/>
+                                                    <input type="text" name ="BPsystolic" maxlength = "3" pattern = "integer" required/>
                                                     <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
                                                 </div>
                                                
@@ -347,7 +347,7 @@
                                             <div class="row">
                                                 <div class="small-4 columns" style="width:200px">
                                                     <!--<input type="text" name ="BPdiastolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
-                                                    <input type="text" name ="BPdiastolic" maxlength = "3" pattern = "integer"/>
+                                                    <input type="text" name ="BPdiastolic" maxlength = "3" pattern = "integer" required/>
                                                     <div class ="input wrapper">
                                                         <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
                                                     </div>
@@ -361,7 +361,7 @@
                                 
                                         <td><div class="row">
                                                 <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="SPO" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$"/>
+                                                    <input type="text" name ="SPO" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$" required/>
                                                     <small class="error">SPO must be numeric and between 0 - 100%.</small>
                                                 </div>
                                                 
@@ -372,7 +372,7 @@
                                      
                                         <td><div class="row">
                                                 <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="oralType" value= " "/>
+                                                    <input type="text" name ="oralType" value= " " required/>
                                                 </div>
                                              
                                                     <label for="left-label" class="left inline">Type</label>
@@ -380,7 +380,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="oralAmount"  value= " "/>
+                                                    <input type="text" name ="oralAmount"  value= " " required/>
                                                 </div>
                                            
                                                     <label for="left-label" class="left inline">Amount</label>
@@ -392,7 +392,7 @@
                                      
                                         <td><div class="row">
                                                 <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="intravenousType" value= " "/>
+                                                    <input type="text" name ="intravenousType" value= " " required/>
                                                 </div>
                                              
                                                     <label for="left-label" class="left inline">Type</label>
@@ -400,7 +400,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="intravenousAmount"  value= " "/>
+                                                    <input type="text" name ="intravenousAmount"  value= " " required/>
                                                 </div>
                                            
                                                     <label for="left-label" class="left inline">Amount</label>
@@ -412,7 +412,7 @@
                                         
                                         <td><div class="row">
                                                 <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="output" style="width:170px" value= " "/>
+                                                    <input type="text" name ="output" style="width:170px" value= " " required/>
                                                 </div>
                                                     <label for="left-label" class="left inline"></label>
                                             </div>
@@ -450,11 +450,11 @@
                                             <input type ="hidden" name="scenarioID" value="<%=scenarioID%>"/>
 
                                             <input type ="text" id= "grpNames" name="grpNames" value="<% if (grpNames == null || grpNames =="") {
-                                                    out.print("");
+                                                    out.print(""); 
                                                 } else {
                                                     out.print(grpNames);
-                                                }%>" >
-                                            <textarea name="notes" id="notes" rows="7" cols="10" ><% if (notes == null || notes == "") {
+                                                }%>" required>
+                                            <textarea name="notes" id="notes" rows="7" cols="10" required ><% if (notes == null || notes == "") {
                                                     out.print("");
                                                 } else {
                                                     out.print(notes);
