@@ -87,10 +87,10 @@
             <%
                 }
             %>
+            <div class ="large-centered large-10 columns">
+                
             
-            <table>
-
-
+                
                 <%
                     int sizeOfList = scenarioList.size();
                     int numPerRow = 5;
@@ -99,17 +99,13 @@
 
                     for (int i = 0; i <= numOfRows; i++) {
                         // out.println(numOfRows);
-
-                %>
-                <tr>
-
+                    %>
 
                     <%                            Scenario scenario = null;
                         //out.println(counter + "counter");
                         for (int j = 0; j < numPerRow; j++) {
 
                     %>
-                    <td>                    
                         <%        if (sizeOfList > counter) {
                                 scenario = scenarioList.get(counter); //supposed to get Counter, but somehow arrayindexoutofbounds when i put counter.
 
@@ -117,19 +113,20 @@
                                 counter++;
                                 caseNo = counter; 
                         %>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
                         <a href="#" data-reveal-id="<%=scenarioID%>">
 
                         <% if (scenario.getScenarioStatus() == 1) {%>
-                             <input type="submit" class="case" value="<%=counter%>">
+                        <input type="submit" class="case" value="<%=counter%>">
 
                         <% } else {%>
                              <input type="submit" class="case off" value="<%=counter%>">
 
                         <%
                                 }
+                        %></a><%
                             }
                         %>
-                    </td>
                     <%
                         }
                     %>
@@ -139,9 +136,7 @@
                         }
                     %>
 
-                </tr>
-            </table>
-           </div>
+           </div>    
         </div>
 
         <%            for (int i = 0; i < scenarioList.size(); i++) {

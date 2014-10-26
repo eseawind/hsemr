@@ -1102,17 +1102,17 @@ case, .case {
     padding-bottom: 1rem;
     padding-left: 2rem;
     font-size: 4rem;
-    background-color: #800040;
+    background-color: #43AC66;
     border-color: #007E00;
     color: white;
     border-radius: 15px;
     transition: background-color 300ms ease-out; }
 case:hover, case:focus, .case:hover, .case:focus {
-    background-color: #4d0027; }
-case:hover, case:focus, .case:hover, .case:focus {
-    color: white; }
+    background-color: #DBDBDB; }
+case.off:hover, case.off:focus, .case.off:hover, .case.off:focus {
+    background-color: #43AC66; }
 case.off, .case.off {
-    background-color: #4d0027; }
+    background-color: #DBDBDB; }
 button, .button {
     border-style: solid;
     border-width: 0px;
@@ -1777,6 +1777,7 @@ meta.foundation-mq-topbar {
     display: block;
     font-weight: normal;
     margin-bottom: 1.25rem;
+    text-align: center;
     position: relative;
     padding: 0.875rem 1.5rem 0.875rem 0.875rem;
     font-size: 0.9800rem;
@@ -1801,7 +1802,7 @@ meta.foundation-mq-topbar {
 .alert-box.round {
     border-radius: 1000px; }
 .alert-box.success {
-    background-color: #28653f;
+    background-color: #336600;
     border-color: #3a945b;
     color: white; }
 .alert-box.alert {
@@ -1960,12 +1961,14 @@ meta.foundation-mq-topbar {
 
 /* Panels */
 .panel {
-    border-style: solid;
-    border-width: 1px;
+    
     border-color: #d8d8d8;
     margin-bottom: 1.25rem;
     padding: 1.25rem;
-    background: #f2f2f2; }
+    background: #f2f2f2; 
+    border-bottom: solid 2px #336600;
+    border-top: solid 2px #336600;
+}
 .panel > :first-child {
     margin-top: 0; }
 .panel > :last-child {
@@ -2953,19 +2956,25 @@ blockquote p {
     position: relative;
     margin-bottom: 0 !important;
     list-style: none;
-    float: left; }
+    float: left; 
+    width: 20%;
+    border-top: solid 1px #336600;
+     border-bottom: solid 2px #336600;
+      
+    
+}
 .tabs dd > a, .tabs .tab-title > a {
     display: block;
-    background: #333333;
-    color: white;
+    background: white;
+    color: #336600;
     padding: 1rem 1rem;
     font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     font-size: 0.92rem; }
 .tabs dd > a:hover, .tabs .tab-title > a:hover {
-    background: #555555; }
+    background: #F5FCED; }
 .tabs dd.active a, .tabs .tab-title.active a {
-    background: white;
-    color: #222222; 
+    background: #336600;
+    color: white; 
     border-bottom: none;
 }
 .tabs.radius dd:first-child a, .tabs.radius .tab:first-child a {
@@ -2983,9 +2992,9 @@ blockquote p {
 .tabs-content {
     margin-bottom: 0rem;
     width: 100%; 
-    border: solid #CCC 1px;
     background-color: white;
-}
+    border-bottom: solid 2px #336600;}
+
 
 .tabs-content:before, .tabs-content:after {
     content: " ";
@@ -2996,11 +3005,12 @@ blockquote p {
     display: none;
     float: left;
     padding: 0.9375rem 0;
-    width: 100%; }
+    width: 100%; 
+}
 .tabs-content > .content.active {
     display: block;
     float: none; 
-    border: #000 #cccccc 1px;}s
+   }
 .tabs-content > .content.contained {
     padding: 0.9375rem; }
 .tabs-content.vertical {

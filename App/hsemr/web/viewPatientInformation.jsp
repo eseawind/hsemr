@@ -105,13 +105,13 @@
         <br>
         <div align ="center">
             <div class="large-centered large-10 columns">                  
-                <div class="panel" style="background-color: white">
-                    <h3>Patient's Information</h3><br/>
-                    <h4><font color="#666666">Name: </font><%=fullName%>&nbsp;&nbsp;
-                    <font color="#666666">NRIC: </font><%=patientNRIC%>&nbsp;&nbsp;
-                    <font color="#666666">DOB: </font><%=dob%>&nbsp;&nbsp;
-                    <font color="#666666">Gender: </font><%=gender%>&nbsp;&nbsp;
-                    <font color="#666666">Allergy: </font><%=allergy%>&nbsp;</h4>
+                <div class="panel" style="background-color: #FFFFFF">
+                    <h3><b>Patient's Information</b></h3><br/>
+                    <font size='3'><b>Name: <font color="#666666"><%=fullName%></font></b>&nbsp;&nbsp;
+                    <b>NRIC: <font color="#666666"><%=patientNRIC%></font></b>&nbsp;&nbsp;
+                    <b>DOB: <font color="#666666"><%=dob%></font></b>&nbsp;&nbsp;
+                    <b>Gender: <font color="#666666"><%=gender%></font></b>&nbsp;&nbsp;
+                    <b>Allergy: <font color="#666666"><%=allergy%></font></b>&nbsp;</font>
                 </div></div>
                 
                 
@@ -295,9 +295,12 @@
                         
                         %>
                          <form data-abide action="ProcessAddVital" method="POST">
-                                <table width="1000px">
+                                <table width='65%'>
                                     <br/>
-                                    <th>Vital Signs/Input/Output</th>
+                                    <col width="35%">  
+                                    <col width="65%">  
+                                  <!--  <th>Vital Signs/Input/Output</th> -->
+                                  <th></th>
                                     <th>Current as of <%=currentDateFormatted%></th>
                                     <tr><td><b>Temperature</b><img src="img/Historial.jpg"></td>
                                         <td><div class="row">
