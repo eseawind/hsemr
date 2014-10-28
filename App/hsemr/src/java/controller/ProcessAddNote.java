@@ -58,7 +58,16 @@ public class ProcessAddNote extends HttpServlet {
                     session.setAttribute("active", "multidisciplinary");
                     session.setAttribute("error", "Please filled in both fields before submitting.");
                     response.sendRedirect("./viewPatientInformation.jsp");
-                }else {
+                }else if(notes.trim().equals("")){
+                    session.setAttribute("active", "multidisciplinary");
+                    session.setAttribute("error", "Please filled in Multidisciplinary Notes before submitting.");
+                    response.sendRedirect("./viewPatientInformation.jsp");
+                 
+                }else if(grpNames.trim().equals("") ) {
+                    session.setAttribute("active", "multidisciplinary");
+                    session.setAttribute("error", "Please filled in Group Names before submitting.");
+                    response.sendRedirect("./viewPatientInformation.jsp");
+                }else{
                     NoteDAO.insertNote(notes, grpNames, dateTime , practicalGrpLoggedIn, scenarioID );
                     session.setAttribute("active", "multidisciplinary");
                     session.setAttribute("success", "You have successfully submitted the multidisciplinary notes!");
@@ -70,16 +79,20 @@ public class ProcessAddNote extends HttpServlet {
                 String notes = (String) request.getParameter("notes");
                 String grpNames = (String) request.getParameter("grpNames");
 
-                request.setAttribute("notes", notes);
-                request.setAttribute("grpNames", grpNames);
+                //request.setAttribute("notes", notes);
+                //request.setAttribute("grpNames", grpNames);
                 
                 HttpSession session = request.getSession(false);
+                
+                session.setAttribute("notes", notes);
+                session.setAttribute("grpNames", grpNames);
+                
                 session.setAttribute("active", "multidisciplinary");
                 session.setAttribute("success", "You have successfully saved the multidisciplinary notes!");
-                
+                 response.sendRedirect("./viewPatientInformation.jsp");
                 //MUST BE Request dispatcher if not saved won't work
-                RequestDispatcher rd = request.getRequestDispatcher("/viewPatientInformation.jsp");
-                rd.forward(request, response); 
+               // RequestDispatcher rd = request.getRequestDispatcher("/viewPatientInformation.jsp");
+               // rd.forward(request, response); 
                
             }
 

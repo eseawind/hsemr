@@ -438,8 +438,8 @@
                         
                          <form action="ProcessAddNote" method="POST">
                             <%
-                                String grpNames = (String) request.getAttribute("grpNames");
-                                String notes = (String) request.getAttribute("notes");
+                                String grpNames = (String) session.getAttribute("grpNames");
+                                String notes = (String) session.getAttribute("notes");
                                    
                             %> 
                              <div class="small-8">
