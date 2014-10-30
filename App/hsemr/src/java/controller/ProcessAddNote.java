@@ -60,15 +60,23 @@ public class ProcessAddNote extends HttpServlet {
                     response.sendRedirect("./viewPatientInformation.jsp");
                 }else if(notes.trim().equals("")){
                     session.setAttribute("active", "multidisciplinary");
+                    session.setAttribute("grpNames", grpNames);
+                    session.removeAttribute("notes");
+                   
                     session.setAttribute("error", "Please filled in Multidisciplinary Notes before submitting.");
                     response.sendRedirect("./viewPatientInformation.jsp");
                  
                 }else if(grpNames.trim().equals("") ) {
                     session.setAttribute("active", "multidisciplinary");
+                    session.setAttribute("notes", notes);
+                    session.removeAttribute("grpNames");
+                    
                     session.setAttribute("error", "Please filled in Group Names before submitting.");
                     response.sendRedirect("./viewPatientInformation.jsp");
                 }else{
                     NoteDAO.insertNote(notes, grpNames, dateTime , practicalGrpLoggedIn, scenarioID );
+                    session.removeAttribute("grpNames");
+                    session.removeAttribute("notes");
                     session.setAttribute("active", "multidisciplinary");
                     session.setAttribute("success", "You have successfully submitted the multidisciplinary notes!");
                     response.sendRedirect("./viewPatientInformation.jsp");
