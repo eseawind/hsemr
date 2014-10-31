@@ -9,7 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+        
+        <!--FONT-->
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
+        
         <!--ICON-->
         <link rel="stylesheet" type="text/css" href="css/foundation-icons/foundation-icons.css">
         <link rel="stylesheet" type="text/css" href="css/foundation-icons/foundation-icons.svg">
