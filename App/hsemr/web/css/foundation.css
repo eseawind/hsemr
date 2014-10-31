@@ -36,15 +36,15 @@ html, body {
 
 html,
 body {
-    font-size: 100%; }
+    font-size: 90%; }
 
 body {
     background: #fcfcfc;
     color: #222222;
     padding: 0;
     margin: 0;
-    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-weight: normal;
+    font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-weight: 300;
     font-style: normal;
     line-height: 1;
     position: relative;
@@ -1102,22 +1102,22 @@ case, .case {
     padding-bottom: 1rem;
     padding-left: 2rem;
     font-size: 4rem;
-    background-color: #43AC66;
-    border-color: #007E00;
+    background-color: #34893E;
+    border-color: #34893E;
     color: white;
     border-radius: 15px;
     transition: background-color 300ms ease-out; }
 case:hover, case:focus, .case:hover, .case:focus {
-    background-color: #DBDBDB; }
+    background-color: #34893E; }
 case.off:hover, case.off:focus, .case.off:hover, .case.off:focus {
-    background-color: #43AC66; }
+    background-color: #34893E; }
 case.off, .case.off {
     background-color: #DBDBDB; }
 button, .button {
     border-style: solid;
     border-width: 0px;
     cursor: pointer;
-    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     font-weight: normal;
     line-height: normal;
     margin: 0 0 1.25rem;
@@ -1131,13 +1131,13 @@ button, .button {
     padding-right: 2rem;
     padding-bottom: 1.0625rem;
     padding-left: 2rem;
-    font-size: 1rem;
-    background-color: #007E00;
+    font-size: 1.2rem;
+    background-color: #34893E;
     border-color: #006400;
     color: white;
     transition: background-color 300ms ease-out; }
 button:hover, button:focus, .button:hover, .button:focus {
-    background-color: #006400; }
+    background-color: #296d31; }
 button:hover, button:focus, .button:hover, .button:focus {
     color: white; }
 button.secondary, .button.secondary {
@@ -1298,7 +1298,7 @@ meta.foundation-mq-topbar {
     height: 55px;
     line-height: 55px;
     position: relative;
-    background: #333333;
+    background: white;
     margin-bottom: 0; }
 .top-bar ul {
     margin-bottom: 0;
@@ -1326,13 +1326,14 @@ meta.foundation-mq-topbar {
     margin: 0;
     font-size: 16px; }
 .top-bar .name h1 {
-    line-height: 55px;
-    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-size: 1.2000rem;
+    border-right: solid 1px #34893E;
+    line-height: 53px;
+    font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-size: 1.5000rem;
     margin: 0; }
 .top-bar .name h1 a {
     font-weight: normal;
-    color: white;
+    color: #34893E;
     width: 75%;
     display: block;
     padding: 0 15px; }
@@ -1407,8 +1408,8 @@ meta.foundation-mq-topbar {
     color: white;
     padding: 12px 0 12px 0;
     padding-left: 15px;
-    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-size: 0.98000rem;
+    font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-size: 0.92000rem;
     font-weight: normal;
     text-transform: none; }
 .top-bar-section ul li > a.button {
@@ -1482,9 +1483,9 @@ meta.foundation-mq-topbar {
 .top-bar-section ul li > button.alert:hover, .top-bar-section ul li > button.alert:focus {
     color: white; }
 .top-bar-section ul li:hover:not(.has-form) > a {
-    background-color: #555555;
-    background: #333333;
-    color: white; }
+    background: white;
+    border-bottom: solid 1px #34893E;
+    color: black; }
 .top-bar-section ul li.active > a {
     background: #333333;
     color: white; }
@@ -1567,7 +1568,10 @@ meta.foundation-mq-topbar {
 
 @media only screen and (min-width: 40.063em) {
     .top-bar {
-        background: #333333;
+        background: white;
+        border-left: solid 1px #34893E;
+        border-top: solid 1px #34893E;
+        border-bottom: solid 1px #34893E;
         overflow: visible; }
     .top-bar:before, .top-bar:after {
         content: " ";
@@ -1610,12 +1614,15 @@ meta.foundation-mq-topbar {
         background: #333333;
         color: white; }
     .top-bar-section li:not(.has-form) a:not(.button) {
+        color: black;
         padding: 0 15px;
-        line-height: 55px;
-        background: #333333; }
+        line-height: 53px;
+        border-right: solid 1px #34893E;
+        background: white; }
     .top-bar-section li:not(.has-form) a:not(.button):hover {
+        color: black;
         background-color: #555555;
-        background: #404040; }
+        background: white; }
     .top-bar-section li.active:not(.has-form) a:not(.button) {
         padding: 0 15px;
         line-height: 55px;
@@ -1672,12 +1679,14 @@ meta.foundation-mq-topbar {
         padding: 12px 15px;
         background: #404040; }
     .top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button) {
-        color: white;
-        background: #333333; }
+        color: black;
+        border-left: solid 1px #34893E;
+        border-bottom: solid 1px #34893E;
+        background: white; }
     .top-bar-section .dropdown li:not(.has-form):not(.active):hover > a:not(.button) {
-        color: white;
+        color: black;
         background-color: #555555;
-        background: #404040; }
+        background: #99c49e; }
     .top-bar-section .dropdown li label {
         white-space: nowrap;
         background: #333333; }
@@ -1685,9 +1694,6 @@ meta.foundation-mq-topbar {
         left: 100%;
         top: 0; }
     .top-bar-section > ul > .divider, .top-bar-section > ul > [role="separator"] {
-        border-bottom: none;
-        border-top: none;
-        border-right: solid 1px #4e4e4e;
         clear: none;
         height: 55px;
         width: 0; }
@@ -1802,8 +1808,8 @@ meta.foundation-mq-topbar {
 .alert-box.round {
     border-radius: 1000px; }
 .alert-box.success {
-    background-color: #336600;
-    border-color: #3a945b;
+    background-color: #34893E;
+    border-color: #34893E;
     color: white; }
 .alert-box.alert {
     background-color: #d22a0e;
@@ -1960,14 +1966,32 @@ meta.foundation-mq-topbar {
     overflow: hidden; }
 
 /* Panels */
-.panel {
+.panelHome {
     
     border-color: #d8d8d8;
     margin-bottom: 1.25rem;
-    padding: 1.25rem;
-    background: #f2f2f2; 
-    border-bottom: solid 2px #336600;
-    border-top: solid 2px #336600;
+    padding: 1.25rem; 
+    background: #f2f2f2;
+    /*border: 10px linear-gradient(180deg, white, #EAF3EB);*/
+    border: 5px solid #34893E;
+    -moz-border-bottom-colors: #1f5225 #1f5225 #2e7b37 #34893E #489451;
+    -moz-border-top-colors: #1f5225 #1f5225 #2e7b37 #34893E #489451;
+    -moz-border-left-colors: #1f5225 #1f5225 #2e7b37 #34893E #489451;
+    -moz-border-right-colors: #1f5225 #1f5225 #2e7b37 #34893E #489451;
+    padding: 10px 35px 10px 35px;
+    
+}
+.panelHome > :first-child {
+    margin-top: 0; }
+.panelHome > :last-child {
+    margin-bottom: 0; }
+
+.panel {
+    border-color: #d8d8d8;
+    margin-bottom: 1.25rem;
+    padding: 1.25rem; 
+    background: #f2f2f2;
+    border: 1px solid #34893E;
 }
 .panel > :first-child {
     margin-top: 0; }
@@ -2958,22 +2982,21 @@ blockquote p {
     list-style: none;
     float: left; 
     width: 20%;
-    border-top: solid 1px #336600;
-     border-bottom: solid 2px #336600;
-      
-    
+    border-left: solid 1px #34893E;
+    border-top: solid 1px #34893E;
+    border-bottom: solid 1px #34893E;
 }
 .tabs dd > a, .tabs .tab-title > a {
     display: block;
     background: white;
-    color: #336600;
+    color: black;
     padding: 1rem 1rem;
-    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     font-size: 0.92rem; }
 .tabs dd > a:hover, .tabs .tab-title > a:hover {
     background: #F5FCED; }
 .tabs dd.active a, .tabs .tab-title.active a {
-    background: #336600;
+    background: #34893E;
     color: white; 
     border-bottom: none;
 }
@@ -2993,8 +3016,10 @@ blockquote p {
     margin-bottom: 0rem;
     width: 100%; 
     background-color: white;
-    border-bottom: solid 2px #336600;}
-
+    border-bottom: solid 1px #34893E;
+    border-left: solid 1px #34893E;
+    border-right: solid 1px #34893E;
+}
 
 .tabs-content:before, .tabs-content:after {
     content: " ";
@@ -3004,7 +3029,7 @@ blockquote p {
 .tabs-content > .content {
     display: none;
     float: left;
-    padding: 0.9375rem 0;
+    padding: 1.9375rem 0;
     width: 100%; 
 }
 .tabs-content > .content.active {
@@ -4296,7 +4321,7 @@ ul.off-canvas-list li a:hover {
 table {
     background: white;
     margin-bottom: 1.25rem;
-    border: solid 1px black; }
+    border: solid 1px #34893E; }
 table caption {
     background: transparent;
     color: #222222;
