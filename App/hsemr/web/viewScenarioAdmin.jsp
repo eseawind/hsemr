@@ -56,18 +56,17 @@
         <title>NP Health Sciences | Case Management</title>
     </head>
 
-    <body style="font-size:14px; line-height:30px;">
+    <body style="font-size:14px; line-height:20px;">
+        
         <br/>
-    <center><h3>Case Management</h3></center>
-    <center>
-
+    <center><h3>Case Management</h3>
+  
+    <div class="large-12 columns" style="padding-top: 20px;">
         <%            //Retrieve all the successful messages 
             String successMessageCreateScenario = (String) session.getAttribute("successMessageCreateScenario");
             String successMessageEditScenario = (String) session.getAttribute("successMessageEditScenario");
             String successMessageDeleteScenario = (String) session.getAttribute("successMessageDeleteScenario");
         %>
-
-        <div class ="large-11">
             <%if (successMessageCreateScenario != null) {%>
             <div data-alert class="alert-box success radius">
                 <%=successMessageCreateScenario%>
@@ -93,6 +92,7 @@
                 session.removeAttribute("successMessageDeleteScenario"); %>
 
             <%List<Scenario> scenarioList = ScenarioDAO.retrieveAll();%>
+         
             <table border="1" style="border-collapse: collapse;">
                 <thead>
                     <tr>
@@ -160,10 +160,10 @@
                         </td>
                     </tr>
                 </tbody>
-                <%}%>
-            </table>
-    </center>
-
+                <%}%>  
+            </table> 
+        </div>
+               </center>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
 

@@ -20,7 +20,7 @@
 
 <html>
     <head>
-<meta charset="utf-8" />
+        <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/foundation.css" />
         <script src="js/vendor/modernizr.js"></script>
@@ -28,62 +28,54 @@
         <%@include file="/topbar/topbar.jsp" %> 
     </head>
     <body>
-        
-      
-        
-        <%            
-        String active = active = (String) session.getAttribute("active");
-
-            //retrieve all successfulmessages
-           
-
-            //retrieve patient's information
-            String patientNRIC = "";
-            Patient retrievePatient = PatientDAO.retrieve(patientNRIC);
-            
-            State retrieveScenarioState = null;
-
-            //retrieve current scenario
-            Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
-           
-            if (scenarioActivated == null) {
-                %> 
-                <div align ="center">
+        <div align ="center">
             <div class="large-centered large-10 columns">
+                <%            String active = active = (String) session.getAttribute("active");
+
+                    //retrieve all successfulmessages
+                    //retrieve patient's information
+                    String patientNRIC = "";
+                    Patient retrievePatient = PatientDAO.retrieve(patientNRIC);
+
+                    State retrieveScenarioState = null;
+
+                    //retrieve current scenario
+                    Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
+
+                    if (scenarioActivated == null) {
+                %> 
+
                 <p><h1>No Case Activated</h1></p>
-                    Please contact administrator/lecturer for case activation.
-            </div>
-            
-                    <%
-            } else {
-                
-                
-                //get the most recently activated scenario's state
-                retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
-                
-                patientNRIC = retrieveScenarioState.getPatientNRIC();
-                retrievePatient = PatientDAO.retrieve(patientNRIC);
-           
-            //retrieve case's information
-            String admissionNotes = scenarioActivated.getAdmissionNote();
+                Please contact administrator/lecturer for case activation.
 
-            //retrieve note's information
-            //List<Note> notesListRetrieved = NoteDAO.retrieveAll();
-            //retrieve patient's information
-            String firstName = retrievePatient.getFirstName();
-            String lastName = retrievePatient.getLastName();
-            String fullName = firstName + " " + lastName;
-            String dob = retrievePatient.getDob();
-            String gender = retrievePatient.getGender();
-            String allergy = PatientDAO.retrieveAllergy(patientNRIC);
-            
-            if(allergy == null){
-                allergy = "none";
-            }
-            
+                <%
+                } else {
+
+                    //get the most recently activated scenario's state
+                    retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
+
+                    patientNRIC = retrieveScenarioState.getPatientNRIC();
+                    retrievePatient = PatientDAO.retrieve(patientNRIC);
+
+                    //retrieve case's information
+                    String admissionNotes = scenarioActivated.getAdmissionNote();
+
+        //retrieve note's information
+                    //List<Note> notesListRetrieved = NoteDAO.retrieveAll();
+                    //retrieve patient's information
+                    String firstName = retrievePatient.getFirstName();
+                    String lastName = retrievePatient.getLastName();
+                    String fullName = firstName + " " + lastName;
+                    String dob = retrievePatient.getDob();
+                    String gender = retrievePatient.getGender();
+                    String allergy = PatientDAO.retrieveAllergy(patientNRIC);
+
+                    if (allergy == null) {
+                        allergy = "none";
+                    }
+
 //            Vital vital = VitalDAO.retrieveByDatetime(patientNRIC,"2014-10-11 15:00:00");
-
-            //retrieve state's information
+        //retrieve state's information
 //             double temperature = vital.getTemperature();
 //             int rr = vital.getRr();
 //             int bpSystolic = vital.getBpSystolic();
@@ -95,16 +87,11 @@
 //            String oralAmount = vital.getOralAmount();
 //            String intravenousType = vital.getIntravenousType();
 //            String intravenousAmoun = vital.getIntravenousAmount();
+                    String stateID = retrieveScenarioState.getStateID();
+                    String scenarioID = scenarioActivated.getScenarioID();
 
-             
-           
-            String stateID = retrieveScenarioState.getStateID();
-            String scenarioID = scenarioActivated.getScenarioID();
-
-        %>
-        <br>
-        <div align ="center">
-            <div class="large-centered large-10 columns">                  
+                %>
+                <br>               
                 <div class="panel" style="background-color: #FFFFFF">
                     <h3><b>Patient's Information</b></h3><br/>
                     <font size='3'><b>Name: <font color="#666666"><%=fullName%></font></b>&nbsp;&nbsp;
@@ -113,30 +100,27 @@
                     <b>Gender: <font color="#666666"><%=gender%></font></b>&nbsp;&nbsp;
                     <b>Allergy: <font color="#666666"><%=allergy%></font></b>&nbsp;</font>
                 </div></div>
-                
-                
-            <div class ="large-centered large-10 columns">
-                        <%if (session.getAttribute("success") != null) {%>
-                        <div data-alert class="alert-box success radius">
-                           <%=session.getAttribute("success")%>
-                            <a href="#" class="close">&times;</a>
-                        </div>
-                        <%
-                            session.setAttribute("success",null);                        
-                            }
-                        %>
-                        
-                        <%if (session.getAttribute("error") != null) {%>
-                        <div data-alert class="alert-box alert radius">
-                           <%=session.getAttribute("error")%>
-                            <a href="#" class="close">&times;</a>
-                        </div>
-                        <%
-                            session.setAttribute("error",null);                        
-                            }
-                        %>
-                            
+
+
+            <%if (session.getAttribute("success") != null) {%>
+            <div data-alert class="alert-box success radius">
+                <%=session.getAttribute("success")%>
+                <a href="#" class="close">&times;</a>
             </div>
+            <%
+                    session.setAttribute("success", null);
+                }
+            %>
+
+            <%if (session.getAttribute("error") != null) {%>
+            <div data-alert class="alert-box alert radius">
+                <%=session.getAttribute("error")%>
+                <a href="#" class="close">&times;</a>
+            </div>
+            <%
+                    session.setAttribute("error", null);
+                }
+            %>
 
             <div class="large-centered large-10 columns">
                 <div class="tabs-content">
@@ -184,90 +168,90 @@
                         } %>" id="reports">
 
                         <h4>Doctor's Order</h4>
-                        
-                   <% 
+
+                        <%
                             List<Report> stateReports = ReportDAO.retrieveReportsByState(scenarioID, stateID);
-                            if(stateReports != null && stateReports.size() != 0) {
-                                %>
-                                
-                                <table>
-                                    <tr>
-                                        <td><b>Reports Ordered</b></td>
-                                        <td><b>Last Updated</b></td>
-                                        <td><b>Action</b></td>
-                                        <td><b>Report Results</b></td>
-                                    </tr>
-                                    
-                                <%
-                                // Create an instance of SimpleDateFormat used for formatting 
+                            if (stateReports != null && stateReports.size() != 0) {
+                        %>
+
+                        <table>
+                            <tr>
+                                <td><b>Reports Ordered</b></td>
+                                <td><b>Last Updated</b></td>
+                                <td><b>Action</b></td>
+                                <td><b>Report Results</b></td>
+                            </tr>
+
+                            <%
+                            // Create an instance of SimpleDateFormat used for formatting 
                                 // the string representation of date (month/day/year)
                                 DateFormat df = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
- 
-                                for(Report report : stateReports) {
+
+                                for (Report report : stateReports) {
                                     String reportName = report.getReportName();
                                     String reportFile = report.getReportFile();
-                                    
+
                                     String reportDatetime = df.format(report.getReportDatetime());
                                     int dispatchStatus = report.getDispatchStatus();
-                                    
+
                                     String reportResults = "";
-                                    
+
                                     if (dispatchStatus == 1) {
-                                       
+
                                         reportResults = "reports/" + reportFile;
                                     }
-                                    
-                                    
-                                    %> 
-                                    <tr>
-                                        <td><%=reportName%></td>
-                                        <td><%=reportDatetime%></td>
-                                        <td><%
+
+
+                            %> 
+                            <tr>
+                                <td><%=reportName%></td>
+                                <td><%=reportDatetime%></td>
+                                <td><%
+                                    if (dispatchStatus == 1) {
+                                        out.println("Already despatched");
+                                    } else {
+                                    %>
+                                    <form action="ProcessDespatch" method="POST">
+                                        <input type="hidden" name="reportName" value="<%=reportName%>">
+                                        <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                                        <input type="hidden" name="stateID" value="<%=stateID%>">
+
+                                        <input type="submit" class="button tinytable" value="Depatch">
+
+                                    </form>
+
+
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <%
                                         if (dispatchStatus == 1) {
-                                            out.println("Already despatched");
-                                        } else {
-                                            %>
-                                            <form action="ProcessDespatch" method="POST">
-                                                <input type="hidden" name="reportName" value="<%=reportName%>">
-                                                <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                                                <input type="hidden" name="stateID" value="<%=stateID%>">
-                                                
-                                                <input type="submit" class="button tinytable" value="Depatch">
-                                            
-                                            </form>
-                                            
-                                            
-                                            <% } %>
-                                        </td>
-                                                                                <td>
-                                            <% 
-                                            if (dispatchStatus == 1) {
-                                            %>
-                                            <a href="<%=reportResults%>" target="_blank">View Report</a>
-                                        <% } else { 
-                                                out.println("N/A");
+                                    %>
+                                    <a href="<%=reportResults%>" target="_blank">View Report</a>
+                                    <% } else {
+                                            out.println("N/A");
 
-                                            }
-                                            %>
-                                        </td>
+                                        }
+                                    %>
+                                </td>
 
-                                        
-                                    </tr>
-                                    
-                                    
-                                <% 
-                                } 
-                                %>
-                                </table>
-                             <%       
-                            } else { 
+
+                            </tr>
+
+
+                            <%
+                                }
+                            %>
+                        </table>
+                        <%
+                            } else {
                                 out.println("No doctor's order at the moment.");
-                                
-                            } 
+
+                            }
                             session.setAttribute("active", null);
-                            
+
                         %>  
-                        
+
 
                     </div>
 
@@ -286,145 +270,145 @@
                         } else {
                             out.println("content");
                         } %>" id="vital">
-                        
+
                         <%
-                    
-                        Date currentDateTime = new Date();
-                        DateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy H:m:s");
-                        String currentDateFormatted = dateFormatter.format(currentDateTime);
-                        
+
+                            Date currentDateTime = new Date();
+                            DateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy H:m:s");
+                            String currentDateFormatted = dateFormatter.format(currentDateTime);
+
                         %>
-                         <form data-abide action="ProcessAddVital" method="POST">
-                                <table width='65%'>
-                                    <br/>
-                                    <col width="35%">  
-                                    <col width="65%">  
-                                  <!--  <th>Vital Signs/Input/Output</th> -->
-                                  <th></th>
-                                    <th>Current as of <%=currentDateFormatted%></th>
-                                    <tr><td><b>Temperature</b><img src="img/Historial.jpg"></td>
-                                        <td><div class="row">
+                        <form data-abide action="ProcessAddVital" method="POST">
+                            <table width='65%'>
+                                <br/>
+                                <col width="35%">  
+                                <col width="65%">  
+                                <!--  <th>Vital Signs/Input/Output</th> -->
+                                <th></th>
+                                <th>Current as of <%=currentDateFormatted%></th>
+                                <tr><td><b>Temperature</b><img src="img/Historial.jpg"></td>
+                                    <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
                                                 <!--validates for 1 decimal place-->
                                                 <input type="text" name ="temperature" maxlength="4" pattern ="[0-9]+(\.[0-9][0-9]?)?" />
                                                 <small class="error">Must be numeric, cannot contain alphabets. E.g: 37.3 or 37</small>
-                                              </div>
-                                              <label for="right-label" class="left inline">ºC</label>
-                                        </div></td>
-                                    </tr> 
-                                    
-                                    <tr><td><b>Respiratory Rate<img src="img/Historial.jpg"></b></td>
-                                        <td><div class="row">
-                                                <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="RR" maxlength="2" pattern ="integer"/>
-                                                    <small class="error">RR must be 2 digits.</small>
-                                                </div>
-                                         
-                                                <label for="right-label" class="left inline">breaths/min</label>
-                                             
                                             </div>
-                                    </tr>
-                                            
-                                    <tr><td><b>Heart Rate<img src="img/Historial.jpg"></b></td>
-                                        <td><div class="row">
-                                                <div class="small-4 columns" style="width:200px">
-                                                    <!--validates between 0 - 200-->
-                                                    <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$"/>
-                                                    <small class="error">HR must be between 0 - 200.</small>
-                                                </div>
-                                                    <label for="right-label" class="left inline">beats/min</label>
-                                            </div></td>
-                                    </tr>
-                                    
-                                    <tr><td><b>Blood Pressure<img src="img/Historial.jpg"></b></td>
-                                        <td><div class="row">
-                                                <div class="small-4 columns" style="width:200px">
-                                                    <!--<input type="text" name ="BPsystolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
-                                                    <input type="text" name ="BPsystolic" maxlength = "3" pattern = "integer"/>
+                                            <label for="right-label" class="left inline">ºC</label>
+                                        </div></td>
+                                </tr> 
+
+                                <tr><td><b>Respiratory Rate<img src="img/Historial.jpg"></b></td>
+                                    <td><div class="row">
+                                            <div class="small-4 columns" style="width:200px">
+                                                <input type="text" name ="RR" maxlength="2" pattern ="integer"/>
+                                                <small class="error">RR must be 2 digits.</small>
+                                            </div>
+
+                                            <label for="right-label" class="left inline">breaths/min</label>
+
+                                        </div>
+                                </tr>
+
+                                <tr><td><b>Heart Rate<img src="img/Historial.jpg"></b></td>
+                                    <td><div class="row">
+                                            <div class="small-4 columns" style="width:200px">
+                                                <!--validates between 0 - 200-->
+                                                <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$"/>
+                                                <small class="error">HR must be between 0 - 200.</small>
+                                            </div>
+                                            <label for="right-label" class="left inline">beats/min</label>
+                                        </div></td>
+                                </tr>
+
+                                <tr><td><b>Blood Pressure<img src="img/Historial.jpg"></b></td>
+                                    <td><div class="row">
+                                            <div class="small-4 columns" style="width:200px">
+                                                <!--<input type="text" name ="BPsystolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
+                                                <input type="text" name ="BPsystolic" maxlength = "3" pattern = "integer"/>
+                                                <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
+                                            </div>
+
+                                            <label for="right-label" class="left inline">mm (Systolic)</label>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-4 columns" style="width:200px">
+                                                <!--<input type="text" name ="BPdiastolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
+                                                <input type="text" name ="BPdiastolic" maxlength = "3" pattern = "integer"/>
+                                                <div class ="input wrapper">
                                                     <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
                                                 </div>
-                                               
-                                                    <label for="right-label" class="left inline">mm (Systolic)</label>
-                                                
                                             </div>
-                                            <div class="row">
-                                                <div class="small-4 columns" style="width:200px">
-                                                    <!--<input type="text" name ="BPdiastolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
-                                                    <input type="text" name ="BPdiastolic" maxlength = "3" pattern = "integer"/>
-                                                    <div class ="input wrapper">
-                                                        <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
-                                                    </div>
-                                                </div>
-                                               
-                                                <label for="right-label" class="left inline">Hg (Diastolic)</label>
-                                            
-                                            </div>
-                                        </td></tr>
-                                    <tr><td><b>SPO<img src="img/Historial.jpg"></b></td>
-                                
-                                        <td><div class="row">
-                                                <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="SPO" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$"/>
-                                                    <small class="error">SPO must be numeric and between 0 - 100%.</small>
-                                                </div>
-                                                
-                                                <label for="right-label" class="left inline">% with O<sub>2</sub></label>
-                                             
-                                            </div></td></tr>
-                                    <tr><td><b>Intake - Oral/Intragastric</b></td>
-                                     
-                                        <td><div class="row">
-                                                <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="oralType" value= " "/>
-                                                </div>
-                                             
-                                                    <label for="left-label" class="left inline">Type</label>
-                                   
-                                            </div>
-                                            <div class="row">
-                                                <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="oralAmount"  value= " "/>
-                                                </div>
-                                           
-                                                    <label for="left-label" class="left inline">Amount</label>
-                                         
-                                            </div>
-                                        </td></tr>
-                                    
-                                    <tr><td><b>Intake - Intravenous</b></td>
-                                     
-                                        <td><div class="row">
-                                                <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="intravenousType" value= " "/>
-                                                </div>
-                                             
-                                                    <label for="left-label" class="left inline">Type</label>
-                                   
-                                            </div>
-                                            <div class="row">
-                                                <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="intravenousAmount"  value= " "/>
-                                                </div>
-                                           
-                                                    <label for="left-label" class="left inline">Amount</label>
-                                         
-                                            </div>
-                                        </td></tr>
 
-                                    <tr><td><b>Output</b></td>
-                                        
-                                        <td><div class="row">
-                                                <div class="small-4 columns" style="width:200px">
-                                                    <input type="text" name ="output" style="width:170px" value= " "/>
-                                                </div>
-                                                    <label for="left-label" class="left inline"></label>
-                                            </div>
-                                        </td></tr>
+                                            <label for="right-label" class="left inline">Hg (Diastolic)</label>
 
-                                </table>
-                                <input type ="hidden" value ="<%=patientNRIC%>" name = "patientNRIC">
-                                <input type="submit" value="Update Vital Signs" class="button tiny"> 
-                            </form>
+                                        </div>
+                                    </td></tr>
+                                <tr><td><b>SPO<img src="img/Historial.jpg"></b></td>
+
+                                    <td><div class="row">
+                                            <div class="small-4 columns" style="width:200px">
+                                                <input type="text" name ="SPO" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$"/>
+                                                <small class="error">SPO must be numeric and between 0 - 100%.</small>
+                                            </div>
+
+                                            <label for="right-label" class="left inline">% with O<sub>2</sub></label>
+
+                                        </div></td></tr>
+                                <tr><td><b>Intake - Oral/Intragastric</b></td>
+
+                                    <td><div class="row">
+                                            <div class="small-4 columns" style="width:200px">
+                                                <input type="text" name ="oralType" value= " "/>
+                                            </div>
+
+                                            <label for="left-label" class="left inline">Type</label>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-4 columns" style="width:200px">
+                                                <input type="text" name ="oralAmount"  value= " "/>
+                                            </div>
+
+                                            <label for="left-label" class="left inline">Amount</label>
+
+                                        </div>
+                                    </td></tr>
+
+                                <tr><td><b>Intake - Intravenous</b></td>
+
+                                    <td><div class="row">
+                                            <div class="small-4 columns" style="width:200px">
+                                                <input type="text" name ="intravenousType" value= " "/>
+                                            </div>
+
+                                            <label for="left-label" class="left inline">Type</label>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-4 columns" style="width:200px">
+                                                <input type="text" name ="intravenousAmount"  value= " "/>
+                                            </div>
+
+                                            <label for="left-label" class="left inline">Amount</label>
+
+                                        </div>
+                                    </td></tr>
+
+                                <tr><td><b>Output</b></td>
+
+                                    <td><div class="row">
+                                            <div class="small-4 columns" style="width:200px">
+                                                <input type="text" name ="output" style="width:170px" value= " "/>
+                                            </div>
+                                            <label for="left-label" class="left inline"></label>
+                                        </div>
+                                    </td></tr>
+
+                            </table>
+                            <input type ="hidden" value ="<%=patientNRIC%>" name = "patientNRIC">
+                            <input type="submit" value="Update Vital Signs" class="button tiny"> 
+                        </form>
 
 
                     </div>
@@ -435,55 +419,52 @@
                         } else {
                             out.println("content");
                         }%>" id="multidisciplinary">
-                        
-                         <form action="ProcessAddNote" method="POST">
+
+                        <form action="ProcessAddNote" method="POST">
                             <%
                                 String grpNames = (String) session.getAttribute("grpNames");
                                 String notes = (String) session.getAttribute("notes");
-                                   
+
                             %> 
-                             <div class="small-8">
-                                    <div class="row">
-                                        <div class="small-3 columns">
+                            <div class="small-8">
+                                <div class="row">
+                                    <div class="small-3 columns">
 
-                                            <label for="right-label" class="right inline">Group Member Names</label>
-                                            <label for="right-label" class="right inline">Multidisciplinary Note</label>
-                                        </div>
-                                        <div class="small-9 columns">
-                                            <input type ="hidden" name="scenarioID" value="<%=scenarioID%>"/>
+                                        <label for="right-label" class="right inline">Group Member Names</label>
+                                        <label for="right-label" class="right inline">Multidisciplinary Note</label>
+                                    </div>
+                                    <div class="small-9 columns">
+                                        <input type ="hidden" name="scenarioID" value="<%=scenarioID%>"/>
 
-                                            <input type ="text" id= "grpNames" name="grpNames" value="<% if (grpNames == null || grpNames =="") {
-                                                    out.print("");
-                                                } else {
-                                                    out.print(grpNames);
-                                                }%>" >
-                                            <textarea name="notes" id="notes" rows="7" cols="10" ><% if (notes == null || notes == "") {
-                                                    out.print("");
-                                                } else {
-                                                    out.print(notes);
-                                                }%></textarea>
+                                        <input type ="text" id= "grpNames" name="grpNames" value="<% if (grpNames == null || grpNames == "") {
+                                                out.print("");
+                                            } else {
+                                                out.print(grpNames);
+                                            }%>" >
+                                        <textarea name="notes" id="notes" rows="7" cols="10" ><% if (notes == null || notes == "") {
+                                                out.print("");
+                                            } else {
+                                                out.print(notes);
+                                            }%></textarea>
 
-                                        </div>
                                     </div>
                                 </div>
-                             <br>
-                                            <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
-                                            <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
-                                            <input type="button" value="Cancel" class="button tiny" onClick="window.location = 'viewPatientInformation.jsp'"/>
-                         </form>
+                            </div>
+                            <br>
+                            <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
+                            <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
+                            <input type="button" value="Cancel" class="button tiny" onClick="window.location = 'viewPatientInformation.jsp'"/>
+                        </form>
                     </div>
                 </div>
-
             </div>
-
         </div>
-
-<% } %>
+        <% }%>
 
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
         <script>
-            $(document).foundation();
+                                                $(document).foundation();
         </script>
     </body>
 </html>
