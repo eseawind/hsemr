@@ -99,7 +99,7 @@
                     <b>DOB: <font color="#666666"><%=dob%></font></b>&nbsp;&nbsp;
                     <b>Gender: <font color="#666666"><%=gender%></font></b>&nbsp;&nbsp;
                     <b>Allergy: <font color="#666666"><%=allergy%></font></b>&nbsp;</font>
-                </div></div>
+                </div>
 
 
             <%if (session.getAttribute("success") != null) {%>
@@ -122,7 +122,6 @@
                 }
             %>
 
-            <div class="large-centered large-10 columns">
                 <div class="tabs-content">
                     <dl class="tabs" data-tab>
                         <dd class="<% if (active == null || active.equals("") || active.equals("admission")) {
@@ -457,7 +456,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            
         </div>
         <% }%>
 
