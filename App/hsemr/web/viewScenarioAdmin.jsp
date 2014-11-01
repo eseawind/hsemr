@@ -57,9 +57,8 @@
     </head>
 
     <body style="font-size:14px; line-height:20px;">
-        
-        <br/>
-    <center><h3>Case Management</h3>
+         <br/>
+    <center> <h1>Case Management</h1>
   
     <div class="large-12 columns" style="padding-top: 20px;">
         <%            //Retrieve all the successful messages 
