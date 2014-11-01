@@ -49,7 +49,7 @@
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center>
-                    <h1>Select case to view details</h1></center>
+                    <h1>Select case to view details</h1>
           
             <%            
             String successMessageDeactivateCase = (String) request.getAttribute("successMessageDeactivateCase");
@@ -89,8 +89,6 @@
             %>
             <div class ="large-centered large-10 columns">
                 
-            
-                
                 <%
                     int sizeOfList = scenarioList.size();
                     int numPerRow = 5;
@@ -115,7 +113,7 @@
                         %>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <a href="#" data-reveal-id="<%=scenarioID%>">
-
+                        
                         <% if (scenario.getScenarioStatus() == 1) {%>
                         <input type="submit" class="case" value="<%=counter%>">
 
@@ -135,7 +133,7 @@
                     <%
                         }
                     %>
-
+</center>
            </div>    
         </div>
 
