@@ -1569,7 +1569,6 @@ meta.foundation-mq-topbar {
 @media only screen and (min-width: 40.063em) {
     .top-bar {
         background: white;
-        border-left: solid 1px #34893E;
         border-top: solid 1px #34893E;
         border-bottom: solid 1px #34893E;
         overflow: visible; }
