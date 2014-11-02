@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  *
@@ -84,8 +85,8 @@ public class VitalDAO {
             Date dateTime = new Date();
             
             DateFormat dateFormatter;
-            dateFormatter = new SimpleDateFormat("yyyy-M-d H:m:s");
-            
+            dateFormatter = new SimpleDateFormat("yyyy-M-dd H:m:s");
+            dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
             preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, dateFormatter.format(dateTime));
             preparedStatement.setString(2, patientNRIC);

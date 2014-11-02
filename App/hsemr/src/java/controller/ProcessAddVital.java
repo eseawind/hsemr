@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,8 +48,8 @@ public class ProcessAddVital extends HttpServlet {
             Date dateTime= new Date();
             
             DateFormat dateFormatter;
-            dateFormatter = new SimpleDateFormat("yyyy-M-d H:m:s");
-
+            dateFormatter = new SimpleDateFormat("yyyy-M-dd H:m:s");
+            dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
 
             if (oralType == null || oralType.equals(" ")) {
                 oralType = "-";

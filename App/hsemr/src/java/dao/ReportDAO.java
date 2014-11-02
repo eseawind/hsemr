@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 /**
  * 
@@ -58,8 +59,8 @@ public class ReportDAO {
         try {
             conn = ConnectionManager.getConnection();
             DateFormat dateFormatter;
-            dateFormatter = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
-           
+            dateFormatter = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+            dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
             preparedStatement = conn.prepareStatement(query);
             preparedStatement.setInt(1, dispatchStatus);
             preparedStatement.setString(2, dateFormatter.format(reportDateTime));

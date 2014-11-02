@@ -4,6 +4,7 @@
     Author     : weiyi.ngow.2012
 --%>
 
+<%@page import="java.util.TimeZone"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.DateFormat"%>
@@ -172,7 +173,7 @@
                             List<Report> stateReports = ReportDAO.retrieveReportsByState(scenarioID, stateID);
                             if (stateReports != null && stateReports.size() != 0) {
                         %>
-
+                        
                         <table>
                             <tr>
                                 <td><b>Reports Ordered</b></td>
@@ -184,8 +185,8 @@
                             <%
                             // Create an instance of SimpleDateFormat used for formatting 
                                 // the string representation of date (month/day/year)
-                                DateFormat df = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
-
+                                DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+                                
                                 for (Report report : stateReports) {
                                     String reportName = report.getReportName();
                                     String reportFile = report.getReportFile();
@@ -273,7 +274,8 @@
                         <%
 
                             Date currentDateTime = new Date();
-                            DateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy H:m:s");
+                            DateFormat dateFormatter = new SimpleDateFormat("dd-M-yyyy H:m:s");
+                            dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
                             String currentDateFormatted = dateFormatter.format(currentDateTime);
 
                         %>

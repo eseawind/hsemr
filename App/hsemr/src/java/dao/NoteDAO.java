@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  *
@@ -84,8 +85,8 @@ public class NoteDAO {
           
          
             DateFormat dateFormatter;
-            dateFormatter = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
-           
+            dateFormatter = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+            dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
             stmt.setString(1, multidisciplinaryNote);
             stmt.setString(2, grpMemberNames);
             stmt.setString(3, dateFormatter.format(noteDatetime));
