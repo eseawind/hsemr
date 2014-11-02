@@ -22,78 +22,117 @@
         <title>Create Account</title>
     </head>
     <body>     
-        <div class="row" style="padding-top: 30px;">
-            <div class="large-centered large-12 columns">
-                <center>
-                    <h1>Create Account</h1>
-                    <h4>Account Type: practical group<br></h4>
-                        <%
+        <div class="large-centered large-12 columns">
+            
+                <%                    String location = "";
+                    String userType = "";
+                    if (request.getParameter("type") != null && !request.getParameter("type").equals("")) {
+                        if (request.getParameter("type").equals("admin")) {
+                            location = "viewAdminAccounts.jsp";
+                            session.setAttribute("type", "admin");
+                            userType = "Admin";
+                        } else if (request.getParameter("type").equals("lecturer")) {
+                            location = "viewLecturerAccounts.jsp";
+                            userType = "Lecturer";
+                            session.setAttribute("type", "lecturer");
+                        } else {
+                            location = "viewPracticalGroupAccounts.jsp";
+                            userType = "Practical Group";
+                            session.setAttribute("type", "nurse");
+                        }
+                    } else if (session.getAttribute("type") != null && !session.getAttribute("type").equals("")) {
+                        if (session.getAttribute("type").equals("admin")) {
+                            location = "viewAdminAccounts.jsp";
+                            userType = "Admin";
+                        } else if (session.getAttribute("type").equals("lecturer")) {
+                            location = "viewLecturerAccounts.jsp";
+                            userType = "Lecturer";
+                        } else {
+                            location = "viewPracticalGroupAccounts.jsp";
+                            userType = "Practical Group";
+                        }
+                    }
+                %>
+                <center><h1>Create Account</h1>
+                    <h4>Account Type: <%=userType%><br></h4></center>
+                <div class="row" style="width:20%;">   
+                <%
 
-                            String error = (String) request.getAttribute("error");
-                            if (error != null) {
-                                %>
-                                <div data-alert class="alert-box alert radius">
-                           <%=error%>
-                           <a href="#" class="close">&times;</a></div>
-                            <%
-                            }
+                    String error = (String) request.getAttribute("error");
+                    if (error != null) {
+                %>
+                <div data-alert class="alert-box alert radius">
+                    <%=error%>
+                    <a href="#" class="close">&times;</a></div>
+                    <%
+                        }
                         String userID = "";
 
                         if (request.getParameter("userID") != null || !userID.equals("")) {
-                            userID = (String) request.getParameter("userID"); 
+                            userID = (String) request.getParameter("userID");
                         }
-                            
+
                     %> 
-                    
-
-                    <form action="ProcessCreateAccount" method="post">
-                        <div class="row">
-                            <div class="large-8 columns">
-                                <div class="row">
-                                    <div class="small-7 columns">
-                                        <label for="userID" class="right inline">User ID</label>
-                                        <label for="password" class="right inline">Password</label>
-                                        <label for="confirmPassword" class="right inline">Confirm Password</label>
-                                        <label for="lecturerID" class="right inline">Lecturer in-charge</label>
-                                    </div>
-                                    <div class="small-5 columns">
-                                        <input type="text" id="userID" name="userID" value="<%=userID%>" required autofocus>
-                                        <input type="password" id="password" name="password" required>
-                                        <input type="password" id="confirmPassword" name="confirmPassword" required>
-                                        <select name="lecturerID">
-                                            <% 
-                                                List<Lecturer> lecturerList = LecturerDAO.retrieveAll();
-                                                for(Lecturer lecturer: lecturerList) {
-                                                    %>
-                                                    <option value="<%=lecturer.getLecturerID()%>"><%=lecturer.getLecturerID()%></option>
-                                                    <%
-                                                }
-                                            %>
-                                        </select>
-                                        <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
-                                    </div>
-                                    <input type="submit" class="button tiny" value="Add account"> 
 
 
-                                    <%
-
-                                        String location = "";
-                                        if (request.getParameter("type") != null && !request.getParameter("type").equals("")) {
-                                            if (request.getParameter("type").equals("admin")) {
-                                                location = "viewAdminAccounts.jsp";
-                                            } else if (request.getParameter("type").equals("lecturer")) {
-                                                location = "viewLecturerAccounts.jsp";
-                                            } else {
-                                                location = "viewPracticalGroupAccounts.jsp";
-                                            }
-                                        }
-                                    %>
-                                    <input type="button" value="Cancel" class="button tiny" onClick="window.location = '<%=location%>'"/>
+                <form action="ProcessCreateAccount" method="post">
+                    <div class="row">
+                        <br/>
+                        <!--User ID-->
+                        <label><strong>User ID</strong>
+                            <div class="row collapse">
+                                <div class="small-9 columns">
+                                    <input type="text" id="userID" name="userID" value="<%=userID%>" required autofocus>
                                 </div>
-                            </div>
-                        </div>
-                    </form>
-                </center>   
+                            </div> 
+                        </label>
+                        <br/>
+
+                        <!--Password-->
+                        <label><strong>Password</strong>
+                            <div class="row collapse">
+                                <div class="small-9 columns">
+                                    <input type="password" id="password" name="password" required>
+                                </div>
+                            </div> 
+                        </label>  
+                        <br/>
+                        <!--Confirm Password-->
+                        <label><strong>Confirm Password</strong>
+                            <div class="row collapse">
+                                <div class="small-9 columns">
+                                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                                </div>
+                            </div> 
+                        </label>  
+                        <br/>
+                        <!--Lecturer in-charge-->
+                        <label><strong>Lecturer in-charge</strong>
+                            <div class="row collapse">
+                                <div class="small-9 columns">
+                                    <select name="lecturerID">
+                                        <%
+                                            List<Lecturer> lecturerList = LecturerDAO.retrieveAll();
+                                            for (Lecturer lecturer : lecturerList) {
+                                        %>
+                                        <option value="<%=lecturer.getLecturerID()%>"><%=lecturer.getLecturerID()%></option>
+                                        <%
+                                            }
+                                        %>
+                                    </select>
+                                </div>
+                            </div> 
+                        </label>  
+                        <br/>
+
+                        <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
+
+                        <input type="submit" class="button tiny" value="Add account"> 
+
+                        <input type="button" value="Cancel" class="button tiny" onClick="window.location = '<%=location%>'"/>
+
+                    </div>
+                </form> 
             </div>
         </div>
     </body>

@@ -133,7 +133,7 @@
                                 out.println("active");
                             } else {
                                 out.println("");
-                            } %>"><a href="#reports"><b>Investigation</b></a></dd>
+                            } %>"><a href="#reports"><b>Investigations</b></a></dd>
                         <dd class="<% if (active != null && active.equals("medication")) {
                                 out.println("active");
                             } else {
@@ -429,7 +429,7 @@
                                 <div class="row">
                                     <div class="small-3 columns">
 
-                                        <label for="right-label" class="right inline">Group Member Names</label>
+                                        <label for="right-label" class="right inline">Nurses in-charge</label>
                                         <label for="right-label" class="right inline">Multidisciplinary Note</label>
                                     </div>
                                     <div class="small-9 columns">

@@ -77,9 +77,9 @@
                         <col width="10%">
                         <col width="10%">
                         <tr>
-                            <td>User Id</td>
-                            <td>Password</td>
-                            <td colspan="2" align="center" valign="middle">Actions</td>
+                            <td><b>User ID</b></td>
+                            <td><b>Password</b></td>
+                            <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
                         </tr>
                         <%
                             for (Lecturer lecturer : lecturerList) {

@@ -45,6 +45,8 @@ public class ProcessCreateAccount extends HttpServlet {
         String lecturerID = request.getParameter("lecturerID");
 
         if (userType.equals("admin")) {
+            HttpSession session = request.getSession();
+            session.setAttribute("type", "admin");
             if (InputValidation.validateUser(userType, userID) == false) {
                 request.setAttribute("error", "User already exist");
                 RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
@@ -56,12 +58,14 @@ public class ProcessCreateAccount extends HttpServlet {
                 rd.forward(request, response);
             } else {
                 AdminDAO.add(userID, password);
-                HttpSession session = request.getSession();
+                
                 session.setAttribute("successAdmin", "New account \"" + userID+  "\" has been created successfully!");
                 response.sendRedirect("./viewAdminAccounts.jsp");
             }
 
         } else if (userType.equals("lecturer")) {
+            HttpSession session = request.getSession();
+            session.setAttribute("type", "lecturer");
             if (InputValidation.validateUser(userType, userID) == false) {
                 request.setAttribute("error", "User already exist");
                 RequestDispatcher rd = request.getRequestDispatcher("createAccount.jsp");
@@ -73,12 +77,13 @@ public class ProcessCreateAccount extends HttpServlet {
                 rd.forward(request, response);
             } else {
                 LecturerDAO.add(userID, password);
-                HttpSession session = request.getSession();
                 session.setAttribute("successLecturer", "New account \"" + userID+  "\" has been created successfully!");                LecturerDAO.add(userID, password);
                 response.sendRedirect("./viewLecturerAccounts.jsp");
             }
 
         } else if(userType.equals("nurse")) { 
+            HttpSession session = request.getSession();
+            session.setAttribute("type", "nurse");
             if (InputValidation.validateUser(userType, userID) == false) {
                 request.setAttribute("error", "User already exist");
                 RequestDispatcher rd = request.getRequestDispatcher("createPracticalGroupAccount.jsp");
@@ -90,7 +95,6 @@ public class ProcessCreateAccount extends HttpServlet {
                 rd.forward(request, response);
             } else {
                 PracticalGroupDAO.add(userID, password, lecturerID);
-                HttpSession session = request.getSession();
                 session.setAttribute("successNurse", "New account \"" + userID+  "\" has been created successfully!");
                 response.sendRedirect("./viewPracticalGroupAccounts.jsp");
             }

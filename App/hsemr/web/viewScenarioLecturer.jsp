@@ -87,8 +87,9 @@
             <%
                 }
             %>
+            <table border="0">
             <div class ="large-centered large-10 columns">
-                
+                     
                 <%
                     int sizeOfList = scenarioList.size();
                     int numPerRow = 5;
@@ -98,7 +99,13 @@
                     for (int i = 0; i <= numOfRows; i++) {
                         // out.println(numOfRows);
                     %>
-
+                    
+                    <col width ="20%">
+                     <col width ="20%">
+                      <col width ="20%">
+                      <col width ="20%">
+                       <col width ="20%">
+                <tr valign="top">
                     <%                            Scenario scenario = null;
                         //out.println(counter + "counter");
                         for (int j = 0; j < numPerRow; j++) {
@@ -111,28 +118,29 @@
                                 counter++;
                                 caseNo = counter; 
                         %>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="#" data-reveal-id="<%=scenarioID%>">
-                        
+                 <td><center><a href="#" data-reveal-id="<%=scenarioID%>">
+                 
                         <% if (scenario.getScenarioStatus() == 1) {%>
-                        <input type="submit" class="case" value="<%=counter%>">
-
+                        
+                            <input type="submit" class="case" value="<%=counter%>"><br/>
+                            
                         <% } else {%>
-                             <input type="submit" class="case off" value="<%=counter%>">
+                       <input type="submit" class="case off" value="<%=counter%>"><br/>
 
                         <%
                                 }
-                        %></a><%
+                        %><font color="black"><%=scenario.getScenarioName()%></font></a></center></td>
+                        <%
                             }
                         %>
                     <%
                         }
                     %>
-
-
+            </div>
+            </tr>
                     <%
                         }
-                    %>
+                    %> </table>
 </center>
            </div>    
         </div>

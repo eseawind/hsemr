@@ -26,11 +26,35 @@
         <title>Edit Accounts</title>
     </head>
     <body>
-       
-        <div class="row" style="padding-top: 30px;">
-            <div class="large-centered large-12 columns">
-                <center>
-                    <h1>Edit <%=request.getParameter("userID")%>'s details</h1>
+       <center>
+            <%
+            String userID = "";
+            String location = "";
+            if (request.getParameter("userID") != null) { 
+                userID = request.getParameter("userID"); 
+                session.setAttribute("userID", userID);
+                if (request.getParameter("type").equals("admin")) {
+                    location = "viewAdminAccounts.jsp";
+                    session.setAttribute("location", "viewAdminAccounts.jsp");
+                   
+               } else if (request.getParameter("type").equals("lecturer")) {
+                    location = "viewLecturerAccounts.jsp";
+                    session.setAttribute("location", "viewLecturerAccounts.jsp");
+                } else {
+                    location = "viewPracticalGroupAccounts.jsp";
+                    session.setAttribute("location", "viewPracticalGroupAccounts.jsp");
+                }
+            } else { 
+                userID = (String)session.getAttribute("userID");
+                location = (String) session.getAttribute("location");
+            }
+            
+        %>
+                      
+                      <h1>Edit <%=userID%>'s details</h1>
+                  </center>
+                  <div class="row" style="width:30%;">   
+                                  <div class="large-centered large-3 columns">
                         <%
 
                             String error = (String) request.getAttribute("error");
@@ -44,54 +68,68 @@
 
                         %> 
                     <form action = "ProcessEditAccount" method = "post">
-                        <div class="row">
-                            <div class="large-8 columns">
-                                <div class="row">
-                                    <div class="small-7 columns">
-                                        <label for="right-label" class="right inline">User ID</label>
-                                        <label for="right-label" class="right inline">Password</label>
-                                        <label for="right-label" class="right inline">Confirm Password</label>
-                                        <label for="right-label" class="right inline">Lecturer ID</label>
-                                    </div>
-                                    
-                                    <div class="small-5 columns">
-                                        <input type="text" id="right-label" name="userID" value="<%=request.getParameter("userID")%>" readonly>
-                                        <input type="password" id="right-label" name="password" value="<%=request.getParameter("password")%>" required autofocus>
-                                            <input type="password" id="confirmPassword" name="confirmPassword" required>
-                                         <select name="lecturerID">
-                                            <% 
-                                                List<Lecturer> lecturerList = LecturerDAO.retrieveAll();
-                                                for(Lecturer lecturer: lecturerList) {
-                                                    %>
-                                                    <option value="<%=lecturer.getLecturerID()%>"><%=lecturer.getLecturerID()%></option>
-                                                    <%
-                                                }
-                                            %>
-                                        </select>
-                                        <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
-                                    </div>
-                                    <input type="submit" class="button tiny" value="Save"> 
-
-
-                                    <%
-                                        String location = "";
-                                        if (request.getParameter("type") != null && !request.getParameter("type").equals("")) {
-                                            if (request.getParameter("type").equals("admin")) {
-                                                location = "viewAdminAccounts.jsp";
-                                            } else if (request.getParameter("type").equals("lecturer")) {
-                                                location = "viewLecturerAccounts.jsp";
-                                            } else {
-                                                location = "viewPracticalGroupAccounts.jsp";
-                                            }
-                                        }
-                                    %>
-                                    <input type="button" value="Cancel" class="button tiny" onClick="window.location='<%=location%>'"/>
-                                </div>
-                            </div>
+                    <div class="row">
+                    <br/>
+                <!--User ID-->
+                <label><strong>User ID</strong>
+                    <div class="row collapse">
+                        <div class="small-9 columns">
+                            <input type="text" id="userID" name="userID" value="<%=userID%>" readonly>
                         </div>
+                    </div> 
+                </label>
+                <br/>
+
+                <!--Password-->
+                <label><strong>New Password</strong>
+                    <div class="row collapse">
+                        <div class="small-9 columns">
+                            <input type="password" id="password" name="password" autofocus>
+                        </div>
+                    </div> 
+                </label>  
+                <br/>
+                <!--Confirm Password-->
+                <label><strong>Confirm Password</strong>
+                    <div class="row collapse">
+                        <div class="small-9 columns">
+                            <input type="password" id="confirmPassword" name="confirmPassword" >
+                        </div>
+                    </div> 
+                </label>  
+                <br/>
+                <!--Lecturer In-charge-->
+                <label><strong>Lecturer in-charge</strong>
+                    <div class="row collapse">
+                        <div class="small-9 columns">
+                            <select name="lecturerID">
+                            <% 
+                                List<Lecturer> lecturerList = LecturerDAO.retrieveAll();
+                                PracticalGroup pg = PracticalGroupDAO.retrieve(userID);
+                                String lecturerID = pg.getLecturerID();
+                                for(Lecturer lecturer: lecturerList) {
+                                    
+                                    if(lecturer.getLecturerID().equals(lecturerID)) {%>
+                                    <option value="<%=lecturer.getLecturerID()%>" selected><%=lecturer.getLecturerID()%></option>
+                                    <% } else { %>
+                                    <option value="<%=lecturer.getLecturerID()%>"><%=lecturer.getLecturerID()%></option>
+                                    <%
+                                    }
+                                }
+                            %>
+                        </select>
+                        </div>
+                    </div> 
+                </label>  
+                <br/>
+
+                <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
+                <input type="submit" class="button tiny" value="Save"> 
+                <input type="button" value="Cancel" class="button tiny" onClick="window.location = '<%=location%>'"/>
+                </div>
                     </form>
-                </center>
+                                  </div>
             </div>
-        </div>
+
     </body>
 </html>

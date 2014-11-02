@@ -6,6 +6,7 @@
 package controller;
 
 import dao.ScenarioDAO;
+import dao.StateDAO;
 import entity.Scenario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -57,9 +58,11 @@ public class ProcessActivateScenario extends HttpServlet {
                 if (activatedScenario != null) {
                     if (!activatedScenario.getScenarioID().equals(scenarioID)) {
                         ScenarioDAO.updateScenarioStatus(activatedScenario.getScenarioID(), 0);
+                        
                     }
                 }
                 ScenarioDAO.updateScenarioStatus(scenarioID, 1);
+                StateDAO.updateState("ST0", scenarioID, 1);
                 request.setAttribute("successMessageActivateCase", "You have successfully activated the case \"" + scenarioID + "\" !");
                 RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
                 rd.forward(request, response);
