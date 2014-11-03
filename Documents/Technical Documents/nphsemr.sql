@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 21, 2014 at 02:54 PM
+-- Generation Time: Nov 03, 2014 at 06:09 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -37,7 +37,8 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`adminID`, `adminPassword`) VALUES
-('admin1', 'admin1');
+('admin1', 'admin1'),
+('admin2', 'admin2');
 
 -- --------------------------------------------------------
 
@@ -56,8 +57,9 @@ CREATE TABLE IF NOT EXISTS `allergy_patient` (
 --
 
 INSERT INTO `allergy_patient` (`patientNRIC`, `allergy`) VALUES
-('S2315479I', 'batrium'),
-('S2315479I', 'seafood');
+('S2315479I', 'Batrium'),
+('S2315479I', 'Seafood'),
+('S9048923H', 'No drug allergy');
 
 -- --------------------------------------------------------
 
@@ -141,8 +143,7 @@ INSERT INTO `lecturer` (`lecturerID`, `lecturerPassword`) VALUES
 ('lec2', 'lec2'),
 ('lec3', 'lec3'),
 ('lec4', 'lec4'),
-('lec5', 'lec5'),
-('lec6', 'lec6');
+('lec5', 'lec5');
 
 -- --------------------------------------------------------
 
@@ -209,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `note` (
   PRIMARY KEY (`noteID`),
   KEY `praticalgroupID` (`practicalGroupID`),
   KEY `ScenarioID` (`scenarioID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `note`
@@ -217,8 +218,9 @@ CREATE TABLE IF NOT EXISTS `note` (
 
 INSERT INTO `note` (`noteID`, `multidisciplinaryNote`, `grpMemberNames`, `noteDatetime`, `practicalGroupID`, `scenarioID`) VALUES
 (1, 'taken down hr,bp,intake, output, administer medicine', 'xuanqi, linwei, qiwei, linxuan, qiping', '2014-10-17 14:00:00', 'P02', 'SC1'),
-(2, 'testestest', 'shiqi, weiyi, gladys, jocelyn, grace', '2014-10-20 16:00:00', 'P01', 'SC1'),
-(3, 'testestest', 'tingting, shiqi, weiyi, gladys, jocelyn, grace', '2014-10-21 11:25:00', 'P03', 'SC2');
+(2, 'testestest', 'tingting, shiqi, weiyi, gladys, jocelyn, grace', '2014-10-21 11:25:00', 'P03', 'SC1'),
+(3, 'Administered panadol at 5.34pm', 'glad, sq, wy, grace, joce', '2014-10-27 10:47:07', 'P01', 'SC1'),
+(4, 'Chemistry report despatched. Blood pressure, spo2, respiration rate, heart rate normal. ', 'a, b, c, d', '2014-10-29 10:21:54', 'P01', 'SC1');
 
 -- --------------------------------------------------------
 
@@ -244,8 +246,10 @@ CREATE TABLE IF NOT EXISTS `patient` (
 --
 
 INSERT INTO `patient` (`patientNRIC`, `firstName`, `lastName`, `gender`, `DOB`, `wardID`, `bedNumber`) VALUES
-('S2315479I', 'Ho Yin', 'Lee', 'female', '10/10/1938', 'ward 2', 2),
-('S7843522B', 'Mei Mei', 'Tan', 'female', '10/10/1968', 'ward 2', 1);
+('S2315479I', 'Rachel', 'Khoo', 'Female', '10/10/1968', 'ward 2', 1),
+('S7843522B', 'Mei Mei', 'Tan', 'Female', '10/10/1958', 'ward 2', 2),
+('S9048923H', 'Ho Yin', 'Lee', 'Female', '01/06/1990', 'ward 2', 4),
+('S9567344C', 'Jun Ling', 'Lim', 'Female', '04/12/1938', 'ward 2', 3);
 
 -- --------------------------------------------------------
 
@@ -270,11 +274,11 @@ INSERT INTO `practicalgroup` (`practicalGroupID`, `practicalGroupPassword`, `lec
 ('P02', 'P02', 'lec1'),
 ('P03', 'P03', 'lec2'),
 ('P04', 'P04', 'lec3'),
-('P05', 'P05', 'lec4'),
+('P05', 'P05', 'lec5'),
 ('P06', 'P06', 'lec4'),
 ('P07', 'P07', 'lec5'),
-('P08', 'P08', 'lec6'),
-('P09', 'P09', 'lec6');
+('P08', 'P08', 'lec3'),
+('P09', 'P09', 'lec4');
 
 -- --------------------------------------------------------
 
@@ -298,8 +302,8 @@ CREATE TABLE IF NOT EXISTS `prescription` (
 --
 
 INSERT INTO `prescription` (`scenarioID`, `stateID`, `doctorName`, `doctorOrder`, `freqAbbr`) VALUES
-('SC1', 'ST1', 'Dr Fong Pei Yin', 'PRBCs two units NOW', 'ASAP'),
-('SC1', 'ST2', 'Dr Fong Pei Yin', 'ECG ', 'ac ');
+('SC1', 'ST1', 'Dr Fong Pei Yin', 'ECG ', 'ac '),
+('SC1', 'ST1', 'Dr Fong Pei Yin', 'PRBCs two units NOW', 'ASAP');
 
 -- --------------------------------------------------------
 
@@ -309,7 +313,7 @@ INSERT INTO `prescription` (`scenarioID`, `stateID`, `doctorName`, `doctorOrder`
 
 CREATE TABLE IF NOT EXISTS `report` (
   `reportDatetime` datetime NOT NULL,
-  `reportName` varchar(30) NOT NULL,
+  `reportName` varchar(100) NOT NULL,
   `reportFile` varchar(200) NOT NULL,
   `dispatchStatus` tinyint(1) NOT NULL,
   `scenarioID` varchar(5) NOT NULL,
@@ -324,8 +328,10 @@ CREATE TABLE IF NOT EXISTS `report` (
 --
 
 INSERT INTO `report` (`reportDatetime`, `reportName`, `reportFile`, `dispatchStatus`, `scenarioID`, `stateID`) VALUES
-('2014-10-20 14:00:00', 'Chemistry', 'http://exampleChemistry', 1, 'SC1', 'ST1'),
-('2014-10-21 17:00:00', 'FBC', 'http://exampleFBC', 1, 'SC1', 'ST1');
+('2014-10-28 14:00:00', 'Admission form-Post Gastre', 'Admissionform.pdf', 0, 'SC3', 'ST0'),
+('2014-10-29 10:16:22', 'Chemistry NA140 K3.0', 'Chemistry_NA140_K3.0.pdf', 0, 'SC4', 'ST3'),
+('2014-10-30 10:00:00', 'Emergency Department Case Record', 'EmergencyDepartmentCaseRecord.pdf', 0, 'SC2', 'ST0'),
+('2014-10-31 00:14:25', 'Chemistry NA130 K2.0', 'Chemistry_NA130_K2.0.pdf', 0, 'SC4', 'ST1');
 
 -- --------------------------------------------------------
 
@@ -386,8 +392,11 @@ CREATE TABLE IF NOT EXISTS `scenario` (
 --
 
 INSERT INTO `scenario` (`scenarioID`, `scenarioName`, `scenarioDescription`, `scenarioStatus`, `admissionNote`) VALUES
-('SC1', 'ECS UK Anaphylactic Reaction', 'This simulated clinical experience was designed to expose the learner to the patient who experiences an adverse reaction to blood transfusion. The patient is first day postoperative gynecological surgery who develops the complication of hypovolemia that requires a blood transfusion. The simulated clinical experience will automatically progress to anaphylaxis and subsequent shock states without prompt recognition of the transfusion reaction. With prompt recognition and intervention, the patient stabilises. The anaphylactic component of this simulated clinical experience may be used separately depending on learning objectives and may be overlaid on any patient or other scenario. This simulated clinical experience is intended for the learner in Semester VI.', 1, 'A recently divorced, 46-year-old female, was admitted to the hospital yesterday morning for a total abdominal hysterectomy with bilateral salpingo-oophrectomy due to multiple large uterine fi broids. Over the past two years she had increasing pain that was not relieved with medication, excessively large menstrual fl ow, and long standing anemia refractory to standard treatment. Despite earlier recommendations from her healthcare provider to seek surgical intervention, she elected to wait due to multiple personal issues including her recent divorce and having two teenage children at home. During this time of postponing the surgery, she required two outpatient blood transfusions due to the severe anemia. Her signifi cant preoperative lab values included a haemoglobin of 8.4 mml and a haematocrit of 32%. The morning of admission her vital signs were a heart rate of 78 bpm, blood pressure of 110/70, respiratory rate of 16, and a temperature of 37°C. Her blood type is A negative. Intraoperatively her estimated blood loss was 450mL. Her postoperative period has been uneventful and you are the nurse assigned to her care the following morning. The night nurse reports that the patient slept for the early part of the shift, but has been awake complaining of discomfort since 0430 hours. Her last vital signs, which were at that time, respiratory rate of 18, a heart rate of 88, blood pressure of 102/60 and a temperature of 37.4°C.'),
-('SC2', 'another scenario', 'testtest', 0, 'testesttest');
+('SC1', 'Anaphylactic Reaction to Blood Administration', 'This simulated clinical experience was designed to expose the learner to the patient who experiences an adverse reaction to blood transfusion. The patient is first day postoperative gynecological surgery who develops the complication of hypovolemia that requires a blood transfusion. \n\nThe simulated clinical experience will automatically progress to anaphylaxis and subsequent shock states without prompt recognition of the transfusion reaction. With prompt recognition and intervention, the patient stabilises. The anaphylactic component of this simulated clinical experience may be used separately depending on learning objectives and may be overlaid on any patient or other scenario. This simulated clinical experience is intended for the learner in Semester VI.        ', 0, 'A recently divorced, 46-year-old female, was admitted to the hospital yesterday morning for a total abdominal hysterectomy with bilateral salpingo-oophrectomy due to multiple large uterine fibroids. Over the past two years she had increasing pain that was not relieved with medication, excessively large menstrual flow, and long standing anemia refractory to standard treatment. Despite earlier recommendations from her healthcare provider to seek surgical intervention, she elected to wait due to multiple personal issues including her recent divorce and having two teenage children at home. During this time of postponing the surgery, she required two outpatient blood transfusions due to the severe anemia. Her significant preoperative lab values included a haemoglobin of 8.4 mml and a haematocrit of 32%. The morning of admission her vital signs were a heart rate of 78 bpm, blood pressure of 110/70, respiratory rate of 16, and a temperature of 37°C. Her blood type is A negative. Intraoperatively her estimated blood loss was 450mL. Her postoperative period has been uneventful and you are the nurse assigned to her care the following morning. The night nurse reports that the patient slept for the early part of the shift, but has been awake complaining of discomfort since 0430 hours. Her last vital signs, which were at that time, respiratory rate of 18, a heart rate of 88, blood pressure of 102/60 and a temperature of 37.4°C.'),
+('SC2', 'Basic Assessment of the Cardiac Patient', 'This simulated clinical experience allows the beginning learner to conduct a basic physical assessment of a truck driver at a health fair. Learners are expected to identify cardiac findings related to an unhealthy lifestyle. Learners are expected to obtain both subjective and objective data related to assessment of the cardiac system, recognize areas that could be addressed with health promotion, and document their findings. Common abnormal findings can also be discussed at the end of the simulated clinical experience. This simulated clinical experience is intended for learners in Semester II.', 0, 'A 56-year-old truck driver has come to the health fair for routine screening on a hot summer day. He is dressed\ncasually in a short sleeve shirt and shorts.'),
+('SC3', 'Basic Assessment of the Postoperative Gastrectomy Patient', 'In this simulated clinical experience, learners conduct a basic physical assessment of a three-day postoperative partial gastrectomy patient. The patient exhibits five abnormal assessment findings for learners to identify and/or document, including: absent bowel sounds, hypertension, irregular cardiac rhythm, an abdominal dressing, and oedema. The scenario has one continuous state. The simulated clinical experience also consists of a psychosocial element, which the instructor may elect to incorporate and is intended for the learner in Semester I.', 0, 'This patient is a 76-year-old female whose chief complaint at her healthcare provider’s theatre was frequent indigestion and epigastric pain relieved by antacids. She also complained of rapid weight loss and feeling tired. After a series of tests, a biopsy was performed which confirmed stomach cancer. A partial gastrectomy was performed three days ago to remove the cancerous lesion. She is exhibiting signs of depression because of her recent diagnosis.\nHealth history: chronic gastritis, pernicious anaemia\n'),
+('SC4', 'Basic Dysrhythmia Recognition and Management', 'This simulated clinical experience involves a 24-year-old female university student who experiences heart palpitations, epigastric pain, muscle weakness, and a fainting episode in class. Initially she refused to go to the Emergency Department (ED), but later agreed to let a classmate drive her to the ED. Upon admission to the ED, the patient is diagnosed with a cardiac dysrhythmia. The patient states that she has been in excellent health all of her life. While waiting for the admission lab reports, the healthcare provider identifies signs of dehydration and specific physical findings associated with binge-purging bulimia nervosa. The lab report reveals severe hypokalaemia, which has resulted in destabilisation of the cardiac rhythm. The patient continues to deny purging. She remains in the ED for re-hydration, administration of IV potassium chloride, and stabilisation of the cardiac rhythm. She is admitted for psychiatric evaluation for the eating disorder and initiation of cognitive behavioural therapy. This simulated clinical experience is intended for the learner in Semester VI.', 1, '\nThe patient is a 24-year-old female who is brought into the Emergency Department (ED) from the university by a classmate. The classmate states that she “slumped over in the desk and nearly passed out.” The patient insists that she didn’t pass out and that she had a “weak spell from a stomach virus. I vomited once last night.” She is listless, has severe muscle weakness, and speaks very quietly, in a low voice. She states that while in class, she noticed her heart beating “really fast and hard at times.” She stated that she feels burning-type pain in the chest and epigastric area. She denies any health problems except constipation and irregular periods. She states her last menstrual cycle was six months ago. She denies allergies. She is heterosexual and has been sexually active since secondary school. Her partners used condoms and she has had six partners. She denies tobacco use and drugs but has an occasional glass or two of wine at parties. She lives in the city with her mother and her mother’s boyfriend who is a “heavy drinker.” She states that her father is “out of her life.” She is studying fashion design and plans to graduate in two years, then move to Paris.\n'),
+('SC5', 'Test data', 'Test data', 0, 'Test data');
 
 -- --------------------------------------------------------
 
@@ -411,13 +420,24 @@ CREATE TABLE IF NOT EXISTS `state` (
 --
 
 INSERT INTO `state` (`stateID`, `scenarioID`, `stateDescription`, `stateStatus`, `patientNRIC`) VALUES
-('ST0', 'SC1', 'just admitted', 1, 'S2315479I'),
-('ST0', 'SC2', 'hello test', 0, 'S7843522B'),
+('ST0', 'SC1', 'default state', 0, 'S2315479I'),
+('ST0', 'SC2', 'default state', 0, 'S7843522B'),
+('ST0', 'SC3', 'default state', 0, 'S2315479I'),
+('ST0', 'SC4', 'default state', 0, 'S9048923H'),
 ('ST1', 'SC1', 'Initial Assessment at 0800 Hours', 0, 'S2315479I'),
+('ST1', 'SC2', 'History and Assessment', 0, 'S7843522B'),
+('ST1', 'SC4', 'Admission to ED', 1, 'S9048923H'),
 ('ST2', 'SC1', 'Blood Started at 1000 Hours', 0, 'S2315479I'),
+('ST2', 'SC2', 'Optional state: Abnormals', 0, 'S7843522B'),
+('ST2', 'SC3', 'Baseline', 0, 'S9567344C'),
+('ST2', 'SC4', 'Identifies Incorrect Order', 0, 'S9048923H'),
 ('ST3', 'SC1', 'Beginning Anaphylax in 30 minutes later', 0, 'S2315479I'),
+('ST3', 'SC4', '4 Hours After Potassium Infusion', 0, 'S9048923H'),
 ('ST4', 'SC1', 'Mild Anaphylaxis', 0, 'S2315479I'),
-('ST5', 'SC1', 'Worsening Anaphylaxis', 0, 'S2315479I');
+('ST5', 'SC1', 'Worsening Anaphylaxis', 0, 'S2315479I'),
+('ST6', 'SC1', 'Severe Anaphylaxis', 0, 'S2315479I'),
+('ST7', 'SC1', 'Epinephrine Administered', 0, 'S2315479I'),
+('ST8', 'SC1', 'Complete Recovery', 0, 'S2315479I');
 
 -- --------------------------------------------------------
 
@@ -448,7 +468,10 @@ CREATE TABLE IF NOT EXISTS `vital` (
 --
 
 INSERT INTO `vital` (`vitalDatetime`, `patientNRIC`, `temperature`, `RR`, `BPsystolic`, `BPdiastolic`, `HR`, `SPO`, `output`, `oralType`, `oralAmount`, `intravenousType`, `intravenousAmount`) VALUES
-('2014-10-11 15:00:00', 'S2315479I', '37.50', 45, 92, 52, 100, 92, '50', 'water', '50', 'saline', '100');
+('2014-10-11 15:00:00', 'S2315479I', '37.50', 45, 92, 52, 100, 92, '50', 'water', '50', 'saline', '100'),
+('2014-10-27 02:07:41', 'S2315479I', '39.00', 30, 80, 48, 98, 98, '90', 'milk', '100', 'water ', '100'),
+('2014-10-27 02:08:32', 'S2315479I', '39.00', 30, 80, 48, 98, 98, '90', 'milk', '100', 'water', '100'),
+('2014-10-29 10:20:39', 'S2315479I', '36.50', 20, 120, 80, 70, 99, ' 350ml', ' solids', ' 200ml', ' iv', ' 200ml');
 
 -- --------------------------------------------------------
 
@@ -515,7 +538,7 @@ ALTER TABLE `medicine_prescription`
 -- Constraints for table `note`
 --
 ALTER TABLE `note`
-  ADD CONSTRAINT `note_ibfk_1` FOREIGN KEY (`practicalgroupID`) REFERENCES `practicalgroup` (`practicalgroupID`),
+  ADD CONSTRAINT `note_ibfk_1` FOREIGN KEY (`practicalGroupID`) REFERENCES `practicalgroup` (`practicalGroupID`),
   ADD CONSTRAINT `note_ibfk_2` FOREIGN KEY (`scenarioID`) REFERENCES `scenario` (`scenarioID`),
   ADD CONSTRAINT `note_ibfk_3` FOREIGN KEY (`practicalGroupID`) REFERENCES `practicalgroup` (`practicalGroupID`);
 
