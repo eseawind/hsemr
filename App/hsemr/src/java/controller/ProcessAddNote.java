@@ -55,6 +55,8 @@ public class ProcessAddNote extends HttpServlet {
                 HttpSession session = request.getSession(false);
                 
                 if(notes.trim().equals("") && grpNames.trim().equals("")){
+                     session.removeAttribute("notes");
+                      session.removeAttribute("grpNames");
                     session.setAttribute("active", "multidisciplinary");
                     session.setAttribute("error", "Please filled in both fields before submitting.");
                     response.sendRedirect("./viewPatientInformation.jsp");

@@ -61,8 +61,8 @@
                     //retrieve case's information
                     String admissionNotes = scenarioActivated.getAdmissionNote();
 
-        //retrieve note's information
-                    //List<Note> notesListRetrieved = NoteDAO.retrieveAll();
+                    //retrieve note's information
+                    List<Note> notesListRetrieved = NoteDAO.retrieveAll();
                     //retrieve patient's information
                     String firstName = retrievePatient.getFirstName();
                     String lastName = retrievePatient.getLastName();
@@ -427,7 +427,46 @@
                                 String notes = (String) session.getAttribute("notes");
 
                             %> 
-                            <div class="small-8">
+                            
+                                            
+                                <dl class="accordion" data-accordion>
+                                <dd class="accordion-navigation">
+                                    <a href="#pastNotes">View Past Groups notes</a>
+                                    <div id="pastNotes" class="content">
+                                        <div class="row">
+                                            <div class="large-12">
+                                                <div class="row">
+                                                    <div class="large-12 columns">
+                                                        <%
+                                                            if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
+                                                        <label for="right-label" class="right inline">No groups have enter their notes yet.</label>
+                                                        <% } else {
+                                                                
+                                                                for (int i = 0; i < notesListRetrieved.size(); i++) {
+                                                                    Note notesRetrieve = notesListRetrieved.get(i);
+                                                                   // out.print("<b>Practical Group: </b>" + notes.getPracticalGroupID() + "<br>");
+                                                                    out.print("<b>Nurses in-charge: </b>" + notesRetrieve.getGrpMemberNames() + "<br>");
+                                                                    out.print("<b>Multidisciplinary Note: </b>" + notesRetrieve.getMultidisciplinaryNote() + "<br>");
+                                                                    
+                                                                    out.println("<br>");
+                                                                }
+
+                                                            }//end of else
+                                                        %>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </dd>
+
+                                                  
+                                <dd class="accordion-navigation">
+                                    <a href="#newNotes">Enter new notes</a>
+                                    <div id="newNotes" class="content">
+                                        <div class="small-8">
                                 <div class="row">
                                     <div class="small-3 columns">
 
@@ -451,6 +490,8 @@
                                     </div>
                                 </div>
                             </div>
+                                        <div>
+                                            </dd>            
                             <br>
                             <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
                             <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
