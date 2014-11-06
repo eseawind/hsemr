@@ -3346,15 +3346,15 @@ dialog[open] {
         background: white !important; } }
 /* Tooltips */
 .has-tip {
-    color: #FFFFFF; }
+    color: #000000; }
 .has-tip:hover, .has-tip:focus {
-    border-bottom: dotted 1px #003f54;
-    color: #008cba; }
+    border-bottom: solid 1px #34893E;
+    color: #34893E; }
 .has-tip.tip-left, .has-tip.tip-right {
     float: none !important; }
 
 .tooltip {
-    margin-top: 15px;
+    margin-top: 0px;
     display: none;
     position: absolute;
     z-index: 999;
@@ -3375,7 +3375,7 @@ dialog[open] {
     height: 0;
     border: solid 5px;
     border-color: transparent transparent #333333 transparent;
-    top: -10px; }
+    top: 0px; }
 .tooltip > .nub.rtl {
     left: auto;
     right: 5px; }

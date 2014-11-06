@@ -25,10 +25,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/foundation.css" />
         <script src="js/vendor/modernizr.js"></script>
+        
+        <script src="js/vendor/jquery.js"></script>
+        <script>
+            $(document).ready(function() {
+                $(document).foundation();
+            });
+        </script>
         <title>NP Health Sciences | Patient Information</title>
         <%@include file="/topbar/topbar.jsp" %> 
     </head>
     <body>
+        <script src="js/foundation.min.js"></script>
         <div align ="center">
             <div class="large-centered large-10 columns">
                 <%            String active = active = (String) session.getAttribute("active");
@@ -503,10 +511,11 @@
         </div>
         <% }%>
 
-        <script src="js/vendor/jquery.js"></script>
-        <script src="js/foundation.min.js"></script>
-        <script>
-                                                $(document).foundation();
-        </script>
+    
     </body>
+       <script>
+            $(document).ready(function() {
+                $(document).foundation();
+            });
+    </script>
 </html>

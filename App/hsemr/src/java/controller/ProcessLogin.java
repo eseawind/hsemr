@@ -114,7 +114,7 @@ public class ProcessLogin extends HttpServlet {
 
                 if (correctPassword.equals(password)) {
                     session.setAttribute("nurse", userid);
-                    response.sendRedirect("viewPatientInformation.jsp");
+                    response.sendRedirect("viewCaseInformation.jsp");
                 } else {
                     request.setAttribute("error", "Invalid userid/password");
                     RequestDispatcher rd = request.getRequestDispatcher("viewMainLogin.jsp");
