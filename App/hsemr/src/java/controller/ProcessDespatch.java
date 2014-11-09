@@ -48,7 +48,7 @@ public class ProcessDespatch extends HttpServlet {
         Date date=new Date();
         ReportDAO.updateStatus(date, reportName, 1, scenarioID, stateID);
         HttpSession session = request.getSession(false);
-        session.setAttribute("success", "Report \"" + reportName +"\" despatched successfully!");
+        session.setAttribute("success", "Report: " + reportName + " despatched successfully!");
         
         session.setAttribute("active","reports");
         response.sendRedirect("viewPatientInformation.jsp");

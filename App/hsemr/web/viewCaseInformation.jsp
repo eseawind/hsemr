@@ -4,6 +4,7 @@
     Author     : weiyi.ngow.2012
 --%>
 
+<%@page import="entity.Scenario"%>
 <%@page import="dao.ScenarioDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -18,8 +19,11 @@
     </head>
     <body>
     <center>
+        <br>
         <h1>Case Information</h1>
 <div class="large-centered large-8 columns">
+    <% Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
+        if (scenarioActivated != null) { %>
         <form action ="viewPatientInformation.jsp" method="post">
         <table>
             <col width="30%">
@@ -63,6 +67,13 @@
                     </table>
              <input type="submit" class="button" value="Proceed">
         </form>
+                    <% 
+        } else { %>
+        <p><font size="6">NO CASE ACTIVATED</font><br>
+                Please contact administrator/lecturer for case activation.</p>
+<%        
+        }
+%>
 </div>
     </center>
 

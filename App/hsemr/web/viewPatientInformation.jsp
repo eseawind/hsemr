@@ -24,10 +24,14 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/foundation.css" />
+        <link rel="stylesheet" href="css/original.css" />
         <script src="js/vendor/modernizr.js"></script>
+        <script type="text/javascript" src="js/humane.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
         
         <script src="js/vendor/jquery.js"></script>
         <script>
+            
             $(document).ready(function() {
                 $(document).foundation();
             });
@@ -40,18 +44,20 @@
         <div align ="center">
             <div class="large-centered large-10 columns">
                 <%            String active = active = (String) session.getAttribute("active");
+                    
+                String success = "";
+                String error = "";
+                //retrieve all successfulmessages
+                //retrieve patient's information
+                String patientNRIC = "";
+                Patient retrievePatient = PatientDAO.retrieve(patientNRIC);
 
-                    //retrieve all successfulmessages
-                    //retrieve patient's information
-                    String patientNRIC = "";
-                    Patient retrievePatient = PatientDAO.retrieve(patientNRIC);
+                State retrieveScenarioState = null;
 
-                    State retrieveScenarioState = null;
+                //retrieve current scenario
+                Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
 
-                    //retrieve current scenario
-                    Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
-
-                    if (scenarioActivated == null) {
+                if (scenarioActivated == null) {
                 %> 
 
                 <p><h1>No Case Activated</h1></p>
@@ -107,27 +113,22 @@
                     <b>NRIC: <font color="#666666"><%=patientNRIC%></font></b>&nbsp;&nbsp;
                     <b>DOB: <font color="#666666"><%=dob%></font></b>&nbsp;&nbsp;
                     <b>Gender: <font color="#666666"><%=gender%></font></b>&nbsp;&nbsp;
-                    <b>Allergy: <font color="#666666"><%=allergy%></font></b>&nbsp;</font>
+                    <b>Allergy: <font color="red"><%=allergy%></font></b>&nbsp;</font>
                 </div>
 
 
-            <%if (session.getAttribute("success") != null) {%>
-            <div data-alert class="alert-box success radius">
-                <%=session.getAttribute("success")%>
-                <a href="#" class="close">&times;</a>
-            </div>
             <%
-                    session.setAttribute("success", null);
+            if (session.getAttribute("success") != null) {
+            
+                success = (String)session.getAttribute("success");
+                session.setAttribute("success","");
                 }
             %>
 
-            <%if (session.getAttribute("error") != null) {%>
-            <div data-alert class="alert-box alert radius">
-                <%=session.getAttribute("error")%>
-                <a href="#" class="close">&times;</a>
-            </div>
-            <%
-                    session.setAttribute("error", null);
+            <%if (session.getAttribute("error") != null) {
+          
+                    error = (String) session.getAttribute("error");
+                    session.setAttribute("error", "");
                 }
             %>
 
@@ -224,7 +225,7 @@
                                         <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
                                         <input type="hidden" name="stateID" value="<%=stateID%>">
 
-                                        <input type="submit" class="button tinytable" value="Depatch">
+                                        <input type="submit" class="report-despatch button tinytable" value="Depatch">
 
                                     </form>
 
@@ -488,8 +489,8 @@
                                                 out.print("");
                                             } else {
                                                 out.print(grpNames);
-                                            }%>" >
-                                        <textarea name="notes" id="notes" rows="7" cols="10" ><% if (notes == null || notes == "") {
+                                            }%>" required>
+                                        <textarea name="notes" id="notes" rows="7" cols="10" required><% if (notes == null || notes == "") {
                                                 out.print("");
                                             } else {
                                                 out.print(notes);
@@ -510,12 +511,24 @@
             
         </div>
         <% }%>
-
-    
-    </body>
-       <script>
+      <script>
+           
             $(document).ready(function() {
                 $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout:5000, clickToClose: true})
+                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout:5000, clickToClose: true})
+                  
+                var success1 = "<%=success%>";
+                var error1 = "<%=error%>";
+                if(success1 !== "") {
+                  humaneSuccess.log(success1);
+                } else if (error1 !== "") {
+                    humaneError.log(error1);
+                }
+                    
             });
     </script>
+    </body>
+    <script type="text/javascript" src="js/humane.js"></script>
+       
 </html>

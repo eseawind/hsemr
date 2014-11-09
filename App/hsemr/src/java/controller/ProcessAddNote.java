@@ -58,14 +58,14 @@ public class ProcessAddNote extends HttpServlet {
                      session.removeAttribute("notes");
                       session.removeAttribute("grpNames");
                     session.setAttribute("active", "multidisciplinary");
-                    session.setAttribute("error", "Please filled in both fields before submitting.");
+                    session.setAttribute("error", "Please fill in both fields before submitting.");
                     response.sendRedirect("./viewPatientInformation.jsp");
                 }else if(notes.trim().equals("")){
                     session.setAttribute("active", "multidisciplinary");
                     session.setAttribute("grpNames", grpNames);
                     session.removeAttribute("notes");
                    
-                    session.setAttribute("error", "Please filled in Multidisciplinary Notes before submitting.");
+                    session.setAttribute("error", "Please fill in Multidisciplinary Notes before submitting.");
                     response.sendRedirect("./viewPatientInformation.jsp");
                  
                 }else if(grpNames.trim().equals("") ) {
@@ -73,7 +73,7 @@ public class ProcessAddNote extends HttpServlet {
                     session.setAttribute("notes", notes);
                     session.removeAttribute("grpNames");
                     
-                    session.setAttribute("error", "Please filled in Group Names before submitting.");
+                    session.setAttribute("error", "Please fill in Group Names before submitting.");
                     response.sendRedirect("./viewPatientInformation.jsp");
                 }else{
                     NoteDAO.insertNote(notes, grpNames, dateTime , practicalGrpLoggedIn, scenarioID );
