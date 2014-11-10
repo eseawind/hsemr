@@ -28,11 +28,11 @@
         <script src="js/vendor/modernizr.js"></script>
         <script type="text/javascript" src="js/humane.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
-        
+
         <script src="js/vendor/jquery.js"></script>
         <script>
-            
-            $(document).ready(function() {
+
+            $(document).ready(function () {
                 $(document).foundation();
             });
         </script>
@@ -44,20 +44,20 @@
         <div align ="center">
             <div class="large-centered large-10 columns">
                 <%            String active = active = (String) session.getAttribute("active");
-                    
-                String success = "";
-                String error = "";
-                //retrieve all successfulmessages
-                //retrieve patient's information
-                String patientNRIC = "";
-                Patient retrievePatient = PatientDAO.retrieve(patientNRIC);
 
-                State retrieveScenarioState = null;
+                    String success = "";
+                    String error = "";
+                    //retrieve all successfulmessages
+                    //retrieve patient's information
+                    String patientNRIC = "";
+                    Patient retrievePatient = PatientDAO.retrieve(patientNRIC);
 
-                //retrieve current scenario
-                Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
+                    State retrieveScenarioState = null;
 
-                if (scenarioActivated == null) {
+                    //retrieve current scenario
+                    Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
+
+                    if (scenarioActivated == null) {
                 %> 
 
                 <p><h1>No Case Activated</h1></p>
@@ -90,7 +90,7 @@
                     }
 
 //            Vital vital = VitalDAO.retrieveByDatetime(patientNRIC,"2014-10-11 15:00:00");
-        //retrieve state's information
+                    //retrieve state's information
 //             double temperature = vital.getTemperature();
 //             int rr = vital.getRr();
 //             int bpSystolic = vital.getBpSystolic();
@@ -117,20 +117,20 @@
                 </div>
 
 
-            <%
-            if (session.getAttribute("success") != null) {
-            
-                success = (String)session.getAttribute("success");
-                session.setAttribute("success","");
-                }
-            %>
+                <%
+                    if (session.getAttribute("success") != null) {
 
-            <%if (session.getAttribute("error") != null) {
-          
-                    error = (String) session.getAttribute("error");
-                    session.setAttribute("error", "");
-                }
-            %>
+                        success = (String) session.getAttribute("success");
+                        session.setAttribute("success", "");
+                    }
+                %>
+
+                <%if (session.getAttribute("error") != null) {
+
+                        error = (String) session.getAttribute("error");
+                        session.setAttribute("error", "");
+                    }
+                %>
 
                 <div class="tabs-content">
                     <dl class="tabs" data-tab>
@@ -182,7 +182,7 @@
                             List<Report> stateReports = ReportDAO.retrieveReportsByState(scenarioID, stateID);
                             if (stateReports != null && stateReports.size() != 0) {
                         %>
-                        
+
                         <table>
                             <tr>
                                 <td><b>Reports Ordered</b></td>
@@ -192,10 +192,10 @@
                             </tr>
 
                             <%
-                            // Create an instance of SimpleDateFormat used for formatting 
+                                // Create an instance of SimpleDateFormat used for formatting 
                                 // the string representation of date (month/day/year)
                                 DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-                                
+
                                 for (Report report : stateReports) {
                                     String reportName = report.getReportName();
                                     String reportFile = report.getReportFile();
@@ -436,99 +436,102 @@
                                 String notes = (String) session.getAttribute("notes");
 
                             %> 
-                            
-                                            
-                                <dl class="accordion" data-accordion>
-                                <dd class="accordion-navigation">
-                                    <a href="#pastNotes">View Past Groups notes</a>
-                                    <div id="pastNotes" class="content">
-                                        <div class="row">
-                                            <div class="large-12">
+
+
+
+                            <h4>Enter New Multidisciplinary Notes</h4><br>
+                            <div id="newNotes" class="content">
+                                <div class="small-8">
+                                    <div class="row">
+                                        <div class="small-3 columns">
+
+                                            <label for="right-label" class="right inline">Nurses in-charge</label>
+                                            <label for="right-label" class="right inline">Multidisciplinary Note</label>
+                                        </div>
+                                        <div class="small-9 columns">
+                                            <input type ="hidden" name="scenarioID" value="<%=scenarioID%>"/>
+
+                                            <input type ="text" id= "grpNames" name="grpNames" value="<% if (grpNames == null || grpNames == "") {
+                                                    out.print("");
+                                                } else {
+                                                    out.print(grpNames);
+                                                }%>" >
+                                            <textarea name="notes" id="notes" rows="7" cols="10" ><% if (notes == null || notes == "") {
+                                                    out.print("");
+                                                } else {
+                                                    out.print(notes);
+                                                }%></textarea>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <br>
+                                    <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
+                                    <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
+                                    <input type="button" value="Cancel" class="button tiny" onClick="window.location = 'viewPatientInformation.jsp'"/>
+
+                                    <dl class="accordion" data-accordion>
+                                        <dd class="accordion-navigation">
+                                            <a href="#pastNotes">View Past Groups notes here</a>
+                                            <div id="pastNotes" class="content">
                                                 <div class="row">
-                                                    <div class="large-12 columns">
-                                                        <%
-                                                            if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
-                                                        <label for="right-label" class="right inline">No groups have enter their notes yet.</label>
-                                                        <% } else {
-                                                                
-                                                                for (int i = 0; i < notesListRetrieved.size(); i++) {
-                                                                    Note notesRetrieve = notesListRetrieved.get(i);
-                                                                   // out.print("<b>Practical Group: </b>" + notes.getPracticalGroupID() + "<br>");
-                                                                    out.print("<b>Nurses in-charge: </b>" + notesRetrieve.getGrpMemberNames() + "<br>");
-                                                                    out.print("<b>Multidisciplinary Note: </b>" + notesRetrieve.getMultidisciplinaryNote() + "<br>");
-                                                                    
-                                                                    out.println("<br>");
-                                                                }
+                                                    <div class="large-12">
+                                                        <div class="row">
+                                                            <div class="large-12 columns">
+                                                                <%
+                                                                    if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
+                                                                <label for="right-label" class="right inline">No groups have enter their notes yet.</label>
+                                                                <% } else {
+                                                                        DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+                                                                        //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
+                                                                        for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
+                                                                            Note notesRetrieve = notesListRetrieved.get(i);
+                                                                            // out.print("<b>Practical Group: </b>" + notes.getPracticalGroupID() + "<br>");
+                                                                            out.print("<b>Nurses in-charge: </b>" + notesRetrieve.getGrpMemberNames() + "<br>");
+                                                                            out.print("<b>Multidisciplinary Note: </b>" + notesRetrieve.getMultidisciplinaryNote() + "<br>");
+                                                                            out.print("<b>Time submitted: </b>" + df.format(notesRetrieve.getNoteDatetime()) + "<br>");
+                                                                            out.println("<br>");
+                                                                        }
 
-                                                            }//end of else
-                                                        %>
+                                                                    }//end of else
+                                                                %>
 
 
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </dd>
+                                        </dd>
 
-                                                  
-                                <dd class="accordion-navigation">
-                                    <a href="#newNotes">Enter new notes</a>
-                                    <div id="newNotes" class="content">
-                                        <div class="small-8">
-                                <div class="row">
-                                    <div class="small-3 columns">
 
-                                        <label for="right-label" class="right inline">Nurses in-charge</label>
-                                        <label for="right-label" class="right inline">Multidisciplinary Note</label>
-                                    </div>
-                                    <div class="small-9 columns">
-                                        <input type ="hidden" name="scenarioID" value="<%=scenarioID%>"/>
 
-                                        <input type ="text" id= "grpNames" name="grpNames" value="<% if (grpNames == null || grpNames == "") {
-                                                out.print("");
-                                            } else {
-                                                out.print(grpNames);
-                                            }%>" required>
-                                        <textarea name="notes" id="notes" rows="7" cols="10" required><% if (notes == null || notes == "") {
-                                                out.print("");
-                                            } else {
-                                                out.print(notes);
-                                            }%></textarea>
 
-                                    </div>
+                                        </form>
                                 </div>
                             </div>
-                                        <div>
-                                            </dd>            
-                            <br>
-                            <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
-                            <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
-                            <input type="button" value="Cancel" class="button tiny" onClick="window.location = 'viewPatientInformation.jsp'"/>
-                        </form>
+
                     </div>
-                </div>
-            
-        </div>
-        <% }%>
-      <script>
-           
-            $(document).ready(function() {
-                $(document).foundation();
-                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout:5000, clickToClose: true})
-                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout:5000, clickToClose: true})
-                  
-                var success1 = "<%=success%>";
-                var error1 = "<%=error%>";
-                if(success1 !== "") {
-                  humaneSuccess.log(success1);
-                } else if (error1 !== "") {
-                    humaneError.log(error1);
-                }
-                    
-            });
-    </script>
-    </body>
-    <script type="text/javascript" src="js/humane.js"></script>
-       
-</html>
+                    <% }%>
+                    <script>
+
+                        $(document).ready(function () {
+                            $(document).foundation();
+                            var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 5000, clickToClose: true})
+                            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 5000, clickToClose: true})
+
+                            var success1 = "<%=success%>";
+                            var error1 = "<%=error%>";
+                            if (success1 !== "") {
+                                humaneSuccess.log(success1);
+                            } else if (error1 !== "") {
+                                humaneError.log(error1);
+                            }
+
+                        });
+                    </script>
+                    </body>
+                    <script type="text/javascript" src="js/humane.js"></script>
+
+                    </html>
