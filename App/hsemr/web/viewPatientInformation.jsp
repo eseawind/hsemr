@@ -469,8 +469,7 @@
                                     <br>
                                     <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
                                     <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
-                                    <input type="button" value="Cancel" class="button tiny" onClick="window.location = 'viewPatientInformation.jsp'"/>
-
+                                 
                                     <dl class="accordion" data-accordion>
                                         <dd class="accordion-navigation">
                                             <a href="#pastNotes">View Past Groups notes here</a>
@@ -504,11 +503,7 @@
                                                 </div>
                                             </div>
                                         </dd>
-
-
-
-
-                                        </form>
+                                    </form>
                                 </div>
                             </div>
 
@@ -518,8 +513,8 @@
 
                         $(document).ready(function () {
                             $(document).foundation();
-                            var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 5000, clickToClose: true})
-                            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 5000, clickToClose: true})
+                            var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
                             var success1 = "<%=success%>";
                             var error1 = "<%=error%>";

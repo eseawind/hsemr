@@ -45,7 +45,7 @@ public class ProcessDeleteAccount extends HttpServlet {
          if (userType.equals("admin")) {
             AdminDAO.delete(userID);
             HttpSession session = request.getSession(false);
-            session.setAttribute("successAdmin", "Account \"" + userID + "\" has been deleted successfully.");
+            session.setAttribute("success", "Account: " + userID + " has been deleted successfully.");
        
 //            RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
 //            rd.forward(request, response);
@@ -56,21 +56,21 @@ public class ProcessDeleteAccount extends HttpServlet {
 
                 LecturerDAO.delete(userID);
                 HttpSession session = request.getSession(false);
-                session.setAttribute("successLecturer", "Account \"" + userID + "\" has been deleted successfully.");
+                session.setAttribute("success", "Account: " + userID + " has been deleted successfully.");
     //            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
     //            rd.forward(request, response);
 
                 response.sendRedirect("./viewLecturerAccounts.jsp");
            } else { 
                HttpSession session = request.getSession(false);
-               session.setAttribute("error", "Please modify/delete <a href='./viewPracticalGroupAccounts.jsp'><font color='white'><u>Practical Group account(s)</u></font></a> with \"" + userID + "\" as Lecturer in-charge before deleting the account");
+               session.setAttribute("error", "Please modify/delete Practical Group account(s) with " + userID + " as Lecturer-in-charge before deleting the account <a href='./viewPracticalGroupAccounts.jsp'><font color='white'><u>here</u></font></a>");
                 response.sendRedirect("./viewLecturerAccounts.jsp");
            }
            
         } else { 
             PracticalGroupDAO.delete(userID);
             HttpSession session = request.getSession(false);
-            session.setAttribute("successNurse", "Account \"" + userID + "\" has been deleted successfully.");
+            session.setAttribute("success", "Account: " + userID + " has been deleted successfully.");
 //            RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
 //            rd.forward(request, response);
 

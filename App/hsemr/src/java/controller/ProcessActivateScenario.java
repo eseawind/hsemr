@@ -50,9 +50,11 @@ public class ProcessActivateScenario extends HttpServlet {
             //call scenarioDAO to update the status of the scenario
             if (status.equals("deactivated")) {
                 ScenarioDAO.updateScenarioStatus(scenarioID, 0);
-                request.setAttribute("successMessageDeactivateCase", "You have successfully deactivated the case \"" + scenarioID + "\" !");
-                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
-                rd.forward(request, response);
+                HttpSession session = request.getSession(false);
+                session.setAttribute("success", "You have successfully deactivated the case: " + scenarioID + " !");
+//                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
+//                rd.forward(request, response);
+                response.sendRedirect("viewScenarioLecturer.jsp");
             } else {
                 Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
                 if (activatedScenario != null) {
@@ -63,9 +65,11 @@ public class ProcessActivateScenario extends HttpServlet {
                 }
                 ScenarioDAO.updateScenarioStatus(scenarioID, 1);
                 StateDAO.updateState("ST0", scenarioID, 1);
-                request.setAttribute("successMessageActivateCase", "You have successfully activated the case \"" + scenarioID + "\" !");
-                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
-                rd.forward(request, response);
+                HttpSession session = request.getSession(false);
+                session.setAttribute("success", "You have successfully activated the case: " + scenarioID + " !");
+//                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
+//                rd.forward(request, response);
+                response.sendRedirect("viewScenarioLecturer.jsp");
             }
 
         } finally {

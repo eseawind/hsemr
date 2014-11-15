@@ -45,7 +45,7 @@ public class ProcessEditAccount extends HttpServlet {
             if (password.equals(confirmPassword)) { 
                 AdminDAO.update(userID, password);
                 HttpSession session = request.getSession(false);
-                session.setAttribute("successAdmin", "Account \"" + userID + "\" has been edited successfully.");
+                session.setAttribute("success", "Account: " + userID + " has been edited successfully.");
                 //RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
                 //rd.forward(request, response);
                  response.sendRedirect("./viewAdminAccounts.jsp");
@@ -61,7 +61,7 @@ public class ProcessEditAccount extends HttpServlet {
             if (password.equals(confirmPassword)) { 
                 LecturerDAO.update(userID, password);
                 HttpSession session = request.getSession(false);
-               session.setAttribute("successLecturer", "Account \"" + userID + "\" has been edited successfully.");
+               session.setAttribute("success", "Account: " + userID + " has been edited successfully.");
     //            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
     //            rd.forward(request, response); 
             response.sendRedirect("./viewLecturerAccounts.jsp");
@@ -74,19 +74,28 @@ public class ProcessEditAccount extends HttpServlet {
                
             }
         } else { // practical group
-            if (password.equals(confirmPassword)) { 
-                PracticalGroupDAO.update(userID, password, lecturerID);
-                HttpSession session = request.getSession(false);
-                session.setAttribute("successNurse", "Account \"" + userID + "\" has been edited successfully.");
-               // RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
-               // rd.forward(request, response);
-                response.sendRedirect("./viewPracticalGroupAccounts.jsp");
-            }else { 
+            if ((password != null && !password.equals("")) || (confirmPassword != null && !confirmPassword.equals(""))){
+                if (password.equals(confirmPassword)) { 
+                    PracticalGroupDAO.update(userID, password, lecturerID);
+                    HttpSession session = request.getSession(false);
+                    session.setAttribute("success", "Account: " + userID + " has been edited successfully.");
+                   // RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
+                   // rd.forward(request, response);
+                    response.sendRedirect("./viewPracticalGroupAccounts.jsp");
+                }else { 
                 request.setAttribute("error", "Password mismatch"); 
                 request.setAttribute("userID", userID);
                 request.setAttribute("password", password);
                 RequestDispatcher rd = request.getRequestDispatcher("./editPracticalGroupAccount.jsp");
                 rd.forward(request, response);
+                }
+            } else {
+                PracticalGroupDAO.updateLecturer(userID, lecturerID);
+                HttpSession session = request.getSession(false);
+                session.setAttribute("success", "Account: " + userID + " has been edited successfully.");
+               // RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
+               // rd.forward(request, response);
+                response.sendRedirect("./viewPracticalGroupAccounts.jsp");           
                
             }
         }

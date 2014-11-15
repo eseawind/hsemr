@@ -23,7 +23,8 @@
 
         <!--CSS-->
         <link rel="stylesheet" href="css/foundation.css" />
-
+        <link rel="stylesheet" href="css/original.css" />
+        <script type="text/javascript" src="js/humane.js"></script>
         <script src="js/vendor/modernizr.js"></script>
         <!-- ADMIN TOP BAR-->
         <%@include file="/topbar/topbarAdmin.jsp" %>
@@ -61,34 +62,17 @@
     <center> <h1>Case Management</h1>
   
     <div class="large-12 columns" style="padding-top: 20px;">
-        <%            //Retrieve all the successful messages 
-            String successMessageCreateScenario = (String) session.getAttribute("successMessageCreateScenario");
-            String successMessageEditScenario = (String) session.getAttribute("successMessageEditScenario");
-            String successMessageDeleteScenario = (String) session.getAttribute("successMessageDeleteScenario");
+        <%  //Retrieve all the successful messages 
+            
+            String success = "" ; 
+            if (session.getAttribute("success") != null) {
+                success = (String) session.getAttribute("success");
+                session.setAttribute("success", "");
+             }
+            
+
         %>
-            <%if (successMessageCreateScenario != null) {%>
-            <div data-alert class="alert-box success radius">
-                <%=successMessageCreateScenario%>
-                <a href="#" class="close">&times;</a>
-            </div>
-            <%}
-                session.getAttribute("successMessageCreateScenario"); %>
-
-            <%if (successMessageEditScenario != null) {%>
-            <div data-alert class="alert-box success radius">
-                <%=successMessageEditScenario%>
-                <a href="#" class="close">&times;</a>
-            </div>
-            <%}
-                session.removeAttribute("successMessageEditScenario"); %>
-
-            <%if (successMessageDeleteScenario != null) {%>
-            <div data-alert class="alert-box success radius">
-                <%=successMessageDeleteScenario%>
-                <a href="#" class="close">&times;</a>
-            </div>
-            <%}
-                session.removeAttribute("successMessageDeleteScenario"); %>
+            
 
             <%List<Scenario> scenarioList = ScenarioDAO.retrieveAll();%>
          
@@ -165,9 +149,18 @@
                </center>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
-
     <script>
-                                    $(document).foundation();
-    </script>
+            $(document).ready(function () {
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
+               
+                var success1 = "<%=success%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                }
+
+            });
+        </script>
+        <script type="text/javascript" src="js/humane.js"></script>
 </body>
 </html>

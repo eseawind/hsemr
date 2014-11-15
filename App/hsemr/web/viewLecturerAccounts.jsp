@@ -21,6 +21,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/foundation.css" />
+        <link rel="stylesheet" href="css/original.css" />
+        <script type="text/javascript" src="js/humane.js"></script>
         <script src="js/vendor/modernizr.js"></script>
         <%@include file="/topbar/topbarAdmin.jsp" %>
         <script type="text/javascript">
@@ -49,28 +51,22 @@
                     <h1>Lecturer Accounts Management</h1>
         
                     <div class ="large-11">
-                          
-                        <%if (session.getAttribute("successLecturer") != null) {%>
-                        <div data-alert class="alert-box success radius">
-                           <%=session.getAttribute("successLecturer")%>
-                            <a href="#" class="close">&times;</a>
-                        </div>
                         <%
-                            session.setAttribute("successLecturer",null);                        
-                            }
-                        %>
-                        
-                        <%
+                        String success = ""; 
+                        String error = "";
+                        if (session.getAttribute("success") != null) {
 
-                            String error = (String) session.getAttribute("error");
-                            if (error != null) {
-                                %>
-                                <div data-alert class="alert-box alert radius">
-                                 <%=error%>
-                           <a href="#" class="close">&times;</a></div>
-                            <%
-                            } session.setAttribute("error", null);
-                    %>
+                            success = (String) session.getAttribute("success");
+                            session.setAttribute("success", "");
+                        
+                        }
+                        if (session.getAttribute("error") != null) {
+
+                            error = (String) session.getAttribute("error");
+                            session.setAttribute("error", "");
+                        
+                        }
+                        %>
                     <table class="responsive" id="cssTable">
                         <col width="40%">
                         <col width="40%">
@@ -137,7 +133,21 @@
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
         <script>
-                                        $(document).foundation();
-        </script>       
+                $(document).ready(function () {
+                    $(document).foundation();
+                    var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true})
+                    var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 10000, clickToClose: true})
+
+                    var success1 = "<%=success%>";
+                    var error1 = "<%=error%>";
+                    if (success1 !== "") {
+                        humaneSuccess.log(success1);
+                    } else if (error1 !== "") {
+                        humaneError.log(error1);
+                    }
+
+                });
+            </script>
+            <script type="text/javascript" src="js/humane.js"></script>     
     </body>
 </html>

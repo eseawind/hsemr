@@ -59,7 +59,7 @@ public class ProcessCreateAccount extends HttpServlet {
             } else {
                 AdminDAO.add(userID, password);
                 
-                session.setAttribute("successAdmin", "New account \"" + userID+  "\" has been created successfully!");
+                session.setAttribute("success", "New account: " + userID+  " has been created successfully!");
                 response.sendRedirect("./viewAdminAccounts.jsp");
             }
 
@@ -77,7 +77,7 @@ public class ProcessCreateAccount extends HttpServlet {
                 rd.forward(request, response);
             } else {
                 LecturerDAO.add(userID, password);
-                session.setAttribute("successLecturer", "New account \"" + userID+  "\" has been created successfully!");                LecturerDAO.add(userID, password);
+                session.setAttribute("success", "New account: " + userID+  " has been created successfully!");                LecturerDAO.add(userID, password);
                 response.sendRedirect("./viewLecturerAccounts.jsp");
             }
 
@@ -95,7 +95,7 @@ public class ProcessCreateAccount extends HttpServlet {
                 rd.forward(request, response);
             } else {
                 PracticalGroupDAO.add(userID, password, lecturerID);
-                session.setAttribute("successNurse", "New account \"" + userID+  "\" has been created successfully!");
+                session.setAttribute("success", "New account: " + userID+  " has been created successfully!");
                 response.sendRedirect("./viewPracticalGroupAccounts.jsp");
             }
 

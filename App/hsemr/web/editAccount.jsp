@@ -19,6 +19,8 @@
     <head>
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
+         <link rel="stylesheet" href="css/original.css" />
+        <script type="text/javascript" src="js/humane.js"></script>
         <script src="responsive-tables.js"></script>
         <%@include file="/topbar/topbarAdmin.jsp" %>
 
@@ -54,21 +56,18 @@
         %>
         
         <h1>Edit <%=userID%>'s details</h1></center>
-        <div class="row" style="width:27%;">   
+        <div class="row">   
            
+            <div class="large-centered large-11 columns">
+                <div class="small-centered small-3 columns">
+                          
             <%
 
-                String error = (String) request.getAttribute("error");
-                if (error != null) {
-            %>
-            <div data-alert class="alert-box alert radius">
-                <%=error%>
-                <a href="#" class="close">&times;</a></div>
-                <%
-                    }
-
-                %> 
-
+                            String error = (String) request.getAttribute("error");
+                            if (error == null) {
+                                error = ""; 
+                            }
+                        %>
             <form action = "ProcessEditAccount" method = "post">
                 <div class="row">
                     <br/>
@@ -108,7 +107,22 @@
                     <input type="submit" class="button tiny" value="Save"> 
                     <input type="button" value="Cancel" class="button tiny" onClick="window.location = '<%=location%>'"/>
                 </div>
-            </form>
+                </form>
+                </div>
+            </div>
         </div>
+    <script>
+
+        $(document).ready(function () {
+            $(document).foundation();
+            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 1000, clickToClose: true})
+
+            var error1 = "<%=error%>";
+            if (error1 !== "") {
+                humaneError.log(error1);
+            }
+
+        });
+    </script>
     </body>
 </html>

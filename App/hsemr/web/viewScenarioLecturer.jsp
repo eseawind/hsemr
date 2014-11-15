@@ -16,6 +16,8 @@
          <!-- LECTURER TOP BAR-->
         <%@include file="/topbar/topbarLecturer.jsp" %>
         <link rel="stylesheet" href="css/foundation.css" />
+        <link rel="stylesheet" href="css/original.css" />
+        <script type="text/javascript" src="js/humane.js"></script>
         <script src="js/vendor/modernizr.js"></script>
         <script type="text/javascript">
             function activateConfirmation() {
@@ -51,27 +53,15 @@
                 <center>
                     <h1>Select case to view details</h1>
           
-            <%            
-            String successMessageDeactivateCase = (String) request.getAttribute("successMessageDeactivateCase");
-            String successMessageActivateCase = (String) request.getAttribute("successMessageActivateCase");
+            <%  //Retrieve all the successful messages 
             
-            if (successMessageDeactivateCase!= null) {%>
-            <div data-alert class="alert-box success radius">
-                <%=successMessageDeactivateCase%>
-                <a href="#" class="close">&times;</a>
-            </div>
-            <%}
-                session.removeAttribute("successMessageDeactivateCase"); %>
+            String success = "" ; 
+            if (session.getAttribute("success") != null) {
+                success = (String) session.getAttribute("success");
+                session.setAttribute("success", "");
+             }
+            
 
-            <%if (successMessageActivateCase != null) {%>
-            <div data-alert class="alert-box success radius">
-                <%=successMessageActivateCase%>
-                <a href="#" class="close">&times;</a>
-            </div>
-            <%}
-                session.removeAttribute("successMessageActivateCase"); %>
-         
-            <%
                 int caseNo = 0;
                 String scenarioID = "";
 
@@ -191,7 +181,17 @@
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
         <script>
-            $(document).foundation();
-        </script> 
+            $(document).ready(function () {
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
+               
+                var success1 = "<%=success%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                }
+
+            });
+        </script>
+        <script type="text/javascript" src="js/humane.js"></script>
     </body>
 </html>

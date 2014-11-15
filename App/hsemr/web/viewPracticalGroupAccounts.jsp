@@ -21,6 +21,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/foundation.css" />
+        <link rel="stylesheet" href="css/original.css" />
+        <script type="text/javascript" src="js/humane.js"></script>
         <script src="js/vendor/modernizr.js"></script>
         <%@include file="/topbar/topbarAdmin.jsp" %>
 
@@ -50,15 +52,17 @@
                 <center>
                     <h1>Practical Group Accounts Management</h1>
                     <div class ="large-11">
-                        <%if (session.getAttribute("successNurse") != null) {%>
-                        <div data-alert class="alert-box success radius">
-                           <%=session.getAttribute("successNurse")%>
-                            <a href="#" class="close">&times;</a>
-                        </div>
-                        <%
-                            session.setAttribute("successNurse",null);                        
-                            }
+                      <%
+                        String success = ""; 
+
+                        if (session.getAttribute("success") != null) {
+
+                            success = (String) session.getAttribute("success");
+                            session.setAttribute("success", "");
+                        
+                        }
                         %>
+
                         
                     <table class="responsive" id="cssTable">
                         <col width="25%">
@@ -69,7 +73,7 @@
                         <tr>
                             <td><b>User ID</b></td>
                             <td><b>Password</b></td>
-                            <td><b>Lecturer in-charge</b></td>
+                            <td><b>Lecturer-in-charge</b></td>
                             <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
                         </tr>
                         <%
@@ -77,7 +81,7 @@
                         %>
                         <tr>
                             <td> <%=practicalGroup.getPracticalGroupID()%> </td>
-                            <td> ************** </td>
+                            <td> ********** </td>
                             <td> <%=practicalGroup.getLecturerID()%> </td>
                             <td> 
                                 <form action="editPracticalGroupAccount.jsp" method="post">
@@ -126,7 +130,18 @@
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
         <script>
-                                        $(document).foundation();
-        </script>       
+
+            $(document).ready(function () {
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 1000, clickToClose: true})
+               
+                var success1 = "<%=success%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                }
+
+            });
+        </script>
+        <script type="text/javascript" src="js/humane.js"></script>     
     </body>
 </html>

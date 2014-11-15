@@ -17,6 +17,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
+        <link rel="stylesheet" href="css/original.css" />
+        <script type="text/javascript" src="js/humane.js"></script>
         <script src="responsive-tables.js"></script>
         <%@include file="/topbar/topbarAdmin.jsp" %>
         <title>Create Account</title>
@@ -55,17 +57,16 @@
                 %>
                 <center><h1>Create Account</h1>
                     <h4>Account Type: <%=userType%><br></h4></center>
-                <div class="row" style="width:20%;">   
-                <%
+                <div class="row">   
+                    <div class="large-centered large-11 columns">
+                    <div class="small-centered small-3 columns">
+                 <%
 
-                    String error = (String) request.getAttribute("error");
-                    if (error != null) {
-                %>
-                <div data-alert class="alert-box alert radius">
-                    <%=error%>
-                    <a href="#" class="close">&times;</a></div>
-                    <%
+                        String error = (String) request.getAttribute("error");
+                        if (error == null) {
+                            error = ""; 
                         }
+                        
                         String userID = "";
 
                         if (request.getParameter("userID") != null || !userID.equals("")) {
@@ -107,7 +108,7 @@
                         </label>  
                         <br/>
                         <!--Lecturer in-charge-->
-                        <label><strong>Lecturer in-charge</strong>
+                        <label><strong>Lecturer-in-charge</strong>
                             <div class="row collapse">
                                 <div class="small-9 columns">
                                     <select name="lecturerID">
@@ -135,5 +136,20 @@
                 </form> 
             </div>
         </div>
+        </div>
+        </div>
+    <script>
+
+        $(document).ready(function () {
+            $(document).foundation();
+            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 1000, clickToClose: true})
+
+            var error1 = "<%=error%>";
+            if (error1 !== "") {
+                humaneError.log(error1);
+            }
+
+        });
+    </script>
     </body>
 </html>

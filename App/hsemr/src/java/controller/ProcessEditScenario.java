@@ -56,7 +56,7 @@ public class ProcessEditScenario extends HttpServlet {
         ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, scenarioStatus, admissionInfo);
         
         HttpSession session = request.getSession(false);
-        session.setAttribute("successMessageEditScenario", "The case has been edited successfully!");
+        session.setAttribute("success", "The case has been edited successfully!");
         response.sendRedirect("./viewScenarioAdmin.jsp");
         return;
     }
