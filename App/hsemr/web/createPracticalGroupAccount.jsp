@@ -24,8 +24,8 @@
         <title>Create Account</title>
     </head>
     <body>     
-        <div class="large-centered large-12 columns">
-            
+        <div class="large-10 large-centered columns">  
+            <div class="row" style="width:400px; padding-top: 50px">
                 <%                    String location = "";
                     String userType = "";
                     if (request.getParameter("type") != null && !request.getParameter("type").equals("")) {
@@ -57,99 +57,76 @@
                 %>
                 <center><h1>Create Account</h1>
                     <h4>Account Type: <%=userType%><br></h4></center>
-                <div class="row">   
-                    <div class="large-centered large-11 columns">
-                    <div class="small-centered small-3 columns">
-                 <%
+                        <%
 
-                        String error = (String) request.getAttribute("error");
-                        if (error == null) {
-                            error = ""; 
-                        }
-                        
-                        String userID = "";
+                            String error = (String) request.getAttribute("error");
+                            if (error == null) {
+                                error = "";
+                            }
 
-                        if (request.getParameter("userID") != null || !userID.equals("")) {
-                            userID = (String) request.getParameter("userID");
-                        }
+                            String userID = "";
 
-                    %> 
+                            if (request.getParameter("userID") != null || !userID.equals("")) {
+                                userID = (String) request.getParameter("userID");
+                            }
 
+                        %> 
 
                 <form action="ProcessCreateAccount" method="post">
-                    <div class="row">
-                        <br/>
-                        <!--User ID-->
-                        <label><strong>User ID</strong>
-                            <div class="row collapse">
-                                <div class="small-9 columns">
-                                    <input type="text" id="userID" name="userID" value="<%=userID%>" required autofocus>
-                                </div>
-                            </div> 
-                        </label>
-                        <br/>
+                    <br/>
+                    <!--User ID-->
+                    <label><strong>User ID</strong>
+                        <input type="text" id="userID" name="userID" value="<%=userID%>" required autofocus>
+                    </label>
+                    <br/>
 
-                        <!--Password-->
-                        <label><strong>Password</strong>
-                            <div class="row collapse">
-                                <div class="small-9 columns">
-                                    <input type="password" id="password" name="password" required>
-                                </div>
-                            </div> 
-                        </label>  
-                        <br/>
-                        <!--Confirm Password-->
-                        <label><strong>Confirm Password</strong>
-                            <div class="row collapse">
-                                <div class="small-9 columns">
-                                    <input type="password" id="confirmPassword" name="confirmPassword" required>
-                                </div>
-                            </div> 
-                        </label>  
-                        <br/>
-                        <!--Lecturer in-charge-->
-                        <label><strong>Lecturer-in-charge</strong>
-                            <div class="row collapse">
-                                <div class="small-9 columns">
-                                    <select name="lecturerID">
-                                        <%
-                                            List<Lecturer> lecturerList = LecturerDAO.retrieveAll();
-                                            for (Lecturer lecturer : lecturerList) {
-                                        %>
-                                        <option value="<%=lecturer.getLecturerID()%>"><%=lecturer.getLecturerID()%></option>
-                                        <%
-                                            }
-                                        %>
-                                    </select>
-                                </div>
-                            </div> 
-                        </label>  
-                        <br/>
+                    <!--Password-->
+                    <label><strong>Password</strong>
+                        <input type="password" id="password" name="password" required>
+                    </label>  
+                    <br/>
 
-                        <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
+                    <!--Confirm Password-->
+                    <label><strong>Confirm Password</strong>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </label>  
+                    <br/>
 
+                    <!--Lecturer in-charge-->
+                    <label><strong>Lecturer-in-charge</strong>
+                        <select name="lecturerID">
+                            <%
+                                List<Lecturer> lecturerList = LecturerDAO.retrieveAll();
+                                for (Lecturer lecturer : lecturerList) {
+                            %>
+                            <option value="<%=lecturer.getLecturerID()%>"><%=lecturer.getLecturerID()%></option>
+                            <%
+                                }
+                            %>
+                        </select>
+                    </label>  
+                    <br/>
+
+                    <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
+                    <center>
                         <input type="submit" class="button tiny" value="Add account"> 
-
                         <input type="button" value="Cancel" class="button tiny" onClick="window.location = '<%=location%>'"/>
-
-                    </div>
+                    </center>
                 </form> 
             </div>
         </div>
-        </div>
-        </div>
-    <script>
+        <script>
 
-        $(document).ready(function () {
-            $(document).foundation();
-            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 1000, clickToClose: true})
+            $(document).ready(function() {
+                $(document).foundation();
+                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 1000, clickToClose: true})
 
-            var error1 = "<%=error%>";
-            if (error1 !== "") {
-                humaneError.log(error1);
-            }
+                var error1 = "<%=error%>";
+                if (error1 !== "") {
+                    humaneError.log(error1);
+                }
 
-        });
-    </script>
+            });
+        </script>
     </body>
 </html>

@@ -9,7 +9,7 @@
     Created on : Sep 19, 2014, 3:56:39 PM
     Author     : Administrator
 --%>
-
+<!--IMPORTS-->
 <%@page import="entity.Scenario"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.ScenarioDAO"%>
@@ -26,6 +26,7 @@
         <link rel="stylesheet" href="css/original.css" />
         <script type="text/javascript" src="js/humane.js"></script>
         <script src="js/vendor/modernizr.js"></script>
+
         <!-- ADMIN TOP BAR-->
         <%@include file="/topbar/topbarAdmin.jsp" %>
 
@@ -40,9 +41,8 @@
                     return false;
                 }
             }
-            
+
             function activateConfirmation() {
-                
                 var activateButton = confirm("Only one case can be activate each round. Activating this case will deactivate the rest.")
                 if (activateButton) {
                     return true;
@@ -51,32 +51,28 @@
                     return false;
                 }
             }
-
         </script>
 
         <title>NP Health Sciences | Case Management</title>
     </head>
 
-    <body style="font-size:14px; line-height:20px;">
-         <br/>
-    <center> <h1>Case Management</h1>
-  
+    <body style="font-size:14px; background-color: #ffffff">
+    <center><br/><br/><h1>Case Management</h1>
+
     <div class="large-12 columns" style="padding-top: 20px;">
-        <%  //Retrieve all the successful messages 
-            
-            String success = "" ; 
-            if (session.getAttribute("success") != null) {
-                success = (String) session.getAttribute("success");
-                session.setAttribute("success", "");
-             }
-            
+            <%  //Retrieve all the successful messages 
+                String success = "";
+                if (session.getAttribute("success") != null) {
+                    success = (String) session.getAttribute("success");
+                    session.setAttribute("success", "");
+                }
 
-        %>
-            
-
+            %>
+            <!--Retrieve all scenarios from scenarioDAO-->
             <%List<Scenario> scenarioList = ScenarioDAO.retrieveAll();%>
-         
-            <table border="1" style="border-collapse: collapse;">
+
+            <!--TABLE-->
+             <table class="responsive" id="cssTable">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -90,7 +86,7 @@
 
                     </tr>
                 </thead>
-                <tbody>
+                    <!--Loop through the scenarioList and retrieve each detail-->
                     <% for (Scenario scenario : scenarioList) {
                             String scenarioID = scenario.getScenarioID();
                             String scenarioName = scenario.getScenarioName();
@@ -108,6 +104,8 @@
                             <%}%></td>
                         <td><%=scenarioDescription%></td>
                         <td><%=admissionInfo%></td>
+
+                        <!--EDIT-->
                         <td>
                             <form action ="editScenario.jsp" method ="POST">
                                 <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
@@ -115,6 +113,7 @@
                             </form>
                         </td>
 
+                        <!--DELETE-->
                         <td>                          
                             <form action ="ProcessDeleteScenario" method ="POST">
                                 <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
@@ -123,7 +122,8 @@
                             </form>
                         </td>  
 
-                        <td>
+                        <!--ACTIVATE-->
+                        <td><center>
                             <form action ="ProcessActivateScenarioAdmin" method ="POST">
                                 <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
                                 <% if (status == 1) {%>
@@ -139,28 +139,28 @@
                                 <% }
                                     }%>
                                 <input type="hidden" name="status" value="activated">
-                            </form>
+                            </form></center>
                         </td>
                     </tr>
-                </tbody>
                 <%}%>  
             </table> 
         </div>
-               </center>
+    </center>
+
+    <!--Scripts-->
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
     <script>
-            $(document).ready(function () {
-                $(document).foundation();
-                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
-               
-                var success1 = "<%=success%>";
-                if (success1 !== "") {
-                    humaneSuccess.log(success1);
-                }
+                                    $(document).ready(function() {
+                                        $(document).foundation();
+                                        var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
 
-            });
-        </script>
-        <script type="text/javascript" src="js/humane.js"></script>
+                                        var success1 = "<%=success%>";
+                                        if (success1 !== "") {
+                                            humaneSuccess.log(success1);
+                                        }
+                                    });
+    </script>
+    <script type="text/javascript" src="js/humane.js"></script>
 </body>
 </html>

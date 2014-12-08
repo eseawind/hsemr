@@ -25,118 +25,93 @@
         <%@include file="/topbar/topbarAdmin.jsp" %>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Edit Accounts</title>
+        <title>NP Health Sciences | Administrator Accounts Management | Edit Practical Group Accounts</title>
     </head>
     <body>
-       <center>
-            <%
-            String userID = "";
+        <%                String userID = "";
             String location = "";
-            if (request.getParameter("userID") != null) { 
-                userID = request.getParameter("userID"); 
+            if (request.getParameter("userID") != null) {
+                userID = request.getParameter("userID");
                 session.setAttribute("userID", userID);
                 if (request.getParameter("type").equals("admin")) {
                     location = "viewAdminAccounts.jsp";
                     session.setAttribute("location", "viewAdminAccounts.jsp");
-                   
-               } else if (request.getParameter("type").equals("lecturer")) {
+
+                } else if (request.getParameter("type").equals("lecturer")) {
                     location = "viewLecturerAccounts.jsp";
                     session.setAttribute("location", "viewLecturerAccounts.jsp");
                 } else {
                     location = "viewPracticalGroupAccounts.jsp";
                     session.setAttribute("location", "viewPracticalGroupAccounts.jsp");
                 }
-            } else { 
-                userID = (String)session.getAttribute("userID");
+            } else {
+                userID = (String) session.getAttribute("userID");
                 location = (String) session.getAttribute("location");
             }
-            
+
         %>
-                      
-                      <h1>Edit <%=userID%>'s details</h1>
-                  </center>
-                  <div class="row" style="width: 100%;">   
-                                  
-                      <div class="large-centered large-11 columns">
-                       <div class="small-centered small-3 columns">
-                    
-                        <%
+        <div class="large-10 large-centered columns">  
+            <div class="row" style="width:400px; padding-top: 50px">
+                <center><h1>Edit <%=userID%>'s details</h1></center>
 
-                            String error = (String) request.getAttribute("error");
-                            if (error == null) {
-                                error = ""; 
-                            }
-                        %>
-                            
-                    <form action = "ProcessEditAccount" method = "post">
-                    <div class="row">      
-                        
+
+                <%
+
+                    String error = (String) request.getAttribute("error");
+                    if (error == null) {
+                        error = "";
+                    }
+                %>
+
+                <form action = "ProcessEditAccount" method = "post">
                     <br/>
-                <!--User ID-->
-                <label><strong>User ID</strong>
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <input type="text" id="userID" name="userID" value="<%=userID%>" readonly>
-                        </div>
-                    </div> 
-                </label>
-                <br/>
+                    <!--User ID-->
+                    <label><strong>User ID</strong>
+                        <input type="text" id="userID" name="userID" value="<%=userID%>" readonly>
+                    </label>
+                    <br/>
 
-                <!--Password-->
-                <label><strong>New Password</strong>
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <input type="password" id="password" name="password" autofocus>
-                        </div>
-                    </div> 
-                </label>  
-                <br/>
-                <!--Confirm Password-->
-                <label><strong>Confirm Password</strong>
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <input type="password" id="confirmPassword" name="confirmPassword" >
-                        </div>
-                    </div> 
-                </label>  
-                <br/>
-                <!--Lecturer In-charge-->
-                <label><strong>Lecturer-in-charge</strong>
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <select name="lecturerID">
-                            <% 
+                    <!--Password-->
+                    <label><strong>New Password</strong>
+                        <input type="password" id="password" name="password" autofocus>
+                    </label>  
+                    <br/>
+                    <!--Confirm Password-->
+                    <label><strong>Confirm Password</strong>
+                        <input type="password" id="confirmPassword" name="confirmPassword" >
+                    </label>  
+                    <br/>
+                    <!--Lecturer In-charge-->
+                    <label><strong>Lecturer-in-charge</strong>
+                        <select name="lecturerID">
+                            <%
                                 List<Lecturer> lecturerList = LecturerDAO.retrieveAll();
                                 PracticalGroup pg = PracticalGroupDAO.retrieve(userID);
                                 String lecturerID = pg.getLecturerID();
-                                for(Lecturer lecturer: lecturerList) {
-                                    
-                                    if(lecturer.getLecturerID().equals(lecturerID)) {%>
-                                    <option value="<%=lecturer.getLecturerID()%>" selected><%=lecturer.getLecturerID()%></option>
-                                    <% } else { %>
-                                    <option value="<%=lecturer.getLecturerID()%>"><%=lecturer.getLecturerID()%></option>
-                                    <%
+                                for (Lecturer lecturer : lecturerList) {
+
+                                    if (lecturer.getLecturerID().equals(lecturerID)) {%>
+                            <option value="<%=lecturer.getLecturerID()%>" selected><%=lecturer.getLecturerID()%></option>
+                            <% } else {%>
+                            <option value="<%=lecturer.getLecturerID()%>"><%=lecturer.getLecturerID()%></option>
+                            <%
                                     }
                                 }
                             %>
                         </select>
-                        </div>
-                    
-                    </div> 
-                </label>  
-                <br/>
+                    </label>  
+                    <br/><br/>
 
-                <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
-                <input type="submit" class="button tiny" value="Save"> 
-                <input type="button" value="Cancel" class="button tiny" onClick="window.location = '<%=location%>'"/>
-                </div>
-                    </form>
-                    </div>
-                 </div>
-            </div>  
+                    <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
+                    <center><input type="submit" class="button tiny" value="Save"> 
+                        <input type="button" value="Cancel" class="button tiny" onClick="window.location = '<%=location%>'"/>
+                    </center>
+                </form>
+            </div>
+        </div>
         <script>
 
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $(document).foundation();
                 var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 1000, clickToClose: true})
 

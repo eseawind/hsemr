@@ -39,7 +39,7 @@
 
         </script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Lecturer Accounts Management</title>
+        <title>NP Health Sciences | Lecturer Accounts Management</title>
     </head>
     <body>
         <%            List<Lecturer> lecturerList = LecturerDAO.retrieveAll();
@@ -48,9 +48,9 @@
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center>
-                    <h1>Lecturer Accounts Management</h1>
+                    <h1>Lecturer Accounts Management</h1><br/><br/>
         
-                    <div class ="large-11">
+                    <div class ="large-12">
                         <%
                         String success = ""; 
                         String error = "";
@@ -68,15 +68,17 @@
                         }
                         %>
                     <table class="responsive" id="cssTable">
-                        <col width="40%">
-                        <col width="40%">
-                        <col width="10%">
-                        <col width="10%">
+                        <col width="38%">
+                        <col width="38%">
+                        <col width="12%">
+                        <col width="12%">
+                        <thead>
                         <tr>
-                            <td><b>User ID</b></td>
-                            <td><b>Password</b></td>
+                            <th><b>User ID</b></th>
+                            <th><b>Password</b></th>
                             <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
                         </tr>
+                        </thead>
                         <%
                             for (Lecturer lecturer : lecturerList) {
                         %>
@@ -104,7 +106,7 @@
                                         if (userLoggedIn != null && userLoggedIn.equals(lecturer.getLecturerID())) {
                                     %>
                                     <!--<input type="submit" class="button tinytable" value="delete" disabled>-->
-                                    Logged in
+                                    <div class style="padding-top:7px"><b><font color="#368a55">LOGGED IN</font></b></div>
                                     <%
                                     } else {
                                     %>
@@ -120,10 +122,10 @@
                             %>
                         </tr>
 
-                    </table>
+                    </table><br/><br/><br/>
                     <form action="createAccount.jsp" method="post">
                         <input type="hidden" name="type" value="lecturer">
-                        <input type="submit" class="button tiny" value="Create New Account">
+                        <input type="submit" class="button small" value="Create New Account">
                     </form>
 
                 </center>

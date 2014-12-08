@@ -40,6 +40,7 @@
         <%@include file="/topbar/topbar.jsp" %> 
     </head>
     <body>
+        <br/>
         <script src="js/foundation.min.js"></script>
         <div align ="center">
             <div class="large-centered large-10 columns">
@@ -108,7 +109,7 @@
                 %>
                 <br>               
                 <div class="panel" style="background-color: #FFFFFF">
-                    <h3><b>Patient's Information</b></h3><br/>
+                    <h2>Patient's Information</h2><br/>
                     <font size='3'><b>Name: <font color="#666666"><%=fullName%></font></b>&nbsp;&nbsp;
                     <b>NRIC: <font color="#666666"><%=patientNRIC%></font></b>&nbsp;&nbsp;
                     <b>DOB: <font color="#666666"><%=dob%></font></b>&nbsp;&nbsp;
@@ -176,7 +177,7 @@
                             out.println("content");
                         } %>" id="reports">
 
-                        <h4>Doctor's Order</h4>
+                        <h4>Doctor's Order</h4><br/>
 
                         <%
                             List<Report> stateReports = ReportDAO.retrieveReportsByState(scenarioID, stateID);
@@ -437,14 +438,10 @@
 
                             %> 
 
-
-
                             <h4>Enter New Multidisciplinary Notes</h4><br>
                             <div id="newNotes" class="content">
                                 <div class="small-8">
-                                    <div class="row">
                                         <div class="small-3 columns">
-
                                             <label for="right-label" class="right inline">Nurses in-charge</label>
                                             <label for="right-label" class="right inline">Multidisciplinary Note</label>
                                         </div>
@@ -461,15 +458,12 @@
                                                 } else {
                                                     out.print(notes);
                                                 }%></textarea>
-
-                                        </div>
                                     </div>
-                                </div>
-                                <div>
+                                
                                     <br>
                                     <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
                                     <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
-                                 
+                                 </div>
                                     <dl class="accordion" data-accordion>
                                         <dd class="accordion-navigation">
                                             <a href="#pastNotes">View Past Groups notes here</a>
@@ -504,7 +498,6 @@
                                             </div>
                                         </dd>
                                     </form>
-                                </div>
                             </div>
 
                     </div>

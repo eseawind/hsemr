@@ -52,7 +52,7 @@
             <div class="large-centered large-12 columns">
                 <center>
                     <h1>Select case to view details</h1>
-          
+          <br/>
             <%  //Retrieve all the successful messages 
             
             String success = "" ; 

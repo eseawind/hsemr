@@ -19,110 +19,85 @@
     <head>
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
-         <link rel="stylesheet" href="css/original.css" />
+        <link rel="stylesheet" href="css/original.css" />
         <script type="text/javascript" src="js/humane.js"></script>
         <script src="responsive-tables.js"></script>
         <%@include file="/topbar/topbarAdmin.jsp" %>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Edit Accounts</title>
+        <title>NP Health Sciences | Administrator Accounts Management | Edit Accounts</title>
     </head>
     <body> 
-        <br/>
-        <br/>
-    <center>
-        <%
-            String userID = "";
+        <%            String userID = "";
             String location = "";
-            if (request.getParameter("userID") != null) { 
-                userID = request.getParameter("userID"); 
+            if (request.getParameter("userID") != null) {
+                userID = request.getParameter("userID");
                 session.setAttribute("userID", userID);
                 if (request.getParameter("type").equals("admin")) {
                     location = "viewAdminAccounts.jsp";
                     session.setAttribute("location", "viewAdminAccounts.jsp");
-                   
-               } else if (request.getParameter("type").equals("lecturer")) {
+
+                } else if (request.getParameter("type").equals("lecturer")) {
                     location = "viewLecturerAccounts.jsp";
                     session.setAttribute("location", "viewLecturerAccounts.jsp");
                 } else {
                     location = "viewPracticalGroupAccounts.jsp";
                     session.setAttribute("location", "viewPracticalGroupAccounts.jsp");
                 }
-            } else { 
-                userID = (String)session.getAttribute("userID");
+            } else {
+                userID = (String) session.getAttribute("userID");
                 location = (String) session.getAttribute("location");
             }
-            
+
         %>
-        
-        <h1>Edit <%=userID%>'s details</h1></center>
-        <div class="row">   
-           
-            <div class="large-centered large-11 columns">
-                <div class="small-centered small-3 columns">
-                          
-            <%
-
-                            String error = (String) request.getAttribute("error");
-                            if (error == null) {
-                                error = ""; 
-                            }
-                        %>
-            <form action = "ProcessEditAccount" method = "post">
-                <div class="row">
+        <div class="large-10 large-centered columns">  
+            <div class="row" style="width:400px; padding-top: 50px">
+                <center><h1>Edit <%=userID%>'s details</h1></center>
+                    <%
+                        String error = (String) request.getAttribute("error");
+                        if (error == null) {
+                            error = "";
+                        }
+                    %>
+                <form action = "ProcessEditAccount" method = "post">
                     <br/>
-                <!--User ID-->
-                <label><strong>User ID</strong>
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <input type="text" id="userID" name="userID" value="<%=userID%>" readonly>
-                        </div>
-                    </div> 
-                </label>
-                <br/>
+                    <!--User ID-->
+                    <label><strong>User ID</strong>
+                        <input type="text" id="userID" name="userID" value="<%=userID%>" readonly>
+                    </label>
+                    <br/>
 
-                <!--Password-->
-                <label><strong>New Password</strong>
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <input type="password" id="password" name="password" required autofocus>
-                        </div>
-                    </div> 
-                </label>  
-                <br/>
-                <!--Confirm Password-->
-                <label><strong>Confirm Password</strong>
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <input type="password" id="confirmPassword" name="confirmPassword" required>
-                        </div>
-                    </div> 
-                </label>  
-                <br/>
+                    <!--Password-->
+                    <label><strong>New Password</strong>
+                        <input type="password" id="password" name="password" required autofocus>
+                    </label>  
+                    <br/>
 
-                <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
-
-                    
-                  
-                    <input type="submit" class="button tiny" value="Save"> 
-                    <input type="button" value="Cancel" class="button tiny" onClick="window.location = '<%=location%>'"/>
-                </div>
+                    <!--Confirm Password-->
+                    <label><strong>Confirm Password</strong>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </label> 
+                    <br/>
+                    <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
+                    <br/>
+                    <center><input type="submit" class="button tiny" value="Save"> 
+                        <input type="button" value="Cancel" class="button tiny" onClick="window.location = '<%=location%>'"/>
+                    </center>
                 </form>
-                </div>
             </div>
         </div>
-    <script>
+        <script>
 
-        $(document).ready(function () {
-            $(document).foundation();
-            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 1000, clickToClose: true})
+            $(document).ready(function() {
+                $(document).foundation();
+                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 1000, clickToClose: true})
 
-            var error1 = "<%=error%>";
-            if (error1 !== "") {
-                humaneError.log(error1);
-            }
+                var error1 = "<%=error%>";
+                if (error1 !== "") {
+                    humaneError.log(error1);
+                }
 
-        });
-    </script>
+            });
+        </script>
     </body>
 </html>

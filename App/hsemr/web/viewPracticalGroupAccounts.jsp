@@ -41,7 +41,7 @@
         </script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>NP Health Sciences | Accounts Management</title>
+        <title>NP Health Sciences | Practical Group Accounts Management</title>
     </head>
     <body>
         <%            List<PracticalGroup> practicalGroupList = PracticalGroupDAO.retrieveAll();
@@ -50,7 +50,7 @@
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center>
-                    <h1>Practical Group Accounts Management</h1>
+                    <h1>Practical Group Accounts Management</h1><br/><br/>
                     <div class ="large-11">
                       <%
                         String success = ""; 
@@ -70,12 +70,14 @@
                         <col width="25%">
                         <col width="10%">
                         <col width="10%">
+                        <thead>
                         <tr>
                             <td><b>User ID</b></td>
                             <td><b>Password</b></td>
                             <td><b>Lecturer-in-charge</b></td>
                             <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
                         </tr>
+                        </thead>
                         <%
                             for (PracticalGroup practicalGroup : practicalGroupList) {
                         %>
@@ -103,7 +105,7 @@
                                         if (userLoggedIn != null && userLoggedIn.equals(practicalGroup.getPracticalGroupID())) {
                                     %>
                                     <!--<input type = "submit" class="button tinytable" value="delete" disabled>-->
-                                    Logged in
+                                    <div class style="padding-top:7px"><b><font color="#368a55">LOGGED IN</font></b></div>
                                     <%
                                     } else {
                                     %>
@@ -119,10 +121,10 @@
                             %>
                         </tr>
 
-                    </table>
+                    </table><br/><br/><br/>
                     <form action="createPracticalGroupAccount.jsp" method="post">
                         <input type="hidden" name="type" value="nurse">
-                        <input type="submit" class="button tiny" value="Create New Account">
+                        <input type="submit" class="button small" value="Create New Account">
                     </form>
                 </center>
             </div>
