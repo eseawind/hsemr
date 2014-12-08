@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="shortcut icon" href="img/DefaultLogo-favicon.ico">
          <link rel="stylesheet" href="css/foundation.css" />
          <script src="js/vendor/modernizr.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
