@@ -39,7 +39,7 @@ body {
     font-size: 90%; }
 
 body {
-    background: #fcfcfc;
+    background: white;
     color: #222222;
     padding: 0;
     margin: 0;
@@ -1087,7 +1087,7 @@ case, .case {
     border-style: solid;
     border-width: 0px;
     cursor: pointer;
-    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     font-weight: normal;
     line-height: normal;
     margin: 0 0 1.25rem;
@@ -1098,24 +1098,24 @@ case, .case {
     -webkit-border-radius: 0;
     display: inline-block;
     padding-top: 1rem;
-    padding-right: 2rem;
+    padding-right: 2.4rem;
     padding-bottom: 1rem;
-    padding-left: 2rem;
-    font-size: 4rem;
-    background-color: #34893E;
-    border-color: #34893E;
+    padding-left: 2.4rem;
+    font-size: 4.2rem;
+    background-color: #368a55;
+    border-color: #368a55;
     color: white;
     border-radius: 15px;
     transition: background-color 300ms ease-out; }
 case:hover, case:focus, .case:hover, .case:focus {
-    background-color: #34893E; }
+    background-color: #368a55; }
 case.off:hover, case.off:focus, .case.off:hover, .case.off:focus {
-    background-color: #34893E; }
+    background-color: #368a55; }
 case.off, .case.off {
     background-color: #DBDBDB; }
 button, .button {
     border-style: solid;
-    border-width: 0px;
+    border-width: 1px;
     cursor: pointer;
     font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     font-weight: normal;
@@ -1132,12 +1132,12 @@ button, .button {
     padding-bottom: 1.0625rem;
     padding-left: 2rem;
     font-size: 1.2rem;
-    background-color: #34893E;
-    border-color: #006400;
-    color: white;
+    background-color: white;
+    border-color: #368a55;
+    color: #368a55;
     transition: background-color 300ms ease-out; }
 button:hover, button:focus, .button:hover, .button:focus {
-    background-color: #296d31; }
+    background-color: #368a55; }
 button:hover, button:focus, .button:hover, .button:focus {
     color: white; }
 button.secondary, .button.secondary {
@@ -1175,7 +1175,7 @@ button.small, .button.small {
     padding-right: 1.75rem;
     padding-bottom: 0.9375rem;
     padding-left: 1.75rem;
-    font-size: 0.8125rem; }
+    font-size: 1.0125rem; }
 button.tiny, .button.tiny {
     padding-top: 0.325rem;
     padding-right: 1.05rem;
@@ -1326,7 +1326,7 @@ meta.foundation-mq-topbar {
     margin: 0;
     font-size: 16px; }
 .top-bar .name h1 {
-    border-right: solid 1px #34893E;
+    border-right: solid 1px #368a55;
     line-height: 53px;
     font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     font-size: 1.5000rem;
@@ -1406,10 +1406,10 @@ meta.foundation-mq-topbar {
     display: block;
     width: 100%;
     color: white;
-    padding: 12px 0 12px 0;
-    padding-left: 15px;
+    padding: 10px 0 10px 0;
+    padding-left: 10px;
     font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-size: 0.92000rem;
+    font-size: 1.0000rem;
     font-weight: normal;
     text-transform: none; }
 .top-bar-section ul li > a.button {
@@ -1484,7 +1484,7 @@ meta.foundation-mq-topbar {
     color: white; }
 .top-bar-section ul li:hover:not(.has-form) > a {
     background: white;
-    border-bottom: solid 1px #34893E;
+    border-bottom: solid 1px #368a55;
     color: black; }
 .top-bar-section ul li.active > a {
     background: #333333;
@@ -1502,7 +1502,7 @@ meta.foundation-mq-topbar {
     width: 0;
     height: 0;
     border: inset 5px;
-    border-color: transparent transparent transparent rgba(255, 255, 255, 0.4);
+    border-color: transparent transparent transparent rgba(24, 255, 255, 0.4);
     border-left-style: solid;
     margin-right: 15px;
     margin-top: -4.5px;
@@ -1569,8 +1569,8 @@ meta.foundation-mq-topbar {
 @media only screen and (min-width: 40.063em) {
     .top-bar {
         background: white;
-        border-top: solid 1px #34893E;
-        border-bottom: solid 1px #34893E;
+        border-top: solid 1px #368a55;
+        border-bottom: solid 1px #368a55;
         overflow: visible; }
     .top-bar:before, .top-bar:after {
         content: " ";
@@ -1621,7 +1621,7 @@ meta.foundation-mq-topbar {
     .top-bar-section li:not(.has-form) a:not(.button):hover {
         color: black;
         background-color: #555555;
-        background: white; }
+        background: #99c49e; }
     .top-bar-section li.active:not(.has-form) a:not(.button) {
         padding: 0 15px;
         line-height: 55px;
@@ -1632,16 +1632,17 @@ meta.foundation-mq-topbar {
         color: white; }
     .top-bar-section .has-dropdown > a {
         padding-right: 35px !important; }
-    .top-bar-section .has-dropdown > a:after {
-        content: "";
-        display: block;
-        width: 0;
-        height: 0;
-        border: inset 5px;
-        border-color: rgba(255, 255, 255, 0.4) transparent transparent transparent;
-        border-top-style: solid;
-        margin-top: -2.5px;
-        top: 22.5px; }
+   .top-bar-section .has-dropdown > a:after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border: inset 5px;
+    border-color: rgba(24, 152, 54, 1) rgba(250, 0, 0, 0) transparent;
+    border-top-style: solid;
+    margin-top: 1px;
+    top: 22.5px; }
+   
     .top-bar-section .has-dropdown.moved {
         position: relative; }
     .top-bar-section .has-dropdown.moved > .dropdown {
@@ -1664,10 +1665,9 @@ meta.foundation-mq-topbar {
         content: "\00bb";
         top: 1rem;
         margin-top: -1px;
-        right: 5px;
+        right: 0px;
         line-height: 1.2; }
     .top-bar-section .dropdown {
-        left: 0;
         top: auto;
         background: transparent;
         min-width: 100%; }
@@ -1675,12 +1675,11 @@ meta.foundation-mq-topbar {
         color: white;
         line-height: 55px;
         white-space: nowrap;
-        padding: 12px 15px;
         background: #404040; }
     .top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button) {
         color: black;
-        border-left: solid 1px #34893E;
-        border-bottom: solid 1px #34893E;
+        border-left: solid 1px #368a55;
+        border-bottom: solid 1px #368a55;
         background: white; }
     .top-bar-section .dropdown li:not(.has-form):not(.active):hover > a:not(.button) {
         color: black;
@@ -1972,11 +1971,11 @@ meta.foundation-mq-topbar {
     padding: 1.25rem; 
     background: #f2f2f2;
     /*border: 10px linear-gradient(180deg, white, #EAF3EB);*/
-    border: 5px solid #34893E;
-    -moz-border-bottom-colors: #1f5225 #1f5225 #2e7b37 #34893E #489451;
+    border: 2px solid #368a55;
+    /*moz-border-bottom-colors: #1f5225 #1f5225 #2e7b37 #34893E #489451;
     -moz-border-top-colors: #1f5225 #1f5225 #2e7b37 #34893E #489451;
     -moz-border-left-colors: #1f5225 #1f5225 #2e7b37 #34893E #489451;
-    -moz-border-right-colors: #1f5225 #1f5225 #2e7b37 #34893E #489451;
+    -moz-border-right-colors: #1f5225 #1f5225 #2e7b37 #34893E #489451;*/
     padding: 10px 35px 10px 35px;
     
 }
@@ -2697,19 +2696,33 @@ p aside {
     font-style: italic; }
 
 /* Default header styles */
-h1, h2, h3, h4, h5, h6 {
-    font-family: "Roboto", "Roboto", "Roboto", Arial, sans-serif;
-    font-weight: bold;
+h0, h1, h2, h3 {
+    font-family: "Playfair Display SC","Roboto", Arial, sans-serif;
+    font-weight: 100;
     font-style: normal;
     color: #222222;
     text-rendering: optimizeLegibility;
     margin-top: 0.2rem;
     margin-bottom: 0.5rem;
     line-height: 1.4; }
+
+h4, h5, h6 {
+    font-family: "Playfair Display SC","Roboto", Arial, sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    color: #222222;
+    text-rendering: optimizeLegibility;
+    margin-top: 0.2rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4; }
+
 h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
     font-size: 60%;
     color: #6f6f6f;
     line-height: 0; }
+
+h0 {
+    font-size: 7.125rem; }
 
 h1 {
     font-size: 2.125rem; }
@@ -2981,9 +2994,9 @@ blockquote p {
     list-style: none;
     float: left; 
     width: 20%;
-    border-left: solid 1px #34893E;
-    border-top: solid 1px #34893E;
-    border-bottom: solid 1px #34893E;
+    border-left: solid 1px #368a55;
+    border-top: solid 1px #368a55;
+    border-bottom: solid 1px #368a55;
 }
 .tabs dd > a, .tabs .tab-title > a {
     display: block;
@@ -2991,11 +3004,11 @@ blockquote p {
     color: black;
     padding: 1rem 1rem;
     font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-size: 0.92rem; }
+    font-size: 1.00rem; }
 .tabs dd > a:hover, .tabs .tab-title > a:hover {
     background: #F5FCED; }
 .tabs dd.active a, .tabs .tab-title.active a {
-    background: #34893E;
+    background: #368a55;
     color: white; 
     border-bottom: none;
 }
@@ -3015,9 +3028,9 @@ blockquote p {
     margin-bottom: 0rem;
     width: 100%; 
     background-color: white;
-    border-bottom: solid 1px #34893E;
-    border-left: solid 1px #34893E;
-    border-right: solid 1px #34893E;
+    border-bottom: solid 1px #368a55;
+    border-left: solid 1px #368a55;
+    border-right: solid 1px #368a55;
 }
 
 .tabs-content:before, .tabs-content:after {
@@ -4319,8 +4332,8 @@ ul.off-canvas-list li a:hover {
 
 table {
     background: white;
-    margin-bottom: 1.25rem;
-    border: solid 1px #34893E; }
+    //margin-bottom: 1.00rem;
+    border: solid 1px #368a55; }
 table caption {
     background: transparent;
     color: #222222;
@@ -4331,9 +4344,10 @@ table thead {
 table thead tr th,
 table thead tr td {
     padding: 0.5rem 0.625rem 0.625rem;
-    font-size: 0.875rem;
+    font-size: 1.075rem;
     font-weight: bold;
-    color: #222222; }
+    background: #368a55;
+    color: white; }
 table tfoot {
     background: whitesmoke; }
 table tfoot tr th,
@@ -4349,7 +4363,7 @@ table tr td {
     color: #222222;
     text-align: left; }
 table tr.even, table tr.alt, table tr:nth-of-type(even) {
-    background: #f9f9f9; }
+    background: #F5FCED; }
 table thead tr th,
 table tfoot tr th,
 table tfoot tr td,
