@@ -12,12 +12,12 @@ package entity;
  */
 public class Prescription {
    private String scenarioID;
-   private State stateID;
+   private String stateID;
    private String doctorName;
    private String doctorOrder;
    private String freqAbbr;
 
-    public Prescription(String scenarioID, State stateID, String doctorName, String doctorOrder, String freqAbbr) {
+    public Prescription(String scenarioID, String stateID, String doctorName, String doctorOrder, String freqAbbr) {
         this.scenarioID = scenarioID;
         this.stateID = stateID;
         this.doctorName = doctorName;
@@ -33,11 +33,11 @@ public class Prescription {
         this.scenarioID = scenarioID;
     }
 
-    public State getStateID() {
+    public String getStateID() {
         return stateID;
     }
 
-    public void setStateID(State stateID) {
+    public void setStateID(String stateID) {
         this.stateID = stateID;
     }
 

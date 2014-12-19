@@ -4,6 +4,7 @@
     Author     : weiyi.ngow.2012
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.TimeZone"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
@@ -14,6 +15,7 @@
 <%@page import="java.awt.Image"%>
 <%@page import="java.util.List"%>
 <%@page import="entity.*"%>
+<%@page import="dao.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="dao.*"%> 
 <%@include file="protectPage/protectNurse.jsp" %>
@@ -32,7 +34,7 @@
         <script src="js/vendor/jquery.js"></script>
         <script>
 
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $(document).foundation();
             });
         </script>
@@ -261,265 +263,346 @@
                             session.setAttribute("active", null);
 
                         %>  
-
-
                     </div>
-
 
                     <div class="<% if (active != null && active.equals(
                                 "medication")) {
                             out.println("content active");
                         } else {
                             out.println("content");
-                        } %>" id="medication">
+                        }%>" id="medication">
+                        <h4>Step 1: Scan Patient's Barcode</h4>
 
-                    </div>
 
-                    <div class="<% if (active != null && active.equals("vital")) {
-                            out.println("content active");
-                        } else {
-                            out.println("content");
-                        } %>" id="vital">
+                        <form action = "ProcessPatientBarcode" method = "POST">
 
-                        <%
+                            <%
+                                String patientBarcodeInput = (String) session.getAttribute("patientBarcodeInput");
 
-                            Date currentDateTime = new Date();
-                            DateFormat dateFormatter = new SimpleDateFormat("dd-M-yyyy H:m:s");
-                            dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
-                            String currentDateFormatted = dateFormatter.format(currentDateTime);
+                                if (patientBarcodeInput == null) {
+                                    patientBarcodeInput = "";
+                                }
 
-                        %>
-                        <form data-abide action="ProcessAddVital" method="POST">
-                            <table width='65%'>
-                                <br/>
-                                <col width="35%">  
-                                <col width="65%">  
-                                <!--  <th>Vital Signs/Input/Output</th> -->
-                                <th></th>
-                                <th>Current as of <%=currentDateFormatted%></th>
-                                <tr><td><b>Temperature</b><img src="img/Historial.jpg"></td>
-                                    <td><div class="row">
-                                            <div class="small-4 columns" style="width:200px">
-                                                <!--validates for 1 decimal place-->
-                                                <input type="text" name ="temperature" maxlength="4" pattern ="[0-9]+(\.[0-9][0-9]?)?" />
-                                                <small class="error">Must be numeric, cannot contain alphabets. E.g: 37.3 or 37</small>
-                                            </div>
-                                            <label for="right-label" class="left inline">ºC</label>
-                                        </div></td>
-                                </tr> 
+                            %>
+                            <div class="small-8">
+                                <div class="small-3 columns">
+                                    <label for="right-label" class="right inline">Patient's Barcode</label>
+                                </div>
+                                <div class="small-9 columns">
+                                    <input type="hidden" name = "patientBarcode" id="patientBarcode" value = "<%=patientNRIC%>">
+                                    <input type="text" value = "<%=patientBarcodeInput%>" name = "patientBarcodeInput">
+                                </div>
+                            </div>    
 
-                                <tr><td><b>Respiratory Rate<img src="img/Historial.jpg"></b></td>
-                                    <td><div class="row">
-                                            <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="RR" maxlength="2" pattern ="integer"/>
-                                                <small class="error">RR must be 2 digits.</small>
-                                            </div>
-
-                                            <label for="right-label" class="left inline">breaths/min</label>
-
-                                        </div>
-                                </tr>
-
-                                <tr><td><b>Heart Rate<img src="img/Historial.jpg"></b></td>
-                                    <td><div class="row">
-                                            <div class="small-4 columns" style="width:200px">
-                                                <!--validates between 0 - 200-->
-                                                <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$"/>
-                                                <small class="error">HR must be between 0 - 200.</small>
-                                            </div>
-                                            <label for="right-label" class="left inline">beats/min</label>
-                                        </div></td>
-                                </tr>
-
-                                <tr><td><b>Blood Pressure<img src="img/Historial.jpg"></b></td>
-                                    <td><div class="row">
-                                            <div class="small-4 columns" style="width:200px">
-                                                <!--<input type="text" name ="BPsystolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
-                                                <input type="text" name ="BPsystolic" maxlength = "3" pattern = "integer"/>
-                                                <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
-                                            </div>
-
-                                            <label for="right-label" class="left inline">mm (Systolic)</label>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="small-4 columns" style="width:200px">
-                                                <!--<input type="text" name ="BPdiastolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
-                                                <input type="text" name ="BPdiastolic" maxlength = "3" pattern = "integer"/>
-                                                <div class ="input wrapper">
-                                                    <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
-                                                </div>
-                                            </div>
-
-                                            <label for="right-label" class="left inline">Hg (Diastolic)</label>
-
-                                        </div>
-                                    </td></tr>
-                                <tr><td><b>SPO<img src="img/Historial.jpg"></b></td>
-
-                                    <td><div class="row">
-                                            <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="SPO" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$"/>
-                                                <small class="error">SPO must be numeric and between 0 - 100%.</small>
-                                            </div>
-
-                                            <label for="right-label" class="left inline">% with O<sub>2</sub></label>
-
-                                        </div></td></tr>
-                                <tr><td><b>Intake - Oral/Intragastric</b></td>
-
-                                    <td><div class="row">
-                                            <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="oralType" value= " "/>
-                                            </div>
-
-                                            <label for="left-label" class="left inline">Type</label>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="oralAmount"  value= " "/>
-                                            </div>
-
-                                            <label for="left-label" class="left inline">Amount</label>
-
-                                        </div>
-                                    </td></tr>
-
-                                <tr><td><b>Intake - Intravenous</b></td>
-
-                                    <td><div class="row">
-                                            <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="intravenousType" value= " "/>
-                                            </div>
-
-                                            <label for="left-label" class="left inline">Type</label>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="intravenousAmount"  value= " "/>
-                                            </div>
-
-                                            <label for="left-label" class="left inline">Amount</label>
-
-                                        </div>
-                                    </td></tr>
-
-                                <tr><td><b>Output</b></td>
-
-                                    <td><div class="row">
-                                            <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="output" style="width:170px" value= " "/>
-                                            </div>
-                                            <label for="left-label" class="left inline"></label>
-                                        </div>
-                                    </td></tr>
-
-                            </table>
-                            <input type ="hidden" value ="<%=patientNRIC%>" name = "patientNRIC">
-                            <input type="submit" value="Update Vital Signs" class="button tiny"> 
                         </form>
 
-
-                    </div>
-
-                    <div class="<% if (active != null && active.equals(
-                                "multidisciplinary")) {
-                            out.println("content active");
-                        } else {
-                            out.println("content");
-                        }%>" id="multidisciplinary">
-
-                        <form action="ProcessAddNote" method="POST">
-                            <%
-                                String grpNames = (String) session.getAttribute("grpNames");
-                                String notes = (String) session.getAttribute("notes");
-
-                            %> 
-
-                            <h4>Enter New Multidisciplinary Notes</h4><br>
-                            <div id="newNotes" class="content">
-                                <div class="small-8">
-                                        <div class="small-3 columns">
-                                            <label for="right-label" class="right inline">Nurses in-charge</label>
-                                            <label for="right-label" class="right inline">Multidisciplinary Note</label>
-                                        </div>
-                                        <div class="small-9 columns">
-                                            <input type ="hidden" name="scenarioID" value="<%=scenarioID%>"/>
-
-                                            <input type ="text" id= "grpNames" name="grpNames" value="<% if (grpNames == null || grpNames == "") {
-                                                    out.print("");
-                                                } else {
-                                                    out.print(grpNames);
-                                                }%>" >
-                                            <textarea name="notes" id="notes" rows="7" cols="10" ><% if (notes == null || notes == "") {
-                                                    out.print("");
-                                                } else {
-                                                    out.print(notes);
-                                                }%></textarea>
-                                    </div>
-                                
-                                    <br>
-                                    <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
-                                    <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
-                                 </div>
-                                    <dl class="accordion" data-accordion>
-                                        <dd class="accordion-navigation">
-                                            <a href="#pastNotes">View Past Groups notes here</a>
-                                            <div id="pastNotes" class="content">
-                                                <div class="row">
-                                                    <div class="large-12">
-                                                        <div class="row">
-                                                            <div class="large-12 columns">
-                                                                <%
-                                                                    if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
-                                                                <label for="right-label" class="right inline">No groups have enter their notes yet.</label>
-                                                                <% } else {
-                                                                        DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-                                                                        //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
-                                                                        for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
-                                                                            Note notesRetrieve = notesListRetrieved.get(i);
-                                                                            // out.print("<b>Practical Group: </b>" + notes.getPracticalGroupID() + "<br>");
-                                                                            out.print("<b>Nurses in-charge: </b>" + notesRetrieve.getGrpMemberNames() + "<br>");
-                                                                            out.print("<b>Multidisciplinary Note: </b>" + notesRetrieve.getMultidisciplinaryNote() + "<br>");
-                                                                            out.print("<b>Time submitted: </b>" + df.format(notesRetrieve.getNoteDatetime()) + "<br>");
-                                                                            out.println("<br>");
-                                                                        }
-
-                                                                    }//end of else
-                                                                %>
+                        <br><br><p><br>
+                        <h4>Step 2: Scan Medicine Barcode</h4>
+                        <table>
+                            <tr>
+                                <td><b>Medicine Barcode</b></td>
+                                <td><b>Medicine Name<b></td>
+                                            <td><b>Route</b></td>
+                                            <td><b>Dosage</b></td>
+                                            <td><b>Frequency</b></td>
+                                            <td><b>Doctor Name</b></td>
+                                            </tr>
 
 
-                                                            </div>
+                                            <%
+                                                Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID);
+                                                ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
+
+                                                for (MedicinePrescription medicinePrescription : medicinePrescriptionList) {
+                                                    String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
+
+                                                    if (medicineBarcodeInput == null) {
+                                                        medicineBarcodeInput = "";
+                                                    }
+
+                                            %>
+                                            <tr>
+                                                <td>   
+
+                                                    <form action = "ProcessMedicineBarcode" method = "POST">
+                                                        <div class="password-confirmation-field">
+                                                            <input type="hidden" name = "medicineBarcode" id="medicineBarcode" value = "<%=medicinePrescription.getMedicineBarcode()%>">
+                                                            <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>">
+
                                                         </div>
-                                                    </div>
-                                                </div>
+
+                                                        
+                                                    </form></td>
+                                                <td><%=medicinePrescription.getMedicineBarcode()%></td>
+                                                <td>
+                                                    <%
+                                                   
+                                                    String medicineBarcode = medicinePrescription.getMedicineBarcode();
+                                                    Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
+                                                    out.println(medicine);
+                                                    
+                                                    %>
+                                                    
+                                                  
+                                                </td>
+                                                <td><%=medicinePrescription.getDosage()%></td>
+                                                <td><%=medicinePrescription.getFreqAbbr()%></td>
+                                                <td><%=prescription.getDoctorName()%></td>
+                                            </tr>  
+                                             <%}
+                                                session.removeAttribute("patientBarcodeInput");
+                                            %>
+
+                                            </table>
+                                           
+                                            </div> 
+                                            <!--End of medication tab-->
+
+                                            <div class="<% if (active != null && active.equals("vital")) {
+                                                    out.println("content active");
+                                                } else {
+                                                    out.println("content");
+                                                } %>" id="vital">
+
+                                                <%
+
+                                                    Date currentDateTime = new Date();
+                                                    DateFormat dateFormatter = new SimpleDateFormat("dd-M-yyyy H:m:s");
+                                                    dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
+                                                    String currentDateFormatted = dateFormatter.format(currentDateTime);
+
+                                                %>
+                                                <form data-abide action="ProcessAddVital" method="POST">
+                                                    <table width='65%'>
+                                                        <br/>
+                                                        <col width="35%">  
+                                                        <col width="65%">  
+                                                        <!--  <th>Vital Signs/Input/Output</th> -->
+                                                        <th></th>
+                                                        <th>Current as of <%=currentDateFormatted%></th>
+                                                        <tr><td><b>Temperature</b><img src="img/Historial.jpg"></td>
+                                                            <td><div class="row">
+                                                                    <div class="small-4 columns" style="width:200px">
+                                                                        <!--validates for 1 decimal place-->
+                                                                        <input type="text" name ="temperature" maxlength="4" pattern ="[0-9]+(\.[0-9][0-9]?)?" />
+                                                                        <small class="error">Must be numeric, cannot contain alphabets. E.g: 37.3 or 37</small>
+                                                                    </div>
+                                                                    <label for="right-label" class="left inline">ºC</label>
+                                                                </div></td>
+                                                        </tr> 
+
+                                                        <tr><td><b>Respiratory Rate<img src="img/Historial.jpg"></b></td>
+                                                            <td><div class="row">
+                                                                    <div class="small-4 columns" style="width:200px">
+                                                                        <input type="text" name ="RR" maxlength="2" pattern ="integer"/>
+                                                                        <small class="error">RR must be 2 digits.</small>
+                                                                    </div>
+
+                                                                    <label for="right-label" class="left inline">breaths/min</label>
+
+                                                                </div>
+                                                        </tr>
+
+                                                        <tr><td><b>Heart Rate<img src="img/Historial.jpg"></b></td>
+                                                            <td><div class="row">
+                                                                    <div class="small-4 columns" style="width:200px">
+                                                                        <!--validates between 0 - 200-->
+                                                                        <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$"/>
+                                                                        <small class="error">HR must be between 0 - 200.</small>
+                                                                    </div>
+                                                                    <label for="right-label" class="left inline">beats/min</label>
+                                                                </div></td>
+                                                        </tr>
+
+                                                        <tr><td><b>Blood Pressure<img src="img/Historial.jpg"></b></td>
+                                                            <td><div class="row">
+                                                                    <div class="small-4 columns" style="width:200px">
+                                                                        <!--<input type="text" name ="BPsystolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
+                                                                        <input type="text" name ="BPsystolic" maxlength = "3" pattern = "integer"/>
+                                                                        <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
+                                                                    </div>
+
+                                                                    <label for="right-label" class="left inline">mm (Systolic)</label>
+
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="small-4 columns" style="width:200px">
+                                                                        <!--<input type="text" name ="BPdiastolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
+                                                                        <input type="text" name ="BPdiastolic" maxlength = "3" pattern = "integer"/>
+                                                                        <div class ="input wrapper">
+                                                                            <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <label for="right-label" class="left inline">Hg (Diastolic)</label>
+
+                                                                </div>
+                                                            </td></tr>
+                                                        <tr><td><b>SPO<img src="img/Historial.jpg"></b></td>
+
+                                                            <td><div class="row">
+                                                                    <div class="small-4 columns" style="width:200px">
+                                                                        <input type="text" name ="SPO" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$"/>
+                                                                        <small class="error">SPO must be numeric and between 0 - 100%.</small>
+                                                                    </div>
+
+                                                                    <label for="right-label" class="left inline">% with O<sub>2</sub></label>
+
+                                                                </div></td></tr>
+                                                        <tr><td><b>Intake - Oral/Intragastric</b></td>
+
+                                                            <td><div class="row">
+                                                                    <div class="small-4 columns" style="width:200px">
+                                                                        <input type="text" name ="oralType" value= " "/>
+                                                                    </div>
+
+                                                                    <label for="left-label" class="left inline">Type</label>
+
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="small-4 columns" style="width:200px">
+                                                                        <input type="text" name ="oralAmount"  value= " "/>
+                                                                    </div>
+
+                                                                    <label for="left-label" class="left inline">Amount</label>
+
+                                                                </div>
+                                                            </td></tr>
+
+                                                        <tr><td><b>Intake - Intravenous</b></td>
+
+                                                            <td><div class="row">
+                                                                    <div class="small-4 columns" style="width:200px">
+                                                                        <input type="text" name ="intravenousType" value= " "/>
+                                                                    </div>
+
+                                                                    <label for="left-label" class="left inline">Type</label>
+
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="small-4 columns" style="width:200px">
+                                                                        <input type="text" name ="intravenousAmount"  value= " "/>
+                                                                    </div>
+
+                                                                    <label for="left-label" class="left inline">Amount</label>
+
+                                                                </div>
+                                                            </td></tr>
+
+                                                        <tr><td><b>Output</b></td>
+
+                                                            <td><div class="row">
+                                                                    <div class="small-4 columns" style="width:200px">
+                                                                        <input type="text" name ="output" style="width:170px" value= " "/>
+                                                                    </div>
+                                                                    <label for="left-label" class="left inline"></label>
+                                                                </div>
+                                                            </td></tr>
+
+                                                    </table>
+                                                    <input type ="hidden" value ="<%=patientNRIC%>" name = "patientNRIC">
+                                                    <input type="submit" value="Update Vital Signs" class="button tiny"> 
+                                                </form>
                                             </div>
-                                        </dd>
-                                    </form>
-                            </div>
 
-                    </div>
-                    <% }%>
-                    <script>
 
-                        $(document).ready(function () {
-                            $(document).foundation();
-                            var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
-                            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
-                            var success1 = "<%=success%>";
-                            var error1 = "<%=error%>";
-                            if (success1 !== "") {
-                                humaneSuccess.log(success1);
-                            } else if (error1 !== "") {
-                                humaneError.log(error1);
-                            }
+                                            <div class="<% if (active != null && active.equals(
+                                                        "multidisciplinary")) {
+                                                    out.println("content active");
+                                                } else {
+                                                    out.println("content");
+                                                }%>" id="multidisciplinary">
 
-                        });
-                    </script>
-                    </body>
-                    <script type="text/javascript" src="js/humane.js"></script>
+                                                <form action="ProcessAddNote" method="POST">
+                                                    <%
+                                                        String grpNames = (String) session.getAttribute("grpNames");
+                                                        String notes = (String) session.getAttribute("notes");
 
-                    </html>
+                                                    %> 
+
+                                                    <h4>Enter New Multidisciplinary Notes</h4><br>
+                                                    <div id="newNotes" class="content">
+                                                        <div class="small-8">
+                                                            <div class="small-3 columns">
+                                                                <label for="right-label" class="right inline">Nurses in-charge</label>
+                                                                <label for="right-label" class="right inline">Multidisciplinary Note</label>
+                                                            </div>
+                                                            <div class="small-9 columns">
+                                                                <input type ="hidden" name="scenarioID" value="<%=scenarioID%>"/>
+
+                                                                <input type ="text" id= "grpNames" name="grpNames" value="<% if (grpNames == null || grpNames == "") {
+                                                                        out.print("");
+                                                                    } else {
+                                                                        out.print(grpNames);
+                                                                    }%>" >
+                                                                <textarea name="notes" id="notes" rows="7" cols="10" ><% if (notes == null || notes == "") {
+                                                                        out.print("");
+                                                                    } else {
+                                                                        out.print(notes);
+                                                                    }%></textarea>
+                                                            </div>
+
+                                                            <br>
+                                                            <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
+                                                            <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
+                                                        </div>
+                                                        <dl class="accordion" data-accordion>
+                                                            <dd class="accordion-navigation">
+                                                                <a href="#pastNotes">View Past Groups notes here</a>
+                                                                <div id="pastNotes" class="content">
+                                                                    <div class="row">
+                                                                        <div class="large-12">
+                                                                            <div class="row">
+                                                                                <div class="large-12 columns">
+                                                                                    <%
+                                                                                        if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
+                                                                                    <label for="right-label" class="right inline">No groups have enter their notes yet.</label>
+                                                                                    <% } else {
+                                                                                            DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+                                                                                            //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
+                                                                                            for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
+                                                                                                Note notesRetrieve = notesListRetrieved.get(i);
+                                                                                                // out.print("<b>Practical Group: </b>" + notes.getPracticalGroupID() + "<br>");
+                                                                                                out.print("<b>Nurses in-charge: </b>" + notesRetrieve.getGrpMemberNames() + "<br>");
+                                                                                                out.print("<b>Multidisciplinary Note: </b>" + notesRetrieve.getMultidisciplinaryNote() + "<br>");
+                                                                                                out.print("<b>Time submitted: </b>" + df.format(notesRetrieve.getNoteDatetime()) + "<br>");
+                                                                                                out.println("<br>");
+                                                                                            }
+
+                                                                                        }//end of else
+                                                                                    %>
+
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </dd>
+                                                            </form>
+                                                    </div>
+
+                                            </div>
+                                            <% }%>
+                                            <script>
+
+            $(document).ready(function() {
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+
+                var success1 = "<%=success%>";
+                var error1 = "<%=error%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                } else if (error1 !== "") {
+                    humaneError.log(error1);
+                }
+
+            });
+                                            </script>
+                                            </body>
+                                            <script type="text/javascript" src="js/humane.js"></script>
+
+                                            </html>
