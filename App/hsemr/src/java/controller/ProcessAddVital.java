@@ -39,7 +39,7 @@ public class ProcessAddVital extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            String patientNRIC = (String) request.getParameter("patientNRIC");
+            String scenarioID = (String) request.getParameter("scenarioID");
             String oralType = (String) (request.getParameter("oralType"));
             String oralAmount = (String) (request.getParameter("oralAmount"));
             String intravenousType = (String) (request.getParameter("intravenousType"));
@@ -110,7 +110,7 @@ public class ProcessAddVital extends HttpServlet {
                 e.printStackTrace();
             }
 
-            VitalDAO.add(patientNRIC, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount);
+            VitalDAO.add(scenarioID, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount);
             HttpSession session = request.getSession();
             session.setAttribute("active", "vital");
             session.setAttribute("success", "Vital signs have been updated!");

@@ -14,7 +14,7 @@ import java.util.Date;
  */
 public class Vital {
     private Date vitalDatetime;
-    private String patientNRIC;
+    private String scenarioID;
     private double temperature;
     private int rr;
     private int bpSystolic;
@@ -27,9 +27,9 @@ public class Vital {
     private String intravenousType;
     private String intravenousAmount;
 
-    public Vital(Date vitalDatetime, String patientNRIC, double temperature, int rr, int bpSystolic, int bpDiastolic, int hr, int spo, String output, String oralType, String oralAmount, String intravenousType, String intravenousAmount) {
+    public Vital(Date vitalDatetime, String scenarioID, double temperature, int rr, int bpSystolic, int bpDiastolic, int hr, int spo, String output, String oralType, String oralAmount, String intravenousType, String intravenousAmount) {
         this.vitalDatetime = vitalDatetime;
-        this.patientNRIC = patientNRIC;
+        this.scenarioID = scenarioID;
         this.temperature = temperature;
         this.rr = rr;
         this.bpSystolic = bpSystolic;
@@ -51,12 +51,12 @@ public class Vital {
         this.vitalDatetime = vitalDatetime;
     }
 
-    public String getPatientNRIC() {
-        return patientNRIC;
+    public String getScenarioID() {
+        return scenarioID;
     }
 
-    public void setPatientNRIC(String patientNRIC) {
-        this.patientNRIC = patientNRIC;
+    public void setScenarioID(String patientNRIC) {
+        this.scenarioID = patientNRIC;
     }
 
     public double getTemperature() {
