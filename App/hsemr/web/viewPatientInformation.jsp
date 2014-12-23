@@ -147,12 +147,12 @@
                             } else {
                                 out.println("");
                             } %>"><a href="#reports"><b>Investigations</b></a></dd>
-                        <dd class="<% if (active != null && active.equals("medication")) {
+                        <dd class="<% if (active != null && active.equals("vital")) {
                                 out.println("active");
                             } else {
                                 out.println("");
                             } %>"><a href="#vital"><b>Clinical Charts</b></a></dd>
-                        <dd class="<% if (active != null && active.equals("vital")) {
+                        <dd class="<% if (active != null && active.equals("medication")) {
                                 out.println("active");
                             } else {
                                 out.println("");
