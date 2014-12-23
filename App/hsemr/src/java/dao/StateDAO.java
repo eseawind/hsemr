@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -42,6 +44,31 @@ public class StateDAO {
         return state;
     }
     
+     public static List<State> retrieveAll(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<State> stateList = new ArrayList<State>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT * FROM state where scenarioID = ?");
+            stmt.setString(1, scenarioID);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                State state = new State(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
+                stateList.add(state);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return stateList;
+    }
+     
     public static State retrieveActivateState(String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
