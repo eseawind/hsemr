@@ -108,7 +108,7 @@
                         <center><input type="submit" class="button normal radius expand" value="Login"></center>
                     </div>
                 </form>
-                <br/><br/><br/>
+                <br/>
                 
                 <!--Footer-->
                 <div class="zurb-footer-bottom">
