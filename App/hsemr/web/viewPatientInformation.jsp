@@ -271,7 +271,19 @@
                         } else {
                             out.println("content");
                         }%>" id="medication">
-                        <h4>Step 1: Scan Patient's Barcode</h4>
+                       
+
+
+                                            <%
+                                                Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID);
+                                                ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
+                                                
+                                                if(medicinePrescriptionList.size() == 0){
+                                                    out.println("There's no prescription at the moment.");
+                                                    
+                                                }else{%>
+                                                
+                                                 <h4>Step 1: Scan Patient's Barcode</h4>
 
 
                         <form action = "ProcessPatientBarcode" method = "POST">
@@ -307,13 +319,11 @@
                                             <td><b>Frequency</b></td>
                                             <td><b>Doctor Name</b></td>
                                             </tr>
+                                                    
+                                                    
+                                                    
 
-
-                                            <%
-                                                Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID);
-                                                ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
-
-                                                for (MedicinePrescription medicinePrescription : medicinePrescriptionList) {
+                                                <%for (MedicinePrescription medicinePrescription : medicinePrescriptionList) {
                                                     String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
 
                                                     if (medicineBarcodeInput == null) {
@@ -339,7 +349,7 @@
                                                    
                                                     String medicineBarcode = medicinePrescription.getMedicineBarcode();
                                                     Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
-                                                    out.println(medicine);
+                                                    out.println(medicine.getRouteAbbr());
                                                     
                                                     %>
                                                     
@@ -351,6 +361,7 @@
                                             </tr>  
                                              <%}
                                                 session.removeAttribute("patientBarcodeInput");
+                                                }
                                             %>
 
                                             </table>
@@ -379,7 +390,7 @@
                                                         <col width="65%">  
                                                         <!--  <th>Vital Signs/Input/Output</th> -->
                                                         <th></th>
-                                                        <th>Current as of <%=currentDateFormatted%></th>
+                                                        <th>Vital Signs</th>
                                                         <tr><td><b>Temperature</b><a href="#" data-reveal-id="tempchart" style="color:white"><img src="img/Historial.jpg"></a></td>
                                                             <td><div class="row">
                                                                     <div class="small-4 columns" style="width:200px">
