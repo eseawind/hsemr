@@ -77,9 +77,13 @@
 
                     //retrieve case's information
                     String admissionNotes = scenarioActivated.getAdmissionNote();
+                    
+                    //retrieve nurse praticalGroup ID
+                    String practicalGrp= (String) session.getAttribute("nurse");
 
                     //retrieve note's information
-                    List<Note> notesListRetrieved = NoteDAO.retrieveAll();
+                    List<Note> notesListRetrieved = NoteDAO.retrieveNotesByPraticalGrp(practicalGrp);
+                    
                     //retrieve patient's information
                     String firstName = retrievePatient.getFirstName();
                     String lastName = retrievePatient.getLastName();
