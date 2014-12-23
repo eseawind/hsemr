@@ -4,6 +4,15 @@
     Author     : weiyi.ngow.2012
 --%>
 
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="entity.Vital"%>
+<%@page import="entity.Vital"%>
+<%@page import="java.util.Date"%>
+<%@page import="dao.VitalDAO"%>
+<%@page import="dao.VitalDAO"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,31 +26,116 @@
         <script src="js/c3/c3.min.js"></script>
     </head>
     <body>
+        <% 
+           //retrieve list of blood pressure rate based on scenario
+           String scenarioID= (String) session.getAttribute("scenarioID");
+           List<Integer> bpSystolicList= VitalDAO.retrieveBPSystolic(scenarioID); 
+           List<Integer> bpDiastolicList= VitalDAO.retrieveBPDiastolic(scenarioID); 
+           
+           //retrieve vitals related to current case
+           List<Vital> vitals = VitalDAO.retrieveBPDiastolicByScenarioID(scenarioID);
+           
+           //get dates of all vitals
+           List<Date> vitalsDateTime = VitalDAO.retrieveVitalTime(vitals);           
+           
+           //format date to be printed in string format
+           DateFormat df = new SimpleDateFormat("Y-M-d H:mm:ss");
+           //a string to store all dates in format to be used in javascript 
+           //e.g. new Date ('2012-01-02T22:25:15'), new Date ('2012-02-02T22:25:17'), new Date ('2012-02-02T22:25:20'),new Date ('2012-02-02T22:25:23') 
+           String vitalsDate = ""; 
+           if (vitalsDateTime.size() > 0) { 
+                for (int i = 0; i < vitalsDateTime.size(); i++ ) {
+                    String dateTimeVital = df.format(vitalsDateTime.get(i));
+                    dateTimeVital = dateTimeVital.replace(" ", "T");
+                    if (i != vitalsDateTime.size()-1) {
+                        vitalsDate += "new Date ('" + dateTimeVital + "'), ";
+                    } else { 
+                        vitalsDate += "new Date ('" + dateTimeVital + "')";
+                    }
+                }
+           }
+
+                    
+           //converting bpSystolicList to string for mainpulation
+           String bpSystolicStringArr= bpSystolicList.toString();
+           String withoutbracketBPsystolic = bpSystolicStringArr.replace("[", ""); 
+           String dataOfBPsystolic= withoutbracketBPsystolic.replace("]", "") ;
+           
+           //converting bpDiastolicList to string for mainpulation
+           String bpDiastolicStringArr= bpDiastolicList.toString();
+           String withoutbracketBPdiastolic = bpDiastolicStringArr.replace("[", ""); 
+           String dataOfBPdiastolic= withoutbracketBPdiastolic.replace("]", "") ;
+           
+        %>
+       <h3>Blood Pressure Chart</h3>    
+       
         <div id="chart"></div>
- 
+            
+             
+        <%
+           if (bpSystolicList == null ||  bpDiastolicList== null || bpSystolicList.size() == 0 || bpDiastolicList.size() == 0) {
+               out.println("<h5>There is no historial data at the moment.</h5>");
+           } else { 
+          %>
             <script type="text/javascript">
+                
             var chart = c3.generate({
-                 bindto: '#chart',
-                data: {
-                columns: [
-                    ['data1', 30, 20, 50, 40, 60, 50],
-                    ['data2', 200, 130, 90, 240, 130, 220],
-                    ['data3', 300, 200, 160, 400, 250, 250],
-                    ['data4', 200, 130, 90, 240, 130, 220],
-                    ['data5', 130, 120, 150, 140, 160, 150],
-                    ['data6', 90, 70, 20, 50, 60, 120],
-                ],
-                type: 'bar',
-                types: {
-                    data3: 'spline',
-                    data4: 'line',
-                    data6: 'area',
+                bindto: '#chart',
+                padding: {
+                    left: 60, //at least 60 for y axis to be seen
+                    right: 100 // add 10px for some spacing
                 },
-                groups: [
-                    ['data1','data2']
-                ]
-            }
-        });
+                data: {
+                    x: 'x',
+                    columns: [
+                        ['x',<% out.println(vitalsDate); %>],
+                        ['BPsystolic',  <% out.println(dataOfBPsystolic); %>],
+                        ['BPdiastolic', <% out.println(dataOfBPdiastolic); %>]
+                      ],
+
+                    labels: true,
+                    type: 'line',
+                   
+                },
+    
+                axis: { 
+                    x: { 
+                       type: 'timeseries',
+                       
+                       label: { // ADD
+                            text: 'Time',
+                            position: 'outer-right'
+                        }, 
+                        tick: { 
+                           format: '%Y-%m-%d %H:%M:%S', 
+                            rotate: 45,
+                            multiline: false
+                       },
+                       height: 100,
+                       
+                   },
+                    y: {
+                        
+                        label: { // ADD
+                            text: 'Blood Pressure (mm/Hg)',
+                            position: 'outer-middle'
+                        }
+                        
+                    }
+
+                },
+                grid: {
+                    x: {
+                        show: true
+                    },
+                    y: {
+                        show: true
+                    }
+                }
+
+            });
+            chart.resize({height:300, width:700});
+
 //        chart.load({
 //            columns: [
 //            ['data1', 300, 100, 250, 150, 300, 150, 500],
@@ -49,5 +143,6 @@
 //            ]
 //        });
         </script>  
+        <% } %>
     </body>
 </html>
