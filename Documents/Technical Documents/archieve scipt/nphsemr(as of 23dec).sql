@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 18, 2014 at 06:30 AM
--- Server version: 5.6.17
--- PHP Version: 5.5.12
+-- Host: localhost
+-- Generation Time: Nov 03, 2014 at 06:09 AM
+-- Server version: 5.5.24-log
+-- PHP Version: 5.4.3
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -60,31 +60,6 @@ INSERT INTO `allergy_patient` (`patientNRIC`, `allergy`) VALUES
 ('S2315479I', 'Batrium'),
 ('S2315479I', 'Seafood'),
 ('S9048923H', 'No drug allergy');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `document`
---
-
-CREATE TABLE IF NOT EXISTS `document` (
-  `consentDatetime` datetime NOT NULL,
-  `consentName` varchar(100) NOT NULL,
-  `consentFile` varchar(200) NOT NULL,
-  `consentStatus` tinyint(1) NOT NULL,
-  `scenarioID` varchar(5) NOT NULL,
-  `stateID` varchar(5) NOT NULL,
-  PRIMARY KEY (`consentDatetime`,`consentName`,`scenarioID`,`stateID`),
-  KEY `scenarioID` (`scenarioID`),
-  KEY `stateID` (`stateID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `document`
---
-
-INSERT INTO `document` (`consentDatetime`, `consentName`, `consentFile`, `consentStatus`, `scenarioID`, `stateID`) VALUES
-('2014-12-17 02:07:02', 'Oesophagogastroduodenoscopy and Biopsy', 'consentform.pdf', 0, 'SC3', 'ST2');
 
 -- --------------------------------------------------------
 
@@ -191,9 +166,9 @@ CREATE TABLE IF NOT EXISTS `medicine` (
 --
 
 INSERT INTO `medicine` (`medicineBarcode`, `medicineName`, `dosage`, `medicineDatetime`, `routeAbbr`) VALUES
-('EPINE', 'Epinephrine', '', '2014-10-21 01:00:00', 'N.A'),
-('PRBC', 'PRBC', '', '2014-12-17 00:00:00', 'N.A'),
-('SALINE', 'Normal Saline', '', '0000-00-00 00:00:00', 'N.A');
+('E35435', 'Epinephrine', '200mL', '2014-10-21 01:00:00', 'I.V.'),
+('G12334', 'Cough Syrup', '2 spoons', '2014-10-20 04:00:00', 'AU'),
+('G24342', 'Panadol', '2 pills', '2014-10-19 13:00:00', 'P.O.');
 
 -- --------------------------------------------------------
 
@@ -206,7 +181,6 @@ CREATE TABLE IF NOT EXISTS `medicine_prescription` (
   `scenarioID` varchar(5) NOT NULL,
   `stateID` varchar(5) NOT NULL,
   `freqAbbr` varchar(10) NOT NULL,
-  `dosage` varchar(10) NOT NULL,
   PRIMARY KEY (`medicineBarcode`,`scenarioID`,`stateID`,`freqAbbr`),
   KEY `scenarioID` (`scenarioID`),
   KEY `stateID` (`stateID`),
@@ -217,10 +191,8 @@ CREATE TABLE IF NOT EXISTS `medicine_prescription` (
 -- Dumping data for table `medicine_prescription`
 --
 
-INSERT INTO `medicine_prescription` (`medicineBarcode`, `scenarioID`, `stateID`, `freqAbbr`, `dosage`) VALUES
-('EPINE', 'SC4', 'ST3', 'Q', '0.5mL'),
-('PRBC', 'SC4', 'ST1', 'ASAP', ''),
-('SALINE', 'SC4', 'ST3', 'Q', '200mL');
+INSERT INTO `medicine_prescription` (`medicineBarcode`, `scenarioID`, `stateID`, `freqAbbr`) VALUES
+('G12334', 'SC1', 'ST1', '2x/week ');
 
 -- --------------------------------------------------------
 
@@ -238,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `note` (
   PRIMARY KEY (`noteID`),
   KEY `praticalgroupID` (`practicalGroupID`),
   KEY `ScenarioID` (`scenarioID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `note`
@@ -248,8 +220,7 @@ INSERT INTO `note` (`noteID`, `multidisciplinaryNote`, `grpMemberNames`, `noteDa
 (1, 'taken down hr,bp,intake, output, administer medicine', 'xuanqi, linwei, qiwei, linxuan, qiping', '2014-10-17 14:00:00', 'P02', 'SC1'),
 (2, 'testestest', 'tingting, shiqi, weiyi, gladys, jocelyn, grace', '2014-10-21 11:25:00', 'P03', 'SC1'),
 (3, 'Administered panadol at 5.34pm', 'glad, sq, wy, grace, joce', '2014-10-27 10:47:07', 'P01', 'SC1'),
-(4, 'Chemistry report despatched. Blood pressure, spo2, respiration rate, heart rate normal. ', 'a, b, c, d', '2014-10-29 10:21:54', 'P01', 'SC1'),
-(5, 'Hi hi 5 nov', 'grace Test ', '2014-11-05 15:53:25', 'P01', 'SC4');
+(4, 'Chemistry report despatched. Blood pressure, spo2, respiration rate, heart rate normal. ', 'a, b, c, d', '2014-10-29 10:21:54', 'P01', 'SC1');
 
 -- --------------------------------------------------------
 
@@ -331,9 +302,8 @@ CREATE TABLE IF NOT EXISTS `prescription` (
 --
 
 INSERT INTO `prescription` (`scenarioID`, `stateID`, `doctorName`, `doctorOrder`, `freqAbbr`) VALUES
-('SC4', 'ST1', 'Dr James Tan', 'PRBCs two units now ', 'ASAP'),
-('SC4', 'ST3', 'Dr James Tan', 'Epinephrine 1:1000 0.5 mL IM STAT', 'ASAP'),
-('SC4', 'ST3', 'Dr James Tan', '0.9% Normal Saline at 200mL/hour', 'Q');
+('SC1', 'ST1', 'Dr Fong Pei Yin', 'ECG ', 'ac '),
+('SC1', 'ST1', 'Dr Fong Pei Yin', 'PRBCs two units NOW', 'ASAP');
 
 -- --------------------------------------------------------
 
@@ -389,7 +359,6 @@ INSERT INTO `route` (`routeAbbr`, `routeDescription`) VALUES
 ('I.V.', 'Intravenous route '),
 ('IVP', 'Intravenous push '),
 ('IVPB', 'Intravenous piggyback '),
-('N.A', 'N.A'),
 ('Neb', 'Nebuliser'),
 ('NGT', 'Nasogastric tube '),
 ('O.D.', 'Right eye '),
@@ -457,13 +426,13 @@ INSERT INTO `state` (`stateID`, `scenarioID`, `stateDescription`, `stateStatus`,
 ('ST0', 'SC4', 'default state', 0, 'S9048923H'),
 ('ST1', 'SC1', 'Initial Assessment at 0800 Hours', 0, 'S2315479I'),
 ('ST1', 'SC2', 'History and Assessment', 0, 'S7843522B'),
-('ST1', 'SC4', 'Admission to ED', 0, 'S9048923H'),
+('ST1', 'SC4', 'Admission to ED', 1, 'S9048923H'),
 ('ST2', 'SC1', 'Blood Started at 1000 Hours', 0, 'S2315479I'),
 ('ST2', 'SC2', 'Optional state: Abnormals', 0, 'S7843522B'),
 ('ST2', 'SC3', 'Baseline', 0, 'S9567344C'),
 ('ST2', 'SC4', 'Identifies Incorrect Order', 0, 'S9048923H'),
 ('ST3', 'SC1', 'Beginning Anaphylax in 30 minutes later', 0, 'S2315479I'),
-('ST3', 'SC4', '4 Hours After Potassium Infusion', 1, 'S9048923H'),
+('ST3', 'SC4', '4 Hours After Potassium Infusion', 0, 'S9048923H'),
 ('ST4', 'SC1', 'Mild Anaphylaxis', 0, 'S2315479I'),
 ('ST5', 'SC1', 'Worsening Anaphylaxis', 0, 'S2315479I'),
 ('ST6', 'SC1', 'Severe Anaphylaxis', 0, 'S2315479I'),
@@ -478,7 +447,7 @@ INSERT INTO `state` (`stateID`, `scenarioID`, `stateDescription`, `stateStatus`,
 
 CREATE TABLE IF NOT EXISTS `vital` (
   `vitalDatetime` datetime NOT NULL,
-  `scenarioID` varchar(5) NOT NULL,
+  `patientNRIC` varchar(10) NOT NULL,
   `temperature` decimal(4,2) NOT NULL,
   `RR` int(10) NOT NULL,
   `BPsystolic` int(10) NOT NULL,
@@ -490,22 +459,19 @@ CREATE TABLE IF NOT EXISTS `vital` (
   `oralAmount` varchar(30) NOT NULL,
   `intravenousType` varchar(100) NOT NULL,
   `intravenousAmount` varchar(30) NOT NULL,
-  PRIMARY KEY (`vitalDatetime`,`scenarioID`),
-  KEY `patientNRIC` (`scenarioID`),
-  KEY `scenarioID` (`scenarioID`)
+  PRIMARY KEY (`vitalDatetime`,`patientNRIC`),
+  KEY `patientNRIC` (`patientNRIC`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `vital`
 --
 
-INSERT INTO `vital` (`vitalDatetime`, `scenarioID`, `temperature`, `RR`, `BPsystolic`, `BPdiastolic`, `HR`, `SPO`, `output`, `oralType`, `oralAmount`, `intravenousType`, `intravenousAmount`) VALUES
-('2014-10-11 15:00:00', 'SC4', '37.50', 45, 92, 52, 100, 92, '50', 'water', '50', 'saline', '100'),
-('2014-10-27 02:07:41', 'SC4', '39.00', 30, 80, 48, 98, 98, '90', 'milk', '100', 'water ', '100'),
-('2014-10-27 02:08:32', 'SC4', '39.00', 30, 80, 48, 98, 98, '90', 'milk', '100', 'water', '100'),
-('2014-10-29 10:20:39', 'SC4', '36.50', 20, 120, 80, 70, 99, ' 350', ' solids', ' 200ml', ' iv', ' 200ml'),
-('2014-11-05 15:52:33', 'SC3', '45.00', 38, 67, 78, 88, 89, '150', 'water', '-', '-', '-'),
-('2014-11-05 15:53:00', 'SC3', '67.00', 42, 75, 80, 91, 95, '0', '-', '-', '-', '-');
+INSERT INTO `vital` (`vitalDatetime`, `patientNRIC`, `temperature`, `RR`, `BPsystolic`, `BPdiastolic`, `HR`, `SPO`, `output`, `oralType`, `oralAmount`, `intravenousType`, `intravenousAmount`) VALUES
+('2014-10-11 15:00:00', 'S2315479I', '37.50', 45, 92, 52, 100, 92, '50', 'water', '50', 'saline', '100'),
+('2014-10-27 02:07:41', 'S2315479I', '39.00', 30, 80, 48, 98, 98, '90', 'milk', '100', 'water ', '100'),
+('2014-10-27 02:08:32', 'S2315479I', '39.00', 30, 80, 48, 98, 98, '90', 'milk', '100', 'water', '100'),
+('2014-10-29 10:20:39', 'S2315479I', '36.50', 20, 120, 80, 70, 99, ' 350ml', ' solids', ' 200ml', ' iv', ' 200ml');
 
 -- --------------------------------------------------------
 
@@ -552,13 +518,6 @@ INSERT INTO `ward` (`wardID`, `bedNumber`, `availabilityStatus`) VALUES
 --
 ALTER TABLE `allergy_patient`
   ADD CONSTRAINT `allergy_patient_ibfk_1` FOREIGN KEY (`patientNRIC`) REFERENCES `patient` (`patientNRIC`);
-
---
--- Constraints for table `document`
---
-ALTER TABLE `document`
-  ADD CONSTRAINT `document_ibfk_1` FOREIGN KEY (`scenarioID`) REFERENCES `state` (`scenarioID`),
-  ADD CONSTRAINT `document_ibfk_2` FOREIGN KEY (`stateID`) REFERENCES `state` (`stateID`);
 
 --
 -- Constraints for table `medicine`
@@ -617,6 +576,12 @@ ALTER TABLE `report`
 ALTER TABLE `state`
   ADD CONSTRAINT `state_ibfk_1` FOREIGN KEY (`scenarioID`) REFERENCES `scenario` (`scenarioID`),
   ADD CONSTRAINT `state_ibfk_2` FOREIGN KEY (`patientNRIC`) REFERENCES `patient` (`patientNRIC`);
+
+--
+-- Constraints for table `vital`
+--
+ALTER TABLE `vital`
+  ADD CONSTRAINT `vital_ibfk_1` FOREIGN KEY (`patientNRIC`) REFERENCES `patient` (`patientNRIC`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
