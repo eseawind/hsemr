@@ -510,7 +510,7 @@
                                                                 </div>
                                                             </td></tr>
 
-                                                    </table>
+                                                    </table><br/><br/>
                                                     <input type ="hidden" value ="<%=scenarioID%>" name = "scenarioID">
                                                     <input type="submit" value="Update Vital Signs" class="button tiny"> 
                                                 </form>
