@@ -45,8 +45,6 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
             ScenarioDAO.updateScenarioStatus(scenarioID, 0);
             HttpSession session = request.getSession(false);
             session.setAttribute("success", "You have successfully deactivated the case: " + scenarioID + "!");
-//            RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioAdmin.jsp");
-//            rd.forward(request, response);
              response.sendRedirect("viewScenarioAdmin.jsp");
         } else {
             Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
@@ -57,11 +55,9 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
                 }
             }
              ScenarioDAO.updateScenarioStatus(scenarioID, 1);
-             StateDAO.updateState("ST0", scenarioID, 1);
+             StateDAO.updateState(scenarioID);
              HttpSession session = request.getSession(false);
              session.setAttribute("success", "You have successfully activated the case: " + scenarioID + "!");
-//            RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioAdmin.jsp");
-//            rd.forward(request, response);
             response.sendRedirect("viewScenarioAdmin.jsp");
         }
 
