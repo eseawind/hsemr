@@ -43,8 +43,8 @@ public class StateDAO {
         }
         return state;
     }
-    
-     public static List<State> retrieveAll(String scenarioID) {
+
+    public static List<State> retrieveAll(String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -68,7 +68,7 @@ public class StateDAO {
         }
         return stateList;
     }
-     
+
     public static State retrieveActivateState(String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -93,7 +93,24 @@ public class StateDAO {
         }
         return state;
     }
-    
+
+     public static void resetState() {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE state SET stateStatus =0";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
     
 
     public static void updateState(String stateID, String scenarioID, int stateStatus) {
@@ -116,7 +133,8 @@ public class StateDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
-     public static void delete(String scenarioID) {
+
+    public static void delete(String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         String query = "DELETE FROM state WHERE scenarioID =?";

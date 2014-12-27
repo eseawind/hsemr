@@ -60,10 +60,13 @@ public class ProcessActivateScenario extends HttpServlet {
                 if (activatedScenario != null) {
                     if (!activatedScenario.getScenarioID().equals(scenarioID)) {
                         ScenarioDAO.updateScenarioStatus(activatedScenario.getScenarioID(), 0);
+                        StateDAO.resetState();
+                        StateDAO.updateState("ST0", scenarioID, 1);
                         
                     }
                 }
                 ScenarioDAO.updateScenarioStatus(scenarioID, 1);
+                StateDAO.resetState();
                 StateDAO.updateState("ST0", scenarioID, 1);
                 HttpSession session = request.getSession(false);
                 session.setAttribute("success", "You have successfully activated the case: " + scenarioID + " !");

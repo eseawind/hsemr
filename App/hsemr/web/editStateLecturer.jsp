@@ -13,8 +13,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>NP Health Sciences | Change State</title>
-        <!-- LECTURER TOP BAR-->
+        <title>NP Health Sciences | View Scenario</title>
+         <!-- LECTURER TOP BAR-->
         <%@include file="/topbar/topbarLecturer.jsp" %>
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="css/original.css" />
@@ -57,7 +57,14 @@
                     Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
                     %>
                     <h1>Select state to change the state</h1>
-                    <h2>Currently activated case: <%=activatedScenario.getScenarioName()%></h2>
+                    
+                   <% if(activatedScenario == null){%>
+                        <h2>No case is activated at the moment. Please activate a case <a href="./viewScenarioLecturer.jsp">here</a> first.</h2>
+                        
+                   <% }else{%>
+                        <h2>Currently activated case: <%=activatedScenario.getScenarioName()%></h2>
+                    
+                    
           <br/>
             <%  //Retrieve all the successful messages 
             
@@ -203,5 +210,7 @@
             });
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
+        
+        <%}%>
     </body>
 </html>
