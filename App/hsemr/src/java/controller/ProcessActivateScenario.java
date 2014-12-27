@@ -10,6 +10,8 @@ import dao.StateDAO;
 import entity.Scenario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,23 +52,23 @@ public class ProcessActivateScenario extends HttpServlet {
                 ScenarioDAO.updateScenarioStatus(scenarioID, 0);
                 HttpSession session = request.getSession(false);
                 session.setAttribute("success", "You have successfully deactivated the case: " + scenarioID + " !");
+//                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
+//                rd.forward(request, response);
                 response.sendRedirect("viewScenarioLecturer.jsp");
             } else {
                 Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
                 if (activatedScenario != null) {
                     if (!activatedScenario.getScenarioID().equals(scenarioID)) {
                         ScenarioDAO.updateScenarioStatus(activatedScenario.getScenarioID(), 0);
-                        StateDAO.resetStates();
-                        StateDAO.updateState(scenarioID);
                         
                     }
                 }
                 ScenarioDAO.updateScenarioStatus(scenarioID, 1);
-                StateDAO.resetStates();
-                StateDAO.updateState(scenarioID);
+                StateDAO.updateState("ST0", scenarioID, 1);
                 HttpSession session = request.getSession(false);
                 session.setAttribute("success", "You have successfully activated the case: " + scenarioID + " !");
-                out.println(scenarioID);
+//                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
+//                rd.forward(request, response);
                 response.sendRedirect("viewScenarioLecturer.jsp");
             }
 

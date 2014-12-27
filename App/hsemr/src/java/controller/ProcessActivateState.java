@@ -48,8 +48,7 @@ public class ProcessActivateState extends HttpServlet {
 
             //call scenarioDAO to update the status of the scenario
             if (status.equals("deactivated")) {
-                StateDAO.resetStates();
-                StateDAO.updateState(scenarioID);
+                StateDAO.updateState(stateID, scenarioID,0);
                 HttpSession session = request.getSession(false);
                 session.setAttribute("success", "You have successfully deactivated the state: " + stateID + " !");
                 response.sendRedirect("editStateLecturer.jsp");
@@ -58,12 +57,11 @@ public class ProcessActivateState extends HttpServlet {
                 State activatedState = StateDAO.retrieveActivateState(activatedScenario.getScenarioID());
                 if (activatedState != null) {
                     if (!activatedState.getStateID().equals(stateID)) {
-                        StateDAO.resetStates();
-                        StateDAO.updateState(scenarioID);                     
+                        StateDAO.updateState(activatedState.getStateID(), activatedScenario.getScenarioID(),0);
+                     
                     }
                 }
-                StateDAO.resetStates();
-                StateDAO.updateState(scenarioID);    
+                StateDAO.updateState(stateID, scenarioID, 1);
                 HttpSession session = request.getSession(false);
                 session.setAttribute("success", "You have successfully activated the state: " + stateID + " !");
                 response.sendRedirect("editStateLecturer.jsp");

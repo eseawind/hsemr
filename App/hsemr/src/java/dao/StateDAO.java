@@ -94,16 +94,20 @@ public class StateDAO {
         return state;
     }
     
-    public static void updateState(String scenarioID) {
+    
+
+    public static void updateState(String stateID, String scenarioID, int stateStatus) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "UPDATE state SET stateStatus = '1' WHERE stateID ='ST0' and scenarioID = ?";
+        String query = "UPDATE state SET stateStatus =? WHERE stateID =? and scenarioID = ?";
 
         try {
             conn = ConnectionManager.getConnection();
 
             preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, scenarioID);
+            preparedStatement.setInt(1, stateStatus);
+            preparedStatement.setString(2, stateID);
+            preparedStatement.setString(3, scenarioID);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -112,28 +116,7 @@ public class StateDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
-    
-    //Reset all states to 0
-    public static void resetStates() {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        String query = "UPDATE state SET stateStatus = 0;";
-
-        try {
-            conn = ConnectionManager.getConnection();
-
-            preparedStatement = conn.prepareStatement(query);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionManager.close(conn, preparedStatement, null);
-        }
-    }
-    
-    
-    public static void delete(String scenarioID) {
+     public static void delete(String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         String query = "DELETE FROM state WHERE scenarioID =?";
