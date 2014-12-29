@@ -35,18 +35,20 @@
            List<Date> vitalsDateTime = VitalDAO.retrieveVitalTime(vitals);           
            
            //format date to be printed in string format
-           DateFormat df = new SimpleDateFormat("Y-M-d H:mm:ss");
+           DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
            //a string to store all dates in format to be used in javascript 
            //e.g. new Date ('2012-01-02T22:25:15'), new Date ('2012-02-02T22:25:17'), new Date ('2012-02-02T22:25:20'),new Date ('2012-02-02T22:25:23') 
            String vitalsDate = ""; 
            if (vitalsDateTime.size() > 0) { 
-                for (int i = 0; i < vitalsDateTime.size(); i++ ) {
+                for (int i = 0; i < vitalsDateTime.size(); i++ ) { 
                     String dateTimeVital = df.format(vitalsDateTime.get(i));
-                    dateTimeVital = dateTimeVital.replace(" ", "T");
+                    //dateTimeVital = dateTimeVital.replace(" ", "T");
                     if (i != vitalsDateTime.size()-1) {
-                        vitalsDate += "new Date ('" + dateTimeVital + "'), ";
+                        //vitalsDate += "new Date ('" + dateTimeVital + "'), ";
+                        vitalsDate += "'" + dateTimeVital + "', ";
                     } else { 
-                        vitalsDate += "new Date ('" + dateTimeVital + "')";
+                        //vitalsDate += "new Date ('" + dateTimeVital + "')";
+                        vitalsDate += "'" +  dateTimeVital + "'";
                     }
                 }
            }
@@ -56,8 +58,7 @@
            String tempStringArr= tempList.toString();
            String withoutbracket = tempStringArr.replace("[", ""); 
            String dataOfTemp= withoutbracket.replace("]", "") ;
-          
-          
+         
         %>
         <h3>Temperature Chart</h3>           
         <div id="chart"></div>
@@ -75,9 +76,9 @@
                     right: 100 // add 10px for some spacing
                 },
                 data: {
-                    x: 'x',
+                    //x: 'x',
                     columns: [
-                        ['x',<% out.println(vitalsDate); %>],
+                     //   ['x', '2014-12-28T11:44:51'],
                         ['temperature',  <% out.println(dataOfTemp); %>]
                       ],
 
@@ -87,18 +88,21 @@
                 },
     
                 axis: { 
+               
                     x: { 
-                       type: 'timeseries',
-                       
+                        type: 'category',
+                        categories: [<% out.println(vitalsDate);%>],
+                       //type: 'timeseries',
+                        //localtime: false,
                        label: { // ADD
                             text: 'Time',
                             position: 'outer-right'
-                        },
-                        
-                        tick: { 
-                           format: '%Y-%m-%d %H:%M:%S', 
-                            rotate: 45,
-                            multiline: false
+//                        },
+//                        
+//                        tick: { 
+//                           //format: '%Y-%m-%d %H:%M:%S', 
+//                            rotate: 45,
+//                            multiline: false
                        },
                        height: 100,
                        
