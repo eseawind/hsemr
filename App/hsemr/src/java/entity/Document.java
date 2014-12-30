@@ -3,27 +3,46 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.util.Date;
 
 /**
- * 
+ *
  * @author Jocelyn
  */
 public class Document {
-    
+
     private String consentName;
-    private String consentFile;    
+    private String consentFile;
     private Date consentDatetime;
     private int consentStatus;
+    private String scenarioID;
+    private String stateID;
 
-    public Document(String consentName, String consentFile, Date consentDatetime, int consentStatus) {
+    public Document(Date consentDatetime, String consentName, String consentFile, int consentStatus, String scenarioID, String stateID) {
         this.consentName = consentName;
         this.consentFile = consentFile;
         this.consentDatetime = consentDatetime;
         this.consentStatus = consentStatus;
+        this.scenarioID = scenarioID;
+        this.stateID = stateID;
+    }
+
+    public String getScenarioID() {
+        return scenarioID;
+    }
+
+    public void setScenarioID(String scenarioID) {
+        this.scenarioID = scenarioID;
+    }
+
+    public String getStateID() {
+        return stateID;
+    }
+
+    public void setStateID(String stateID) {
+        this.stateID = stateID;
     }
 
     public String getConsentName() {
@@ -57,5 +76,5 @@ public class Document {
     public void setConsentStatus(int consentStatus) {
         this.consentStatus = consentStatus;
     }
-    
+
 }
