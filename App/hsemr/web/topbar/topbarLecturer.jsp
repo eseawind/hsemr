@@ -44,7 +44,7 @@
                             <li><a href="./editStateLecturer.jsp">Activate State</a></li>
                         </ul>   
                     </li>
-                    <li><a href="#">View Submissions</a></li>
+                    <li><a href="./viewSubmissionLecturer.jsp">View Submissions</a></li>
                 </ul>
 
                 <ul class="right"> 
