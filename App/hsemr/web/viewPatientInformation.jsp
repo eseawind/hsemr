@@ -46,7 +46,8 @@
         <script src="js/foundation.min.js"></script>
         <div align ="center">
             <div class="large-centered large-10 columns">
-                <%            String active = active = (String) session.getAttribute("active");
+                <%
+                    String active = active = (String) session.getAttribute("active");
 
                     String success = "";
                     String error = "";
@@ -77,13 +78,13 @@
 
                     //retrieve case's information
                     String admissionNotes = scenarioActivated.getAdmissionNote();
-                    
+
                     //retrieve nurse praticalGroup ID
-                    String practicalGrp= (String) session.getAttribute("nurse");
+                    String practicalGrp = (String) session.getAttribute("nurse");
 
                     //retrieve note's information
                     List<Note> notesListRetrieved = NoteDAO.retrieveNotesByPraticalGrp(practicalGrp);
-                    
+
                     //retrieve patient's information
                     String firstName = retrievePatient.getFirstName();
                     String lastName = retrievePatient.getLastName();
@@ -113,7 +114,8 @@
                     String scenarioID = scenarioActivated.getScenarioID();
                     session.setAttribute("scenarioID", scenarioID);
                 %>
-                <br>               
+                <br>   
+                <!--Patient's Information-->
                 <div class="panel" style="background-color: #FFFFFF">
                     <h2>Patient's Information</h2><br/>
                     <font size='3'><b>Name: <font color="#666666"><%=fullName%></font></b>&nbsp;&nbsp;
@@ -166,6 +168,11 @@
                             } else {
                                 out.println("");
                             } %>"><a href="#multidisciplinary"><b>Multidisciplinary Notes</b></a></dd>
+                        <dd class="<% if (active != null && active.equals("documents")) {
+                                out.println("active");
+                            } else {
+                                out.println("");
+                            } %>"><a href="#documents"><b>Documents</b></a></dd>
                     </dl>
                     <div class="<% if (active == null || active.equals("") || active.equals("admission")) {
                             out.println("content active");
@@ -275,19 +282,19 @@
                         } else {
                             out.println("content");
                         }%>" id="medication">
-                       
 
 
-                                            <%
-                                                Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID);
-                                                ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
-                                                
-                                                if(medicinePrescriptionList.size() == 0){
-                                                    out.println("There's no prescription at the moment.");
-                                                    
-                                                }else{%>
-                                                
-                                                 <h4>Step 1: Scan Patient's Barcode</h4>
+
+                        <%
+                            Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID);
+                            ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
+
+                            if (medicinePrescriptionList.size() == 0) {
+                                out.println("There's no prescription at the moment.");
+
+                            } else {%>
+
+                        <h4>Step 1: Scan Patient's Barcode</h4>
 
 
                         <form action = "ProcessPatientBarcode" method = "POST">
@@ -323,11 +330,11 @@
                                             <td><b>Frequency</b></td>
                                             <td><b>Doctor Name</b></td>
                                             </tr>
-                                                    
-                                                    
-                                                    
 
-                                                <%for (MedicinePrescription medicinePrescription : medicinePrescriptionList) {
+
+
+
+                                            <%for (MedicinePrescription medicinePrescription : medicinePrescriptionList) {
                                                     String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
 
                                                     if (medicineBarcodeInput == null) {
@@ -345,31 +352,31 @@
 
                                                         </div>
 
-                                                        
+
                                                     </form></td>
                                                 <td><%=medicinePrescription.getMedicineBarcode()%></td>
                                                 <td>
                                                     <%
-                                                   
-                                                    String medicineBarcode = medicinePrescription.getMedicineBarcode();
-                                                    Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
-                                                    out.println(medicine.getRouteAbbr());
-                                                    
+
+                                                        String medicineBarcode = medicinePrescription.getMedicineBarcode();
+                                                        Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
+                                                        out.println(medicine.getRouteAbbr());
+
                                                     %>
-                                                    
-                                                  
+
+
                                                 </td>
                                                 <td><%=medicinePrescription.getDosage()%></td>
                                                 <td><%=medicinePrescription.getFreqAbbr()%></td>
                                                 <td><%=prescription.getDoctorName()%></td>
                                             </tr>  
-                                             <%}
-                                                session.removeAttribute("patientBarcodeInput");
+                                            <%}
+                                                    session.removeAttribute("patientBarcodeInput");
                                                 }
                                             %>
 
                                             </table>
-                                           
+
                                             </div> 
                                             <!--End of medication tab-->
 
@@ -599,46 +606,95 @@
                                                     </div>
 
                                             </div>
-                                            <% }%>
-                                            <!-- Reveal model for temperature chart -->
-               <div id="tempchart" class="reveal-modal medium" data-reveal>
-                   
-                <iframe src = "viewHistoricalTemp.jsp" frameborder ="0" width = "1500" height = "350"></iframe> 
-                <a class="close-reveal-modal">&#215;</a>
 
-                </div>
-                
-                
-                 <!-- Reveal model for Respiratory chart -->
-               <div id="RRchart" class="reveal-modal medium" data-reveal>
-                   
-                <iframe src = "viewHistoricalRR.jsp" frameborder ="0" width = "1000" height = "350"></iframe> 
-                <a class="close-reveal-modal">&#215;</a>
- 
-                </div>
-                 
-                 
-                <!-- Reveal model for Heart Rate chart -->
-               <div id="HRchart" class="reveal-modal medium" data-reveal>
-                   
-                <iframe src = "viewHistoricalHR.jsp" frameborder ="0" width = "1000" height = "350"></iframe> 
-                <a class="close-reveal-modal">&#215;</a>
- 
-                </div>
-                <div id="BPchart" class="reveal-modal medium" data-reveal>
-                <!-- Reveal model for Blood Pressure chart -->
-                <iframe src = "viewHistoricalBP.jsp" frameborder ="0" width = "1000" height = "350"></iframe> 
-                <a class="close-reveal-modal">&#215;</a>
- 
-                </div>
-                 
-                <!-- Reveal model for SPO chart -->
-               <div id="SPOchart" class="reveal-modal medium" data-reveal>
-                   
-                <iframe src = "viewHistoricalSPO.jsp" frameborder ="0" width = "1000" height = "350"></iframe> 
-                <a class="close-reveal-modal">&#215;</a>
- 
-                </div>
+
+                                            <div class="<% if (active != null && active.equals("documents")) {
+                                                    out.println("content active");
+                                                } else {
+                                                    out.println("content");
+                                                } %>" id="documents">
+
+                                                <h4>Documents</h4><br/>
+
+                                                <%
+                                                    List<Document> documentList = DocumentDAO.retrieveDocumentsByState(scenarioID, stateID);
+                                                    if (documentList != null && documentList.size() != 0) {
+                                                %>
+
+                                                <table>
+                                                    <tr>
+                                                        <td><b>Consent Name</b></td>
+                                                        <td><b>Date and Time</b></td>
+                                                        <td><b>Procedure Ordered</b></td>
+                                                        <td><b>Action</b></td>
+                                                    </tr>
+
+                                                    <%
+                                                        // Create an instance of SimpleDateFormat used for formatting 
+                                                        // the string representation of date (month/day/year)
+                                                        DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+
+                                                        for (Document document : documentList) {
+                                                            String consentName = document.getConsentName();
+                                                            String consentDatetime = df.format(document.getConsentDatetime());
+                                                            int consentStatus = document.getConsentStatus();
+
+                                                    %> 
+                                                    <tr>
+                                                        <td><%=consentName%></td>
+                                                        <td><%=consentDatetime%></td>
+                                                        <td>what</td>
+                                                        <td><%=consentStatus%></td>
+                                                    </tr>
+
+                                                    <%
+                                                            }
+                                                        } else {
+                                                        out.println("No documents.");
+                                                    }
+                                                    %>  </table>
+                                            </div>   
+                                            <% } %>
+                                            
+                                            <!-- Reveal model for temperature chart -->
+                                            <div id="tempchart" class="reveal-modal medium" data-reveal>
+
+                                                <iframe src = "viewHistoricalTemp.jsp" frameborder ="0" width = "1500" height = "350"></iframe> 
+                                                <a class="close-reveal-modal">&#215;</a>
+
+                                            </div>
+
+
+                                            <!-- Reveal model for Respiratory chart -->
+                                            <div id="RRchart" class="reveal-modal medium" data-reveal>
+
+                                                <iframe src = "viewHistoricalRR.jsp" frameborder ="0" width = "1000" height = "350"></iframe> 
+                                                <a class="close-reveal-modal">&#215;</a>
+
+                                            </div>
+
+
+                                            <!-- Reveal model for Heart Rate chart -->
+                                            <div id="HRchart" class="reveal-modal medium" data-reveal>
+
+                                                <iframe src = "viewHistoricalHR.jsp" frameborder ="0" width = "1000" height = "350"></iframe> 
+                                                <a class="close-reveal-modal">&#215;</a>
+
+                                            </div>
+                                            <div id="BPchart" class="reveal-modal medium" data-reveal>
+                                                <!-- Reveal model for Blood Pressure chart -->
+                                                <iframe src = "viewHistoricalBP.jsp" frameborder ="0" width = "1000" height = "350"></iframe> 
+                                                <a class="close-reveal-modal">&#215;</a>
+
+                                            </div>
+
+                                            <!-- Reveal model for SPO chart -->
+                                            <div id="SPOchart" class="reveal-modal medium" data-reveal>
+
+                                                <iframe src = "viewHistoricalSPO.jsp" frameborder ="0" width = "1000" height = "350"></iframe> 
+                                                <a class="close-reveal-modal">&#215;</a>
+
+                                            </div>
                                             <script>
 
             $(document).ready(function() {
