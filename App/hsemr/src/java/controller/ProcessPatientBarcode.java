@@ -37,6 +37,7 @@ public class ProcessPatientBarcode extends HttpServlet {
         String patientBarcodeInput = request.getParameter("patientBarcodeInput");
         if (patientBarcode.equals(patientBarcodeInput)) {
             session.setAttribute("patientBarcodeInput", patientBarcodeInput);
+            session.setAttribute("isPatientVerified", "true");
             session.setAttribute("success", "Patient barcode verified");
             session.setAttribute("active", "medication");
             response.sendRedirect("viewPatientInformation.jsp");

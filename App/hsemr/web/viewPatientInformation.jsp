@@ -282,8 +282,40 @@
                         } else {
                             out.println("content");
                         }%>" id="medication">
+                        
+                        <input data-reveal-id="medicationHistory" type="submit" value="View Medication History" class="button tiny">  
 
-
+                          <div id="medicationHistory" class="reveal-modal" data-reveal>
+                                <h2>Medication History</h2>
+                                
+                                <table>
+                                    <tr>
+                                    <td><b>Date Administered</b></td>
+                                    <td><b>Medicine Barcode</b></td>
+                                    </tr>
+                                    
+                                    <%
+                                        List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAll(scenarioID);
+                                        
+                                        DateFormat dateFormatterFprMedicationHistory = new SimpleDateFormat("dd-MM-yyyy hh:mm a" );
+                                        
+                                        for(MedicationHistory medicationHistory: medicationHistoryList){%>
+                                        <tr>
+                                            
+                                            <td><%=dateFormatterFprMedicationHistory.format(medicationHistory.getMedicineDatetime())%></td>
+                                            <td><%=medicationHistory.getMedicineBarcode()%></td>
+                                            
+                                        </tr> 
+                                        
+                                       <% }
+                                        
+                                    
+                                    %>
+                                </table>
+                                
+                                
+                                <a class="close-reveal-modal">&#215;</a>
+                            </div>
 
                         <%
                             Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID);
@@ -295,25 +327,36 @@
                             } else {%>
 
                         <h4>Step 1: Scan Patient's Barcode</h4>
+                        <%
+                                String patientBarcodeInput = (String) session.getAttribute("patientBarcodeInput");
+                                String isPatientVerified = (String)session.getAttribute("isPatientVerified");
+                                String disabled = "disabled";
 
+                                //patient is verified, enable the button
+                                if(isPatientVerified != null){
+                                    disabled = "";
+                                    patientBarcodeInput = patientBarcodeInput;
+                                }
+
+                           %>
 
                         <form action = "ProcessPatientBarcode" method = "POST">
 
                             <%
-                                String patientBarcodeInput = (String) session.getAttribute("patientBarcodeInput");
 
                                 if (patientBarcodeInput == null) {
                                     patientBarcodeInput = "";
                                 }
 
                             %>
+                            
                             <div class="small-8">
                                 <div class="small-3 columns">
                                     <label for="right-label" class="right inline">Patient's Barcode</label>
                                 </div>
                                 <div class="small-9 columns">
                                     <input type="hidden" name = "patientBarcode" id="patientBarcode" value = "<%=patientNRIC%>">
-                                    <input type="text" value = "<%=patientBarcodeInput%>" name = "patientBarcodeInput">
+                                    <input type="text" value = "<%=patientBarcodeInput%>" name = "patientBarcodeInput" autofocus/>
                                 </div>
                             </div>    
 
@@ -348,7 +391,7 @@
                                                     <form action = "ProcessMedicineBarcode" method = "POST">
                                                         <div class="password-confirmation-field">
                                                             <input type="hidden" name = "medicineBarcode" id="medicineBarcode" value = "<%=medicinePrescription.getMedicineBarcode()%>">
-                                                            <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>">
+                                                            <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>"  <%=disabled%>>
 
                                                         </div>
 
@@ -371,8 +414,10 @@
                                                 <td><%=prescription.getDoctorName()%></td>
                                             </tr>  
                                             <%}
-                                                    session.removeAttribute("patientBarcodeInput");
+                                                    //session.removeAttribute("patientBarcodeInput");
                                                 }
+                                                session.removeAttribute("isMedicationVerified");
+                                                session.removeAttribute("isPatientVerified");
                                             %>
 
                                             </table>
@@ -711,8 +756,10 @@
                 }
 
             });
-                                            </script>
-                                            </body>
-                                            <script type="text/javascript" src="js/humane.js"></script>
+        </script>
+                                            
 
-                                            </html>
+        </body>
+        <script type="text/javascript" src="js/humane.js"></script>
+
+</html>
