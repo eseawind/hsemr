@@ -73,7 +73,9 @@ public class ProcessAddVital extends HttpServlet {
             int BPdiastolic = 0;
             int HR = 0;
             int SPO = 0;
-
+            
+            
+           
             try {
                 temperature = Double.parseDouble(request.getParameter("temperature"));
             } catch (NumberFormatException e) {
@@ -109,12 +111,22 @@ public class ProcessAddVital extends HttpServlet {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
-
-            VitalDAO.add(scenarioID, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount);
             HttpSession session = request.getSession();
-            session.setAttribute("active", "vital");
-            session.setAttribute("success", "Vital signs have been updated!");
-            response.sendRedirect("./viewPatientInformation.jsp");
+            if (BPsystolic != 0 && BPdiastolic == 0) {
+                session.setAttribute("error", "Please update BOTH Systolic and Diastolic values.");
+                session.setAttribute("active", "vital");
+                response.sendRedirect("./viewPatientInformation.jsp");
+            } else if (BPsystolic == 0 && BPdiastolic != 0) {
+                session.setAttribute("error", "Please update BOTH Systolic and Diastolic values.");
+                session.setAttribute("active", "vital");
+                response.sendRedirect("./viewPatientInformation.jsp");
+            } else { 
+               VitalDAO.add(scenarioID, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount);
+
+                session.setAttribute("active", "vital");
+                session.setAttribute("success", "Vital signs have been updated!");
+                response.sendRedirect("./viewPatientInformation.jsp");
+            }
             
     }
 

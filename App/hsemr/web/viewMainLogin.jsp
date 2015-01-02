@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="small-9 columns">
                                     <select name = "userType">
-                                        <option value="practicalGroup">PRACTICAL GROUP</option>
+                                        <option value="practicalGroup">STUDENT</option>
                                         <option value="lecturer">NP STAFF</option>
                                         <option value="admin">ADMIN</option>
                                     </select> 

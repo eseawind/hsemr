@@ -97,9 +97,16 @@
 
                     labels: true,
                     type: 'line',
-                   
+//                    color: {
+//                        pattern: ['#d00', '#363FBC']
+//                    }
+                    color: function (color, d) {
+                        return d.index === 4 ? "#ddd" : "#d00";
+                    }
+                    
                 },
-    
+
+
                 axis: { 
                     x: { 
 //                       type: 'timeseries',
@@ -136,7 +143,6 @@
                         show: true
                     }
                 }
-
             });
             chart.resize({height:300, width:700});
 
