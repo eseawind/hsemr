@@ -7,6 +7,7 @@ package controller;
 
 import dao.ScenarioDAO;
 import dao.StateDAO;
+import dao.StateHistoryDAO;
 import entity.Scenario;
 import entity.State;
 import java.io.IOException;
@@ -62,6 +63,10 @@ public class ProcessActivateState extends HttpServlet {
                     }
                 }
                 StateDAO.updateState(stateID, scenarioID, 1);
+                if (StateHistoryDAO.retrieveAll().isEmpty()){ 
+                    StateHistoryDAO.addStateHistory("ST0");
+                }
+                StateHistoryDAO.addStateHistory(stateID);
                 HttpSession session = request.getSession(false);
                 session.setAttribute("success", "You have successfully activated the state: " + stateID + " !");
                 response.sendRedirect("editStateLecturer.jsp");

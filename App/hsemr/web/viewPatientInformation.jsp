@@ -4,6 +4,9 @@
     Author     : weiyi.ngow.2012
 --%>
 
+<%@page import="java.util.Map"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.TimeZone"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -193,78 +196,115 @@
                         <h4>Doctor's Order</h4><br/>
 
                         <%
-                            List<Report> stateReports = ReportDAO.retrieveReportsByState(scenarioID, stateID);
-                            if (stateReports != null && stateReports.size() != 0) {
+                            if (StateHistoryDAO.retrieveAll().isEmpty()){ 
+                               StateHistoryDAO.addStateHistory("ST0");
+                            } 
+                            HashMap<String,String> activatedStates = StateHistoryDAO.retrieveAll();
+                            
+                            //List<Report> stateReports = ReportDAO.retrieveReportsByState(scenarioID, stateID);
+                            if (activatedStates != null && activatedStates.size() != 0) {
                         %>
 
                         <table>
                             <tr>
                                 <td><b>Reports Ordered</b></td>
-                                <td><b>Last Updated</b></td>
+                                <td><b>Order Time</b></td>
+                                <td><b>Despatched Time</b></td>
                                 <td><b>Action</b></td>
                                 <td><b>Report Results</b></td>
                             </tr>
 
                             <%
-                                // Create an instance of SimpleDateFormat used for formatting 
-                                // the string representation of date (month/day/year)
-                                DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-
-                                for (Report report : stateReports) {
-                                    String reportName = report.getReportName();
-                                    String reportFile = report.getReportFile();
-
-                                    String reportDatetime = df.format(report.getReportDatetime());
-                                    int dispatchStatus = report.getDispatchStatus();
-
-                                    String reportResults = "";
-
-                                    if (dispatchStatus == 1) {
-
-                                        reportResults = "reports/" + reportFile;
+                              // to store reports of all activated states
+                                HashMap<List<Report>, String> stateReportsHM = new HashMap<List<Report>, String>(); 
+                                // remove duplicates
+                               List<String> tempList = new ArrayList<String>(); 
+                               
+                                for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
+                                    String state = entry.getKey();
+                                    if(tempList.size() == 0){
+                                     tempList = new ArrayList<String>();
                                     }
-
-
-                            %> 
-                            <tr>
-                                <td><%=reportName%></td>
-                                <td><%=reportDatetime%></td>
-                                <td><%
-                                    if (dispatchStatus == 1) {
-                                        out.println("Already despatched");
-                                    } else {
-                                    %>
-                                    <form action="ProcessDespatch" method="POST">
-                                        <input type="hidden" name="reportName" value="<%=reportName%>">
-                                        <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                                        <input type="hidden" name="stateID" value="<%=stateID%>">
-
-                                        <input type="submit" class="report-despatch button tinytable" value="Depatch">
-
-                                    </form>
-
-
-                                    <% } %>
-                                </td>
-                                <td>
-                                    <%
-                                        if (dispatchStatus == 1) {
-                                    %>
-                                    <a href="<%=reportResults%>" target="_blank">View Report</a>
-                                    <% } else {
-                                            out.println("N/A");
-
+                                    if (tempList.contains(state)) {
+                                        activatedStates.remove(state);
+                                    } else { 
+                                        tempList.add(state);
+                                        List<Report> reports = ReportDAO.retrieveReportsByState(scenarioID, state);
+                                        String doctorOrderTime = entry.getValue();
+                                        if(reports != null && reports.size() != 0) {
+                                            stateReportsHM.put(reports, doctorOrderTime);
                                         }
-                                    %>
-                                </td>
-
-
-                            </tr>
-
-
-                            <%
+                                    }
                                 }
-                            %>
+                                
+                                
+                                
+                                DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+                               
+                                 for (Map.Entry<List<Report>, String> entry : stateReportsHM.entrySet()) {
+                                    List<Report> stateReports = entry.getKey();
+                                    
+                                    // if needed to display:
+                                    String doctorOrderTime = entry.getValue();
+                                    
+                                    for (Report report : stateReports) {
+                                        String reportName = report.getReportName();
+                                        String reportFile = report.getReportFile();
+                                        
+                                        String reportDatetime = df.format(report.getReportDatetime());
+                                        int dispatchStatus = report.getDispatchStatus();
+
+                                        String reportResults = "";
+
+                                        if (dispatchStatus == 1) {
+
+                                            reportResults = "reports/" + reportFile;
+                                        }
+
+
+                                %> 
+
+                                <tr>
+                                    <td><%=reportName%></td>
+                                    <td><%=doctorOrderTime%></td>
+                                    <%if (dispatchStatus == 1) { %>
+                                    <td><%=reportDatetime%></td>
+                                    <% } else { 
+                                            out.println("<td>-</td>");
+                                        }%> 
+                                    <td><%
+                                        if (dispatchStatus == 1) {
+                                            out.println("Already despatched");
+                                        } else {
+                                        %>
+                                        <form action="ProcessDespatch" method="POST">
+                                            <input type="hidden" name="reportName" value="<%=reportName%>">
+                                            <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                                            <input type="hidden" name="stateID" value="<%=report.getStateID()%>">
+
+                                            <input type="submit" class="report-despatch button tinytable" value="Depatch">
+                                        </form>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <%
+                                            if (dispatchStatus == 1) {
+                                        %>
+                                        <a href="<%=reportResults%>" target="_blank">View Report</a>
+                                        <% } else {
+                                                out.println("N/A");
+
+                                            }
+                                        %>
+                                    </td>
+
+
+                                </tr>
+
+                                <%
+                                    }
+                                }
+                                %>
                         </table>
                         <%
                             } else {

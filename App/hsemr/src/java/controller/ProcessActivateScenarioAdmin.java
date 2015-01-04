@@ -7,8 +7,10 @@ package controller;
 
 import dao.ScenarioDAO;
 import dao.StateDAO;
+import dao.StateHistoryDAO;
 import entity.Scenario;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -59,6 +61,8 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
              ScenarioDAO.updateScenarioStatus(scenarioID, 1);
              StateDAO.updateState("ST0", scenarioID, 1);
              HttpSession session = request.getSession(false);
+            StateHistoryDAO.clearAllHistory();
+            StateHistoryDAO.addStateHistory("ST0");
              session.setAttribute("success", "You have successfully activated the case: " + scenarioID + "!");
 //            RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioAdmin.jsp");
 //            rd.forward(request, response);
