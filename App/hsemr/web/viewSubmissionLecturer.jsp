@@ -30,7 +30,7 @@
         <script src="js/vendor/jquery.js"></script>
         <script>
 
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $(document).foundation();
             });
         </script>
@@ -47,9 +47,13 @@
             <div class="large-12 columns" style="padding-top: 20px;">
 
                 <%                    //retrieve note's information
-                    List<Note> notesListRetrieved = NoteDAO.retrieveAll();
-
-                    if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
+                    List<Note> notesList = NoteDAO.retrieveAll();
+                    String userLoggedIn = (String) session.getAttribute("lecturer");
+                    String practicalGroupID = "";
+                    String nursesInCharge = "";
+                    String notes = "";
+                    String dateTime = "";
+                    if (notesList == null || notesList.size() == 0) {%>
 
                 <label for="right-label" class="right inline">No groups have enter their notes yet.</label>
 
@@ -69,14 +73,25 @@
                         </tr>
                     </thead>
                     <%
+
                         DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-                        //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
-                        for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
-                            Note notesRetrieve = notesListRetrieved.get(i);
-                            String practicalGroupID = notesRetrieve.getPracticalGroupID();
-                            String nursesInCharge = notesRetrieve.getGrpMemberNames();
-                            String notes = notesRetrieve.getMultidisciplinaryNote();
-                            String dateTime = df.format(notesRetrieve.getNoteDatetime());
+                        List<PracticalGroup> pgList = PracticalGroupDAO.retrieveAll();
+                        for (int p = 1; p <= pgList.size(); p++) {
+                            String pgIDStr = "P0" + p;
+                            PracticalGroup pg = PracticalGroupDAO.retrieve(pgIDStr);
+                            String pgLecturer = pg.getLecturerID();
+                            if (userLoggedIn.equals(pgLecturer)) {
+                                List<Note> notesToPrint = NoteDAO.retrieveNotesByPraticalGrp(pgIDStr);
+                                for (int n = 0; n < notesToPrint.size(); n++) {
+                                    Note nn = notesToPrint.get(n);
+                                    String notePGId = nn.getPracticalGroupID();
+                                    if (notePGId.equals(pgIDStr)) {
+                                        practicalGroupID = nn.getPracticalGroupID();
+                                        nursesInCharge = nn.getGrpMemberNames();
+                                        notes = nn.getMultidisciplinaryNote();
+                                        dateTime = df.format(nn.getNoteDatetime());
+
+
                     %>
                     <tr>
                         <td><%=practicalGroupID%></td>
@@ -84,7 +99,12 @@
                         <td><%=notes%></td>
                         <td><%=dateTime%></td>
                     </tr>
-                    <% }
+                    <%
+
+                                        }
+                                    }
+                                }
+                            }
                         }
                     %>
                 </table>
