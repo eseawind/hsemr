@@ -47,6 +47,17 @@
     <body>
         <br/>
         <script src="js/foundation.min.js"></script>
+<!--        <script type="text/javascript">
+            function timeoutForDocuments() {
+                var deleteButton = confirm("Are you sure you want to delete? ")
+                if (deleteButton) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            </script>-->
         <div align ="center">
             <div class="large-centered large-10 columns">
                 <%
@@ -200,22 +211,7 @@
                                StateHistoryDAO.addStateHistory("ST0");
                             } 
                             HashMap<String,String> activatedStates = StateHistoryDAO.retrieveAll();
-                            
-                            //List<Report> stateReports = ReportDAO.retrieveReportsByState(scenarioID, stateID);
-                            if (activatedStates != null && activatedStates.size() != 0) {
-                        %>
-
-                        <table>
-                            <tr>
-                                <td><b>Reports Ordered</b></td>
-                                <td><b>Order Time</b></td>
-                                <td><b>Despatched Time</b></td>
-                                <td><b>Action</b></td>
-                                <td><b>Report Results</b></td>
-                            </tr>
-
-                            <%
-                              // to store reports of all activated states
+                            // to store reports of all activated states
                                 HashMap<List<Report>, String> stateReportsHM = new HashMap<List<Report>, String>(); 
                                 // remove duplicates
                                List<String> tempList = new ArrayList<String>(); 
@@ -236,8 +232,21 @@
                                         }
                                     }
                                 }
-                                
-                                
+                            
+                            //List<Report> stateReports = ReportDAO.retrieveReportsByState(scenarioID, stateID);
+                            if (stateReportsHM != null && stateReportsHM.size() != 0) {
+                        %>
+
+                        <table>
+                            <tr>
+                                <td><b>Reports Ordered</b></td>
+                                <td><b>Order Time</b></td>
+                                <td><b>Despatched Time</b></td>
+                                <td><b>Action</b></td>
+                                <td><b>Report Results</b></td>
+                            </tr>
+
+                            <%
                                 
                                 DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
                                
@@ -286,6 +295,7 @@
                                         </form>
                                         <% } %>
                                     </td>
+                                    
                                     <td>
                                         <%
                                             if (dispatchStatus == 1) {
@@ -699,43 +709,97 @@
                                                     out.println("content");
                                                 } %>" id="documents">
 
-                                                <h4>Documents</h4><br/>
+                                                <h4>Consent Forms</h4><br/>
 
                                                 <%
-                                                    List<Document> documentList = DocumentDAO.retrieveDocumentsByState(scenarioID, stateID);
-                                                    if (documentList != null && documentList.size() != 0) {
+                                                // to store reports of all activated states
+                                                HashMap<List<Document>, String> stateDocumentsHM = new HashMap<List<Document>, String>(); 
+                                                for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
+                                                    String state = entry.getKey();
+                                                    List<Document> documents = DocumentDAO.retrieveDocumentsByState(scenarioID, state);
+                                                    String doctorOrderTime = entry.getValue();
+                                                    if(documents != null && documents.size() != 0) {
+                                                        stateDocumentsHM.put(documents, doctorOrderTime);
+                                                    }
+                                                }   
+                                                    //List<Document> documentList = DocumentDAO.retrieveDocumentsByState(scenarioID, stateID);
+                                                    if (stateDocumentsHM != null && stateDocumentsHM.size() != 0) {
                                                 %>
 
                                                 <table>
                                                     <tr>
-                                                        <td><b>Consent Name</b></td>
-                                                        <td><b>Date and Time</b></td>
                                                         <td><b>Procedure Ordered</b></td>
+                                                        <td><b>Order Time</b></td>
+                                                        <td><b>Consent Obtained</b></td>
                                                         <td><b>Action</b></td>
+                                                        <td><b>Consent Form</b></td>
                                                     </tr>
 
                                                     <%
                                                         // Create an instance of SimpleDateFormat used for formatting 
                                                         // the string representation of date (month/day/year)
                                                         DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+                                                        
+                                                        for (Map.Entry<List<Document>, String> entry : stateDocumentsHM.entrySet()) {
+                                                            List<Document> stateDocuments = entry.getKey();
 
-                                                        for (Document document : documentList) {
-                                                            String consentName = document.getConsentName();
-                                                            String consentDatetime = df.format(document.getConsentDatetime());
-                                                            int consentStatus = document.getConsentStatus();
+                                                            // if needed to display:
+                                                            String doctorOrderTime = entry.getValue();
+                                                        
+                                                            for (Document document : stateDocuments) {
+                                                                String consentName = document.getConsentName();
+                                                                String consentDatetime = df.format(document.getConsentDatetime());
+                                                                int consentStatus = document.getConsentStatus();
+                                                                String consentFile = document.getConsentFile();
 
-                                                    %> 
-                                                    <tr>
-                                                        <td><%=consentName%></td>
-                                                        <td><%=consentDatetime%></td>
-                                                        <td>what</td>
-                                                        <td><%=consentStatus%></td>
-                                                    </tr>
+                                                                String consentResults = "";
 
-                                                    <%
+                                                                if (consentStatus == 1) {
+
+                                                                    consentResults = "documents/" + consentFile;
+                                                                }
+
+                                                        %> 
+                                                        <tr>
+                                                            <td><%=consentName%></td>
+                                                            <td><%=doctorOrderTime%></td>
+                                                             <%if (consentStatus == 1) { %>
+                                                            <td><%=consentDatetime%></td>
+                                                            <% } else { 
+                                                                    out.println("<td>-</td>");
+                                                                }%> 
+                                                            <td><%
+                                                                if (consentStatus == 1) {
+                                                                    out.println("Consent Obtained");
+                                                                } else {
+                                                                %>
+                                                            <form action="ProcessObtainDocument" method="POST">
+                                                                <input type="hidden" name="consentName" value="<%=consentName%>">
+                                                                <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                                                                <input type="hidden" name="stateID" value="<%=document.getStateID()%>">
+
+                                                                <input type="submit" class="report-despatch button tinytable" value="Obtain">
+                                                            </form>
+                                                            <% } %></td>
+                                                            
+                                                            <td>
+                                                                <%
+                                                                    if (consentStatus == 1) {
+                                                                %>
+                                                                <a href="<%=consentResults%>" target="_blank">View Form</a>
+                                                                <% } else {
+                                                                        out.println("N/A");
+
+                                                                    }
+                                                                %>
+                                                            </td>
+                                                        </tr>
+
+                                                        <%
                                                             }
+                                                        }
                                                         } else {
-                                                        out.println("No documents.");
+                                                        out.println("No documents at the moment.");
                                                     }
                                                     %>  </table>
                                             </div>   

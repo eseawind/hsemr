@@ -11,8 +11,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  *
@@ -45,6 +49,31 @@ public class DocumentDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return docList;
+    }
+    public static void updateStatus(Date consentDatetime, String consentName, int consentStatus, String scenarioID, String stateID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE document SET  consentStatus=?, consentDatetime=?  WHERE consentName = ? and scenarioID = ? and stateID = ? ";
+
+        try {
+            conn = ConnectionManager.getConnection();
+            DateFormat dateFormatter;
+            dateFormatter = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+            dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setInt(1, consentStatus);
+            preparedStatement.setString(2, dateFormatter.format(consentDatetime));
+            preparedStatement.setString(3, consentName);
+            preparedStatement.setString(4, scenarioID);
+            preparedStatement.setString(5, stateID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+
     }
 }
 
