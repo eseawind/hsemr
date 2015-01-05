@@ -42,6 +42,8 @@ public class ProcessObtainDocument extends HttpServlet {
         Date date=new Date();
         DocumentDAO.updateStatus(date, consentName, 1, scenarioID, stateID);
         HttpSession session = request.getSession(false);
+        // to be used to determine whether to retrieve form for the first time
+        session.setAttribute("obtained", "1");
         session.setAttribute("success", "Document: " + consentName + " consent form is obtained successfully!");
         
         session.setAttribute("active","documents");
