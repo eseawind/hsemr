@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package controller;
 
-import dao.*;
-import entity.*;
-import java.io.*;
+import dao.StateDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +20,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Administrator
  */
-@WebServlet(name = "ProcessDeleteScenario", urlPatterns = {"/ProcessDeleteScenario"})
-public class ProcessDeleteScenario extends HttpServlet {
+@WebServlet(name = "ProcessAddState", urlPatterns = {"/ProcessAddState"})
+public class ProcessAddState extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,26 +34,25 @@ public class ProcessDeleteScenario extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        String scenarioID = request.getParameter("scenarioID");
-        String scenarioIDTrimmed = scenarioID.trim();
-        
-       // Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
-        
-        State retrieveScenarioState = StateDAO.retrieveStateInScenario(scenarioID);
-        String patientNRIC = retrieveScenarioState.getPatientNRIC();
-        
-        DocumentDAO.delete(scenarioID);
-        ReportDAO.delete(scenarioID);
-        PatientDAO.delete(patientNRIC);
-        StateDAO.delete(scenarioID);
-        ScenarioDAO.delete(scenarioID);
-        
-        HttpSession session = request.getSession(false);
-        session.setAttribute("success", "Successfully deleted: " + scenarioID);
-        response.sendRedirect("./viewScenarioAdmin.jsp");
 
+        String scenarioID = request.getParameter("scenarioID");
+        String patientNRIC = request.getParameter("patientNRIC");
+        String totalNumberOfStatesString = request.getParameter("totalNumberOfStates");
+        int totalNumberOfStates = Integer.parseInt(totalNumberOfStatesString);
+
+        for (int i = 0; i < totalNumberOfStates; i++) {
+            String stateID = "ST" + (i + 1);
+            String stateDescriptionRetrieve = "stateDescription" + (i + 1);
+
+            String stateDescription = request.getParameter(stateDescriptionRetrieve);
+
+            //StateDAO.add(stateID, scenarioID, RR, BP, HR, SPO, intake, output, temperature, stateDescription, patientNRIC);
+            StateDAO.add(stateID, scenarioID, stateDescription, 0, patientNRIC);
+            HttpSession session = request.getSession(false);
+            session.setAttribute("successMessageCreateScenario","New case and state has been created successfully!");          
+            response.sendRedirect("viewScenarioAdmin.jsp");
+            return;
+        }
 
     }
 

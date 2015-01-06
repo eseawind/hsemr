@@ -43,6 +43,53 @@ public class StateDAO {
         }
         return state;
     }
+    
+     public static State retrieveStateInScenario(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        State state = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from state where scenarioID =?");
+            stmt.setString(1, scenarioID);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                state = new State(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return state;
+    }
+    
+    public static void add(String stateID, String scenarioID, String stateDescription, int stateStatus, String patientNRIC) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "INSERT INTO state (stateID, scenarioID, stateDescription, stateStatus, patientNRIC) VALUES (?,?,?,?,?)";
+
+        try {
+            conn = ConnectionManager.getConnection();
+            preparedStatement = conn.prepareStatement(query);
+            
+            preparedStatement.setString(1, stateID);
+            preparedStatement.setString(2, scenarioID);
+            preparedStatement.setString(3, stateDescription);
+            preparedStatement.setInt(4, stateStatus);
+            preparedStatement.setString(5, patientNRIC);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
 
     public static List<State> retrieveAll(String scenarioID) {
         Connection conn = null;

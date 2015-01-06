@@ -76,4 +76,53 @@ public class ReportDAO {
         }
 
     }
+    
+    public static void add(String reportName, String reportFile, String scenarioID, String stateID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "INSERT INTO report (reportDatetime, reportName, reportFile, dispatchStatus, scenarioID, stateID) VALUES (?, ?, ?, ?, ? ,?)";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            Date currentDateTime = new Date();
+            
+            DateFormat dateFormatter;
+            dateFormatter = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+            dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, dateFormatter.format(currentDateTime));
+            preparedStatement.setString(2, reportName);
+            preparedStatement.setString(3, reportFile);
+            preparedStatement.setInt(4, 0); //default undespatched
+            preparedStatement.setString(5, scenarioID);
+            preparedStatement.setString(6, stateID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
+
+    public static void delete(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM report WHERE scenarioID = ?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, scenarioID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+        
+    }
 }

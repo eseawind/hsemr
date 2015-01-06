@@ -30,7 +30,7 @@ public class PatientDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                patient = new Patient(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+                patient = new Patient(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
             }
 
         } catch (SQLException e) {
@@ -40,23 +40,30 @@ public class PatientDAO {
         }
         return patient;
     }
-
-    public static void add(String patientNRIC, String firstName, String lastName, String gender, String dob, String wardID, int bedNumber) {
+ 
+    public static void add(String patientNRIC, String firstName, String lastName, String gender, String DOB) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String queryLine = "INSERT INTO patient VALUES ('"
-                + patientNRIC + "','" + firstName + "','" + lastName + "','" + gender + "','" + dob + "','" + wardID+ "','" + bedNumber + "')";
+        String query = "INSERT INTO patient (patientNRIC, firstName, lastName, gender, DOB) VALUES (?,?,?,?,?)";
 
         try {
             conn = ConnectionManager.getConnection();
-            preparedStatement = conn.prepareStatement(queryLine);
+            preparedStatement = conn.prepareStatement(query);
+            
+            preparedStatement.setString(1, patientNRIC);
+            preparedStatement.setString(2, firstName);
+            preparedStatement.setString(3, lastName);
+            preparedStatement.setString(4, gender);
+            preparedStatement.setString(5, DOB);
             preparedStatement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+    
     
     public static String retrieveAllergy(String patientNRIC) {
         Connection conn = null;
@@ -81,6 +88,25 @@ public class PatientDAO {
         }
         return allergy;
 
+    }
+    
+    public static void delete(String patientNric) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM patient WHERE patientNRIC =?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, patientNric);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
     }
 
 }

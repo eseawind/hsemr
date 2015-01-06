@@ -36,7 +36,7 @@
                         <a href="#">Case Management</a>
                         <ul class="dropdown">
                             <li><a href="./viewScenarioAdmin.jsp">Manage Case</a></li>
-                            <li><a href="#">Create Case</a></li>
+                            <li><a href="./createScenario.jsp">Create Case</a></li>
                         </ul>   
                     </li>
                     <li class="has-dropdown">
