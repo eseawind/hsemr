@@ -77,14 +77,16 @@ public class ProcessAddScenario extends HttpServlet {
 
             //getting ward information to add new patient to a new bed
             Ward wardInfo = WardDAO.retrieve(wardID);
-            int newBed= wardInfo.getBedNumber()+1;
+            //int newBed= wardInfo.getBedNumber()+1;
+            
+            int newBed = ScenarioDAO.retrieveAll().size()+1;
             
             //Adding Scenario, Patient, State, etc into the database, don't need to send them to the next page
             //*ORDER OF adding into db, THIS SEQ is important. don't shift it 
             PatientDAO.add(patientNRIC, firstName, lastName, gender, dobString);
-            WardDAO.add(wardID, newBed, 1); // 1 because bed is now occupied
+            //WardDAO.add(wardID, newBed, 1); // 1 because bed is now occupied
             AllergyPatientDAO.add(patientNRIC, allergy);
-            ScenarioDAO.add(scenarioID, scenarioName, scenarioDescription, 0, admissionInfo, wardID, newBed);
+            ScenarioDAO.add(scenarioID, scenarioName, scenarioDescription, 0, admissionInfo, newBed);
             StateDAO.add(stateID0, scenarioID, stateDescription0, 0, patientNRIC); //1 because default state status will be activate
             VitalDAO.add(scenarioID, temperature0, RR0, BPS0, BPD0, HR0, SPO0, "", "", "", "", "");
            //StateDAO.add(stateID0, scenarioID, RR0, BP0, HR0, SPO0, intake0, output0, temperature0, stateDescription0, patientNRIC);

@@ -438,4 +438,23 @@ public class VitalDAO {
         }
         return vitalsList;
     }
+    
+    public static void delete(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM vital WHERE scenarioID =?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, scenarioID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
 }

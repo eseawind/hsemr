@@ -32,7 +32,7 @@ public class ScenarioDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
+                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
             }
 
         } catch (SQLException e) {
@@ -56,7 +56,7 @@ public class ScenarioDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
+                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
             }
 
         } catch (SQLException e) {
@@ -67,10 +67,10 @@ public class ScenarioDAO {
         return scenario;
     }
 
-    public static void add(String scenarioID, String scenarioName, String scenarioDescription, int scenarioStatus, String admissionNote, String wardID, int bedNumber) {
+    public static void add(String scenarioID, String scenarioName, String scenarioDescription, int scenarioStatus, String admissionNote, int bedNumber) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "INSERT INTO scenario (scenarioID, scenarioName, scenarioDescription, scenarioStatus, admissionNote, wardID, bedNumber) VALUES (?,?,?,?,?,?,?)";
+        String query = "INSERT INTO scenario (scenarioID, scenarioName, scenarioDescription, scenarioStatus, admissionNote, bedNumber) VALUES (?,?,?,?,?,?)";
 
         try {
             conn = ConnectionManager.getConnection();
@@ -81,8 +81,7 @@ public class ScenarioDAO {
             preparedStatement.setString(3, scenarioDescription);
             preparedStatement.setInt(4, scenarioStatus);
             preparedStatement.setString(5, admissionNote);
-            preparedStatement.setString(6, wardID);
-            preparedStatement.setInt(7, bedNumber);
+            preparedStatement.setInt(6, bedNumber);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -103,7 +102,7 @@ public class ScenarioDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Scenario newScenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
+                Scenario newScenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
                 scenarioList.add(newScenario);
             }
 

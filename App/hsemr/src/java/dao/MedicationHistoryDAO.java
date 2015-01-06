@@ -7,7 +7,6 @@
 package dao;
 
 import entity.MedicationHistory;
-import entity.Vital;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -75,6 +74,25 @@ public class MedicationHistoryDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return medicationHistoryList;
+    }
+      
+    public static void delete(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM medication_history WHERE scenarioID =?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, scenarioID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
     }
     
 }

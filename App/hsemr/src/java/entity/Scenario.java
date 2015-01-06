@@ -17,13 +17,22 @@ public class Scenario {
     private String scenarioDescription;
     private int scenarioStatus;
     private String admissionNote;
+    private int bedNumber;
 
-    public Scenario(String scenarioID, String scenarioName, String scenarioDescription, int scenarioStatus, String admissionNote) {
+    public Scenario(String scenarioID, String scenarioName, String scenarioDescription, int scenarioStatus, String admissionNote, int bedNumber) {
         this.scenarioID = scenarioID;
         this.scenarioName = scenarioName;
         this.scenarioDescription = scenarioDescription;
         this.scenarioStatus = scenarioStatus;
         this.admissionNote = admissionNote;
+    }
+
+    public void setBedNumber(int bedNumber) {
+        this.bedNumber = bedNumber;
+    }
+
+    public int getBedNumber() {
+        return bedNumber;
     }
 
     public String getScenarioID() {

@@ -32,5 +32,23 @@ public class AllergyPatientDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+    public static void delete(String patientNRIC) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM allergy_patient WHERE patientNRIC =?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, patientNRIC);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
     
 }

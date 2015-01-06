@@ -2993,7 +2993,7 @@ blockquote p {
     margin-bottom: 0 !important;
     list-style: none;
     float: left; 
-    width: 16.6666666666666667%;
+    width: 16.6%;
     border-right: solid 1px #368a55;
     border-top: solid 1px #368a55;
     border-bottom: solid 1px #368a55;
@@ -3004,7 +3004,7 @@ blockquote p {
     color: black;
     padding: 1rem 1rem;
     font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-size: 1.00rem; }
+    font-size: 0.90rem; }
 .tabs dd > a:hover, .tabs .tab-title > a:hover {
     background: #F5FCED; }
 .tabs dd.active a, .tabs .tab-title.active a {

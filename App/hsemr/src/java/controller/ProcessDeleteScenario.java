@@ -37,24 +37,37 @@ public class ProcessDeleteScenario extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String scenarioID = request.getParameter("scenarioID");
-        String scenarioIDTrimmed = scenarioID.trim();
-        
+
        // Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
         
         State retrieveScenarioState = StateDAO.retrieveStateInScenario(scenarioID);
         String patientNRIC = retrieveScenarioState.getPatientNRIC();
         
+        AllergyPatientDAO.delete(patientNRIC);
         DocumentDAO.delete(scenarioID);
         ReportDAO.delete(scenarioID);
-        PatientDAO.delete(patientNRIC);
+        MedicinePrescriptionDAO.delete(scenarioID);
+        MedicationHistoryDAO.delete(scenarioID);
+        
+        PrescriptionDAO.delete(scenarioID); 
+        ReportDAO.delete(scenarioID);
+        
         StateDAO.delete(scenarioID);
+        PatientDAO.delete(patientNRIC);
+        
+        
+        NoteDAO.delete(scenarioID);
+       
+        
+        
+        VitalDAO.delete(scenarioID);
+        
+        
         ScenarioDAO.delete(scenarioID);
         
         HttpSession session = request.getSession(false);
         session.setAttribute("success", "Successfully deleted: " + scenarioID);
         response.sendRedirect("./viewScenarioAdmin.jsp");
-
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
