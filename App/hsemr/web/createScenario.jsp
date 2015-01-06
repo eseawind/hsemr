@@ -107,24 +107,13 @@
                         <input type="text" name ="allergy" value = "No Allergy" required pattern ="^[a-zA-Z ]+$"/>
                         <small class="error">Only alphabets accepted.</small>
                     </div>
-                </div>
-                <!--New Row 3-->
-                <div class="row">
                     <div class="large-4 columns">
                         <label>Gender</label>
                         <input type="radio" value="Male" name = "gender" required> Male <br/>
                         <input type="radio" value="Female" name = "gender"> Female
                     </div>
-                    <div class="large-4 columns">
-                        <label>Ward Selection</label>
-                        <select name="ward">
-                            <option>ward 1</option>
-                            <option>ward 2</option>
-                            <option>ward 3</option>
-                            <option>ward 4</option>
-                        </select>
-                    </div>       
                 </div>
+                
             </div>
         </dd>
         <dd class="accordion-navigation">

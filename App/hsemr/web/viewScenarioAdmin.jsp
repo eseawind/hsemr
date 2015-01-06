@@ -115,7 +115,7 @@
 
                         <!--DELETE-->
                         <td>                          
-                            <form action ="newjsp.jsp" method ="POST">
+                            <form action ="ProcessDeleteScenario" method ="POST">
                                 <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
                                 <input type = "submit" class="button tiny" onclick="if (!deleteConfirmation())
                                             return false" value="delete" >

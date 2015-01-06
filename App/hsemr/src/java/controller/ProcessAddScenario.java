@@ -51,7 +51,7 @@ public class ProcessAddScenario extends HttpServlet {
             String gender = request.getParameter("gender");
             String dobString = request.getParameter("DOB");
             String allergy = request.getParameter("allergy");
-            String wardID= (String) request.getParameter("ward");
+           // String wardID= (String) request.getParameter("ward");
 
 
             //Retrieve patient's default state
@@ -76,7 +76,7 @@ public class ProcessAddScenario extends HttpServlet {
             //int totalNumberOfStates = Integer.parseInt(totalNumberOfStatesString);
 
             //getting ward information to add new patient to a new bed
-            Ward wardInfo = WardDAO.retrieve(wardID);
+            //Ward wardInfo = WardDAO.retrieve(wardID);
             //int newBed= wardInfo.getBedNumber()+1;
             
             int newBed = ScenarioDAO.retrieveAll().size()+1;
