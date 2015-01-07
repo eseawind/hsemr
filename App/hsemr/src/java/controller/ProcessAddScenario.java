@@ -7,6 +7,7 @@
 package controller;
 
 import dao.*;
+import entity.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,7 +42,10 @@ public class ProcessAddScenario extends HttpServlet {
             String scenarioName = request.getParameter("scenarioName");
             String scenarioDescription = request.getParameter("scenarioDescription");
             String admissionInfo = request.getParameter("admissionInfo");
-            String scenarioID = "SC" + (ScenarioDAO.retrieveAll().size() + 1);
+            
+            //retrieve the biggest bed number so we know what scenario to auto increment
+            int maxBed = ScenarioDAO.retrieveMaxBedNumber();
+            String scenarioID = "SC" + (maxBed + 1);
 
             //Retrieve patient's information
             String patientNRIC = request.getParameter("patientNRIC");
@@ -51,7 +55,6 @@ public class ProcessAddScenario extends HttpServlet {
             String dobString = request.getParameter("DOB");
             String allergy = request.getParameter("allergy");
            // String wardID= (String) request.getParameter("ward");
-
 
             //Retrieve patient's default state
             String stateID0 = "ST0";
@@ -80,29 +83,34 @@ public class ProcessAddScenario extends HttpServlet {
             
             int newBed = ScenarioDAO.retrieveAll().size()+1;
             
-            //Adding Scenario, Patient, State, etc into the database, don't need to send them to the next page
-            //*ORDER OF adding into db, THIS SEQ is important. don't shift it 
-            PatientDAO.add(patientNRIC, firstName, lastName, gender, dobString);
-            //WardDAO.add(wardID, newBed, 1); // 1 because bed is now occupied
-            AllergyPatientDAO.add(patientNRIC, allergy);
-            ScenarioDAO.add(scenarioID, scenarioName, scenarioDescription, 0, admissionInfo, newBed);
-            StateDAO.add(stateID0, scenarioID, stateDescription0, 0, patientNRIC); //1 because default state status will be activate
-            VitalDAO.add(scenarioID, temperature0, RR0, BPS0, BPD0, HR0, SPO0, "", "", "", "", "");
-           //StateDAO.add(stateID0, scenarioID, RR0, BP0, HR0, SPO0, intake0, output0, temperature0, stateDescription0, patientNRIC);
-           
             HttpSession session = request.getSession(false);
             
-            session.setAttribute("totalNumberOfStates", totalNumberOfStatesString);
-            session.setAttribute("scenarioID", scenarioID);
-            session.setAttribute("patientNRIC", patientNRIC);
-            //request.setAttribute("totalNumberOfStates", totalNumberOfStatesString);
-            //request.setAttribute("scenarioID", scenarioID);
-            session.setAttribute("success", "New scenario: " + scenarioID +  " has been created successfully!");
-            //request.setAttribute("patientNRIC", patientNRIC);
-            //RequestDispatcher rd = request.getRequestDispatcher("createState.jsp");
-            //response.sendRedirect("createStateWithReports.jsp");
-            RequestDispatcher rd = request.getRequestDispatcher("createState.jsp");
-            rd.forward(request, response);
+            Patient retrievedPatient = PatientDAO.retrieve(patientNRIC);
+            
+            if(retrievedPatient != null){ // patientNRIC exists
+                session.setAttribute("error", "Patient NRIC: " + retrievedPatient.getPatientNRIC() +  " exists. Patient NRIC needs to be unique.");
+                RequestDispatcher rd = request.getRequestDispatcher("createScenario.jsp");
+                rd.forward(request, response);
+            }else{
+                //Adding Scenario, Patient, State, etc into the database, don't need to send them to the next page
+                //*ORDER OF adding into db, THIS SEQ is important. don't shift it 
+                PatientDAO.add(patientNRIC, firstName, lastName, gender, dobString);
+                AllergyPatientDAO.add(patientNRIC, allergy);
+                ScenarioDAO.add(scenarioID, scenarioName, scenarioDescription, 0, admissionInfo, newBed);
+                StateDAO.add(stateID0, scenarioID, stateDescription0, 0, patientNRIC); //1 because default state status will be activate
+                VitalDAO.add(scenarioID, temperature0, RR0, BPS0, BPD0, HR0, SPO0, "", "", "", "", "");
+               //StateDAO.add(stateID0, scenarioID, RR0, BP0, HR0, SPO0, intake0, output0, temperature0, stateDescription0, patientNRIC);
+
+                session.setAttribute("totalNumberOfStates", totalNumberOfStatesString);
+                session.setAttribute("scenarioID", scenarioID);
+                session.setAttribute("patientNRIC", patientNRIC);
+                session.setAttribute("success", "New scenario: " + scenarioID +  " has been created successfully!");
+                RequestDispatcher rd = request.getRequestDispatcher("createState.jsp");
+                rd.forward(request, response);
+            }
+            
+            
+            
         
     }
 

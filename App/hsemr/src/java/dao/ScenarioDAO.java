@@ -90,6 +90,31 @@ public class ScenarioDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+    
+       public static Integer retrieveMaxBedNumber() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int maxBed = 0;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select max(bedNumber) as maxBed from scenario");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                maxBed = rs.getInt("maxBed");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return maxBed;
+    }
+    
+    
     public static List<Scenario> retrieveAll() {
         Connection conn = null;
         PreparedStatement stmt = null;

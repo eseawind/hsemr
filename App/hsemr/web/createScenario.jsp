@@ -22,6 +22,8 @@
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
         <link rel="stylesheet" href="/resources/demos/style.css">
+         <script type="text/javascript" src="js/humane.js"></script>
+          <link rel="stylesheet" href="css/original.css" />
         <script>
             $(function () {
                 $("#datepicker").datepicker();
@@ -31,12 +33,12 @@
         String success = "";
         String error = "";
         
-        if (session.getAttribute("success") != null) {
+        if (session.getAttribute("success") != null && !session.getAttribute("success").equals("")) {
             success = (String) session.getAttribute("success");
             session.setAttribute("success", "");
         }
 
-        if (session.getAttribute("error") != null) {
+        if (session.getAttribute("error") != null && !session.getAttribute("error").equals("")) {
             error = (String) session.getAttribute("error");
             session.setAttribute("error", "");
         }
@@ -198,7 +200,6 @@
     <script src="js/foundation.min.js"></script>
 
     <script>
-        $(document).foundation();
         $(document).ready(function() {
             $(document).foundation();
             var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
@@ -216,4 +217,5 @@
     </script>
     
 </body>
+ <script type="text/javascript" src="js/humane.js"></script>
 </html>
