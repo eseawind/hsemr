@@ -143,4 +143,23 @@ public class NoteDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+    
+    public static void deleteNoteByPracticalGroup(String practicalGroupID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM note WHERE practicalGroupID =?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, practicalGroupID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
 }

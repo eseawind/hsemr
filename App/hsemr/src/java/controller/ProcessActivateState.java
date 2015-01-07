@@ -64,9 +64,9 @@ public class ProcessActivateState extends HttpServlet {
                 }
                 StateDAO.updateState(stateID, scenarioID, 1);
                 if (StateHistoryDAO.retrieveAll().isEmpty()){ 
-                    StateHistoryDAO.addStateHistory("ST0");
+                    StateHistoryDAO.addStateHistory(scenarioID, "ST0");
                 }
-                StateHistoryDAO.addStateHistory(stateID);
+                StateHistoryDAO.addStateHistory(scenarioID, stateID);
                 HttpSession session = request.getSession(false);
                 session.setAttribute("success", "You have successfully activated the state: " + stateID + " !");
                 response.sendRedirect("editStateLecturer.jsp");

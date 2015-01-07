@@ -7,7 +7,6 @@
 package controller;
 
 import dao.*;
-import entity.Ward;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -98,7 +97,7 @@ public class ProcessAddScenario extends HttpServlet {
             session.setAttribute("patientNRIC", patientNRIC);
             //request.setAttribute("totalNumberOfStates", totalNumberOfStatesString);
             //request.setAttribute("scenarioID", scenarioID);
-
+            session.setAttribute("success", "New scenario: " + scenarioID +  " has been created successfully!");
             //request.setAttribute("patientNRIC", patientNRIC);
             //RequestDispatcher rd = request.getRequestDispatcher("createState.jsp");
             //response.sendRedirect("createStateWithReports.jsp");

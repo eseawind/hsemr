@@ -8,6 +8,7 @@ package controller;
 
 import dao.AdminDAO;
 import dao.LecturerDAO;
+import dao.NoteDAO;
 import dao.PracticalGroupDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -68,6 +69,7 @@ public class ProcessDeleteAccount extends HttpServlet {
            }
            
         } else { 
+            NoteDAO.deleteNoteByPracticalGroup(userID);
             PracticalGroupDAO.delete(userID);
             HttpSession session = request.getSession(false);
             session.setAttribute("success", "Account: " + userID + " has been deleted successfully.");

@@ -32,7 +32,7 @@ public class MedicineDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                medicine = new Medicine(rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
+                medicine = new Medicine(rs.getString(1), rs.getString(2),rs.getString(3));
             }
         } catch (SQLException e) {
             e.printStackTrace();

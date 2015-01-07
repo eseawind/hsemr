@@ -55,7 +55,7 @@
                 <% } else { %> 
                 <li><a href="viewCaseInformation.jsp"><span data-tooltip aria-haspopup="true" class="has-tip" title="No activated case yet">Case Information</span></a></li>  
                 <%}%>
-                    <li><a href="#">Ward Management</a></li>
+                    <li><a href="viewWardInformation.jsp">Ward Management</a></li>
                   </ul>
                 
                 <ul class="right"> 

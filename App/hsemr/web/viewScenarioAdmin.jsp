@@ -31,28 +31,7 @@
         <%@include file="/topbar/topbarAdmin.jsp" %>
 
         <!--POP UP BOX-->
-        <script type="text/javascript">
-            function deleteConfirmation() {
-                var deleteButton = confirm("Are you sure you want to delete? ")
-                if (deleteButton) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-
-            function activateConfirmation() {
-                var activateButton = confirm("Only one case can be activate each round. Activating this case will deactivate the rest.")
-                if (activateButton) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-        </script>
-
+        
         <title>NP Health Sciences | Case Management</title>
     </head>
 
@@ -117,8 +96,14 @@
                         <td>                          
                             <form action ="ProcessDeleteScenario" method ="POST">
                                 <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                                <% if (status == 1) {
+                                    %>
+                                    <input type = "submit" class="button tiny" value="delete" disabled>
+                                <% } else {
+                                %>
                                 <input type = "submit" class="button tiny" onclick="if (!deleteConfirmation())
                                             return false" value="delete" >
+                                <% } %>
                             </form>
                         </td>  
 
@@ -161,6 +146,28 @@
                                         }
                                     });
     </script>
+    <script type="text/javascript">
+            function deleteConfirmation() {
+                var deleteButton = confirm("Are you sure you want to delete? ")
+                if (deleteButton) {                    
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+
+            function activateConfirmation() {
+                var activateButton = confirm("Only one case can be activate each round. Activating this case will deactivate the rest.")
+                if (activateButton) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        </script>
+
     <script type="text/javascript" src="js/humane.js"></script>
 </body>
 </html>

@@ -44,7 +44,7 @@ public class ProcessObtainDocument extends HttpServlet {
         HttpSession session = request.getSession(false);
         // to be used to determine whether to retrieve form for the first time
         session.setAttribute("obtained", "1");
-        session.setAttribute("success", "Document: " + consentName + " consent form is obtained successfully!");
+        session.setAttribute("success", "Obtaining Document: " + consentName + ". Please wait. Estimated waiting time is 30 seconds.");
         
         session.setAttribute("active","documents");
         response.sendRedirect("viewPatientInformation.jsp");

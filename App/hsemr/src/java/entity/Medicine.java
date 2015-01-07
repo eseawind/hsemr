@@ -13,15 +13,11 @@ package entity;
 public class Medicine {
     private String medicineBarcode;
     private String medicineName;
-    private String dosage;
-    private String medicineDatetime;
     private String routeAbbr;
 
-    public Medicine(String medicineBarcode, String medicineName, String dosage, String medicineDatetime, String routeAbbr) {
+    public Medicine(String medicineBarcode, String medicineName, String routeAbbr) {
         this.medicineBarcode = medicineBarcode;
         this.medicineName = medicineName;
-        this.dosage = dosage;
-        this.medicineDatetime = medicineDatetime;
         this.routeAbbr = routeAbbr;
     }
 
@@ -39,22 +35,6 @@ public class Medicine {
 
     public void setMedicineName(String medicineName) {
         this.medicineName = medicineName;
-    }
-
-    public String getDosage() {
-        return dosage;
-    }
-
-    public void setDosage(String dosage) {
-        this.dosage = dosage;
-    }
-
-    public String getMedicineDatetime() {
-        return medicineDatetime;
-    }
-
-    public void setMedicineDatetime(String medicineDatetime) {
-        this.medicineDatetime = medicineDatetime;
     }
 
     public String getRouteAbbr() {

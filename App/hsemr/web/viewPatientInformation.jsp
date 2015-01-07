@@ -198,7 +198,7 @@
 
                         <%
                             if (StateHistoryDAO.retrieveAll().isEmpty()){ 
-                               StateHistoryDAO.addStateHistory("ST0");
+                               StateHistoryDAO.addStateHistory(scenarioID, "ST0");
                             } 
                             HashMap<String,String> activatedStates = StateHistoryDAO.retrieveAll();
                             // to store reports of all activated states
@@ -222,7 +222,6 @@
                                         }
                                     }
                                 }
-                            
                             //List<Report> stateReports = ReportDAO.retrieveReportsByState(scenarioID, stateID);
                             if (stateReportsHM != null && stateReportsHM.size() != 0) {
                         %>
@@ -310,7 +309,7 @@
                                        <%
                                             if ( firstDespatch != null && !firstDespatch.equals("0")) { 
                                                %>
-                                                <p id="reportLinkMsg">Loading..</p>
+                                                <div id="reportLinkMsg">Loading..</div>
                                                 <%
                                                 session.setAttribute("obtainedReport","0");    
 
@@ -358,6 +357,11 @@
                           <div id="medicationHistory" class="reveal-modal" data-reveal>
                                 <h2>Medication History</h2>
                                 
+                                <%
+                                List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAll(scenarioID);
+                                if (medicationHistoryList == null || medicationHistoryList.size() == 0) { 
+                                    out.println("<h5>There are no record at the moment</h5>");
+                                } else { %>
                                 <table>
                                     <tr>
                                     <td><b>Date Administered</b></td>
@@ -365,10 +369,8 @@
                                     </tr>
                                     
                                     <%
-                                        List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAll(scenarioID);
-                                        
                                         DateFormat dateFormatterFprMedicationHistory = new SimpleDateFormat("dd-MM-yyyy hh:mm a" );
-                                        
+                                         
                                         for(MedicationHistory medicationHistory: medicationHistoryList){%>
                                         <tr>
                                             
@@ -379,10 +381,10 @@
                                         
                                        <% }
                                         
-                                    
                                     %>
                                 </table>
-                                
+                                <% }
+                                %>
                                 
                                 <a class="close-reveal-modal">&#215;</a>
                             </div>
@@ -472,9 +474,10 @@
                                                     <%
 
                                                         String medicineBarcode = medicinePrescription.getMedicineBarcode();
-                                                        Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
-                                                        out.println(medicine.getRouteAbbr());
-
+                                                        if (medicineBarcode != null) { 
+                                                            Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
+                                                            out.println(medicine.getRouteAbbr());
+                                                        }
                                                     %>
 
 
@@ -504,7 +507,7 @@
                                                 <%
 
                                                     Date currentDateTime = new Date();
-                                                    DateFormat dateFormatter = new SimpleDateFormat("dd-M-yyyy H:m:s");
+                                                    DateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy H:m:s");
                                                     dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
                                                     String currentDateFormatted = dateFormatter.format(currentDateTime);
 
@@ -696,7 +699,7 @@
                                                                                         if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
                                                                                     <label for="right-label" class="right inline">No groups have enter their notes yet.</label>
                                                                                     <% } else {
-                                                                                            DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+                                                                                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                                                                             //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
                                                                                             for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
                                                                                                 Note notesRetrieve = notesListRetrieved.get(i);

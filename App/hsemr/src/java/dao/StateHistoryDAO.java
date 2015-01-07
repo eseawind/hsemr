@@ -33,13 +33,13 @@ public class StateHistoryDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM stateHistory");
+            stmt = conn.prepareStatement("SELECT * FROM state_history");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String stateID = rs.getString(1);
-                DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-                String stateDate = df.format(rs.getTimestamp(2));
+                String stateID = rs.getString(2);
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String stateDate = df.format(rs.getTimestamp(3));
                 stateHashMap.put(stateID,stateDate);
             }
 
@@ -51,10 +51,10 @@ public class StateHistoryDAO {
         return stateHashMap;
     }
     
-    public static void addStateHistory(String stateID) {
+    public static void addStateHistory(String scenarioID, String stateID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "INSERT INTO statehistory(stateID, timeActivated) VALUES (?, ?)";
+        String query = "INSERT INTO state_history(scenarioID, stateID, timeActivated) VALUES (?, ?, ?)";
 
         try {
             conn = ConnectionManager.getConnection();
@@ -65,8 +65,9 @@ public class StateHistoryDAO {
             dateFormatter = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
             dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
             preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, stateID);
-            preparedStatement.setString(2, dateFormatter.format(currentDateTime));
+            preparedStatement.setString(1, scenarioID);
+            preparedStatement.setString(2, stateID);
+            preparedStatement.setString(3, dateFormatter.format(currentDateTime));
             preparedStatement.executeUpdate();
             
         } catch (SQLException e) {
@@ -79,7 +80,7 @@ public class StateHistoryDAO {
     public static void clearAllHistory() {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "DELETE FROM stateHistory";
+        String query = "DELETE FROM state_history";
 
         try {
             conn = ConnectionManager.getConnection();

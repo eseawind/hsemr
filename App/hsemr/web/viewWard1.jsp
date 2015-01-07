@@ -71,6 +71,7 @@
 
         </table>
         <form>
+            <br/><br/><br/>
             <input type="button" value="Back to Ward Overview" class="button tiny" onClick="window.location = 'viewWardInformation.jsp'"/>
         </form>
     </center>

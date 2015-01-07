@@ -27,6 +27,20 @@
                 $("#datepicker").datepicker();
             });
         </script>
+        <%
+        String success = "";
+        String error = "";
+        
+        if (session.getAttribute("success") != null) {
+            success = (String) session.getAttribute("success");
+            session.setAttribute("success", "");
+        }
+
+        if (session.getAttribute("error") != null) {
+            error = (String) session.getAttribute("error");
+            session.setAttribute("error", "");
+        }
+        %>
 
         <title>Case Setup - Create </title>
     </head>
@@ -184,7 +198,22 @@
     <script src="js/foundation.min.js"></script>
 
     <script>
-                $(document).foundation();
+        $(document).foundation();
+        $(document).ready(function() {
+            $(document).foundation();
+            var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+
+            var success1 = "<%=success%>";
+            var error1 = "<%=error%>";
+            if (success1 !== "") {
+                humaneSuccess.log(success1);
+            } else if (error1 !== "") {
+                humaneError.log(error1);
+            }
+
+        });
     </script>
+    
 </body>
 </html>

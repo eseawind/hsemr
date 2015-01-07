@@ -27,7 +27,7 @@ public class MedicationHistoryDAO {
     public static void add(String medicineBarcode, String practicalGroupID, String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "INSERT INTO medicATION_history (medicineDatetime, medicineBarcode, practicalGroupID, scenarioID) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO medication_history (medicineDatetime, medicineBarcode, practicalGroupID, scenarioID) VALUES (?, ?, ?, ?)";
 
         try {
             conn = ConnectionManager.getConnection();

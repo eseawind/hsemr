@@ -113,11 +113,11 @@ public class ProcessAddVital extends HttpServlet {
             }
             HttpSession session = request.getSession();
             if (BPsystolic != 0 && BPdiastolic == 0) {
-                session.setAttribute("error", "Please update BOTH Systolic and Diastolic values.");
+                session.setAttribute("error", "Update failed: Please update BOTH Systolic and Diastolic values.");
                 session.setAttribute("active", "vital");
                 response.sendRedirect("./viewPatientInformation.jsp");
             } else if (BPsystolic == 0 && BPdiastolic != 0) {
-                session.setAttribute("error", "Please update BOTH Systolic and Diastolic values.");
+                session.setAttribute("error", "Update failed: Please update BOTH Systolic and Diastolic values.");
                 session.setAttribute("active", "vital");
                 response.sendRedirect("./viewPatientInformation.jsp");
             } else { 

@@ -72,7 +72,7 @@ public class ProcessActivateScenario extends HttpServlet {
                 StateDAO.updateState("ST0", scenarioID, 1);
                 HttpSession session = request.getSession(false);
                 StateHistoryDAO.clearAllHistory();
-                StateHistoryDAO.addStateHistory("ST0");
+                StateHistoryDAO.addStateHistory(scenarioID, "ST0");
                 session.setAttribute("success", "You have successfully activated the case: " + scenarioID + " !");
 //                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
 //                rd.forward(request, response);
