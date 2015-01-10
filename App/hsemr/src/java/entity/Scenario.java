@@ -25,6 +25,7 @@ public class Scenario {
         this.scenarioDescription = scenarioDescription;
         this.scenarioStatus = scenarioStatus;
         this.admissionNote = admissionNote;
+        this.bedNumber = bedNumber;
     }
 
     public void setBedNumber(int bedNumber) {

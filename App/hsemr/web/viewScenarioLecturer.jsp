@@ -65,7 +65,7 @@
                 int caseNo = 0;
                 String scenarioID = "";
 
-                List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
+                List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
 
                 for (int i = 0; i < scenarioList.size(); i++) {
                     Scenario scenario = scenarioList.get(i);

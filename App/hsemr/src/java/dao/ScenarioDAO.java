@@ -201,5 +201,28 @@ public class ScenarioDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+    public static List<Scenario> retrieveAndSortByBedNum() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Scenario> scenarioList = new ArrayList<Scenario>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT * FROM scenario ORDER BY bedNumber ASC");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Scenario newScenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
+                scenarioList.add(newScenario);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return scenarioList;
+    }
 
 }

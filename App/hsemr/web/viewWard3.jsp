@@ -1,6 +1,6 @@
 <%-- 
     Document   : viewWard3
-    Created on : Jan 4, 2015, 1:12:44 AM
+    Created on : Jan 4, 2015, 1:10:26 AM
     Author     : gladyskhong.2012
 --%>
 <%@page import="java.util.ArrayList"%>
@@ -27,12 +27,14 @@
         <h2>Beds in Ward 3</h2>
         <table style ="border-spacing:80px 10px">
             <%
-                List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
+                List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
 
                 int sizeOfList = scenarioList.size();
                 int numPerRow = 5;
                 int numOfRows = (sizeOfList / numPerRow);
                 int counter = 1;
+                int counterScenario = 0;
+                int bedCounter = 1;
                 Scenario scen = ScenarioDAO.retrieveActivatedScenario();
                 String scID = "";
                 if (scen == null) {
@@ -49,17 +51,22 @@
                 <%
                     for (int col = 1; col <= numPerRow; col++) {
                         if (sizeOfList >= counter) {
-                            String scNum = "SC" + counter;
+                            Scenario retrievedScenario = scenarioList.get(counterScenario);
+                            int bedNumber = retrievedScenario.getBedNumber();
+                            
+                            String scNum = "SC" + bedNumber;
                             if (scNum.equals(scID)) {
                 %>
-                <td height = "200" width ="150" bgcolor = "92d400"> <font size="3"><b> <a href="viewCaseInformation.jsp"><center><%=scNum%></center></a></b> </td>
+                <td height = "200" width ="150" bgcolor = "92d400"> <font size="3"><b> <a href="viewCaseInformation.jsp"><center><%="Bed " + bedCounter%></center></a></b> </td>
                                 <%
                                 } else {
                                 %>
-                <td height = "200" width ="150" bgcolor = "92d400"> <font size="3"><b> <center><%=scNum%></center></b> </td>
+                <td height = "200" width ="150" bgcolor = "92d400"> <font size="3"><b> <center><%="Bed " + bedCounter%></center></b> </td>
                             <%
                                         }
+                                        counterScenario++;
                                         counter++;
+                                        bedCounter++;
                                     }
                                 }
                             %> 
