@@ -32,7 +32,7 @@ public class VitalDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select BPdiastolic from vital where scenarioID = ? AND BPdiastolic > 0 order by vitalDatetime desc");
+            stmt = conn.prepareStatement("select BPdiastolic from vital where scenarioID = ? AND BPdiastolic > 0 order by vitalDatetime asc");
             stmt.setString(1, scenarioID);
 
             rs = stmt.executeQuery();
@@ -58,7 +58,7 @@ public class VitalDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select BPsystolic from vital where scenarioID = ? AND BPsystolic > 0 order by vitalDatetime desc");
+            stmt = conn.prepareStatement("select BPsystolic from vital where scenarioID = ? AND BPsystolic > 0 order by vitalDatetime asc");
             stmt.setString(1, scenarioID);
 
             rs = stmt.executeQuery();
@@ -84,7 +84,7 @@ public class VitalDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select SPO from vital where scenarioID = ? AND SPO > 0 order by vitalDatetime desc");
+            stmt = conn.prepareStatement("select SPO from vital where scenarioID = ? AND SPO > 0 order by vitalDatetime asc");
             stmt.setString(1, scenarioID);
 
             rs = stmt.executeQuery();
