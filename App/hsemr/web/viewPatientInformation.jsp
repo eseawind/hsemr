@@ -47,12 +47,12 @@
     <body>
         <br/>
         <script src="js/foundation.min.js"></script>
-       
+
         <div align ="center">
             <div class="large-centered large-10 columns">
                 <%
                     String active = active = (String) session.getAttribute("active");
-                    
+
                     String success = "";
                     String error = "";
                     //retrieve all successfulmessages
@@ -197,31 +197,31 @@
                         <h4>Doctor's Order</h4><br/>
 
                         <%
-                            if (StateHistoryDAO.retrieveAll().isEmpty()){ 
-                               StateHistoryDAO.addStateHistory(scenarioID, "ST0");
-                            } 
-                            HashMap<String,String> activatedStates = StateHistoryDAO.retrieveAll();
+                            if (StateHistoryDAO.retrieveAll().isEmpty()) {
+                                StateHistoryDAO.addStateHistory(scenarioID, "ST0");
+                            }
+                            HashMap<String, String> activatedStates = StateHistoryDAO.retrieveAll();
                             // to store reports of all activated states
-                                HashMap<List<Report>, String> stateReportsHM = new HashMap<List<Report>, String>(); 
-                                // remove duplicates
-                               List<String> tempList = new ArrayList<String>(); 
-                               // remove duplicates and add reports of that state into array reports
-                                for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
-                                    String state = entry.getKey();
-                                    if(tempList.size() == 0){
-                                     tempList = new ArrayList<String>();
-                                    }
-                                    if (tempList.contains(state)) {
-                                        activatedStates.remove(state);
-                                    } else { 
-                                        tempList.add(state);
-                                        List<Report> reports = ReportDAO.retrieveReportsByState(scenarioID, state);
-                                        String doctorOrderTime = entry.getValue();
-                                        if(reports != null && reports.size() != 0) {
-                                            stateReportsHM.put(reports, doctorOrderTime);
-                                        }
+                            HashMap<List<Report>, String> stateReportsHM = new HashMap<List<Report>, String>();
+                            // remove duplicates
+                            List<String> tempList = new ArrayList<String>();
+                            // remove duplicates and add reports of that state into array reports
+                            for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
+                                String state = entry.getKey();
+                                if (tempList.size() == 0) {
+                                    tempList = new ArrayList<String>();
+                                }
+                                if (tempList.contains(state)) {
+                                    activatedStates.remove(state);
+                                } else {
+                                    tempList.add(state);
+                                    List<Report> reports = ReportDAO.retrieveReportsByState(scenarioID, state);
+                                    String doctorOrderTime = entry.getValue();
+                                    if (reports != null && reports.size() != 0) {
+                                        stateReportsHM.put(reports, doctorOrderTime);
                                     }
                                 }
+                            }
                             //List<Report> stateReports = ReportDAO.retrieveReportsByState(scenarioID, stateID);
                             if (stateReportsHM != null && stateReportsHM.size() != 0) {
                         %>
@@ -236,19 +236,18 @@
                             </tr>
 
                             <%
-                                
                                 DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
                                 // loop through each report
-                                 for (Map.Entry<List<Report>, String> entry : stateReportsHM.entrySet()) {
+                                for (Map.Entry<List<Report>, String> entry : stateReportsHM.entrySet()) {
                                     List<Report> stateReports = entry.getKey();
-                                    
+
                                     // if needed to display:
                                     String doctorOrderTime = entry.getValue();
-                                    
+
                                     for (Report report : stateReports) {
                                         String reportName = report.getReportName();
                                         String reportFile = report.getReportFile();
-                                        
+
                                         String reportDatetime = df.format(report.getReportDatetime());
                                         int dispatchStatus = report.getDispatchStatus();
 
@@ -260,79 +259,79 @@
                                         }
 
 
-                                %> 
+                            %> 
 
-                                <tr>
-                                    <td><%=reportName%></td>
-                                    <td><%=doctorOrderTime%></td>
-                                    <%
+                            <tr>
+                                <td><%=reportName%></td>
+                                <td><%=doctorOrderTime%></td>
+                                <%
                                     // check if require retrieve process 
                                     // despatch Date time column 
                                     String firstDespatch = (String) session.getAttribute("obtainedReport");
-                                    if (dispatchStatus == 1) { 
-                                     if (firstDespatch != null && !firstDespatch.equals("0")) { %>
-                                     <td><div id="reportDateWaiting">Waiting..</div>
-                                         <div id="reportDateDisplay" style="display:none;"><%=reportDatetime%></div></td>
-                                     <% session.setAttribute("obtainedReport","0"); 
-                                        } else { %>  
-                                    <td><%=reportDatetime%></td>
-                                    <% }
-                                     } else { 
-                                            out.println("<td>-</td>");
-                                        }%> 
-                                        
-                                    <td><% // action (despatch status) column 
-                                        if (dispatchStatus == 1) {
-                                            if (firstDespatch != null && !firstDespatch.equals("0")) { %>
-                                            <div id="reportStatusWaiting">Waiting..</div>
-                                            <div id="reportStatusDisplay" style="display:none;">Despatched</div></td>
-                                            <%  
-                                            } else {%> 
-                                                Despatched</td>
-                                        <%  }
-                                        } else {
-                                        %>
-                                        <form action="ProcessDespatch" method="POST">
-                                            <input type="hidden" name="reportName" value="<%=reportName%>">
-                                            <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                                            <input type="hidden" name="stateID" value="<%=report.getStateID()%>">
+                                    if (dispatchStatus == 1) {
+                                        if (firstDespatch != null && !firstDespatch.equals("0")) {%>
+                                <td><div id="reportDateWaiting">Waiting..</div>
+                                    <div id="reportDateDisplay" style="display:none;"><%=reportDatetime%></div></td>
+                                    <% session.setAttribute("obtainedReport", "0");
+                                    } else {%>  
+                                <td><%=reportDatetime%></td>
+                                <% }
+                                    } else {
+                                        out.println("<td>-</td>");
+                                    }%> 
 
-                                            <input type="submit" id="downloadReport" class="report-despatch button tinytable" value="Depatch">
-                                        </form>
-                                        <% } %>
-                                    </td>
-                                    
-                                    <td>
-                                        <% // results column (link) 
-                                            if (dispatchStatus == 1) {
-                                        %>
-                                       <%
-                                            if ( firstDespatch != null && !firstDespatch.equals("0")) { 
-                                               %>
-                                                <div id="reportLinkMsg">Loading..</div>
-                                                <%
-                                                session.setAttribute("obtainedReport","0");    
+                                <td><% // action (despatch status) column 
+                                    if (dispatchStatus == 1) {
+                                        if (firstDespatch != null && !firstDespatch.equals("0")) { %>
+                                    <div id="reportStatusWaiting">Waiting..</div>
+                                    <div id="reportStatusDisplay" style="display:none;">Despatched</div></td>
+                                    <%
+                                    } else {%> 
+                                Despatched</td>
+                                <%  }
+                                } else {
+                                %>
+                            <form action="ProcessDespatch" method="POST">
+                                <input type="hidden" name="reportName" value="<%=reportName%>">
+                                <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                                <input type="hidden" name="stateID" value="<%=report.getStateID()%>">
 
-                                               %> <a href="<%=reportResults%>" id="reportLink" target="_blank" style="display:none;">View Report</a>
-                                               <%
-                                            } else {
-                                        %>
-                                        <a href="<%=reportResults%>" target="_blank">View Report</a>
-                                            <% }%>
-                                        <% } else {
-                                                out.println("N/A");
+                                <input type="submit" id="downloadReport" class="report-despatch button tinytable" value="Depatch">
+                            </form>
+                            <% } %>
+                            </td>
 
-                                            }
-                                        %>
-                                    </td>
-
-
-                                </tr>
-
+                            <td>
+                                <% // results column (link) 
+                                    if (dispatchStatus == 1) {
+                                %>
                                 <%
+                                    if (firstDespatch != null && !firstDespatch.equals("0")) {
+                                %>
+                                <div id="reportLinkMsg">Loading..</div>
+                                <%
+                                    session.setAttribute("obtainedReport", "0");
+
+                                %> <a href="<%=reportResults%>" id="reportLink" target="_blank" style="display:none;">View Report</a>
+                                <%
+                                } else {
+                                %>
+                                <a href="<%=reportResults%>" target="_blank">View Report</a>
+                                <% }%>
+                                <% } else {
+                                        out.println("N/A");
+
+                                    }
+                                %>
+                            </td>
+
+
+                            </tr>
+
+                            <%
                                     }
                                 }
-                                %>
+                            %>
                         </table>
                         <%
                             } else {
@@ -351,43 +350,43 @@
                         } else {
                             out.println("content");
                         }%>" id="medication">
-                        
+
                         <input data-reveal-id="medicationHistory" type="submit" value="View Medication History" class="button tiny">  
 
-                          <div id="medicationHistory" class="reveal-modal" data-reveal>
-                                <h2>Medication History</h2>
-                                
-                                <%
+                        <div id="medicationHistory" class="reveal-modal" data-reveal>
+                            <h2>Medication History</h2>
+
+                            <%
                                 List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAll(scenarioID);
-                                if (medicationHistoryList == null || medicationHistoryList.size() == 0) { 
+                                if (medicationHistoryList == null || medicationHistoryList.size() == 0) {
                                     out.println("<h5>There are no record at the moment</h5>");
                                 } else { %>
-                                <table>
-                                    <tr>
+                            <table>
+                                <tr>
                                     <td><b>Date Administered</b></td>
                                     <td><b>Medicine Barcode</b></td>
-                                    </tr>
-                                    
-                                    <%
-                                        DateFormat dateFormatterFprMedicationHistory = new SimpleDateFormat("dd-MM-yyyy hh:mm a" );
-                                         
-                                        for(MedicationHistory medicationHistory: medicationHistoryList){%>
-                                        <tr>
-                                            
-                                            <td><%=dateFormatterFprMedicationHistory.format(medicationHistory.getMedicineDatetime())%></td>
-                                            <td><%=medicationHistory.getMedicineBarcode()%></td>
-                                            
-                                        </tr> 
-                                        
-                                       <% }
-                                        
-                                    %>
-                                </table>
+                                </tr>
+
+                                <%
+                                    DateFormat dateFormatterFprMedicationHistory = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+
+                                    for (MedicationHistory medicationHistory : medicationHistoryList) {%>
+                                <tr>
+
+                                    <td><%=dateFormatterFprMedicationHistory.format(medicationHistory.getMedicineDatetime())%></td>
+                                    <td><%=medicationHistory.getMedicineBarcode()%></td>
+
+                                </tr> 
+
                                 <% }
+
                                 %>
-                                
-                                <a class="close-reveal-modal">&#215;</a>
-                            </div>
+                            </table>
+                            <% }
+                            %>
+
+                            <a class="close-reveal-modal">&#215;</a>
+                        </div>
 
                         <%
                             Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID);
@@ -400,28 +399,26 @@
 
                         <h4>Step 1: Scan Patient's Barcode</h4>
                         <%
-                                String patientBarcodeInput = (String) session.getAttribute("patientBarcodeInput");
-                                String isPatientVerified = (String)session.getAttribute("isPatientVerified");
-                                String disabled = "disabled";
+                            String patientBarcodeInput = (String) session.getAttribute("patientBarcodeInput");
+                            String isPatientVerified = (String) session.getAttribute("isPatientVerified");
+                            String disabled = "disabled";
 
-                                //patient is verified, enable the button
-                                if(isPatientVerified != null){
-                                    disabled = "";
-                                    patientBarcodeInput = patientBarcodeInput;
-                                }
+                            //patient is verified, enable the button
+                            if (isPatientVerified != null) {
+                                disabled = "";
+                                patientBarcodeInput = patientBarcodeInput;
+                            }
 
-                           %>
+                        %>
 
                         <form action = "ProcessPatientBarcode" method = "POST">
 
-                            <%
-
-                                if (patientBarcodeInput == null) {
+                            <%                                if (patientBarcodeInput == null) {
                                     patientBarcodeInput = "";
                                 }
 
                             %>
-                            
+
                             <div class="small-8">
                                 <div class="small-3 columns">
                                     <label for="right-label" class="right inline">Patient's Barcode</label>
@@ -474,7 +471,7 @@
                                                     <%
 
                                                         String medicineBarcode = medicinePrescription.getMedicineBarcode();
-                                                        if (medicineBarcode != null) { 
+                                                        if (medicineBarcode != null) {
                                                             Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
                                                             out.println(medicine.getRouteAbbr());
                                                         }
@@ -686,67 +683,80 @@
                                                             <br>
                                                             <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
                                                             <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
-                                                        </div>
-                                                        <dl class="accordion" data-accordion>
-                                                            <dd class="accordion-navigation">
-                                                                <a href="#pastNotes">View Past Groups notes here</a>
-                                                                <div id="pastNotes" class="content">
+
+                                                        </div> 
+                                                    </div>  
+                                                </form>
+                                                <dl class="accordion" data-accordion>
+                                                    <dd class="accordion-navigation">
+                                                        <a href="#pastNotes">View Past Groups notes here</a>
+                                                        <div id="pastNotes" class="content">
+                                                            <div class="row">
+                                                                <div class="large-12">
                                                                     <div class="row">
-                                                                        <div class="large-12">
-                                                                            <div class="row">
-                                                                                <div class="large-12 columns">
-                                                                                    <%
+                                                                        <div class="large-12 columns">
+                                                                            <%
                                                                                         if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
-                                                                                    <label for="right-label" class="right inline">No groups have enter their notes yet.</label>
-                                                                                    <% } else {
-                                                                                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                                                            //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
-                                                                                            for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
-                                                                                                Note notesRetrieve = notesListRetrieved.get(i);
-                                                                                                // out.print("<b>Practical Group: </b>" + notes.getPracticalGroupID() + "<br>");
-                                                                                                out.print("<b>Nurses in-charge: </b>" + notesRetrieve.getGrpMemberNames() + "<br>");
-                                                                                                out.print("<b>Multidisciplinary Note: </b>" + notesRetrieve.getMultidisciplinaryNote() + "<br>");
-                                                                                                out.print("<b>Time submitted: </b>" + df.format(notesRetrieve.getNoteDatetime()) + "<br>");
-                                                                                                out.println("<br>");
-                                                                                            }
+                                                                            <label for="right-label" class="right inline">No groups have enter their notes yet.</label>
+                                                                            <% } else { %>
+                                                                            <!--TABLE-->
+                                                                            <table class="responsive" id="cssTable">
+                                                                                <col width="20%">
+                                                                                <col width="30%">
+                                                                                <col width="15%">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>Nurses In-Charge</th>
+                                                                                        <th>Multidisciplinary Notes</th>
+                                                                                        <th>Time Submitted</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <%
+                                                                                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                                                        //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
+                                                                                        for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
+                                                                                            Note notesRetrieve = notesListRetrieved.get(i);
+                                                                                            // out.print("<b>Practical Group: </b>" + notes.getPracticalGroupID() + "<br>");
+                                                                                            out.println("<tr>");
+                                                                                            out.print("<td>" + notesRetrieve.getGrpMemberNames() + "</td>");
+                                                                                            out.print("<td>" + notesRetrieve.getMultidisciplinaryNote() + "</td>");
+                                                                                            out.print("<td>" + df.format(notesRetrieve.getNoteDatetime()) + "</td>");
+                                                                                            out.println("</tr>");
+                                                                                        }
 
-                                                                                        }//end of else
-                                                                                    %>
+                                                                                    }//end of else %>
 
-
-                                                                                </div>
-                                                                            </div>
+                                                                            </table>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </dd>
-                                                            </form>
-                                                    </div>
-
+                                                            </div>
+                                                        </div>
+                                                    </dd>
                                             </div>
 
 
                                             <div class="<% if (active != null && active.equals("documents")) {
                                                     out.println("content active");
-                                                } else {
+                                                }else {
                                                     out.println("content");
                                                 } %>" id="documents">
 
                                                 <h4>Consent Forms</h4><br/>
 
                                                 <%
-                                                // store reports of all activated states
-                                                HashMap<List<Document>, String> stateDocumentsHM = new HashMap<List<Document>, String>(); 
-                                                
-                                                // add forms of the history states to array
-                                                for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
-                                                    String state = entry.getKey();
-                                                    List<Document> documents = DocumentDAO.retrieveDocumentsByState(scenarioID, state);
-                                                    String doctorOrderTime = entry.getValue();
-                                                    if(documents != null && documents.size() != 0) {
-                                                        stateDocumentsHM.put(documents, doctorOrderTime);
+                                                    // store reports of all activated states
+                                                    HashMap<List<Document>, String> stateDocumentsHM = new HashMap<List<Document>, String>();
+
+                                                    // add forms of the history states to array
+                                                    for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
+                                                        String state = entry.getKey();
+                                                        List<Document> documents = DocumentDAO.retrieveDocumentsByState(scenarioID, state);
+                                                        String doctorOrderTime = entry.getValue();
+                                                        if (documents != null && documents.size() != 0) {
+                                                            stateDocumentsHM.put(documents, doctorOrderTime);
+                                                        }
                                                     }
-                                                }   
                                                     //List<Document> documentList = DocumentDAO.retrieveDocumentsByState(scenarioID, stateID);
                                                     if (stateDocumentsHM != null && stateDocumentsHM.size() != 0) {
                                                 %>
@@ -767,9 +777,9 @@
                                                         String firstObtain = (String) session.getAttribute("obtained");
                                                         for (Map.Entry<List<Document>, String> entry : stateDocumentsHM.entrySet()) {
                                                             List<Document> stateDocuments = entry.getKey();
-                                                            
+
                                                             String doctorOrderTime = entry.getValue();
-                                                        
+
                                                             for (Document document : stateDocuments) {
                                                                 String consentName = document.getConsentName();
                                                                 String consentDatetime = df.format(document.getConsentDatetime());
@@ -783,77 +793,76 @@
                                                                     consentResults = "documents/" + consentFile;
                                                                 }
 
-                                                        %> 
-                                                        <tr>
-                                                            <td><%=consentName%></td>
-                                                            <td><%=doctorOrderTime%></td>
-                                                             <% // consent obtained time column 
-                                                             if (consentStatus == 1) { 
-                                                                 if ( firstObtain != null && !firstObtain.equals("0")) { %>
-                                                            <td><div id="docDateWaiting">Waiting..</div>
-                                                                <div id="docDateDisplay" style="display:none;"><%=consentDatetime%></div></td>
-                                                                <% session.setAttribute("obtained","0");    
-                                                                 } else { %> 
-                                                                <td><%=consentDatetime%></td>
-                                                            <%      }
-                                                                } else { 
-                                                                    out.println("<td>-</td>");
-                                                                }%> 
-                                                            <td><% // action (consent status) time column 
-                                                                if (consentStatus == 1) { 
-                                                                    if ( firstObtain != null && !firstObtain.equals("0")) { %>
-                                                                    <div id="docStatusWaiting">Waiting..</div>
-                                                                    <div id="docStatusDisplay" style="display:none;">Obtained</div></td>
-                                                                    <%  
+                                                    %> 
+                                                    <tr>
+                                                        <td><%=consentName%></td>
+                                                        <td><%=doctorOrderTime%></td>
+                                                        <% // consent obtained time column 
+                                                                    if (consentStatus == 1) {
+                                                                        if (firstObtain != null && !firstObtain.equals("0")) {%>
+                                                        <td><div id="docDateWaiting">Waiting..</div>
+                                                            <div id="docDateDisplay" style="display:none;"><%=consentDatetime%></div></td>
+                                                            <% session.setAttribute("obtained", "0");
+                                                                    } else {%> 
+                                                        <td><%=consentDatetime%></td>
+                                                        <%      }
+                                                            } else {
+                                                                out.println("<td>-</td>");
+                                                            }%> 
+                                                        <td><% // action (consent status) time column 
+                                                            if (consentStatus == 1) {
+                                                                if (firstObtain != null && !firstObtain.equals("0")) { %>
+                                                            <div id="docStatusWaiting">Waiting..</div>
+                                                            <div id="docStatusDisplay" style="display:none;">Obtained</div></td>
+                                                            <%
                                                                     } else { %> 
-                                                                    Obtained</td>
-                                                                <%  }
-                                                                } else {
-                                                                %>
-                                                            <form action="ProcessObtainDocument" method="POST">
-                                                                <input type="hidden" name="consentName" value="<%=consentName%>">
-                                                                <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                                                                <input type="hidden" name="stateID" value="<%=document.getStateID()%>">
-                                                                    
-                                                                <input type="submit" id="downloadDoc" class="report-despatch button tinytable" value="Obtain">
-                                                            </form>
-                                                            <% } %></td>
-                                                            
-                                                            <td>
-                                                                <% // results column (link)
-                                                                if (consentStatus == 1) {
-                                                                    if ( firstObtain != null && !firstObtain.equals("0")) { 
-                                                                       %>
-                                                                        <div id="docLinkMsg">Loading..</div>
-                                                                        <%
-                                                                        //session.setAttribute("obtained","0");    
-                                                                        
-                                                                       %> <a href="<%=consentResults%>" id="consentLink" target="_blank" style="display:none;">View Form</a>
-                                                                       <%
-                                                                    } else {
-                                                                %>
-                                                                <a href="<%=consentResults%>" target="_blank">View Form</a>
-                                                                    <% }%>
-                                                                <% 
-                                                                }   else {
-                                                                        out.println("N/A");
-
-                                                                    }
-                                                            
-                                                                %>
-                                                            </td>
-                                                        </tr>
-
-                                                        <%
-                                                            }
-                                                        }
+                                                        Obtained</td>
+                                                        <%  }
                                                         } else {
-                                                        out.println("No documents at the moment.");
-                                                    }
+                                                        %>
+                                                    <form action="ProcessObtainDocument" method="POST">
+                                                        <input type="hidden" name="consentName" value="<%=consentName%>">
+                                                        <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                                                        <input type="hidden" name="stateID" value="<%=document.getStateID()%>">
+
+                                                        <input type="submit" id="downloadDoc" class="report-despatch button tinytable" value="Obtain">
+                                                    </form>
+                                                    <% } %></td>
+
+                                                    <td>
+                                                        <% // results column (link)
+                                                            if (consentStatus == 1) {
+                                                                if (firstObtain != null && !firstObtain.equals("0")) {
+                                                        %>
+                                                        <div id="docLinkMsg">Loading..</div>
+                                                        <%
+                                                        //session.setAttribute("obtained","0");    
+
+                                                        %> <a href="<%=consentResults%>" id="consentLink" target="_blank" style="display:none;">View Form</a>
+                                                        <%
+                                                        } else {
+                                                        %>
+                                                        <a href="<%=consentResults%>" target="_blank">View Form</a>
+                                                        <% }%>
+                                                        <%
+                                                            } else {
+                                                                out.println("N/A");
+
+                                                            }
+
+                                                        %>
+                                                    </td>
+                                                    </tr>
+
+                                                    <%                                                                    }
+                                                            }
+                                                        } else {
+                                                            out.println("No documents at the moment.");
+                                                        }
                                                     %>  </table>
                                             </div>   
-                                            <% } %>
-                                            
+                                            <% }%>
+
                                             <!-- Reveal model for temperature chart -->
                                             <div id="tempchart" class="reveal-modal medium" data-reveal>
 
@@ -909,53 +918,53 @@
                 }
 
             });
-            $(document).ready(function () {
-            var counter = 10;
-            var id = setInterval(function() {
-               counter--;
-                 
-               if(counter > 0) {
-                   
-                    var msg = 'Waiting for response..';
-                    $('#docLinkMsg').text(msg);
-               } else {
-                    $('#docLinkMsg').hide();
-                    $('#docDateWaiting').hide();
-                    $('#docStatusWaiting').hide();
-                    $('#downloadDoc').show();
-                    $('#docDateDisplay').show();
-                    $('#docStatusDisplay').show();
-                    $('#consentLink').show();  
-                    clearInterval(id);
-              }
-            }, 3000); 
-        });
-        
-        $(document).ready(function () {
-            var counter = 10;
-            var id = setInterval(function() {
-               counter--;
-                 
-               if(counter > 0) {
-                   
-                    var msg = 'Waiting for response..';
-                    $('#reportLinkMsg').text(msg);
-               } else {
-                    $('#reportLinkMsg').hide();
-                    $('#reportDateWaiting').hide();
-                    $('#reportStatusWaiting').hide();
-                    $('#downloadReport').show();
-                    $('#reportDateDisplay').show();
-                    $('#reportStatusDisplay').show();
-                    $('#reportLink').show();  
-                    clearInterval(id);
-              }
-            }, 3000); 
-        });
-        </script>
-                                            
+            $(document).ready(function() {
+                var counter = 10;
+                var id = setInterval(function() {
+                    counter--;
 
-        </body>
-        <script type="text/javascript" src="js/humane.js"></script>
+                    if (counter > 0) {
 
-</html>
+                        var msg = 'Waiting for response..';
+                        $('#docLinkMsg').text(msg);
+                    } else {
+                        $('#docLinkMsg').hide();
+                        $('#docDateWaiting').hide();
+                        $('#docStatusWaiting').hide();
+                        $('#downloadDoc').show();
+                        $('#docDateDisplay').show();
+                        $('#docStatusDisplay').show();
+                        $('#consentLink').show();
+                        clearInterval(id);
+                    }
+                }, 3000);
+            });
+
+            $(document).ready(function() {
+                var counter = 10;
+                var id = setInterval(function() {
+                    counter--;
+
+                    if (counter > 0) {
+
+                        var msg = 'Waiting for response..';
+                        $('#reportLinkMsg').text(msg);
+                    } else {
+                        $('#reportLinkMsg').hide();
+                        $('#reportDateWaiting').hide();
+                        $('#reportStatusWaiting').hide();
+                        $('#downloadReport').show();
+                        $('#reportDateDisplay').show();
+                        $('#reportStatusDisplay').show();
+                        $('#reportLink').show();
+                        clearInterval(id);
+                    }
+                }, 3000);
+            });
+                                            </script>
+
+
+                                            </body>
+                                            <script type="text/javascript" src="js/humane.js"></script>
+
+                                            </html>
