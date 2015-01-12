@@ -1187,6 +1187,32 @@ bed.off:hover, bed.off:focus, .bed.off:hover, .bed.off:focus {
     background-color: #368a55; }
 bed.off, .bed.off {
     background-color: #DBDBDB; }
+addaccount, .addaccount {
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-weight: 100;
+    line-height: normal;
+    margin: 0 0 1.25rem;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    display: inline-block;
+    font-size: 40px;
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border-color: #368a55;
+    color: #368a55;
+    border-radius: 50%;
+    transition: background-color 300ms ease-out; }
+addaccount:hover, button:focus, .addaccount:hover, .addaccount:focus {
+    background-color: #368a55; }
+addaccount:hover, addaccount:focus, .addaccount:hover, .addaccount:focus {
+    color: white; }
 button, .button {
     border-style: solid;
     border-width: 1px;
