@@ -687,6 +687,7 @@
                                                         </div> 
                                                     </div>  
                                                 </form>
+                                                            
                                                 <dl class="accordion" data-accordion>
                                                     <dd class="accordion-navigation">
                                                         <a href="#pastNotes">View Past Groups notes here</a>
@@ -698,7 +699,7 @@
                                                                             <%
                                                                                         if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
                                                                             <label for="right-label" class="right inline">No groups have enter their notes yet.</label>
-                                                                            <% } else { %>
+                                                                            <% } else { %> <br/>
                                                                             <!--TABLE-->
                                                                             <table class="responsive" id="cssTable">
                                                                                 <col width="20%">
