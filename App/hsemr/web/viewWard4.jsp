@@ -24,62 +24,68 @@
     </head>
     <body>
     <center>
-        <h2>Beds in Ward 4</h2>
-        <table style ="border-spacing:80px 10px">
-            <%
-                List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
+        <div class="row" style="padding-top: 70px;">
 
-                int sizeOfList = scenarioList.size();
-                int numPerRow = 5;
-                int numOfRows = (sizeOfList / numPerRow);
-                int counter = 1;
-                int counterScenario = 0;
-                int bedCounter = 1;
-                Scenario scen = ScenarioDAO.retrieveActivatedScenario();
-                String scID = "";
-                if (scen == null) {
-                    out.println("No scenario activated, please contact lecturer/ administrator");
-                } else {
-                    scID = scen.getScenarioID();
-                }
+            <h1>Beds in Ward 4</h1>
+            <br/>
+            <div class="large-12 columns" style="padding-top: 20px;"> 
+                <table style ="border-spacing:5px; border:none">    
+                    <%
+                        List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
 
-            %>
-            <tr>
-                <%                    for (int row = 0; row <= numOfRows; row++) {
-                %>
+                        int sizeOfList = scenarioList.size();
+                        int numPerRow = 5;
+                        int numOfRows = (sizeOfList / numPerRow);
+                        int counter = 1;
+                        int counterScenario = 0;
+                        int bedCounter = 1;
+                        Scenario scen = ScenarioDAO.retrieveActivatedScenario();
+                        String scID = "";
+                        if (scen == null) {
+                            out.println("No scenario activated, please contact lecturer/ administrator");
+                        } else {
+                            scID = scen.getScenarioID();
+                        }
 
-                <%
-                    for (int col = 1; col <= numPerRow; col++) {
-                        if (sizeOfList >= counter) {
-                            Scenario retrievedScenario = scenarioList.get(counterScenario);
-                            int bedNumber = retrievedScenario.getBedNumber();
-                            
-                            String scNum = "SC" + bedNumber;
-                            if (scNum.equals(scID)) {
-                %>
-                <td height = "200" width ="150" bgcolor = "92d400"> <font size="3"><b> <a href="viewCaseInformation.jsp"><center><%="Bed " + bedCounter%></center></a></b> </td>
+                    %>
+                    <tr>
+                        <%                    for (int row = 0; row <= numOfRows; row++) {
+                        %>
+
+                        <%
+                            for (int col = 1; col <= numPerRow; col++) {
+                                if (sizeOfList >= counter) {
+                                    Scenario retrievedScenario = scenarioList.get(counterScenario);
+                                    int bedNumber = retrievedScenario.getBedNumber();
+
+                                    String scNum = "SC" + bedNumber;
+                                    if (scNum.equals(scID)) {
+                        %>
+                        <td> <form method="POST" action="viewCaseInformation.jsp"><input type="submit"  class="bed" value="<%="Bed " + bedCounter%>"/></form></td>
                                 <%
                                 } else {
                                 %>
-                <td height = "200" width ="150" bgcolor = "92d400"> <font size="3"><b> <center><%="Bed " + bedCounter%></center></b> </td>
-                            <%
+                        <td> <form method="POST" action="viewCaseInformation.jsp"><input type="submit"  class="bed" value="<%="Bed " + bedCounter%>"/></form></td>
+                                <%
+                                            }
+                                            counterScenario++;
+                                            counter++;
+                                            bedCounter++;
                                         }
-                                        counterScenario++;
-                                        counter++;
-                                        bedCounter++;
                                     }
-                                }
-                            %> 
-            </tr>
-            <%
-                }
-            %>
+                                %> 
+                    </tr>
+                    <%
+                        }
+                    %>
 
-        </table>
-        <form>
-            <br/><br/><br/>
-            <input type="button" value="Back to Ward Overview" class="button tiny" onClick="window.location = 'viewWardInformation.jsp'"/>
-        </form>
+                </table>
+                <form>
+                    <br/><br/><br/>
+                    <input type="button" value="Back to Ward Overview" class="button tiny" onClick="window.location = 'viewWardInformation.jsp'"/>
+                </form>
+            </div>
+        </div>
     </center>
 </body>
 </html>
