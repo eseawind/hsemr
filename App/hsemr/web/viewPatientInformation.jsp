@@ -865,16 +865,16 @@
                                             <% }%>
 
                                             <!-- Reveal model for temperature chart -->
-                                            <div id="tempchart" class="reveal-modal medium" data-reveal>
+                                            <div id="tempchart" class="reveal-modal large-10" data-reveal>
 
-                                                <iframe src = "viewHistoricalTemp.jsp" frameborder ="0" width = "1500" height = "350"></iframe> 
+                                                <iframe src = "viewHistoricalTemp.jsp" frameborder ="0" width = "1500" height = "450"></iframe> 
                                                 <a class="close-reveal-modal">&#215;</a>
 
                                             </div>
 
 
                                             <!-- Reveal model for Respiratory chart -->
-                                            <div id="RRchart" class="reveal-modal medium" data-reveal>
+                                            <div id="RRchart" class="reveal-modal large-10" data-reveal>
 
                                                 <iframe src = "viewHistoricalRR.jsp" frameborder ="0" width = "1000" height = "350"></iframe> 
                                                 <a class="close-reveal-modal">&#215;</a>
@@ -883,13 +883,13 @@
 
 
                                             <!-- Reveal model for Heart Rate chart -->
-                                            <div id="HRchart" class="reveal-modal medium" data-reveal>
+                                            <div id="HRchart" class="reveal-modal large-10" data-reveal>
 
                                                 <iframe src = "viewHistoricalHR.jsp" frameborder ="0" width = "1000" height = "350"></iframe> 
                                                 <a class="close-reveal-modal">&#215;</a>
 
                                             </div>
-                                            <div id="BPchart" class="reveal-modal medium" data-reveal>
+                                            <div id="BPchart" class="reveal-modal large-10" data-reveal>
                                                 <!-- Reveal model for Blood Pressure chart -->
                                                 <iframe src = "viewHistoricalBP.jsp" frameborder ="0" width = "1000" height = "350"></iframe> 
                                                 <a class="close-reveal-modal">&#215;</a>
@@ -897,7 +897,7 @@
                                             </div>
 
                                             <!-- Reveal model for SPO chart -->
-                                            <div id="SPOchart" class="reveal-modal medium" data-reveal>
+                                            <div id="SPOchart" class="reveal-modal large-10" data-reveal>
 
                                                 <iframe src = "viewHistoricalSPO.jsp" frameborder ="0" width = "1000" height = "350"></iframe> 
                                                 <a class="close-reveal-modal">&#215;</a>
