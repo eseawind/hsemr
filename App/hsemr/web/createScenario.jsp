@@ -92,7 +92,7 @@
                 <div class="row">
                     <div class="large-4 columns">
                         <label>Patient's NRIC
-                            <input type="text" maxlength="9" name ="patientNRIC" value="S923445I" required pattern ="^[SFTG]\d{7}[A-Z]$"/>
+                            <input type="text" maxlength="9" name ="patientNRIC" value="S9263445I" required pattern ="^[SFTG]\d{7}[A-Z]$"/>
                             <small class="error">Please enter a valid NRIC according to Singapore's standard.</small>
                         </label>
                         
@@ -133,14 +133,14 @@
             </div>
         </dd>
         <dd class="accordion-navigation">
-            <a href="#panel3">Default Vital Signs</a>
+            <a href="#panel3">Default Vital Signs for State 0</a>
             <!--State 0-->
             <div id="panel3" class="content">
                 <div style="margin-left:100px;"> Leave empty if not applicable.</div><br/>
                 <div class="row">
                     <div class="large-4 columns">
                         <label>Temperature</label>
-                        <input type="text" name="temperature0" value="56" maxlength="4" pattern ="\b(3[4-9](\.[0-9]{1,2})?|4[0-2])(\.[0-9]{1,2})?$\b">
+                        <input type="text" name="temperature0" value="40" maxlength="4" pattern ="\b(3[4-9](\.[0-9]{1,2})?|4[0-2])(\.[0-9]{1,2})?$\b">
                         <small class="error">Temperature must be between 34 - 42.</small>
                     </div>
                     <div class="large-4 columns">
@@ -176,7 +176,7 @@
         </dd>
     </dl>
     <br/>
-    <center><input type ="submit" class ="button" value ="Continue"></center>
+    <center><input type ="submit" class ="button" value ="Create Case"></center>
 </form>
 
 

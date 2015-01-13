@@ -20,6 +20,26 @@ import java.util.List;
  */
 public class MedicineDAO {
     
+    public static void insertMedicine(String medicineBarcode, String medicineName, String routeAbbr) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+      
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("INSERT INTO medicine(medicineBarcode,medicineName,routeAbbr) VALUES (?,?,?)");
+          
+            stmt.setString(1, medicineBarcode);
+            stmt.setString(2, medicineName);
+            stmt.setString(3, routeAbbr);
+           
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt);
+        }
+    }
+    
      public static Medicine retrieve(String medicineBarcode) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -52,7 +72,7 @@ public class MedicineDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from medicine");
+            stmt = conn.prepareStatement("select distinct * from medicine");
 
             rs = stmt.executeQuery();
             while (rs.next()) {

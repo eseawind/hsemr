@@ -42,6 +42,7 @@ public class ProcessAddState extends HttpServlet {
         ArrayList<State> stateList = (ArrayList<State>) StateDAO.retrieveAll(scenarioID);
         int stateNumber = stateList.size();
         
+        
         String stateID = "ST" + stateNumber;
 
         //StateDAO.add(stateID, scenarioID, RR, BP, HR, SPO, intake, output, temperature, stateDescription, patientNRIC);

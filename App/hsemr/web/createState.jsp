@@ -18,6 +18,17 @@
         <script type="text/javascript" src="js/app.js"></script>
         <link rel="stylesheet" href="/resources/demos/style.css">
         
+        <script>
+            function add(){
+                //out.println("<input type='text' name ='medicine'>");
+                //<input type='text' name ='medicine'>
+                //document.getElementById("input").value= "hi"
+                document.getElementById("input").innerHTML="<input type='text' name ='medicine'>";
+
+            }
+        </script>
+                    
+        
     </head>
     <body>
 
@@ -50,18 +61,21 @@
         %>
             <center>
             
-            <h2>Step 2: Create State <a href="#" data-reveal-id="createState"><img src="img/add.png" height ="30" width = "30"></a></h2>
+                <h2>Step 2: Create State <a href="#" data-reveal-id="createState"><img src="img/add.png" height ="30" width = "30"></a></h2>
             <!--Display states that are in the database-->
             
             <%
+                out.println("");
                 List<State> stateList = StateDAO.retrieveAll(scenarioID);
                 
                 if(stateList == null || stateList.size() == 0){
                     out.println("There are no states created yet. Click the + to create a state.");
                 }else{
-                    out.println("States created:");
+                    out.println("<h4> States created: </h4>");
                     for(State state: stateList){
-                        out.println(state.getStateID());
+                        
+                        out.print("<h3>" + state.getStateID().replace("ST", "State ") + "</h3>");
+                        //out.println();
                     }
                 }
                 
@@ -83,25 +97,93 @@
             </div>
             
             <h2>Step 3: Create Medicine<a href="#" data-reveal-id="createMedicine"><img src="img/add.png" height ="30" width = "30"></a></h2>
-            
+             
+          <%
+            ArrayList<String> medicineStateList= (ArrayList<String>) session.getAttribute("medicineStateDisplay");
+             if( medicineStateList == null || medicineStateList.size() == 0){
+                    out.println("There are no medicine created yet. Click the + to create a medicine.");
+                }else{
+                    out.println("<h4> Medicine created: </h4>");
+                    for(String medicineState: medicineStateList){
+                        
+                        out.print("<h3>" + medicineState + "</h3>");
+                        //out.println();
+                    }
+                }
+            %>
             <div id="createMedicine" class="reveal-modal" data-reveal>
-                <h2>Step 2: Create Medicine</h2>
+                <h2>Step 3: Create Medicine</h2>
                 <form data-abide action ="ProcessAddMedicine" method ="POST">
                     
-                    <%List<Medicine> medicineList = MedicineDAO.retrieveAll();%>
-                    Medicine Name <select>
+                    <%
+                        List<Medicine> medicineList = MedicineDAO.retrieveAll();
+                        List<Route> routeList = RouteDAO.retrieveAll();
+                        List<Frequency> freqList = FrequencyDAO.retrieveAll();
+                        //List<Prescription> prescriptionList= PrescriptionDAO.retrieveAll();
+                    
+                    %>
+                    State<select name="stateID">
+                         <option selected>--Please select the state that this medicine will be tag to--</option>
+                         <%
+                         for(State state: stateList){ %>
+                            <option><%=state.getStateID()%></option>
+                        <% }
+                        %>
+                    </select>
+                    
+                    Medicine Name <select name="medicineName">
+                        
+                        <option selected>--Please select the Medicine--</option>
                         <%
                         for(Medicine medicine: medicineList){%>
                             <option><%=medicine.getMedicineName()%></option>
                         <%}
                         %>
                     </select>
+                    Can't find the medicine you're looking for? <input type="button" value="Add here!" id="input" onClick="add();"> <br><br>
                     
-                    Can't find the medicine you're looking for? Add here! <br><br>
                     
-                    Medicine Name<input type ="text" name ="medicine" required>
-                    Medicine Barcode <input type ="text" name ="medicineBarcode" style="text-transform:uppercase;" required pattern ="/^[A-z]+$/">
-                    <small class="error">No space and numbers allowed.</small>
+                     Medicine Barcode 
+                    <input type ="text" name ="medicineBarcode">
+                    
+                   <!--<input type ="text" name ="medicineBarcode" style="text-transform:uppercase;" required pattern ="/^[A-z]+$/">
+                    
+                   <small class="error">No space and numbers allowed.</small> -->
+                   
+                    Route <select name="route">
+                         <option selected>--Please select the Route--</option>
+                        <%
+                        for(Route route: routeList){
+                            //out.println(route.getRouteAbbr() + " [" + route.getRouteDescription() + "]");
+                        %>
+                            <option><%=route.getRouteAbbr()%></option>
+                        <%}
+                        %>
+                    </select>
+                    
+                    Frequency <select name="frequency">
+                         <option selected>--Please select the Frequency--</option>
+                        <%
+                        for(Frequency freq: freqList){
+                            //out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
+                        %>
+                            <option><%=freq.getFreqAbbr()%></option>
+                        <%}
+                        %>
+                    </select>
+                    
+                   
+                   Doctor's Name
+                   <input type="text" name="doctorName" value="Dr.Tan/01234Z">
+                   
+                   Doctor's Order
+                   <input type="text" name="doctorOrder">
+                   
+                   Dosage
+                   <input type="text" name="dosage">
+                   
+                   
+                   
                     <input type ="submit" class ="button" value ="Create Medicine">
                 
                 </form>
@@ -173,6 +255,9 @@
 
             });
         </script>
+        
+       
+                    
         <script type="text/javascript" src="js/humane.js"></script>
 
     </body>

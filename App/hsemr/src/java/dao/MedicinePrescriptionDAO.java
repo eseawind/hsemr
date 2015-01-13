@@ -17,6 +17,28 @@ import java.util.ArrayList;
  * @author Administrator
  */
 public class MedicinePrescriptionDAO {
+    
+    public static void insertMedicinePrescription(String medicineBarcode, String scenarioID, String stateID, String freqAbbr, String dosage) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+      
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("INSERT INTO medicine_prescription(medicineBarcode,scenarioID,stateID,freqAbbr,dosage) VALUES (?,?,?,?,?)");
+          
+            stmt.setString(1, medicineBarcode);
+            stmt.setString(2, scenarioID);
+            stmt.setString(3, stateID);
+            stmt.setString(4, freqAbbr);
+            stmt.setString(5, dosage);
+            stmt.executeUpdate();
+           
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt);
+        }
+    }
 
     public static ArrayList<MedicinePrescription> retrieve(String scenarioID, String stateID) {
         ArrayList<MedicinePrescription> list = new ArrayList<MedicinePrescription>();
