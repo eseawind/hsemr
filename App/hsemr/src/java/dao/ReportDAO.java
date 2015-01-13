@@ -38,7 +38,7 @@ public class ReportDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Report report = new Report(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6));
+                Report report = new Report(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7));
                 reports.add(report);
                 
             }
@@ -77,10 +77,10 @@ public class ReportDAO {
 
     }
     
-    public static void add(String reportName, String reportFile, String scenarioID, String stateID) {
+    public static void add(String reportName, String reportFile, String scenarioID, String stateID, int initialReport) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "INSERT INTO report (reportDatetime, reportName, reportFile, dispatchStatus, scenarioID, stateID) VALUES (?, ?, ?, ?, ? ,?)";
+        String query = "INSERT INTO report (reportDatetime, reportName, reportFile, dispatchStatus, scenarioID, stateID, initialReport) VALUES (?, ?, ?, ?, ? ,?,?)";
 
         try {
             conn = ConnectionManager.getConnection();
@@ -97,6 +97,7 @@ public class ReportDAO {
             preparedStatement.setInt(4, 0); //default undespatched
             preparedStatement.setString(5, scenarioID);
             preparedStatement.setString(6, stateID);
+            preparedStatement.setInt(7, initialReport);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

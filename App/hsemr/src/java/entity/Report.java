@@ -19,14 +19,16 @@ public class Report {
     private int dispatchStatus; 
     private String scenarioID;
     private String stateID;
+    private int initialReport;
 
-    public Report(Date reportDatetime, String reportName, String reportFile, int dispatchStatus, String scenarioID, String stateID) {
+    public Report(Date reportDatetime, String reportName, String reportFile, int dispatchStatus, String scenarioID, String stateID, int initialReport) {
         this.reportDatetime = reportDatetime;
         this.reportName = reportName;
         this.reportFile = reportFile;
         this.dispatchStatus = dispatchStatus;
         this.scenarioID = scenarioID;
         this.stateID = stateID;
+        this.initialReport = initialReport;
     }
 
     public Date getReportDatetime() {
@@ -35,6 +37,14 @@ public class Report {
 
     public void setReportDatetime(Date reportDatetime) {
         this.reportDatetime = reportDatetime;
+    }
+
+    public void setInitialReport(int initialReport) {
+        this.initialReport = initialReport;
+    }
+
+    public int getInitialReport() {
+        return initialReport;
     }
 
     public String getReportName() {
