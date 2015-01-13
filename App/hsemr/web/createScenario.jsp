@@ -56,7 +56,7 @@
                 <div class="small-8">
                     <div class="row">
                         <div class="small-3 columns">
-                            <label for="right-label" class="right inline">Scenario Name</label>
+                            <label for="right-label" class="right inline">Case Name</label>
                         </div>
                         <div class="small-9 columns">
                             <input type="text" id="password" name="scenarioName" required>
@@ -92,20 +92,20 @@
                 <div class="row">
                     <div class="large-4 columns">
                         <label>Patient's NRIC
-                            <input type="text" maxlength="9" name ="patientNRIC" required pattern ="^[SFTG]\d{7}[A-Z]$"/>
+                            <input type="text" maxlength="9" name ="patientNRIC" value="S923445I" required pattern ="^[SFTG]\d{7}[A-Z]$"/>
                             <small class="error">Please enter a valid NRIC according to Singapore's standard.</small>
                         </label>
                         
                     </div>
                     <div class="large-4 columns">
                         <label>First Name
-                            <input type="text" name ="firstName" required pattern ="^[a-zA-Z]+$"/>
+                            <input type="text" name ="firstName" value="grace" required pattern ="^[a-zA-Z]+$"/>
                             <small class="error">Only alphabets accepted.</small>
                         </label>
                     </div>
                     <div class="large-4 columns">
                         <label>Last Name
-                            <input type="text" name ="lastName" required pattern ="^[a-zA-Z]+$"/>
+                            <input type="text" name ="lastName" value="Khoo" required pattern ="^[a-zA-Z]+$"/>
                             <small class="error">Only alphabets accepted.</small>
                         </label>
                     </div>
@@ -115,12 +115,12 @@
                 <div class="row">
                     <div class="large-4 columns">
                         <label>Date of Birth</label>
-                        <input type="text" id="datepicker" name = "DOB" required pattern = "^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$">
+                        <input type="text" id="datepicker" name = "DOB" value="01/10/1992" required pattern = "^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$">
                         <small class="error">Please enter in DD/MM/YYYY.</small>
                     </div>
                     <div class="large-4 columns">
                         <label>Allergy</label>
-                        <input type="text" name ="allergy" required pattern ="^[a-zA-Z ]+$"/>
+                        <input type="text" name ="allergy" value="no allergy" required pattern ="^[a-zA-Z ]+$"/>
                         <small class="error">Only alphabets accepted.</small>
                     </div>
                     <div class="large-4 columns">
@@ -140,32 +140,32 @@
                 <div class="row">
                     <div class="large-4 columns">
                         <label>Temperature</label>
-                        <input type="text" name="temperature0" maxlength="4" pattern ="[0-9]+(\.[0-9][0-9]?)?">
+                        <input type="text" name="temperature0" value="56" maxlength="4" pattern ="[0-9]+(\.[0-9][0-9]?)?">
                         <small class="error">Must be numeric, cannot contain alphabets. E.g: 37.3 or 37</small>
                     </div>
                     <div class="large-4 columns">
                         <label>Respiratory Rate</label>
-                        <input type="text" name="RR0" maxlength = "2" pattern ="integer">
+                        <input type="text" name="RR0" value="60" maxlength = "2" pattern ="integer">
                         <small class="error">RR must be 2 digits.</small>
                     </div>
                     <div class="large-4 columns">
                         <label>Heart Rate</label>
-                        <input type="text" name="HR0" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$">
+                        <input type="text" name="HR0" value="71" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$">
                         <small class="error">HR must be between 0 - 200.</small>
                     </div>
                     <div class="large-4 columns">
                         <label>Blood Pressure Systolic</label>
-                        <input type="text" name="BPS" maxlength ="3" pattern = "integer">
+                        <input type="text" name="BPS" value="72" maxlength ="3" pattern = "integer">
                         <small class="error">BP systolic must be numeric and between 2 to 3 digits.</small>
                     </div> 
                     <div class="large-4 columns">
                         <label>Blood Pressure Diastolic</label>
-                        <input type="text" name="BPD" maxlength ="3" pattern = "integer">
+                        <input type="text" name="BPD" value="75" maxlength ="3" pattern = "integer">
                         <small class="error">BP diastolic must be numeric and between 2 to 3 digits.</small>
                     </div>
                     <div class="large-4 columns">
                         <label>SPO</label>
-                        <input type="text" name="SPO0" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$">
+                        <input type="text" name="SPO0" value="78" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$">
                         <small class="error">SPO must be numeric and between 0 - 100%.</small>
                     </div>
                    

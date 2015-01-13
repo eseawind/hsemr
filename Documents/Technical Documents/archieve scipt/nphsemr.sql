@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 21, 2014 at 02:54 PM
+-- Generation Time: Jan 13, 2015 at 07:23 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -37,7 +37,8 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`adminID`, `adminPassword`) VALUES
-('admin1', 'admin1');
+('admin1', 'admin1'),
+('admin2', 'admin2');
 
 -- --------------------------------------------------------
 
@@ -56,8 +57,34 @@ CREATE TABLE IF NOT EXISTS `allergy_patient` (
 --
 
 INSERT INTO `allergy_patient` (`patientNRIC`, `allergy`) VALUES
-('S2315479I', 'batrium'),
-('S2315479I', 'seafood');
+('S2315479H', 'No drug allergy'),
+('S2315479I', 'Batrium'),
+('S2315479I', 'Seafood');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `document`
+--
+
+CREATE TABLE IF NOT EXISTS `document` (
+  `consentDatetime` datetime NOT NULL,
+  `consentName` varchar(100) NOT NULL,
+  `consentFile` varchar(200) NOT NULL,
+  `consentStatus` tinyint(1) NOT NULL,
+  `scenarioID` varchar(5) NOT NULL,
+  `stateID` varchar(5) NOT NULL,
+  PRIMARY KEY (`consentDatetime`,`consentName`),
+  KEY `scenarioID` (`scenarioID`),
+  KEY `stateID` (`stateID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `document`
+--
+
+INSERT INTO `document` (`consentDatetime`, `consentName`, `consentFile`, `consentStatus`, `scenarioID`, `stateID`) VALUES
+('2014-12-17 02:07:02', 'Oesophagogastroduodenoscopy and Biopsy', 'Oesophagogastroduodenoscopy_and_Biopsy.pdf', 0, 'SC3', 'ST1');
 
 -- --------------------------------------------------------
 
@@ -141,8 +168,24 @@ INSERT INTO `lecturer` (`lecturerID`, `lecturerPassword`) VALUES
 ('lec2', 'lec2'),
 ('lec3', 'lec3'),
 ('lec4', 'lec4'),
-('lec5', 'lec5'),
-('lec6', 'lec6');
+('lec5', 'lec5');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `medication_history`
+--
+
+CREATE TABLE IF NOT EXISTS `medication_history` (
+  `medicineDatetime` datetime NOT NULL,
+  `medicineBarcode` varchar(100) NOT NULL,
+  `practicalGroupID` varchar(5) NOT NULL,
+  `scenarioID` varchar(5) NOT NULL,
+  PRIMARY KEY (`medicineDatetime`,`medicineBarcode`),
+  KEY `practicalGroupID` (`practicalGroupID`,`scenarioID`),
+  KEY `medicineBarcode` (`medicineBarcode`),
+  KEY `scenarioID` (`scenarioID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -151,10 +194,8 @@ INSERT INTO `lecturer` (`lecturerID`, `lecturerPassword`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `medicine` (
-  `medicineBarcode` varchar(10) NOT NULL,
+  `medicineBarcode` varchar(100) NOT NULL,
   `medicineName` varchar(30) NOT NULL,
-  `dosage` varchar(10) NOT NULL,
-  `medicineDatetime` datetime NOT NULL,
   `routeAbbr` varchar(10) NOT NULL,
   PRIMARY KEY (`medicineBarcode`),
   KEY `routeAbbr` (`routeAbbr`)
@@ -164,10 +205,23 @@ CREATE TABLE IF NOT EXISTS `medicine` (
 -- Dumping data for table `medicine`
 --
 
-INSERT INTO `medicine` (`medicineBarcode`, `medicineName`, `dosage`, `medicineDatetime`, `routeAbbr`) VALUES
-('E35435', 'Epinephrine', '200mL', '2014-10-21 01:00:00', 'I.V.'),
-('G12334', 'Cough Syrup', '2 spoons', '2014-10-20 04:00:00', 'AU'),
-('G24342', 'Panadol', '2 pills', '2014-10-19 13:00:00', 'P.O.');
+INSERT INTO `medicine` (`medicineBarcode`, `medicineName`, `routeAbbr`) VALUES
+('BSMORPHINE', 'Bolus Morphine', 'N.A'),
+('CODYRAMOL', 'Codyramol', 'P.O.'),
+('CYCLIZINE', 'Cyclizine', 'I.V.'),
+('DEXSALINE', 'Dextrose Saline', 'I.V.'),
+('DIGOXIN', 'Digoxin', 'P.O.'),
+('EPINE', 'Epinephrine', 'N.A'),
+('FSULFATE', 'Ferrous sulfate', 'P.O.'),
+('HEPARIN', 'Heparin', 'N.A'),
+('KCL', 'Potassium Chloride', 'I.V.'),
+('KETOROLAC', 'Ketorolac', 'IVP'),
+('MOM', 'Milk of Magnesia', 'P.O.'),
+('MORPHINE', 'Morphine', 'P.R.'),
+('MORPHINEPCA', 'Morphine PCA', 'N.A'),
+('PRBC', 'PRBC', 'N.A'),
+('PROCHLORPERAZINE', 'Prochlorperazine', 'I.M.'),
+('SALINE', 'Normal Saline', 'I.V.');
 
 -- --------------------------------------------------------
 
@@ -176,10 +230,11 @@ INSERT INTO `medicine` (`medicineBarcode`, `medicineName`, `dosage`, `medicineDa
 --
 
 CREATE TABLE IF NOT EXISTS `medicine_prescription` (
-  `medicineBarcode` varchar(10) NOT NULL,
+  `medicineBarcode` varchar(100) NOT NULL,
   `scenarioID` varchar(5) NOT NULL,
   `stateID` varchar(5) NOT NULL,
   `freqAbbr` varchar(10) NOT NULL,
+  `dosage` varchar(100) NOT NULL,
   PRIMARY KEY (`medicineBarcode`,`scenarioID`,`stateID`,`freqAbbr`),
   KEY `scenarioID` (`scenarioID`),
   KEY `stateID` (`stateID`),
@@ -190,8 +245,28 @@ CREATE TABLE IF NOT EXISTS `medicine_prescription` (
 -- Dumping data for table `medicine_prescription`
 --
 
-INSERT INTO `medicine_prescription` (`medicineBarcode`, `scenarioID`, `stateID`, `freqAbbr`) VALUES
-('G12334', 'SC1', 'ST1', '2x/week ');
+INSERT INTO `medicine_prescription` (`medicineBarcode`, `scenarioID`, `stateID`, `freqAbbr`, `dosage`) VALUES
+('BSMORPHINE', 'SC1', 'ST0', 'q2h', '2-4mg'),
+('CODYRAMOL', 'SC3', 'ST0', 'q4h', '10/500mg'),
+('CYCLIZINE', 'SC1', 'ST0', 'q6h', '25mg'),
+('DEXSALINE', 'SC1', 'ST0', 'q hr', '10mg'),
+('DEXSALINE', 'SC4', 'ST0', 'q hr', '250mL'),
+('DIGOXIN', 'SC3', 'ST0', 'daily', '125mcg'),
+('EPINE', 'SC1', 'ST3', 'q hr', '0.5mL'),
+('FSULFATE', 'SC1', 'ST0', 'BD', '400mg'),
+('HEPARIN', 'SC3', 'ST0', 'TDS', '5000 units'),
+('KCL', 'SC4', 'ST1', 'ASAP', '60mmols'),
+('KCL', 'SC4', 'ST1', 'q hr', '40mmols'),
+('KCL', 'SC4', 'ST2', 'q4h', '40mmols'),
+('KCL', 'SC4', 'ST3', 'q hr', '40mmols'),
+('KETOROLAC', 'SC1', 'ST0', 'q6h', '30mg'),
+('MOM', 'SC1', 'ST0', 'daily', '30mL'),
+('MORPHINE', 'SC3', 'ST0', 'q4h', '5-10mg'),
+('MORPHINEPCA', 'SC1', 'ST0', '4 hourly', '2mg'),
+('PRBC', 'SC1', 'ST1', 'ASAP', 'two units'),
+('PROCHLORPERAZINE', 'SC3', 'ST0', 'q4h', '12.5mg'),
+('SALINE', 'SC1', 'ST3', 'q hr', '200mL'),
+('SALINE', 'SC4', 'ST0', 'ASAP', '1000mL');
 
 -- --------------------------------------------------------
 
@@ -209,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `note` (
   PRIMARY KEY (`noteID`),
   KEY `praticalgroupID` (`practicalGroupID`),
   KEY `ScenarioID` (`scenarioID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `note`
@@ -217,8 +292,10 @@ CREATE TABLE IF NOT EXISTS `note` (
 
 INSERT INTO `note` (`noteID`, `multidisciplinaryNote`, `grpMemberNames`, `noteDatetime`, `practicalGroupID`, `scenarioID`) VALUES
 (1, 'taken down hr,bp,intake, output, administer medicine', 'xuanqi, linwei, qiwei, linxuan, qiping', '2014-10-17 14:00:00', 'P02', 'SC1'),
-(2, 'testestest', 'shiqi, weiyi, gladys, jocelyn, grace', '2014-10-20 16:00:00', 'P01', 'SC1'),
-(3, 'testestest', 'tingting, shiqi, weiyi, gladys, jocelyn, grace', '2014-10-21 11:25:00', 'P03', 'SC2');
+(2, 'testestest', 'tingting, shiqi, weiyi, gladys, jocelyn, grace', '2014-10-21 11:25:00', 'P03', 'SC1'),
+(3, 'Administered panadol at 5.34pm', 'glad, sq, wy, grace, joce', '2014-10-27 10:47:07', 'P01', 'SC1'),
+(4, 'Chemistry report despatched. Blood pressure, spo2, respiration rate, heart rate normal. ', 'a, b, c, d', '2014-10-29 10:21:54', 'P01', 'SC1'),
+(5, 'Hi hi 5 nov', 'grace Test ', '2014-11-05 15:53:25', 'P01', 'SC4');
 
 -- --------------------------------------------------------
 
@@ -232,20 +309,19 @@ CREATE TABLE IF NOT EXISTS `patient` (
   `lastName` varchar(20) NOT NULL,
   `gender` varchar(6) NOT NULL,
   `DOB` varchar(10) NOT NULL,
-  `wardID` varchar(6) NOT NULL,
-  `bedNumber` int(30) NOT NULL,
-  PRIMARY KEY (`patientNRIC`),
-  KEY `wardID` (`wardID`),
-  KEY `bedNumber` (`bedNumber`)
+  PRIMARY KEY (`patientNRIC`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `patient`
 --
 
-INSERT INTO `patient` (`patientNRIC`, `firstName`, `lastName`, `gender`, `DOB`, `wardID`, `bedNumber`) VALUES
-('S2315479I', 'Ho Yin', 'Lee', 'female', '10/10/1938', 'ward 2', 2),
-('S7843522B', 'Mei Mei', 'Tan', 'female', '10/10/1968', 'ward 2', 1);
+INSERT INTO `patient` (`patientNRIC`, `firstName`, `lastName`, `gender`, `DOB`) VALUES
+('S1234567B', 'patientforSC5', 'SC5Testdata', 'female', '10/10/1978'),
+('S2315479B', 'Ho Yin', 'Lee', 'Female', '10/10/1958'),
+('S2315479C', 'Ho Yin', 'Lee', 'Female', '04/12/1938'),
+('S2315479H', 'Ho Yin', 'Lee', 'Female', '01/06/1990'),
+('S2315479I', 'Ho Yin', 'Lee', 'Female', '10/10/1968');
 
 -- --------------------------------------------------------
 
@@ -270,11 +346,11 @@ INSERT INTO `practicalgroup` (`practicalGroupID`, `practicalGroupPassword`, `lec
 ('P02', 'P02', 'lec1'),
 ('P03', 'P03', 'lec2'),
 ('P04', 'P04', 'lec3'),
-('P05', 'P05', 'lec4'),
+('P05', 'P05', 'lec5'),
 ('P06', 'P06', 'lec4'),
 ('P07', 'P07', 'lec5'),
-('P08', 'P08', 'lec6'),
-('P09', 'P09', 'lec6');
+('P08', 'P08', 'lec3'),
+('P09', 'P09', 'lec4');
 
 -- --------------------------------------------------------
 
@@ -286,9 +362,9 @@ CREATE TABLE IF NOT EXISTS `prescription` (
   `scenarioID` varchar(5) NOT NULL,
   `stateID` varchar(5) NOT NULL,
   `doctorName` varchar(20) NOT NULL,
-  `doctorOrder` varchar(1000) NOT NULL,
+  `doctorOrder` varchar(500) NOT NULL,
   `freqAbbr` varchar(10) NOT NULL,
-  PRIMARY KEY (`scenarioID`,`stateID`,`freqAbbr`),
+  PRIMARY KEY (`scenarioID`,`stateID`,`doctorOrder`,`freqAbbr`),
   KEY `stateID` (`stateID`),
   KEY `freqAbbr` (`freqAbbr`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -298,8 +374,26 @@ CREATE TABLE IF NOT EXISTS `prescription` (
 --
 
 INSERT INTO `prescription` (`scenarioID`, `stateID`, `doctorName`, `doctorOrder`, `freqAbbr`) VALUES
-('SC1', 'ST1', 'Dr Fong Pei Yin', 'PRBCs two units NOW', 'ASAP'),
-('SC1', 'ST2', 'Dr Fong Pei Yin', 'ECG ', 'ac ');
+('SC1', 'ST0', 'Dr.Tan/01234Z', 'Bolus Morphine 2-4mg every two hours prn pain', 'q2h'),
+('SC1', 'ST0', 'Dr.Tan/01234Z', 'Cyclizine 25mg IV Bolus every six hours prn nausea', 'q6h'),
+('SC1', 'ST0', 'Dr.Tan/01234Z', 'Ferrous sulfate 400mg PO twice a day with meals; begin when oral intake resumes', 'BD'),
+('SC1', 'ST0', 'Dr.Tan/01234Z', 'IV of Dextrose/Saline with KCL 20mEq per litre at 125 mL/hour', 'q hr'),
+('SC1', 'ST0', 'Dr.Tan/01234Z', 'Ketorolac 30mg IVP every six hours for three days', 'q6h'),
+('SC1', 'ST0', 'Dr.Tan/01234Z', 'Milk of Magnesia 30mL PO daily prn constipation', 'daily'),
+('SC1', 'ST0', 'Dr.Tan/01234Z', 'Morphine PCA 2mg every 10min with four hour lockout of 40mg', '4 hourly'),
+('SC1', 'ST1', 'Dr.Tan/01234Z', 'PRBCs two units NOW', 'ASAP'),
+('SC1', 'ST3', 'Dr.Tan/01234Z', '0.9% Normal Saline at 200mL/hour', 'q hr'),
+('SC3', 'ST0', 'Dr.Tan/01234Z', 'Codyramol 10/500mg 1-2 tabs PO every 4-6 hours PRN for pain', 'q4h'),
+('SC3', 'ST0', 'Dr.Tan/01234Z', 'Digoxin 125mcg PO every day', 'daily'),
+('SC3', 'ST0', 'Dr.Tan/01234Z', 'Heparin 5,000units SC three times a day', 'TDS'),
+('SC3', 'ST0', 'Dr.Tan/01234Z', 'Morphine 5-10mg IM every 4-6 hours PRN for severe pain', 'q4h'),
+('SC3', 'ST0', 'Dr.Tan/01234Z', 'Prochlorperazine 12.5mg IM every 4-6 hours PRN for nausea', 'q4h'),
+('SC4', 'ST0', 'Dr.Tan/01234Z', 'Follow with Dextrose/Saline at 250mL/hour', 'q hr'),
+('SC4', 'ST0', 'Dr.Tan/01234Z', 'Start IV 1000mL 0.9% Normal Saline at full-open rate', 'ASAP'),
+('SC4', 'ST1', 'Dr.Tan/01234Z', 'Followed by 40mmols per hour for three doses', 'q hr'),
+('SC4', 'ST1', 'Dr.Tan/01234Z', 'KCl 60mmols IV push STAT', 'ASAP'),
+('SC4', 'ST2', 'Dr.Tan/01234Z', 'Infuse Dextrose Saline with KCl 40mmol at 150mL/hour', 'q hr'),
+('SC4', 'ST2', 'Dr.Tan/01234Z', 'Potassium chloride 40mmols in 500mL of 0.9% Normal Saline, infuse over four hours', 'q4h');
 
 -- --------------------------------------------------------
 
@@ -309,12 +403,13 @@ INSERT INTO `prescription` (`scenarioID`, `stateID`, `doctorName`, `doctorOrder`
 
 CREATE TABLE IF NOT EXISTS `report` (
   `reportDatetime` datetime NOT NULL,
-  `reportName` varchar(30) NOT NULL,
+  `reportName` varchar(100) NOT NULL,
   `reportFile` varchar(200) NOT NULL,
   `dispatchStatus` tinyint(1) NOT NULL,
   `scenarioID` varchar(5) NOT NULL,
   `stateID` varchar(5) NOT NULL,
-  PRIMARY KEY (`reportDatetime`,`reportName`,`scenarioID`,`stateID`),
+  `initialReport` tinyint(1) NOT NULL,
+  PRIMARY KEY (`reportDatetime`,`reportName`),
   KEY `stateID` (`stateID`),
   KEY `scenarioID` (`scenarioID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -323,9 +418,11 @@ CREATE TABLE IF NOT EXISTS `report` (
 -- Dumping data for table `report`
 --
 
-INSERT INTO `report` (`reportDatetime`, `reportName`, `reportFile`, `dispatchStatus`, `scenarioID`, `stateID`) VALUES
-('2014-10-20 14:00:00', 'Chemistry', 'http://exampleChemistry', 1, 'SC1', 'ST1'),
-('2014-10-21 17:00:00', 'FBC', 'http://exampleFBC', 1, 'SC1', 'ST1');
+INSERT INTO `report` (`reportDatetime`, `reportName`, `reportFile`, `dispatchStatus`, `scenarioID`, `stateID`, `initialReport`) VALUES
+('2014-10-28 14:00:00', 'Admission form-Post Gastre', 'Admissionform.pdf', 0, 'SC3', 'ST0', 0),
+('2014-10-29 10:16:22', 'Chemistry NA140 K3.0', 'Chemistry_NA140_K3.0.pdf', 0, 'SC4', 'ST3', 0),
+('2014-10-30 10:00:00', 'Emergency Department Case Record', 'EmergencyDepartmentCaseRecord.pdf', 0, 'SC2', 'ST0', 0),
+('2014-10-31 00:14:25', 'Chemistry NA130 K2.0', 'Chemistry_NA130_K2.0.pdf', 0, 'SC4', 'ST1', 0);
 
 -- --------------------------------------------------------
 
@@ -353,6 +450,7 @@ INSERT INTO `route` (`routeAbbr`, `routeDescription`) VALUES
 ('I.V.', 'Intravenous route '),
 ('IVP', 'Intravenous push '),
 ('IVPB', 'Intravenous piggyback '),
+('N.A', 'N.A'),
 ('Neb', 'Nebuliser'),
 ('NGT', 'Nasogastric tube '),
 ('O.D.', 'Right eye '),
@@ -378,16 +476,21 @@ CREATE TABLE IF NOT EXISTS `scenario` (
   `scenarioDescription` longtext NOT NULL,
   `scenarioStatus` tinyint(1) NOT NULL,
   `admissionNote` mediumtext NOT NULL,
-  PRIMARY KEY (`scenarioID`)
+  `bedNumber` int(100) NOT NULL,
+  PRIMARY KEY (`scenarioID`),
+  KEY `bedNumber` (`bedNumber`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `scenario`
 --
 
-INSERT INTO `scenario` (`scenarioID`, `scenarioName`, `scenarioDescription`, `scenarioStatus`, `admissionNote`) VALUES
-('SC1', 'ECS UK Anaphylactic Reaction', 'This simulated clinical experience was designed to expose the learner to the patient who experiences an adverse reaction to blood transfusion. The patient is first day postoperative gynecological surgery who develops the complication of hypovolemia that requires a blood transfusion. The simulated clinical experience will automatically progress to anaphylaxis and subsequent shock states without prompt recognition of the transfusion reaction. With prompt recognition and intervention, the patient stabilises. The anaphylactic component of this simulated clinical experience may be used separately depending on learning objectives and may be overlaid on any patient or other scenario. This simulated clinical experience is intended for the learner in Semester VI.', 1, 'A recently divorced, 46-year-old female, was admitted to the hospital yesterday morning for a total abdominal hysterectomy with bilateral salpingo-oophrectomy due to multiple large uterine fi broids. Over the past two years she had increasing pain that was not relieved with medication, excessively large menstrual fl ow, and long standing anemia refractory to standard treatment. Despite earlier recommendations from her healthcare provider to seek surgical intervention, she elected to wait due to multiple personal issues including her recent divorce and having two teenage children at home. During this time of postponing the surgery, she required two outpatient blood transfusions due to the severe anemia. Her signifi cant preoperative lab values included a haemoglobin of 8.4 mml and a haematocrit of 32%. The morning of admission her vital signs were a heart rate of 78 bpm, blood pressure of 110/70, respiratory rate of 16, and a temperature of 37°C. Her blood type is A negative. Intraoperatively her estimated blood loss was 450mL. Her postoperative period has been uneventful and you are the nurse assigned to her care the following morning. The night nurse reports that the patient slept for the early part of the shift, but has been awake complaining of discomfort since 0430 hours. Her last vital signs, which were at that time, respiratory rate of 18, a heart rate of 88, blood pressure of 102/60 and a temperature of 37.4°C.'),
-('SC2', 'another scenario', 'testtest', 0, 'testesttest');
+INSERT INTO `scenario` (`scenarioID`, `scenarioName`, `scenarioDescription`, `scenarioStatus`, `admissionNote`, `bedNumber`) VALUES
+('SC1', 'Anaphylactic Reaction to Blood Administration', 'This simulated clinical experience was designed to expose the learner to the patient who experiences an adverse reaction to blood transfusion. The patient is first day postoperative gynecological surgery who develops the complication of hypovolemia that requires a blood transfusion. \n\nThe simulated clinical experience will automatically progress to anaphylaxis and subsequent shock states without prompt recognition of the transfusion reaction. With prompt recognition and intervention, the patient stabilises. The anaphylactic component of this simulated clinical experience may be used separately depending on learning objectives and may be overlaid on any patient or other scenario. This simulated clinical experience is intended for the learner in Semester VI.        ', 0, 'A recently divorced, 46-year-old female, was admitted to the hospital yesterday morning for a total abdominal hysterectomy with bilateral salpingo-oophrectomy due to multiple large uterine fibroids. Over the past two years she had increasing pain that was not relieved with medication, excessively large menstrual flow, and long standing anemia refractory to standard treatment. Despite earlier recommendations from her healthcare provider to seek surgical intervention, she elected to wait due to multiple personal issues including her recent divorce and having two teenage children at home. During this time of postponing the surgery, she required two outpatient blood transfusions due to the severe anemia. Her significant preoperative lab values included a haemoglobin of 8.4 mml and a haematocrit of 32%. The morning of admission her vital signs were a heart rate of 78 bpm, blood pressure of 110/70, respiratory rate of 16, and a temperature of 37°C. Her blood type is A negative. Intraoperatively her estimated blood loss was 450mL. Her postoperative period has been uneventful and you are the nurse assigned to her care the following morning. The night nurse reports that the patient slept for the early part of the shift, but has been awake complaining of discomfort since 0430 hours. Her last vital signs, which were at that time, respiratory rate of 18, a heart rate of 88, blood pressure of 102/60 and a temperature of 37.4°C.', 1),
+('SC2', 'Basic Assessment of the Cardiac Patient', 'This simulated clinical experience allows the beginning learner to conduct a basic physical assessment of a truck driver at a health fair. Learners are expected to identify cardiac findings related to an unhealthy lifestyle. Learners are expected to obtain both subjective and objective data related to assessment of the cardiac system, recognize areas that could be addressed with health promotion, and document their findings. Common abnormal findings can also be discussed at the end of the simulated clinical experience. This simulated clinical experience is intended for learners in Semester II.', 0, 'A 56-year-old truck driver has come to the health fair for routine screening on a hot summer day. He is dressed\ncasually in a short sleeve shirt and shorts.', 2),
+('SC3', 'Basic Assessment of the Postoperative Gastrectomy Patient', 'In this simulated clinical experience, learners conduct a basic physical assessment of a three-day postoperative partial gastrectomy patient. The patient exhibits five abnormal assessment findings for learners to identify and/or document, including: absent bowel sounds, hypertension, irregular cardiac rhythm, an abdominal dressing, and oedema. The scenario has one continuous state. The simulated clinical experience also consists of a psychosocial element, which the instructor may elect to incorporate and is intended for the learner in Semester I.', 0, 'This patient is a 76-year-old female whose chief complaint at her healthcare provider’s theatre was frequent indigestion and epigastric pain relieved by antacids. She also complained of rapid weight loss and feeling tired. After a series of tests, a biopsy was performed which confirmed stomach cancer. A partial gastrectomy was performed three days ago to remove the cancerous lesion. She is exhibiting signs of depression because of her recent diagnosis.\nHealth history: chronic gastritis, pernicious anaemia\n', 3),
+('SC4', 'Basic Dysrhythmia Recognition and Management', 'This simulated clinical experience involves a 24-year-old female university student who experiences heart palpitations, epigastric pain, muscle weakness, and a fainting episode in class. Initially she refused to go to the Emergency Department (ED), but later agreed to let a classmate drive her to the ED. Upon admission to the ED, the patient is diagnosed with a cardiac dysrhythmia. The patient states that she has been in excellent health all of her life. While waiting for the admission lab reports, the healthcare provider identifies signs of dehydration and specific physical findings associated with binge-purging bulimia nervosa. The lab report reveals severe hypokalaemia, which has resulted in destabilisation of the cardiac rhythm. The patient continues to deny purging. She remains in the ED for re-hydration, administration of IV potassium chloride, and stabilisation of the cardiac rhythm. She is admitted for psychiatric evaluation for the eating disorder and initiation of cognitive behavioural therapy. This simulated clinical experience is intended for the learner in Semester VI.', 1, '\nThe patient is a 24-year-old female who is brought into the Emergency Department (ED) from the university by a classmate. The classmate states that she “slumped over in the desk and nearly passed out.” The patient insists that she didn’t pass out and that she had a “weak spell from a stomach virus. I vomited once last night.” She is listless, has severe muscle weakness, and speaks very quietly, in a low voice. She states that while in class, she noticed her heart beating “really fast and hard at times.” She stated that she feels burning-type pain in the chest and epigastric area. She denies any health problems except constipation and irregular periods. She states her last menstrual cycle was six months ago. She denies allergies. She is heterosexual and has been sexually active since secondary school. Her partners used condoms and she has had six partners. She denies tobacco use and drugs but has an occasional glass or two of wine at parties. She lives in the city with her mother and her mother’s boyfriend who is a “heavy drinker.” She states that her father is “out of her life.” She is studying fashion design and plans to graduate in two years, then move to Paris.\n', 4),
+('SC5', 'Test data', 'Test data', 0, 'Test data', 5);
 
 -- --------------------------------------------------------
 
@@ -411,13 +514,49 @@ CREATE TABLE IF NOT EXISTS `state` (
 --
 
 INSERT INTO `state` (`stateID`, `scenarioID`, `stateDescription`, `stateStatus`, `patientNRIC`) VALUES
-('ST0', 'SC1', 'just admitted', 1, 'S2315479I'),
-('ST0', 'SC2', 'hello test', 0, 'S7843522B'),
+('ST0', 'SC1', 'default state', 0, 'S2315479I'),
+('ST0', 'SC2', 'default state', 0, 'S2315479B'),
+('ST0', 'SC3', 'default state', 0, 'S2315479C'),
+('ST0', 'SC4', 'default state', 0, 'S2315479H'),
+('ST0', 'SC5', 'testest data', 0, 'S1234567B'),
 ('ST1', 'SC1', 'Initial Assessment at 0800 Hours', 0, 'S2315479I'),
+('ST1', 'SC2', 'History and Assessment', 0, 'S2315479B'),
+('ST1', 'SC3', 'Baseline', 0, 'S2315479C'),
+('ST1', 'SC4', 'Admission to ED', 0, 'S2315479H'),
 ('ST2', 'SC1', 'Blood Started at 1000 Hours', 0, 'S2315479I'),
+('ST2', 'SC2', 'Optional state: Abnormals', 0, 'S2315479B'),
+('ST2', 'SC4', 'Identifies Incorrect Order', 0, 'S2315479H'),
 ('ST3', 'SC1', 'Beginning Anaphylax in 30 minutes later', 0, 'S2315479I'),
+('ST3', 'SC4', '4 Hours After Potassium Infusion', 1, 'S2315479H'),
 ('ST4', 'SC1', 'Mild Anaphylaxis', 0, 'S2315479I'),
-('ST5', 'SC1', 'Worsening Anaphylaxis', 0, 'S2315479I');
+('ST5', 'SC1', 'Worsening Anaphylaxis', 0, 'S2315479I'),
+('ST6', 'SC1', 'Severe Anaphylaxis', 0, 'S2315479I'),
+('ST7', 'SC1', 'Epinephrine Administered', 0, 'S2315479I'),
+('ST8', 'SC1', 'Complete Recovery', 0, 'S2315479I');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `state_history`
+--
+
+CREATE TABLE IF NOT EXISTS `state_history` (
+  `scenarioID` varchar(5) NOT NULL,
+  `stateID` varchar(5) NOT NULL,
+  `timeActivated` datetime NOT NULL,
+  PRIMARY KEY (`timeActivated`),
+  KEY `timeActivated` (`timeActivated`),
+  KEY `timeActivated_2` (`timeActivated`),
+  KEY `stateID` (`stateID`),
+  KEY `scenarioID` (`scenarioID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `state_history`
+--
+
+INSERT INTO `state_history` (`scenarioID`, `stateID`, `timeActivated`) VALUES
+('SC4', 'ST0', '2015-01-10 16:10:43');
 
 -- --------------------------------------------------------
 
@@ -427,7 +566,7 @@ INSERT INTO `state` (`stateID`, `scenarioID`, `stateDescription`, `stateStatus`,
 
 CREATE TABLE IF NOT EXISTS `vital` (
   `vitalDatetime` datetime NOT NULL,
-  `patientNRIC` varchar(10) NOT NULL,
+  `scenarioID` varchar(5) NOT NULL,
   `temperature` decimal(4,2) NOT NULL,
   `RR` int(10) NOT NULL,
   `BPsystolic` int(10) NOT NULL,
@@ -439,52 +578,19 @@ CREATE TABLE IF NOT EXISTS `vital` (
   `oralAmount` varchar(30) NOT NULL,
   `intravenousType` varchar(100) NOT NULL,
   `intravenousAmount` varchar(30) NOT NULL,
-  PRIMARY KEY (`vitalDatetime`,`patientNRIC`),
-  KEY `patientNRIC` (`patientNRIC`)
+  `initialVital` tinyint(1) NOT NULL,
+  PRIMARY KEY (`vitalDatetime`,`scenarioID`),
+  KEY `patientNRIC` (`scenarioID`),
+  KEY `scenarioID` (`scenarioID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `vital`
 --
 
-INSERT INTO `vital` (`vitalDatetime`, `patientNRIC`, `temperature`, `RR`, `BPsystolic`, `BPdiastolic`, `HR`, `SPO`, `output`, `oralType`, `oralAmount`, `intravenousType`, `intravenousAmount`) VALUES
-('2014-10-11 15:00:00', 'S2315479I', '37.50', 45, 92, 52, 100, 92, '50', 'water', '50', 'saline', '100');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ward`
---
-
-CREATE TABLE IF NOT EXISTS `ward` (
-  `wardID` varchar(6) NOT NULL,
-  `bedNumber` int(30) NOT NULL,
-  `availabilityStatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`wardID`,`bedNumber`),
-  KEY `bedNumber` (`bedNumber`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `ward`
---
-
-INSERT INTO `ward` (`wardID`, `bedNumber`, `availabilityStatus`) VALUES
-('ward 1', 1, 1),
-('ward 1', 2, 0),
-('ward 1', 3, 0),
-('ward 1', 4, 0),
-('ward 2', 1, 1),
-('ward 2', 2, 0),
-('ward 2', 3, 0),
-('ward 2', 4, 0),
-('ward 3', 1, 1),
-('ward 3', 2, 0),
-('ward 3', 3, 0),
-('ward 3', 4, 0),
-('ward 4', 1, 1),
-('ward 4', 2, 0),
-('ward 4', 3, 0),
-('ward 4', 4, 0);
+INSERT INTO `vital` (`vitalDatetime`, `scenarioID`, `temperature`, `RR`, `BPsystolic`, `BPdiastolic`, `HR`, `SPO`, `output`, `oralType`, `oralAmount`, `intravenousType`, `intravenousAmount`, `initialVital`) VALUES
+('2015-01-13 11:35:47', 'SC1', '37.00', 16, 110, 70, 78, 0, '450ml blood loss', '', '', '', '', 1),
+('2015-01-13 11:40:46', 'SC1', '37.40', 18, 102, 60, 88, 0, '', '', '', '', '', 1);
 
 --
 -- Constraints for dumped tables
@@ -497,6 +603,14 @@ ALTER TABLE `allergy_patient`
   ADD CONSTRAINT `allergy_patient_ibfk_1` FOREIGN KEY (`patientNRIC`) REFERENCES `patient` (`patientNRIC`);
 
 --
+-- Constraints for table `medication_history`
+--
+ALTER TABLE `medication_history`
+  ADD CONSTRAINT `medication_history_ibfk_1` FOREIGN KEY (`medicineBarcode`) REFERENCES `medicine` (`medicineBarcode`),
+  ADD CONSTRAINT `medication_history_ibfk_2` FOREIGN KEY (`practicalGroupID`) REFERENCES `practicalgroup` (`practicalGroupID`),
+  ADD CONSTRAINT `medication_history_ibfk_3` FOREIGN KEY (`scenarioID`) REFERENCES `scenario` (`scenarioID`);
+
+--
 -- Constraints for table `medicine`
 --
 ALTER TABLE `medicine`
@@ -507,24 +621,15 @@ ALTER TABLE `medicine`
 --
 ALTER TABLE `medicine_prescription`
   ADD CONSTRAINT `medicine_prescription_ibfk_1` FOREIGN KEY (`medicineBarcode`) REFERENCES `medicine` (`medicineBarcode`),
-  ADD CONSTRAINT `medicine_prescription_ibfk_2` FOREIGN KEY (`scenarioID`) REFERENCES `prescription` (`scenarioID`),
-  ADD CONSTRAINT `medicine_prescription_ibfk_3` FOREIGN KEY (`stateID`) REFERENCES `prescription` (`stateID`),
   ADD CONSTRAINT `medicine_prescription_ibfk_4` FOREIGN KEY (`freqAbbr`) REFERENCES `frequency` (`freqAbbr`);
 
 --
 -- Constraints for table `note`
 --
 ALTER TABLE `note`
-  ADD CONSTRAINT `note_ibfk_1` FOREIGN KEY (`practicalgroupID`) REFERENCES `practicalgroup` (`practicalgroupID`),
-  ADD CONSTRAINT `note_ibfk_2` FOREIGN KEY (`scenarioID`) REFERENCES `scenario` (`scenarioID`),
-  ADD CONSTRAINT `note_ibfk_3` FOREIGN KEY (`practicalGroupID`) REFERENCES `practicalgroup` (`practicalGroupID`);
-
---
--- Constraints for table `patient`
---
-ALTER TABLE `patient`
-  ADD CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`bedNumber`) REFERENCES `ward` (`bedNumber`),
-  ADD CONSTRAINT `patient_ibfk_2` FOREIGN KEY (`wardID`) REFERENCES `ward` (`wardID`);
+  ADD CONSTRAINT `note_ibfk_1` FOREIGN KEY (`practicalGroupID`) REFERENCES `practicalgroup` (`practicalGroupID`),
+  ADD CONSTRAINT `note_ibfk_3` FOREIGN KEY (`practicalGroupID`) REFERENCES `practicalgroup` (`practicalGroupID`),
+  ADD CONSTRAINT `note_ibfk_4` FOREIGN KEY (`scenarioID`) REFERENCES `scenario` (`scenarioID`);
 
 --
 -- Constraints for table `practicalgroup`
@@ -536,16 +641,7 @@ ALTER TABLE `practicalgroup`
 -- Constraints for table `prescription`
 --
 ALTER TABLE `prescription`
-  ADD CONSTRAINT `prescription_ibfk_1` FOREIGN KEY (`scenarioID`) REFERENCES `state` (`scenarioID`),
-  ADD CONSTRAINT `prescription_ibfk_2` FOREIGN KEY (`stateID`) REFERENCES `state` (`stateID`),
   ADD CONSTRAINT `prescription_ibfk_3` FOREIGN KEY (`freqAbbr`) REFERENCES `frequency` (`freqAbbr`);
-
---
--- Constraints for table `report`
---
-ALTER TABLE `report`
-  ADD CONSTRAINT `report_ibfk_2` FOREIGN KEY (`stateID`) REFERENCES `state` (`stateID`),
-  ADD CONSTRAINT `report_ibfk_3` FOREIGN KEY (`scenarioID`) REFERENCES `state` (`scenarioID`);
 
 --
 -- Constraints for table `state`
@@ -558,7 +654,7 @@ ALTER TABLE `state`
 -- Constraints for table `vital`
 --
 ALTER TABLE `vital`
-  ADD CONSTRAINT `vital_ibfk_1` FOREIGN KEY (`patientNRIC`) REFERENCES `patient` (`patientNRIC`);
+  ADD CONSTRAINT `vital_ibfk_1` FOREIGN KEY (`scenarioID`) REFERENCES `scenario` (`scenarioID`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
