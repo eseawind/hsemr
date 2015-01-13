@@ -61,7 +61,7 @@
                                     String scNum = "SC" + bedNumber;
                                     if (scNum.equals(scID)) {
                         %>
-                        <td> <form method="POST" action="viewCaseInformation.jsp"><input type="submit"  class="bed" value="<%="Bed " + bedCounter%>"/></form></td>
+                        <td> <form method="POST" action="viewCaseInformation.jsp"><input type="submit"  class="bedactive" value="<%="Bed " + bedCounter%>"/></form></td>
                                 <%
                                 } else {
                                 %>
