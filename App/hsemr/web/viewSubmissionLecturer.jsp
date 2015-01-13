@@ -14,6 +14,7 @@
 <%@page import="dao.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="dao.*"%> 
+<%@page import="controller.*"%> 
 <%@include file="protectPage/protectLecturer.jsp" %>
 <!DOCTYPE html>
 
@@ -30,7 +31,7 @@
         <script src="js/vendor/jquery.js"></script>
         <script>
 
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $(document).foundation();
             });
         </script>
@@ -106,8 +107,12 @@
                                 }
                             }
                         }
-                    %>
+                    %> 
+
                 </table>
+                <form action="ProcessExportPDF" method="POST">
+                    <input type="submit" class="report-despatch button tinytable" value="Export to PDF">
+                </form>
             </div>
         </div>
     </body>
