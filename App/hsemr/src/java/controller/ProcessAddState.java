@@ -6,9 +6,9 @@
 package controller;
 
 import dao.StateDAO;
+import entity.State;
 import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,22 +37,16 @@ public class ProcessAddState extends HttpServlet {
 
         String scenarioID = request.getParameter("scenarioID");
         String patientNRIC = request.getParameter("patientNRIC");
-        String totalNumberOfStatesString = request.getParameter("totalNumberOfStates");
-        int totalNumberOfStates = Integer.parseInt(totalNumberOfStatesString);
+        String stateDescription = request.getParameter("stateDescription");
+        
+        ArrayList<State> stateList = (ArrayList<State>) StateDAO.retrieveAll(scenarioID);
+        int stateNumber = stateList.size();
+        
+        String stateID = "ST" + stateNumber;
 
-        for (int i = 0; i < totalNumberOfStates; i++) {
-            String stateID = "ST" + (i + 1);
-            String stateDescriptionRetrieve = "stateDescription" + (i + 1);
-
-            String stateDescription = request.getParameter(stateDescriptionRetrieve);
-
-            //StateDAO.add(stateID, scenarioID, RR, BP, HR, SPO, intake, output, temperature, stateDescription, patientNRIC);
-            StateDAO.add(stateID, scenarioID, stateDescription, 0, patientNRIC);
-            HttpSession session = request.getSession(false);
-            session.setAttribute("successMessageCreateScenario","New case and state has been created successfully!");          
-            response.sendRedirect("viewScenarioAdmin.jsp");
-            return;
-        }
+        //StateDAO.add(stateID, scenarioID, RR, BP, HR, SPO, intake, output, temperature, stateDescription, patientNRIC);
+        StateDAO.add(stateID, scenarioID, stateDescription, 0, patientNRIC);
+        response.sendRedirect("createState.jsp");
 
     }
 

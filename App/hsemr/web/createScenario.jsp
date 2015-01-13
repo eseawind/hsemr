@@ -44,7 +44,7 @@
         }
         %>
 
-        <title>Case Setup - Create </title>
+        <title>Case Setup - Create Case</title>
     </head>
     <body>
 
@@ -140,31 +140,31 @@
                 <div class="row">
                     <div class="large-4 columns">
                         <label>Temperature</label>
-                        <input type="text" name="temperature0" value="56" maxlength="4" pattern ="[0-9]+(\.[0-9][0-9]?)?">
-                        <small class="error">Must be numeric, cannot contain alphabets. E.g: 37.3 or 37</small>
+                        <input type="text" name="temperature0" value="56" maxlength="4" pattern ="\b(3[4-9](\.[0-9]{1,2})?|4[0-2])(\.[0-9]{1,2})?$\b">
+                        <small class="error">Temperature must be between 34 - 42.</small>
                     </div>
                     <div class="large-4 columns">
                         <label>Respiratory Rate</label>
-                        <input type="text" name="RR0" value="60" maxlength = "2" pattern ="integer">
-                        <small class="error">RR must be 2 digits.</small>
+                        <input type="text" name="RR0" value="60" maxlength = "2" pattern ="^([0-9]|[1-5][0-9]|60)$">
+                        <small class="error">Respiratory Rate must be between 0 - 60.</small>
                     </div>
                     <div class="large-4 columns">
                         <label>Heart Rate</label>
                         <input type="text" name="HR0" value="71" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$">
-                        <small class="error">HR must be between 0 - 200.</small>
+                        <small class="error">Heart Rate must be between 0 - 200.</small>
                     </div>
                     <div class="large-4 columns">
                         <label>Blood Pressure Systolic</label>
-                        <input type="text" name="BPS" value="72" maxlength ="3" pattern = "integer">
-                        <small class="error">BP systolic must be numeric and between 2 to 3 digits.</small>
+                        <input type="text" name="BPS" value="72" maxlength ="3" pattern = "^([0-9]{1,2}|[12][0-9]{2}|300)$">
+                        <small class="error">BP systolic must be numeric and between 0 - 300.</small>
                     </div> 
                     <div class="large-4 columns">
                         <label>Blood Pressure Diastolic</label>
-                        <input type="text" name="BPD" value="75" maxlength ="3" pattern = "integer">
-                        <small class="error">BP diastolic must be numeric and between 2 to 3 digits.</small>
+                        <input type="text" name="BPD" value="75" maxlength ="3" pattern = "^([0-9]{1,2}|1[0-9]{2}|200)$">
+                        <small class="error">BP diastolic must be numeric and between 0 - 200.</small>
                     </div>
                     <div class="large-4 columns">
-                        <label>SPO</label>
+                        <label>SpO<sub>2</sub></label>
                         <input type="text" name="SPO0" value="78" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$">
                         <small class="error">SPO must be numeric and between 0 - 100%.</small>
                     </div>
@@ -173,22 +173,6 @@
                     <div class="large-4 columns"></div>
                 </div>
             </div>
-        </dd>
-        <dd class="accordion-navigation">
-            <a href="#panel4">Define State(s)</a>
-            <div id="panel4" class="content">
-                <center>
-
-                    <div class ="rows">
-                        <div class ="large-9">
-                            <label>Enter Total Number of States (E.g: 3)</label>
-                            <input type="text" name="totalNumberOfStates" value = "2">
-                        </div>
-                    </div>
-                </center>
-
-            </div>
-           
         </dd>
     </dl>
     <br/>

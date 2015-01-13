@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -41,5 +42,31 @@ public class MedicineDAO {
         }
         return medicine;
     }
+     
+         
+    public static List<Medicine> retrieveAll() {
+        List<Medicine> medicineList = new ArrayList<Medicine>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from medicine");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Medicine medicine = new Medicine(rs.getString(1), rs.getString(2), rs.getString(3));
+                medicineList.add(medicine);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return medicineList;
+    }
+     
+     
     
 }

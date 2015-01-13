@@ -1,7 +1,8 @@
-<%@page import="dao.StateDAO"%>
-<%@page import="dao.PatientDAO"%>
-<%@page import="dao.ScenarioDAO"%>
-<%@include file="protectPage/protectAdmin.jsp" %>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.*"%>
+<%@page import="entity.*"%>
+<%--<%@include file="protectPage/protectAdmin.jsp" %>--%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -13,7 +14,10 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+        <script type="text/javascript" src="js/humane.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
         <link rel="stylesheet" href="/resources/demos/style.css">
+        
     </head>
     <body>
 
@@ -21,72 +25,114 @@
         <script src="js/foundation.min.js"></script>
         <center>
         <h1>Case Setup</h1>
-        <h2>Step 2: Create State(s)</h2>
         </center>
     
-        <%          
-            String totalNumberOfStatesString = (String) session.getAttribute("totalNumberOfStates");
-            int totalNumberOfStates = Integer.parseInt(totalNumberOfStatesString);
+        <%  
+        
+            String success = "";
+            String error = "";
+            
+            if (session.getAttribute("success") != null) {
+
+                        success = (String) session.getAttribute("success");
+                        session.setAttribute("success", "");
+            }
+            
+            if (session.getAttribute("error") != null) {
+
+                        error = (String) session.getAttribute("error");
+                        session.setAttribute("error", "");
+            }
 
             String scenarioID = (String) session.getAttribute("scenarioID");
             String patientNRIC = (String) session.getAttribute("patientNRIC");
         
-            for (int i = 0; i < totalNumberOfStates; i++) {
-                //to differentiate different states
-                String stateDescription = "stateDescription" + (i + 1);
         %>
-        <form action ="ProcessAddState" method ="POST">
             <center>
-                <h2>State <%=i + 1%></h2>
-
-                <div class="row">
-                    <div class = "large-12">
-                        <label>State Description</label>
-                        <textarea style = "resize:vertical" name = "<%=stateDescription%>" rows = "2" cols = "10"></textarea>
-                    </div>
-                </div>
-
-            <!--                    
-                    <label>Is report applicable for this state? </label> 
-                    <input type="radio" id="report1" name="report" value="yes">Yes<br>
-                    <input type="radio" id="report2" name="report" value="no" checked>No<br>
-                    <select name="reportNumber" id="reportNumber">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>-->
-<!--               <div class="input_fields_wrap"> 
-                   <p><center><button class="add_field_button">Add more</button></center></p><br><br>
-                </div>-->
-                </center>
-
-
-            <%   }
+            
+            <h2>Step 2: Create State <a href="#" data-reveal-id="createState"><img src="img/add.png" height ="30" width = "30"></a></h2>
+            <!--Display states that are in the database-->
+            
+            <%
+                List<State> stateList = StateDAO.retrieveAll(scenarioID);
+                
+                if(stateList == null || stateList.size() == 0){
+                    out.println("There are no states created yet. Click the + to create a state.");
+                }else{
+                    out.println("States created:");
+                    for(State state: stateList){
+                        out.println(state.getStateID());
+                    }
+                }
+                
             %>
+            
+            
+            <!--Reveal modal for step 2: create state-->
+            <div id="createState" class="reveal-modal" data-reveal>
+                <h2>Step 2: Create State</h2>
+                Please create states in <b>ascending</b> order. <br><br>
 
-            <input type ="hidden" name ="totalNumberOfStates" value ="<%=totalNumberOfStates%>"/>
+                <form action = "ProcessAddState" method = "POST"> 
+                    State Description <input type =text name = "stateDescription" required> 
+                    <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>">
+                    <input type ="hidden" name ="patientNRIC" value ="<%=patientNRIC%>">
+                    <input type ="submit" class ="button" value ="Create State">
+              </form>   
+              <a class="close-reveal-modal">&#215;</a>
+            </div>
+            
+            <h2>Step 3: Create Medicine<a href="#" data-reveal-id="createMedicine"><img src="img/add.png" height ="30" width = "30"></a></h2>
+            
+            <div id="createMedicine" class="reveal-modal" data-reveal>
+                <h2>Step 2: Create Medicine</h2>
+                <form data-abide action ="ProcessAddMedicine" method ="POST">
+                    
+                    <%List<Medicine> medicineList = MedicineDAO.retrieveAll();%>
+                    Medicine Name <select>
+                        <%
+                        for(Medicine medicine: medicineList){%>
+                            <option><%=medicine.getMedicineName()%></option>
+                        <%}
+                        %>
+                    </select>
+                    
+                    Can't find the medicine you're looking for? Add here! <br><br>
+                    
+                    Medicine Name<input type ="text" name ="medicine" required>
+                    Medicine Barcode <input type ="text" name ="medicineBarcode" style="text-transform:uppercase;" required pattern ="/^[A-z]+$/">
+                    <small class="error">No space and numbers allowed.</small>
+                    <input type ="submit" class ="button" value ="Create Medicine">
+                
+                </form>
+              <a class="close-reveal-modal">&#215;</a>
+            </div>
+            
+            
+            <h2>Step 4: Upload Reports <a href="#" data-reveal-id="uploadReports"><img src="img/add.png" height ="30" width = "30"></a></h2>
+            <!--Reveal modal for upload reports-->
+            <div id="uploadReports" class="reveal-modal" data-reveal>
+              <h2>Upload Report</h2>
+              Please upload ONE at a time. <br>
+              
+              <form action = "ProcessReportUpload" method = "POST" enctype = "multipart/form-data"> 
+                  Please ensure that your file is named to what you want it to be shown.<br>
+                  <input type ="file" name = "file"/><br>
+                  <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>"/>
+                  <input type ="submit" class ="button" value ="Upload Report">
+                  
+              </form><br>   
+              <a class="close-reveal-modal">&#215;</a>
+            </div>
+                  
+            </center>
+
             <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>"/>
             <input type ="hidden" name ="patientNRIC" value ="<%=patientNRIC%>"/>
             <center><input type ="submit" class ="button" value ="Create State(s)"></center>
 
-        </form>
-
-
         <script>
             $(document).foundation();
-//            $('#reportNumber').hide();
-//            $('#report2').change(function() {
-//                if (this.checked) {
-//                    $('#reportNumber').hide();
-//                }
-//            });
-//            $('#report1').change(function() {
-//                if (this.checked) {
-//                    $('#reportNumber').show();
-//                }
-//            });
             $(document).ready(function() {
                 var max_fields = 10; //maximum input boxes allowed
                 var wrapper = $(".input_fields_wrap"); //Fields wrapper
@@ -109,6 +155,25 @@
                 })
             });
         </script>
+        
+        <script>
+
+            $(document).ready(function() {
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+
+                var success1 = "<%=success%>";
+                var error1 = "<%=error%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                } else if (error1 !== "") {
+                    humaneError.log(error1);
+                }
+
+            });
+        </script>
+        <script type="text/javascript" src="js/humane.js"></script>
 
     </body>
 </html>

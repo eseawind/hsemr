@@ -72,16 +72,8 @@ public class ProcessAddScenario extends HttpServlet {
             int SPO0= Integer.parseInt(SPOString0);
  
             String stateDescription0 = "default state"; //for the default state only
-            
-            //to generate the number of states to fill up
-            String totalNumberOfStatesString = request.getParameter("totalNumberOfStates");
-            //int totalNumberOfStates = Integer.parseInt(totalNumberOfStatesString);
-
-            //getting ward information to add new patient to a new bed
-            //Ward wardInfo = WardDAO.retrieve(wardID);
-            //int newBed= wardInfo.getBedNumber()+1;
-            
-            int newBed = ScenarioDAO.retrieveAll().size()+1;
+          
+            int newBed = ScenarioDAO.retrieveMaxBedNumber()+1;
             
             HttpSession session = request.getSession(false);
             
@@ -99,14 +91,12 @@ public class ProcessAddScenario extends HttpServlet {
                 ScenarioDAO.add(scenarioID, scenarioName, scenarioDescription, 0, admissionInfo, newBed);
                 StateDAO.add(stateID0, scenarioID, stateDescription0, 0, patientNRIC); //1 because default state status will be activate
                 VitalDAO.add(scenarioID, temperature0, RR0, BPS0, BPD0, HR0, SPO0, "", "", "", "", "", 1);
-               //StateDAO.add(stateID0, scenarioID, RR0, BP0, HR0, SPO0, intake0, output0, temperature0, stateDescription0, patientNRIC);
 
-                session.setAttribute("totalNumberOfStates", totalNumberOfStatesString);
                 session.setAttribute("scenarioID", scenarioID);
                 session.setAttribute("patientNRIC", patientNRIC);
                 session.setAttribute("success", "New scenario: " + scenarioID +  " has been created successfully!");
-                RequestDispatcher rd = request.getRequestDispatcher("createState.jsp");
-                rd.forward(request, response);
+                response.sendRedirect("createState.jsp");
+                
             }
             
             

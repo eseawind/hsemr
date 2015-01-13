@@ -521,8 +521,8 @@
                                                             <td><div class="row">
                                                                     <div class="small-4 columns" style="width:200px">
                                                                         <!--validates for 1 decimal place-->
-                                                                        <input type="text" name ="temperature" maxlength="4" pattern ="[0-9]+(\.[0-9][0-9]?)?" />
-                                                                        <small class="error">Must be numeric, cannot contain alphabets. E.g: 37.3 or 37</small>
+                                                                        <input type="text" name ="temperature" maxlength="4" pattern ="\b(3[4-9](\.[0-9]{1,2})?|4[0-2])(\.[0-9]{1,2})?$\b" />
+                                                                        <small class="error">Temperature must be between 34 - 42.</small>
                                                                     </div>
                                                                     <label for="right-label" class="left inline">ºC</label>
                                                                 </div></td>
@@ -531,8 +531,8 @@
                                                         <tr><td><b>Respiratory Rate</b><a href="#" data-reveal-id="RRchart" style="color:white"><img src="img/Historial.jpg"></a></td>
                                                             <td><div class="row">
                                                                     <div class="small-4 columns" style="width:200px">
-                                                                        <input type="text" name ="RR" maxlength="2" pattern ="integer"/>
-                                                                        <small class="error">RR must be 2 digits.</small>
+                                                                        <input type="text" name ="RR" maxlength="2" pattern ="^([0-9]|[1-5][0-9]|60)$"/>
+                                                                        <small class="error">Respiratory Rate must be between 0 - 60.</small>
                                                                     </div>
 
                                                                     <label for="right-label" class="left inline">breaths/min</label>
@@ -544,8 +544,8 @@
                                                             <td><div class="row">
                                                                     <div class="small-4 columns" style="width:200px">
                                                                         <!--validates between 0 - 200-->
-                                                                        <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$"/>
-                                                                        <small class="error">HR must be between 0 - 200.</small>
+                                                                        <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|30[0-0])$"/>
+                                                                        <small class="error">Heart Rate must be between 0 - 200.</small>
                                                                     </div>
                                                                     <label for="right-label" class="left inline">beats/min</label>
                                                                 </div></td>
@@ -555,27 +555,27 @@
                                                             <td><div class="row">
                                                                     <div class="small-4 columns" style="width:200px">
                                                                         <!--<input type="text" name ="BPsystolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
-                                                                        <input type="text" name ="BPsystolic" maxlength = "3" pattern = "integer"/>
-                                                                        <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
+                                                                        <input type="text" name ="BPsystolic" maxlength = "2" pattern = "^([0-9]{1,2}|[12][0-9]{2}|300)$"/>
+                                                                        <small class="error">BP systolic must be numeric and between 0 - 300.</small>
                                                                     </div>
 
-                                                                    <label for="right-label" class="left inline">mm (Systolic)</label>
+                                                                    <label for="right-label" class="left inline">mmHg (Systolic)</label>
 
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="small-4 columns" style="width:200px">
                                                                         <!--<input type="text" name ="BPdiastolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
-                                                                        <input type="text" name ="BPdiastolic" maxlength = "3" pattern = "integer"/>
+                                                                        <input type="text" name ="BPdiastolic" maxlength = "2" pattern = "^([0-9]{1,2}|1[0-9]{2}|200)$"/>
                                                                         <div class ="input wrapper">
-                                                                            <small class="error">BPsystolic must be numeric and between 2 to 3 digits.</small>
+                                                                            <small class="error">BP diastolic must be numeric and between 0 - 200.</small>
                                                                         </div>
                                                                     </div>
 
-                                                                    <label for="right-label" class="left inline">Hg (Diastolic)</label>
+                                                                    <label for="right-label" class="left inline">mmHg (Diastolic)</label>
 
                                                                 </div>
                                                             </td></tr>
-                                                        <tr><td><b>SPO</b><a href="#" data-reveal-id="SPOchart" style="color:white"><img src="img/Historial.jpg"></a></td>
+                                                        <tr><td><b>SpO<sub>2</sub></b><a href="#" data-reveal-id="SPOchart" style="color:white"><img src="img/Historial.jpg"></a></td>
 
                                                             <td><div class="row">
                                                                     <div class="small-4 columns" style="width:200px">
@@ -583,7 +583,7 @@
                                                                         <small class="error">SPO must be numeric and between 0 - 100%.</small>
                                                                     </div>
 
-                                                                    <label for="right-label" class="left inline">% with O<sub>2</sub></label>
+                                                                    <label for="right-label" class="left inline">%</label>
 
                                                                 </div></td></tr>
                                                         <tr><td><b>Intake - Oral/Intragastric</b></td>
