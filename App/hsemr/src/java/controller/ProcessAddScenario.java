@@ -98,7 +98,7 @@ public class ProcessAddScenario extends HttpServlet {
                 AllergyPatientDAO.add(patientNRIC, allergy);
                 ScenarioDAO.add(scenarioID, scenarioName, scenarioDescription, 0, admissionInfo, newBed);
                 StateDAO.add(stateID0, scenarioID, stateDescription0, 0, patientNRIC); //1 because default state status will be activate
-                VitalDAO.add(scenarioID, temperature0, RR0, BPS0, BPD0, HR0, SPO0, "", "", "", "", "");
+                VitalDAO.add(scenarioID, temperature0, RR0, BPS0, BPD0, HR0, SPO0, "", "", "", "", "", 1);
                //StateDAO.add(stateID0, scenarioID, RR0, BP0, HR0, SPO0, intake0, output0, temperature0, stateDescription0, patientNRIC);
 
                 session.setAttribute("totalNumberOfStates", totalNumberOfStatesString);
