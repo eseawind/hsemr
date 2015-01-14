@@ -392,7 +392,7 @@
                             Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID);
                             ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
 
-                            if (medicinePrescriptionList.size() == 0) {
+                            if (prescription == null || medicinePrescriptionList.size() == 0) {
                                 out.println("<br>There's no prescription at the moment.");
 
                             } else {%>
@@ -481,7 +481,9 @@
                                                 </td>
                                                 <td><%=medicinePrescription.getDosage()%></td>
                                                 <td><%=medicinePrescription.getFreqAbbr()%></td>
+                                                <% if (prescription != null) { %>
                                                 <td><%=prescription.getDoctorName()%></td>
+                                                <%}%>
                                             </tr>  
                                             <%}
                                                     //session.removeAttribute("patientBarcodeInput");
@@ -737,9 +739,10 @@
                                             </div>
 
 
-                                            <div class="<% if (active != null && active.equals("documents")) {
+                                            <div class="<% 
+                                                if (active != null && active.equals("documents")) {
                                                     out.println("content active");
-                                                }else {
+                                                 } else {
                                                     out.println("content");
                                                 } %>" id="documents">
 
@@ -962,10 +965,10 @@
                     }
                 }, 3000);
             });
-                                            </script>
+        </script>
 
 
-                                            </body>
-                                            <script type="text/javascript" src="js/humane.js"></script>
+    </body>
+<script type="text/javascript" src="js/humane.js"></script>
 
-                                            </html>
+</html>
