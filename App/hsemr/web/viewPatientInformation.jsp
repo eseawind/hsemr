@@ -558,7 +558,7 @@
                                                             <td><div class="row">
                                                                     <div class="small-4 columns" style="width:200px">
                                                                         <!--<input type="text" name ="BPsystolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
-                                                                        <input type="text" name ="BPsystolic" maxlength = "2" pattern = "^([0-9]{1,2}|[12][0-9]{2}|300)$"/>
+                                                                        <input type="text" name ="BPsystolic" maxlength = "3" pattern = "^([0-9]{1,2}|[12][0-9]{2}|300)$"/>
                                                                         <small class="error">BP systolic must be numeric and between 0 - 300.</small>
                                                                     </div>
 
@@ -568,7 +568,7 @@
                                                                 <div class="row">
                                                                     <div class="small-4 columns" style="width:200px">
                                                                         <!--<input type="text" name ="BPdiastolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
-                                                                        <input type="text" name ="BPdiastolic" maxlength = "2" pattern = "^([0-9]{1,2}|1[0-9]{2}|200)$"/>
+                                                                        <input type="text" name ="BPdiastolic" maxlength = "3" pattern = "^([0-9]{1,2}|1[0-9]{2}|200)$"/>
                                                                         <div class ="input wrapper">
                                                                             <small class="error">BP diastolic must be numeric and between 0 - 200.</small>
                                                                         </div>
@@ -589,7 +589,7 @@
                                                                     <label for="right-label" class="left inline">%</label>
 
                                                                 </div></td></tr>
-                                                        <tr><td><b>Intake - Oral/Intragastric</b></td>
+                                                        <tr><td><b>Intake - Oral/Intragastric</b><a href="#" data-reveal-id="IntakeOI" style="color:blue"><br><i><u>View past records</u></i></a></td>
 
                                                             <td><div class="row">
                                                                     <div class="small-4 columns" style="width:200px">
@@ -802,8 +802,6 @@
                                                         }
                                                     %>  </table>
                                             </div>   
-                                            <% }%>
-
                                             <!-- Reveal model for temperature chart -->
                                             <div id="tempchart" class="reveal-modal large-10" data-reveal>
 
@@ -843,6 +841,48 @@
                                                 <a class="close-reveal-modal">&#215;</a>
 
                                             </div>
+                                            
+                                            <!-- Reveal model for Intake Oral chart -->
+                                            <div id="IntakeOI" class="reveal-modal large-10" data-reveal>
+                                                
+                                                <h3>Intake Oral/Intragastric</h3>
+                                                
+                                                <%
+                                                    List<Vital> oralIntakeList = VitalDAO.retrieveIntakeOralByScenarioID(scenarioID);
+                                                    List<Date> oralIntakeDateTime = VitalDAO.retrieveVitalTime(oralIntakeList);
+                                                    if (oralIntakeList.size() == 0) {
+                                                        out.println("<h5>There is no historial data at the moment.</h5>");
+                                                    } else {
+                                                %>
+                                                
+                                                <table>
+                                                    <tr>
+                                                        <td>Time taken</td>
+                                                        <td>Intake Type</td>
+                                                        <td>Intake Amount</td>
+                                                    </tr>
+                                                    <% 
+                                                    
+                                                    for (Vital vital: oralIntakeList) {
+                                                        String oralType = vital.getOralType();
+                                                        String oralAmount = vital.getOralAmount();
+                                                        %>
+                                                        <tr>
+                                                            <td><%=oralIntakeDateTime%></td>
+                                                            <td><%=oralType%></td>
+                                                            <td><%=oralAmount%></td>
+                                                        </tr>
+                                                    <%}
+                                                    %>
+                                                    
+                                                </table>
+
+                                                <a class="close-reveal-modal">&#215;</a>
+
+                                            </div>
+                                            <% }
+                                            }%>
+
                                             <script>
 
             $(document).ready(function() {

@@ -65,7 +65,7 @@
                                 <%
                                 } else {
                                 %>
-                        <td> <form method="POST" action="viewCaseInformation.jsp"><input type="submit"  class="bed" value="<%="Bed " + bedCounter%>"/></form></td>
+                        <td> <form method="POST" action="#"><input type="submit"  class="bed" value="<%="Bed " + bedCounter%>" disabled></form></td>
                                 <%
                                             }
                                             counterScenario++;
