@@ -392,7 +392,7 @@
                             Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID);
                             ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
 
-                            if (prescription == null || medicinePrescriptionList.size() == 0) {
+                            if (medicinePrescriptionList.size() == 0) {
                                 out.println("<br>There's no prescription at the moment.");
 
                             } else {%>
@@ -767,98 +767,34 @@
 
                                                 <table>
                                                     <tr>
-                                                        <td><b>Procedure Ordered</b></td>
-                                                        <td><b>Order Time</b></td>
-                                                        <td><b>Consent Obtained</b></td>
+                                                        <td><b>Document name</b></td>
                                                         <td><b>Action</b></td>
-                                                        <td><b>Consent Form</b></td>
                                                     </tr>
 
                                                     <%
                                                         // Create an instance of SimpleDateFormat used for formatting 
                                                         // the string representation of date (month/day/year)
-                                                        DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-                                                        String firstObtain = (String) session.getAttribute("obtained");
+                                                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                        //String firstObtain = (String) session.getAttribute("obtained");
                                                         for (Map.Entry<List<Document>, String> entry : stateDocumentsHM.entrySet()) {
                                                             List<Document> stateDocuments = entry.getKey();
 
-                                                            String doctorOrderTime = entry.getValue();
+                                                            //String doctorOrderTime = entry.getValue();
 
                                                             for (Document document : stateDocuments) {
                                                                 String consentName = document.getConsentName();
-                                                                String consentDatetime = df.format(document.getConsentDatetime());
-                                                                int consentStatus = document.getConsentStatus();
                                                                 String consentFile = document.getConsentFile();
-
                                                                 String consentResults = "";
-
-                                                                if (consentStatus == 1) {
-
-                                                                    consentResults = "documents/" + consentFile;
-                                                                }
-
-                                                    %> 
-                                                    <tr>
-                                                        <td><%=consentName%></td>
-                                                        <td><%=doctorOrderTime%></td>
-                                                        <% // consent obtained time column 
-                                                                    if (consentStatus == 1) {
-                                                                        if (firstObtain != null && !firstObtain.equals("0")) {%>
-                                                        <td><div id="docDateWaiting">Waiting..</div>
-                                                            <div id="docDateDisplay" style="display:none;"><%=consentDatetime%></div></td>
-                                                            <% session.setAttribute("obtained", "0");
-                                                                    } else {%> 
-                                                        <td><%=consentDatetime%></td>
-                                                        <%      }
-                                                            } else {
-                                                                out.println("<td>-</td>");
-                                                            }%> 
-                                                        <td><% // action (consent status) time column 
-                                                            if (consentStatus == 1) {
-                                                                if (firstObtain != null && !firstObtain.equals("0")) { %>
-                                                            <div id="docStatusWaiting">Waiting..</div>
-                                                            <div id="docStatusDisplay" style="display:none;">Obtained</div></td>
-                                                            <%
-                                                                    } else { %> 
-                                                        Obtained</td>
-                                                        <%  }
-                                                        } else {
-                                                        %>
-                                                    <form action="ProcessObtainDocument" method="POST">
-                                                        <input type="hidden" name="consentName" value="<%=consentName%>">
-                                                        <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                                                        <input type="hidden" name="stateID" value="<%=document.getStateID()%>">
-
-                                                        <input type="submit" id="downloadDoc" class="report-despatch button tinytable" value="Obtain">
-                                                    </form>
-                                                    <% } %></td>
-
-                                                    <td>
-                                                        <% // results column (link)
-                                                            if (consentStatus == 1) {
-                                                                if (firstObtain != null && !firstObtain.equals("0")) {
-                                                        %>
-                                                        <div id="docLinkMsg">Loading..</div>
-                                                        <%
-                                                        //session.setAttribute("obtained","0");    
-
-                                                        %> <a href="<%=consentResults%>" id="consentLink" target="_blank" style="display:none;">View Form</a>
-                                                        <%
-                                                        } else {
-                                                        %>
-                                                        <a href="<%=consentResults%>" target="_blank">View Form</a>
-                                                        <% }%>
-                                                        <%
-                                                            } else {
-                                                                out.println("N/A");
-
-                                                            }
-
-                                                        %>
-                                                    </td>
-                                                    </tr>
-
-                                                    <%                                                                    }
+                                                                consentResults = "documents/" + consentFile;
+                                                            %> 
+                                                                <tr>
+                                                                    <td><%=consentName%></td>
+                                                                    <td>
+                                                                     <!-- // results column (link) -->
+                                                                    <a href="<%=consentResults%>" target="_blank">View Form</a>
+                                                                    </td>
+                                                                </tr>
+                                                        <%                                                                    }
                                                             }
                                                         } else {
                                                             out.println("No documents at the moment.");
