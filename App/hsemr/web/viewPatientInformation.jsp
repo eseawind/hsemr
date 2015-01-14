@@ -440,7 +440,7 @@
                                             <td><b>Route</b></td>
                                             <td><b>Dosage</b></td>
                                             <td><b>Frequency</b></td>
-                                            <td><b>Doctor Name</b></td>
+                                            <td><b>Doctor Name/MCR No.</b></td>
                                             </tr>
 
 

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package dao;
 
 import entity.*;
@@ -19,19 +18,19 @@ import java.util.List;
  * @author Administrator
  */
 public class MedicineDAO {
-    
+
     public static void insertMedicine(String medicineBarcode, String medicineName, String routeAbbr) {
         Connection conn = null;
         PreparedStatement stmt = null;
-      
+
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO medicine(medicineBarcode,medicineName,routeAbbr) VALUES (?,?,?)");
-          
+
             stmt.setString(1, medicineBarcode);
             stmt.setString(2, medicineName);
             stmt.setString(3, routeAbbr);
-           
+
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -39,8 +38,8 @@ public class MedicineDAO {
             ConnectionManager.close(conn, stmt);
         }
     }
-    
-     public static Medicine retrieve(String medicineBarcode) {
+
+    public static Medicine retrieve(String medicineBarcode) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -53,7 +52,7 @@ public class MedicineDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                medicine = new Medicine(rs.getString(1), rs.getString(2),rs.getString(3));
+                medicine = new Medicine(rs.getString(1), rs.getString(2), rs.getString(3));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,8 +61,30 @@ public class MedicineDAO {
         }
         return medicine;
     }
-     
-         
+
+    public static Medicine retrieveByMedicineName(String medicineName) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Medicine medicine = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from medicine WHERE medicineName = ?");
+            stmt.setString(1, medicineName);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                medicine = new Medicine(rs.getString(1), rs.getString(2), rs.getString(3));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return medicine;
+    }
+
     public static List<Medicine> retrieveAll() {
         List<Medicine> medicineList = new ArrayList<Medicine>();
         Connection conn = null;
@@ -86,7 +107,5 @@ public class MedicineDAO {
         }
         return medicineList;
     }
-     
-     
-    
+
 }

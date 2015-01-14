@@ -9,6 +9,7 @@ package controller;
 import dao.MedicineDAO;
 import dao.MedicinePrescriptionDAO;
 import dao.PrescriptionDAO;
+import entity.Medicine;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -39,17 +40,29 @@ public class ProcessAddMedicine extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        try {
-            
+        try {          
             HttpSession session = request.getSession(false);
             String scenarioID = (String) session.getAttribute("scenarioID");
-            String stateID = (String) session.getAttribute("stateID");
+            String stateID = (String) request.getParameter("stateID");
             String fullTextStateID= stateID.replace("ST", "State ");
             
             //retrieve values for Medicine table
             String medicineName = request.getParameter("medicineName");
-            String medicineBarcode = request.getParameter("medicineBarcode");
+            Medicine medicineRetrieved = MedicineDAO.retrieveByMedicineName(medicineName);
+            String medicineBarcode = medicineRetrieved.getMedicineBarcode();
+            
+            
+            String newMedicineName = request.getParameter("newMedicineName");
+            String newMedcineBarcode = request.getParameter("newMedicineBarcode");
             String route = request.getParameter("route");
+            
+            out.println("stateID" + stateID);
+            out.println("scenarioID" + scenarioID);
+            out.println("medicineName" + medicineName);
+            out.println("medicineBarcode" + medicineBarcode);
+            out.println("newMedicine" + newMedicineName);
+            out.println("newMedicineBarcode" + newMedcineBarcode);
+            
             
             //retrieve values for Prescription table
             String doctorName= request.getParameter("doctorName");
@@ -60,11 +73,12 @@ public class ProcessAddMedicine extends HttpServlet {
             String dosage= request.getParameter("dosage");
             
             //Testing purpose
-            out.println("SC" + scenarioID + "stateID" + stateID + "full" + fullTextStateID);
-            out.println("medicineName" + medicineName + "medicineBarcode" + medicineBarcode + "route" + route);
-            out.println("doctorName" + doctorName + "doctorOrder" + doctorOrder + "freq" + freq + "dosage" + dosage);
+//            out.println("SC" + scenarioID + "stateID" + stateID + "full" + fullTextStateID);
+//            out.println("medicineName" + medicineName + "medicineBarcode" + medicineBarcode + "route" + route);
+//            out.println("doctorName" + doctorName + "doctorOrder" + doctorOrder + "freq" + freq + "dosage" + dosage);
             
             //for displaying medicine created message
+            
             ArrayList<String> newlyAddedMedicine= new ArrayList<String>();
             String medicineState= medicineName + " for " + fullTextStateID;
             newlyAddedMedicine.add(medicineState);
@@ -77,6 +91,7 @@ public class ProcessAddMedicine extends HttpServlet {
             MedicinePrescriptionDAO.insertMedicinePrescription(medicineBarcode,scenarioID,stateID,freq,dosage);
             
             response.sendRedirect("createState.jsp");
+
 
             
         } finally {
