@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entity.MedicinePrescription;
 import entity.Prescription;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -66,13 +67,12 @@ public class PrescriptionDAO {
         return prescriptionlist;
     }
     
-
-    public static Prescription retrieve(String scenarioID, String stateID) {
+    
+    public static ArrayList<Prescription> retrieve(String scenarioID, String stateID) {
         ArrayList<Prescription> list = new ArrayList<Prescription>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Prescription prescription = null;
 
         try {
             conn = ConnectionManager.getConnection();
@@ -82,14 +82,15 @@ public class PrescriptionDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                prescription = new Prescription(rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
+                Prescription prescription = new Prescription(rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
+                list.add(prescription);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return prescription;
+        return list;
     }
     
     public static void delete(String scenarioID) {

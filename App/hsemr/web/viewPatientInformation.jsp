@@ -33,19 +33,21 @@
         <script src="js/vendor/modernizr.js"></script>
         <script type="text/javascript" src="js/humane.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
-
         <script src="js/vendor/jquery.js"></script>
+      
         <script>
 
             $(document).ready(function() {
                 $(document).foundation();
             });
+            
         </script>
         <title>NP Health Sciences | Patient Information</title>
         <%@include file="/topbar/topbar.jsp" %> 
     </head>
     <body>
-        <br/>
+        
+       
         <script src="js/foundation.min.js"></script>
 
         <div align ="center">
@@ -222,7 +224,6 @@
                                     }
                                 }
                             }
-                            //List<Report> stateReports = ReportDAO.retrieveReportsByState(scenarioID, stateID);
                             if (stateReportsHM != null && stateReportsHM.size() != 0) {
                         %>
 
@@ -375,6 +376,7 @@
 
                                     <td><%=dateFormatterFprMedicationHistory.format(medicationHistory.getMedicineDatetime())%></td>
                                     <td><%=medicationHistory.getMedicineBarcode()%></td>
+                                 
 
                                 </tr> 
 
@@ -389,7 +391,7 @@
                         </div>
 
                         <%
-                            Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID);
+                            ArrayList<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID, stateID);
                             ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
 
                             if (medicinePrescriptionList.size() == 0) {
@@ -411,7 +413,7 @@
 
                         %>
 
-                        <form action = "ProcessPatientBarcode" method = "POST">
+                        <form action = "ProcessPatientBarcode" method = "POST" name = "medicationTab">
 
                             <%                                if (patientBarcodeInput == null) {
                                     patientBarcodeInput = "";
@@ -442,10 +444,6 @@
                                             <td><b>Frequency</b></td>
                                             <td><b>Doctor Name/MCR No.</b></td>
                                             </tr>
-
-
-
-
                                             <%for (MedicinePrescription medicinePrescription : medicinePrescriptionList) {
                                                     String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
 
@@ -466,7 +464,12 @@
 
 
                                                     </form></td>
-                                                <td><%=medicinePrescription.getMedicineBarcode()%></td>
+                                                <td>
+                                                    
+                                                    <%=MedicineDAO.retrieve(medicinePrescription.getMedicineBarcode()).getMedicineName()%>
+                                                
+                                                
+                                                </td>
                                                 <td>
                                                     <%
 
@@ -480,10 +483,8 @@
 
                                                 </td>
                                                 <td><%=medicinePrescription.getDosage()%></td>
-                                                <td><%=medicinePrescription.getFreqAbbr()%></td>
-                                                <% if (prescription != null) { %>
-                                                <td><%=prescription.getDoctorName()%></td>
-                                                <%}%>
+                                                <td><%=medicinePrescription.getFreqAbbr()%></td>                                          
+                                                <td>Dr.Tan/01234Z</td>
                                             </tr>  
                                             <%}
                                                     //session.removeAttribute("patientBarcodeInput");
