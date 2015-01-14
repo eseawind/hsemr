@@ -120,6 +120,22 @@ public class ProcessAddVital extends HttpServlet {
                 session.setAttribute("error", "Update failed: Please update BOTH Systolic and Diastolic values.");
                 session.setAttribute("active", "vital");
                 response.sendRedirect("./viewPatientInformation.jsp");
+            } else if (!oralAmount.equals("-") && oralType.equals("-")) {
+                session.setAttribute("error", "Update failed: Please update BOTH Oral/Intragastric Intake Type and Amount.");
+                session.setAttribute("active", "vital");
+                response.sendRedirect("./viewPatientInformation.jsp");
+            } else if (oralAmount.equals("-") && !oralType.equals("-")) {
+                session.setAttribute("error", "Update failed: Please update BOTH Oral/Intragastric Intake Type and Amount.");
+                session.setAttribute("active", "vital");
+                response.sendRedirect("./viewPatientInformation.jsp");
+            } else if (!intravenousType.equals("-") && intravenousAmount.equals("-")) {
+                session.setAttribute("error", "Update failed: Please update BOTH Intravenous Intake Type and Amount.");
+                session.setAttribute("active", "vital");
+                response.sendRedirect("./viewPatientInformation.jsp");
+            } else if (intravenousType.equals("-") && !intravenousAmount.equals("-")) {
+                session.setAttribute("error", "Update failed: Please update BOTH Intravenous Intake Type and Amount.");
+                session.setAttribute("active", "vital");
+                response.sendRedirect("./viewPatientInformation.jsp");
             } else { 
                VitalDAO.add(scenarioID, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount,0);
 

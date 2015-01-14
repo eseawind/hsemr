@@ -468,7 +468,7 @@ public class VitalDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from vital where scenarioID = ? AND oralType <> '' AND oralAmount <> '-' order by vitalDatetime asc");
+            stmt = conn.prepareStatement("select * from vital where scenarioID = ? AND oralType <> '' AND oralType <> '-' AND oralAmount <> '-' AND oralAmount <> '' order by vitalDatetime asc");
             stmt.setString(1, scenarioID);
 
             rs = stmt.executeQuery();
@@ -494,7 +494,7 @@ public class VitalDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from vital where scenarioID = ? AND intravenousType <> '' AND intravenousAmount <> '-' order by vitalDatetime asc");
+            stmt = conn.prepareStatement("select * from vital where scenarioID = ? AND intravenousType <> '' AND intravenousType <> '-' AND intravenousAmount <> '-' AND intravenousAmount <> '' order by vitalDatetime asc");
             stmt.setString(1, scenarioID);
 
             rs = stmt.executeQuery();
@@ -520,7 +520,7 @@ public class VitalDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from vital where scenarioID = ? AND output <> '' order by vitalDatetime asc");
+            stmt = conn.prepareStatement("select * from vital where scenarioID = ? AND output <> '' AND output <> '-' order by vitalDatetime asc");
             stmt.setString(1, scenarioID);
 
             rs = stmt.executeQuery();
