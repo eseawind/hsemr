@@ -51,7 +51,7 @@ public class ProcessDespatch extends HttpServlet {
         HttpSession session = request.getSession(false);
         // to be used to determine whether to retrieve report for the first time
         session.setAttribute("obtainedReport", "1");
-        session.setAttribute("success", "Despatching Report: " + reportName + " to the lab. Please wait for results. Estimated waiting time is 30 seconds.");
+        session.setAttribute("success", "Despatching Report: " + reportName + " to the lab. Please follow up on the results. ");
         
         session.setAttribute("active","reports");
         response.sendRedirect("viewPatientInformation.jsp");

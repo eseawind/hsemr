@@ -113,16 +113,15 @@
 //                       localtime: false,  
                         type: 'category',
                         categories: [<% out.println(vitalsDate);%>],
-                       label: { // ADD
-                            text: 'Time',
-                            position: 'outer-right'
+//                       label: { // ADD
+//                            text: 'Time',
+//                            position: 'right'
 //                        }, 
 //                        tick: { 
 //                           format: '%Y-%m-%d %H:%M:%S', 
 //                            rotate: 45,
 //                            multiline: false
-                       },
-                       height: 100,
+//                       },
                        
                    },
                     y: {
@@ -130,8 +129,11 @@
                         label: { // ADD
                             text: 'Blood Pressure (mm/Hg)',
                             position: 'outer-middle'
+                        },
+                        tick:{
+                            format:function(x){
+                                return (x === Math.floor(x)) ? x: "";}
                         }
-                        
                     }
 
                 },
@@ -143,9 +145,10 @@
                         show: true
                     }
                 }
+                
             });
             chart.resize({height:300, width:700});
-
+              
 //        chart.load({
 //            columns: [
 //            ['data1', 300, 100, 250, 150, 300, 150, 500],

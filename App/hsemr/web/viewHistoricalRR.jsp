@@ -98,17 +98,17 @@
                         categories: [<% out.println(vitalsDate);%>],
                        //type: 'timeseries',
                         //localtime: false,
-                       label: { // ADD
-                            text: 'Time',
-                            position: 'outer-right'
+//                       label: { // ADD
+//                            text: 'Time',
+//                            position: 'outer-right'
 //                        },
 //                        
 //                        tick: { 
 //                           //format: '%Y-%m-%d %H:%M:%S', 
 //                            rotate: 45,
 //                            multiline: false
-                       },
-                       height: 100,
+//                       },
+//                       height: 100,
                        
                    },
                     y: {
@@ -116,6 +116,10 @@
                         label: { // ADD
                             text: 'Respiratory Rate (breaths per min)',
                             position: 'outer-middle'
+                        },
+                        tick:{
+                            format:function(x){
+                                return (x === Math.floor(x)) ? x: "";}
                         }
                         
                     }
