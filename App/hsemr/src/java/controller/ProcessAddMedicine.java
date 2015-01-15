@@ -53,7 +53,7 @@ public class ProcessAddMedicine extends HttpServlet {
             
             
             String newMedicineName = request.getParameter("newMedicineName");
-            String newMedcineBarcode = request.getParameter("newMedicineBarcode");
+            String newMedicineBarcode = request.getParameter("newMedicineBarcode");
             String route = request.getParameter("route");
             
             out.println("stateID" + stateID);
@@ -61,7 +61,7 @@ public class ProcessAddMedicine extends HttpServlet {
             out.println("medicineName" + medicineName);
             out.println("medicineBarcode" + medicineBarcode);
             out.println("newMedicine" + newMedicineName);
-            out.println("newMedicineBarcode" + newMedcineBarcode);
+            out.println("newMedicineBarcode" + newMedicineBarcode);
             
             
             //retrieve values for Prescription table
@@ -85,15 +85,18 @@ public class ProcessAddMedicine extends HttpServlet {
             session.setAttribute("medicineStateDisplay", newlyAddedMedicine);
             
             //inserting into database
-            
-            PrescriptionDAO.insertPrescription(scenarioID,stateID,doctorName,doctorOrder,freq);
-            MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
-            MedicinePrescriptionDAO.insertMedicinePrescription(medicineBarcode,scenarioID,stateID,freq,dosage);
-            
-            response.sendRedirect("createState.jsp");
+            if(medicineName != null){ //dropdown is filled up in the previous page
+                PrescriptionDAO.insertPrescription(scenarioID,stateID,doctorName,doctorOrder,freq);
+                MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
+                MedicinePrescriptionDAO.insertMedicinePrescription(medicineBarcode,scenarioID,stateID,freq,dosage);
+            }else if(medicineName == null && newMedicineName != null && newMedicineBarcode != null ){//new medicine created
+                PrescriptionDAO.insertPrescription(scenarioID,stateID,doctorName,doctorOrder,freq);
+                MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName, route);
+                MedicinePrescriptionDAO.insertMedicinePrescription(newMedicineBarcode,scenarioID,stateID,freq,dosage);
+            }
+                        
+            //response.sendRedirect("createState.jsp");
 
-
-            
         } finally {
             out.close();
         }

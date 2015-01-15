@@ -78,12 +78,12 @@
             }
 
         %>
-
-
+        
         <!--Reveal modal for step 2: create state-->
         <div id="createState" class="reveal-modal" data-reveal>
-            <h2>Step 2: Create State</h2>
-            Please create states in <b>ascending</b> order. <br><br>
+
+            <h2>Step 2: Create State <%=stateList.size()%></h2>
+            States are created in <b>ascending</b> order. <br><br>
 
             <form action = "ProcessAddState" method = "POST"> 
                 State Description <input type =text name = "stateDescription" required> 
@@ -109,54 +109,68 @@
             }
         %>
         <div id="createMedicine" class="reveal-modal" data-reveal>
-            <h2>Step 3: Create Medicine</h2>
+            <h2>Step 3: Create Medication</h2>
+            Can't find the medicine you're looking for? Add new medicine <a href="#" data-reveal-id="addNewMedicine">here</a><br><br>
+            
+            <div id="addNewMedicine" class="reveal-modal" data-reveal>
+                <h2>Add New Medicine</h2>
+                <form name ="ProcessAddMedicine" method ="POST">
+                Medicine Name <input type="text" name="newMedicineName" required/>
+                Medicine Barcode <input type="text" name="newMedicineBarcode" style="text-transform:uppercase;" required />
+                Route <select name="route">
+                <option selected>--Please select the Route--</option>
+                <%
+                    List<Route> routeList = RouteDAO.retrieveAll();
+                    for (Route route : routeList) {
+%>
+                <option><%=route.getRouteAbbr()%></option>
+                <%}
+                %>
+                </select>
+                <input type ="submit" class ="button" value ="Create Medicine">
+                </form>
+                <a class="close-reveal-modal">&#215;</a>
+            </div>
+                
+            <!--Adds the medication, not medicine-->
             <form data-abide action ="ProcessAddMedicine" method ="POST">
 
                 <%
                     List<Medicine> medicineList = MedicineDAO.retrieveAll();
-                    List<Route> routeList = RouteDAO.retrieveAll();
+                    
                     List<Frequency> freqList = FrequencyDAO.retrieveAll();
                     //List<Prescription> prescriptionList= PrescriptionDAO.retrieveAll();
 
                 %>
                 State
-                <select name = "stateID">
-                    <option selected>--Please select the state that this medicine will be tag to--</option>
+                <select name = "stateID" required>
+                    <option>--Please select the state that this medicine will be tag to--</option>
                     <%                             for (State state : stateList) {%>
                     <option><%=state.getStateID()%></option>
                     <% }
                     %>
                 </select>
-
-                Medicine Name <select name="medicineName">
-
-                    <option selected>--Please select the Medicine--</option>
-                    <%
-                            for (Medicine medicine : medicineList) {%>
-                    <option><%=medicine.getMedicineName()%></option>
-                    <%}
+                Medicine Name 
+                
+                <select name="medicineName">
+         
+                <%
+                for (Medicine medicine : medicineList) {%>
+                <option><%=medicine.getMedicineName()%></option>
+                <%}
                     %>
                 </select>
-                Can't find the medicine you're looking for? 
-                <div class="input_fields_wrap">
-                    <button class="add_field_button">Add New Medicine</button>
+                
+                
+                <div class="input_fields_wrap">  
+                    <button class="add_field_button" class = "button tiny">Add New Medicine</button>
                 </div><br><br>
-
 
                 <!--<input type ="text" name ="medicineBarcode" style="text-transform:uppercase;" required pattern ="/^[A-z]+$/">
                  
                 <small class="error">No space and numbers allowed.</small> -->
 
-                Route <select name="route">
-                    <option selected>--Please select the Route--</option>
-                    <%
-                        for (Route route : routeList) {
-                        //out.println(route.getRouteAbbr() + " [" + route.getRouteDescription() + "]");
-%>
-                    <option><%=route.getRouteAbbr()%></option>
-                    <%}
-                    %>
-                </select>
+                
 
                 Frequency <select name="frequency">
                     <option selected>--Please select the Frequency--</option>
@@ -171,13 +185,13 @@
 
 
                 Doctor's Name/MCR No.
-                <input type="text" name="doctorName" value="Dr.Tan/01234Z">
+                <input type="text" name="doctorName" value="Dr.Tan/01234Z" required>
 
                 Doctor's Order
-                <input type="text" name="doctorOrder">
+                <input type="text" name="doctorOrder" required>
 
                 Dosage
-                <input type="text" name="dosage">
+                <input type="text" name="dosage" required>
 
 
 
@@ -223,7 +237,7 @@
                 e.preventDefault();
                 if (x < max_fields) { //max input box allowed
                     x++; //text box increment
-                    $(wrapper).append('<div>Medicine Name <input type="text" name="newMedicineName"/>Medicine Barcode <input type="text" name="newMedicineBarcode"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
+                    $(wrapper).append('<div>Medicine Name <input type="text" name="newMedicineName" required/>Medicine Barcode <input type="text" name="newMedicineBarcode" required/><a href="#" class="remove_field">Remove</a></div>'); //add input box
                 }
             });
 
