@@ -104,6 +104,25 @@ public class ReportDAO {
 
     }
     
+        public static void resetStatus(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE report SET dispatchStatus=0 WHERE scenarioID=? AND dispatchStatus = 1 AND initialReport = 1";
+
+        try {
+            conn = ConnectionManager.getConnection();
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, scenarioID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+
+    }
+        
     public static void add(String reportName, String reportFile, String scenarioID, String stateID, int initialReport) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
