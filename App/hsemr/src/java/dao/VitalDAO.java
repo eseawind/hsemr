@@ -459,6 +459,25 @@ public class VitalDAO {
         }
     }
     
+        public static void resetVital(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM vital WHERE scenarioID =? AND initialVital =0";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, scenarioID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
+    
     // IntakeOI
     public static List<Vital> retrieveIntakeOralByScenarioID(String scenarioID) {
         Connection conn = null;
