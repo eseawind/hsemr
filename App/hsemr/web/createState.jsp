@@ -86,7 +86,7 @@
             List<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieveFromScenario(scenarioID);
             
             for(MedicinePrescription medicinePrescription : medicinePrescriptionList){%>
-        <h4><%=medicinePrescription.getStateID() +  " - " + medicinePrescription.getMedicineBarcode() + " " + medicinePrescription.getFreqAbbr()+ " " + medicinePrescription.getDosage() +  "<br>"%></h4>
+        <h4><%=medicinePrescription.getStateID().replace("ST", "State ") +  " - " + medicinePrescription.getMedicineBarcode() + " [" + medicinePrescription.getFreqAbbr()+ " " + medicinePrescription.getDosage() + "] " +"<br>"%></h4>
             
            <% }
         
@@ -197,16 +197,37 @@
             <a class="close-reveal-modal">&#215;</a>
         </div>
         
-        <!--add of add medication reveal modal-->
+        <!--end of add medication reveal modal-->
 
 
         <h2>Step 4: Upload Reports <a href="#" data-reveal-id="uploadReports"><img src="img/add.png" height ="30" width = "30"></a></h2>
+          <% 
+               List<Report> reportList=  ReportDAO.retrieveReportsByScenario(scenarioID);
+                for(Report reportRetrieve : reportList){%>
+        <h4><%=reportRetrieve.getStateID().replace("ST", "State ") +  " - " + reportRetrieve.getReportName() + " (" + reportRetrieve.getReportFile()+ ") " +  "<br>"%></h4>
+            
+           <% }
+        
+        %>
+        
         <!--Reveal modal for upload reports-->
         <div id="uploadReports" class="reveal-modal" data-reveal>
             <h2>Step 4: Upload Report</h2>
-            Please upload ONE at a time. <br>
+            
+            Please upload ONE at a time. <br><br>
 
             <form action = "ProcessReportUpload" method = "POST" enctype = "multipart/form-data"> 
+                State
+                <select name = "stateID" required>
+                    <option>--Please select the state that this medicine will be tag to--</option>
+                    <%                             for (State state : stateList) {%>
+                    <option><%=state.getStateID()%></option>
+                    <% }
+                    %>
+                </select>
+                
+                Report Name <input type="text" name="reportName" required/>
+                
                 Please ensure that your file is named to what you want it to be shown.<br>
                 <input type ="file" name = "file"/><br>
                 <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>"/>
@@ -215,6 +236,36 @@
             </form><br>   
             <a class="close-reveal-modal">&#215;</a>
         </div>
+                
+        <h2>Step 5: Upload Documents <a href="#" data-reveal-id="uploadDocuments"><img src="img/add.png" height ="30" width = "30"></a></h2>
+         <%  
+             
+             List<Document> documentList= DocumentDAO.retrieveDocumentsByScenario(scenarioID);
+
+              for(Document documentRetrieve : documentList){%>
+        <h4><% out.println(documentRetrieve.getConsentName() + " (" + documentRetrieve.getConsentFile()+ ") " +  "<br>");%></h4>
+            
+           <% } %>
+           
+        
+        <!--Reveal modal for upload documents-->
+        <div id="uploadDocuments" class="reveal-modal" data-reveal>
+            <h2>Step 4: Upload Documents</h2>
+            
+            Please upload ONE at a time. <br><br>
+
+            <form action = "ProcessDocumentUpload" method = "POST" enctype = "multipart/form-data"> 
+                
+                Document Name <input type="text" name="documentName" required/>
+                
+                Please ensure that your file is named to what you want it to be shown.<br>
+                <input type ="file" name = "file"/><br>
+                <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>"/>
+                <input type ="submit" class ="button" value ="Upload Document">
+
+            </form><br>   
+            <a class="close-reveal-modal">&#215;</a>
+        </div>        
 
     </center>
 

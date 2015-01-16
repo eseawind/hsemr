@@ -24,6 +24,61 @@ import java.util.TimeZone;
  */
 public class DocumentDAO {
     
+    public static List<Document> retrieveDocumentsByScenario(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Document> docList = new ArrayList<Document>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from document where scenarioID = ? order by consentName");
+            stmt.setString(1, scenarioID);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Document doc = new Document(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6));
+                docList.add(doc);
+                
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return docList;
+    }
+    
+     public static void add(String consentName, String consentFile, int consentStatus, String scenarioID, String stateID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "INSERT INTO document (consentDatetime, consentName, consentFile, consentStatus, scenarioID, stateID) VALUES (?, ?, ?, ?, ? ,?)";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            Date currentDateTime = new Date();
+            
+            DateFormat dateFormatter;
+            dateFormatter = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+            dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, dateFormatter.format(currentDateTime));
+            preparedStatement.setString(2, consentName);
+            preparedStatement.setString(3, consentFile);
+            preparedStatement.setInt(4, consentStatus); //default despatched - 1
+            preparedStatement.setString(5, scenarioID);
+            preparedStatement.setString(6, stateID);
+      
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
+    
       public static List<Document> retrieveDocumentsByState(String scenarioID, String stateID) {
         Connection conn = null;
         PreparedStatement stmt = null;

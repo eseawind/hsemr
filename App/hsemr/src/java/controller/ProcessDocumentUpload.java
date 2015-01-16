@@ -1,6 +1,12 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package controller;
 
-import dao.ReportDAO;
+import dao.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,19 +22,17 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
 /**
- * A Java servlet that handles file upload from client.
  *
- * @author www.codejava.net
+ * @author hpkhoo.2012
  */
-@WebServlet(name = "ProcessReportUpload", urlPatterns = {"/ProcessReportUpload"})
-public class ProcessReportUpload extends HttpServlet {
+@WebServlet(name = "ProcessDocumentUpload", urlPatterns = {"/ProcessDocumentUpload"})
+public class ProcessDocumentUpload extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+     private static final long serialVersionUID = 1L;
 
     // location to store file uploaded
-    private static final String UPLOAD_DIRECTORY = "reports";
+    private static final String UPLOAD_DIRECTORY = "documents";
 
     // upload settings
     private static final int MEMORY_THRESHOLD = 1024 * 1024 * 3;  // 3MB
@@ -50,13 +54,10 @@ public class ProcessReportUpload extends HttpServlet {
             return;
         }
         
-      
-       // String stateID = (String) request.getParameter("stateID");
-       // String reportName= (String) request.getParameter("reportName");;
         
-        String reportName = "";
+        String documentName = "";
         String scenarioID = ""; 
-        String stateID = "";
+        String stateID = "ST0"; //always ST0 because documents will be there through out 
         String fileName = "";
 
         // configures upload settings
@@ -109,13 +110,9 @@ public class ProcessReportUpload extends HttpServlet {
                         if (item.getFieldName().equals("scenarioID")) {
                             scenarioID = item.getString();
                         }
-
-                        if (item.getFieldName().equals("stateID")) {
-                            stateID = item.getString();
-                        }
                         
-                        if(item.getFieldName().equals("reportName")){
-                            reportName= item.getString();
+                        if(item.getFieldName().equals("documentName")){
+                            documentName= item.getString();
                         }
                     }
                     
@@ -123,7 +120,7 @@ public class ProcessReportUpload extends HttpServlet {
             }
             
             //save it to database
-            ReportDAO.add(reportName, fileName, scenarioID, stateID,0);
+            DocumentDAO.add(documentName, fileName, 1, scenarioID, stateID);
             HttpSession session = request.getSession(false);
             session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
             
@@ -140,4 +137,6 @@ public class ProcessReportUpload extends HttpServlet {
 //        getServletContext().getRequestDispatcher("/createStateWithReports.jsp").forward(
 //                request, response);
     }
+    
 }
+

@@ -23,7 +23,34 @@ import java.util.TimeZone;
  * @author weiyi.ngow.2012
  */
 public class ReportDAO {
-        
+    
+    public static List<Report> retrieveReportsByScenario(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Report> reports = new ArrayList<Report>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from report where scenarioID = ? order by reportName");
+            stmt.setString(1, scenarioID);
+            
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Report report = new Report(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+                reports.add(report);
+                
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return reports;
+    }
+    
     public static List<Report> retrieveReportsByState(String scenarioID, String stateID) {
         Connection conn = null;
         PreparedStatement stmt = null;
