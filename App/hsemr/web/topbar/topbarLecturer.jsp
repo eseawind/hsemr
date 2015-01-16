@@ -41,6 +41,7 @@
                         <a href="#">Case Management</a>
                         <ul class="dropdown">
                             <li><a href="./viewScenarioLecturer.jsp">Activate Case</a></li>
+                            <li><a href="./resetCaseLecturer.jsp">Reset Case</a></li>
                             <li><a href="./editStateLecturer.jsp">Activate State</a></li>
                         </ul>   
                     </li>
