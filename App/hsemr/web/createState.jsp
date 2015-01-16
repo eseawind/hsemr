@@ -18,48 +18,35 @@
         <script type="text/javascript" src="js/app.js"></script>
         <link rel="stylesheet" href="/resources/demos/style.css">
 
-        <script>
-            function add() {
-                //out.println("<input type='text' name ='medicine'>");
-                //<input type='text' name ='medicine'>
-                //document.getElementById("input").value= "hi"
-                document.getElementById("input").innerHTML = "<input type='text' name ='medicine'>";
-
-            }
-        </script>
-
-
     </head>
     <body>
 
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
-    <center>
-        <h1>Case Setup</h1>
-    </center>
+        <center><h1>Case Setup</h1></center>
 
-    <%
+        <%
 
-        String success = "";
-        String error = "";
+            String success = "";
+            String error = "";
 
-        if (session.getAttribute("success") != null) {
+            if (session.getAttribute("success") != null) {
 
-            success = (String) session.getAttribute("success");
-            session.setAttribute("success", "");
-        }
+                success = (String) session.getAttribute("success");
+                session.setAttribute("success", "");
+            }
 
-        if (session.getAttribute("error") != null) {
+            if (session.getAttribute("error") != null) {
 
-            error = (String) session.getAttribute("error");
-            session.setAttribute("error", "");
-        }
+                error = (String) session.getAttribute("error");
+                session.setAttribute("error", "");
+            }
 
-        String scenarioID = (String) session.getAttribute("scenarioID");
-        String patientNRIC = (String) session.getAttribute("patientNRIC");
+            String scenarioID = (String) session.getAttribute("scenarioID");
+            String patientNRIC = (String) session.getAttribute("patientNRIC");
 
-    %>
-    <center>
+        %>
+        <center>
 
         <h2>Step 2: Create State <a href="#" data-reveal-id="createState"><img src="img/add.png" height ="30" width = "30"></a></h2>
         <!--Display states that are in the database-->
@@ -70,10 +57,10 @@
             if (stateList == null || stateList.size() == 0) {
                 out.println("There are no states created yet. Click the + to create a state.");
             } else {
-                out.println("<h4> States created: </h4>");
+                out.println("<h3> States created: </h3>");
                 for (State state : stateList) {
 
-                    out.print("<h3>" + state.getStateID().replace("ST", "State ") + "</h3>");
+                    out.print("<h4>" + state.getStateID().replace("ST", "State ") + "</h4>");
                 }
             }
 
@@ -94,46 +81,50 @@
             <a class="close-reveal-modal">&#215;</a>
         </div>
 
-        <h2>Step 3: Create Medicine<a href="#" data-reveal-id="createMedicine"><img src="img/add.png" height ="30" width = "30"></a></h2>
-
+        <h2>Step 3: Create Medication <a href="#" data-reveal-id="createMedicine"><img src="img/add.png" height ="30" width = "30"></a></h2>
         <%
-            ArrayList<String> medicineStateList = (ArrayList<String>) session.getAttribute("medicineStateDisplay");
-            if (medicineStateList == null || medicineStateList.size() == 0) {
-                out.println("There are no medicine created yet. Click the + to create a medicine.");
-            } else {
-                out.println("<h4> Medicine created: </h4>");
-                for (String medicineState : medicineStateList) {
-
-                    out.print("<h3>" + medicineState + "</h3>");
-                }
-            }
+            List<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieveFromScenario(scenarioID);
+            
+            for(MedicinePrescription medicinePrescription : medicinePrescriptionList){%>
+        <h4><%=medicinePrescription.getStateID() +  " - " + medicinePrescription.getMedicineBarcode() + " " + medicinePrescription.getFreqAbbr()+ " " + medicinePrescription.getDosage() +  "<br>"%></h4>
+            
+           <% }
+        
         %>
+        
+        
         <div id="createMedicine" class="reveal-modal" data-reveal>
             <h2>Step 3: Create Medication</h2>
             Can't find the medicine you're looking for? Add new medicine <a href="#" data-reveal-id="addNewMedicine">here</a><br><br>
             
+            <!--add new medicine reveal modal-->
             <div id="addNewMedicine" class="reveal-modal" data-reveal>
                 <h2>Add New Medicine</h2>
-                <form name ="ProcessAddMedicine" method ="POST">
+                <form action ="ProcessAddNewMedicine" method ="POST" data-abide>
                 Medicine Name <input type="text" name="newMedicineName" required/>
-                Medicine Barcode <input type="text" name="newMedicineBarcode" style="text-transform:uppercase;" required />
+                
+                Medicine Barcode <input type ="text" name ="newMedicineBarcode" style="text-transform:uppercase;" required pattern ="^[0-9a-zA-Z]+$">
+                 
+                <small class="error">No space and numbers allowed.</small> 
+                
+                <!--Medicine Barcode <input type="text" name="newMedicineBarcode" style="text-transform:uppercase;" required />-->
                 Route <select name="route">
-                <option selected>--Please select the Route--</option>
+                <option>--Please select the Route--</option>
                 <%
                     List<Route> routeList = RouteDAO.retrieveAll();
                     for (Route route : routeList) {
-%>
-                <option><%=route.getRouteAbbr()%></option>
-                <%}
                 %>
+                <option><%=route.getRouteAbbr()%></option>
+                <%}%>
                 </select>
                 <input type ="submit" class ="button" value ="Create Medicine">
                 </form>
                 <a class="close-reveal-modal">&#215;</a>
             </div>
+            <!--end of add new medicine reveal modal-->
                 
-            <!--Adds the medication, not medicine-->
-            <form data-abide action ="ProcessAddMedicine" method ="POST">
+            <!--Add medication form-->
+            <form data-abide action ="ProcessAddMedication" method ="POST">
 
                 <%
                     List<Medicine> medicineList = MedicineDAO.retrieveAll();
@@ -151,61 +142,68 @@
                     %>
                 </select>
                 Medicine Name 
-                
                 <select name="medicineName">
-         
-                <%
-                for (Medicine medicine : medicineList) {%>
-                <option><%=medicine.getMedicineName()%></option>
-                <%}
-                    %>
+                    <%
+                    for (Medicine medicine : medicineList) {%>
+                    <option><%=medicine.getMedicineName()%></option>
+                    <%}
+                        %>
                 </select>
                 
-                
+<!--                
                 <div class="input_fields_wrap">  
                     <button class="add_field_button" class = "button tiny">Add New Medicine</button>
-                </div><br><br>
+                </div><br><br>-->
 
                 <!--<input type ="text" name ="medicineBarcode" style="text-transform:uppercase;" required pattern ="/^[A-z]+$/">
                  
                 <small class="error">No space and numbers allowed.</small> -->
-
                 
-
-                Frequency <select name="frequency">
+                <!--if select same route as database, then use the medicine in the database, else take this route-->
+                Route 
+                <select name="route">
+                    <option>--Please select the Route--</option>
+                    <%
+                        for (Route route : routeList) {
+                    %>
+                    <option><%=route.getRouteAbbr()%></option>
+                    <%}%>
+                </select>
+                
+                
+                Frequency 
+                <select name="frequency">
                     <option selected>--Please select the Frequency--</option>
                     <%
                         for (Frequency freq : freqList) {
                         //out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
-%>
+                    %>
                     <option><%=freq.getFreqAbbr()%></option>
                     <%}
                     %>
                 </select>
 
+                Doctor's Name/MCR No.<input type="text" name="doctorName" value="Dr.Tan/01234Z" required>
 
-                Doctor's Name/MCR No.
-                <input type="text" name="doctorName" value="Dr.Tan/01234Z" required>
+                Doctor's Order <input type="text" name="doctorOrder" required>
 
-                Doctor's Order
-                <input type="text" name="doctorOrder" required>
-
-                Dosage
-                <input type="text" name="dosage" required>
+                Dosage <input type="text" name="dosage" required>
 
 
 
-                <input type ="submit" class ="button" value ="Create Medicine">
+                <input type ="submit" class ="button" value ="Create Medication">
 
             </form>
             <a class="close-reveal-modal">&#215;</a>
         </div>
+        
+        <!--add of add medication reveal modal-->
 
 
         <h2>Step 4: Upload Reports <a href="#" data-reveal-id="uploadReports"><img src="img/add.png" height ="30" width = "30"></a></h2>
         <!--Reveal modal for upload reports-->
         <div id="uploadReports" class="reveal-modal" data-reveal>
-            <h2>Upload Report</h2>
+            <h2>Step 4: Upload Report</h2>
             Please upload ONE at a time. <br>
 
             <form action = "ProcessReportUpload" method = "POST" enctype = "multipart/form-data"> 

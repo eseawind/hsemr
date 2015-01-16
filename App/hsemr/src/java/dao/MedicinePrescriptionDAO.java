@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class MedicinePrescriptionDAO {
     
-    public static void insertMedicinePrescription(String medicineBarcode, String scenarioID, String stateID, String freqAbbr, String dosage) {
+    public static void add(String medicineBarcode, String scenarioID, String stateID, String freqAbbr, String dosage) {
         Connection conn = null;
         PreparedStatement stmt = null;
       
@@ -64,6 +64,31 @@ public class MedicinePrescriptionDAO {
         }
         return list;
     }
+    
+    public static ArrayList<MedicinePrescription> retrieveFromScenario(String scenarioID) {
+        ArrayList<MedicinePrescription> list = new ArrayList<MedicinePrescription>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from medicine_prescription WHERE scenarioID = ?");
+            stmt.setString(1, scenarioID);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                MedicinePrescription medicinePrescription = new MedicinePrescription(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                list.add(medicinePrescription);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return list;
+    }
+    
     
     public static void delete(String scenarioID) {
         Connection conn = null;

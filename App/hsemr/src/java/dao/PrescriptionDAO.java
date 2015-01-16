@@ -21,19 +21,20 @@ import java.util.List;
  */
 public class PrescriptionDAO {
     
-    public static void insertPrescription(String scenarioID, String stateID, String doctorName, String doctorOrder, String freqAbbr) {
+    public static void add(String scenarioID, String stateID, String doctorName, String doctorOrder, String freqAbbr, String medicineBarcode) {
         Connection conn = null;
         PreparedStatement stmt = null;
       
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO prescription(scenarioID,stateID,doctorName,doctorOrder,freqAbbr) VALUES (?,?,?,?,?)");
+            stmt = conn.prepareStatement("INSERT INTO prescription(scenarioID,stateID,doctorName,doctorOrder,freqAbbr, medicineBarcode) VALUES (?,?,?,?,?,?)");
           
             stmt.setString(1, scenarioID);
             stmt.setString(2, stateID);
             stmt.setString(3, doctorName);
             stmt.setString(4, doctorOrder);
             stmt.setString(5, freqAbbr);
+            stmt.setString(6, medicineBarcode);
              stmt.executeUpdate();
              
         } catch (SQLException e) {

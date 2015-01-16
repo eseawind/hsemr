@@ -24,8 +24,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author hpkhoo.2012
  */
-@WebServlet(name = "ProcessAddMedicine", urlPatterns = {"/ProcessAddMedicine"})
-public class ProcessAddMedicine extends HttpServlet {
+@WebServlet(name = "ProcessAddMedication", urlPatterns = {"/ProcessAddMedication"})
+public class ProcessAddMedication extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,58 +44,47 @@ public class ProcessAddMedicine extends HttpServlet {
             HttpSession session = request.getSession(false);
             String scenarioID = (String) session.getAttribute("scenarioID");
             String stateID = (String) request.getParameter("stateID");
-            String fullTextStateID= stateID.replace("ST", "State ");
+            String fullTextStateID = stateID.replace("ST", "State ");
             
             //retrieve values for Medicine table
             String medicineName = request.getParameter("medicineName");
             Medicine medicineRetrieved = MedicineDAO.retrieveByMedicineName(medicineName);
             String medicineBarcode = medicineRetrieved.getMedicineBarcode();
             
+            String routeRetrieved = medicineRetrieved.getRouteAbbr();
             
-            String newMedicineName = request.getParameter("newMedicineName");
-            String newMedicineBarcode = request.getParameter("newMedicineBarcode");
             String route = request.getParameter("route");
-            
-            out.println("stateID" + stateID);
-            out.println("scenarioID" + scenarioID);
-            out.println("medicineName" + medicineName);
-            out.println("medicineBarcode" + medicineBarcode);
-            out.println("newMedicine" + newMedicineName);
-            out.println("newMedicineBarcode" + newMedicineBarcode);
-            
-            
-            //retrieve values for Prescription table
+        
+             //retrieve values for Prescription table
             String doctorName= request.getParameter("doctorName");
             String doctorOrder = request.getParameter("doctorOrder");
             String freq = request.getParameter("frequency");
             
             //retrieve values for Frequency table
             String dosage= request.getParameter("dosage");
+                
+            out.println("stateID" + stateID);
+            out.println("scenarioID" + scenarioID);
+            out.println("medicineName" + medicineName);
+            out.println("medicineBarcode" + medicineBarcode);
             
-            //Testing purpose
-//            out.println("SC" + scenarioID + "stateID" + stateID + "full" + fullTextStateID);
-//            out.println("medicineName" + medicineName + "medicineBarcode" + medicineBarcode + "route" + route);
-//            out.println("doctorName" + doctorName + "doctorOrder" + doctorOrder + "freq" + freq + "dosage" + dosage);
             
-            //for displaying medicine created message
+            out.println("route" + route);
+            out.println("route" + routeRetrieved);
+            out.println("doctorName" + doctorName);
+            out.println("order" + doctorOrder);
+            out.println("freq" + freq);
             
-            ArrayList<String> newlyAddedMedicine= new ArrayList<String>();
-            String medicineState= medicineName + " for " + fullTextStateID;
-            newlyAddedMedicine.add(medicineState);
-            session.setAttribute("medicineStateDisplay", newlyAddedMedicine);
-            
-            //inserting into database
-            if(medicineName != null){ //dropdown is filled up in the previous page
-                PrescriptionDAO.insertPrescription(scenarioID,stateID,doctorName,doctorOrder,freq);
+            if(!route.equals(routeRetrieved)){ //create new medicine with a different route
                 MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
-                MedicinePrescriptionDAO.insertMedicinePrescription(medicineBarcode,scenarioID,stateID,freq,dosage);
-            }else if(medicineName == null && newMedicineName != null && newMedicineBarcode != null ){//new medicine created
-                PrescriptionDAO.insertPrescription(scenarioID,stateID,doctorName,doctorOrder,freq);
-                MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName, route);
-                MedicinePrescriptionDAO.insertMedicinePrescription(newMedicineBarcode,scenarioID,stateID,freq,dosage);
+            }else if(medicineName != null){            
+                MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
+
             }
-                        
-            //response.sendRedirect("createState.jsp");
+            
+            PrescriptionDAO.add(scenarioID,stateID,doctorName,doctorOrder,freq, medicineBarcode);
+            MedicinePrescriptionDAO.add(medicineBarcode,scenarioID,stateID,freq,dosage);
+            response.sendRedirect("createState.jsp");
 
         } finally {
             out.close();
