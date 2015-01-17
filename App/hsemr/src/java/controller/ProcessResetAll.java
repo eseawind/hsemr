@@ -8,7 +8,9 @@ package controller;
 import dao.MedicationHistoryDAO;
 import dao.NoteDAO;
 import dao.ReportDAO;
+import dao.StateHistoryDAO;
 import dao.VitalDAO;
+import dao.VitalHistoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -44,6 +46,8 @@ public class ProcessResetAll extends HttpServlet {
             MedicationHistoryDAO.deleteAll();
             VitalDAO.resetToDefault();
             NoteDAO.deleteAll();
+            VitalHistoryDAO.deleteAll();
+            StateHistoryDAO.clearAllHistory();
             
             HttpSession session = request.getSession(false);
             session.setAttribute("success", "You have successfully reset all information to default state ");
