@@ -48,8 +48,8 @@
     </head>
     <body>
         <br>
-<!--        <div class ="large-10">-->
-             <ul class="breadcrumbs">
+
+<!--    <ul class="breadcrumbs">
         <li><a href="#">Step 1: Create Case</a></li>
         <li><a href="#">Step 2: Create State</a></li>
         <li><a href="#">Step 3: Create Medication</a></li>
@@ -57,9 +57,9 @@
         <li><a href="#">Step 3: Upload Documents</a></li>
         <li class="unavailable"><a href="#">Gene Splicing</a></li>
         <li class="current"><a href="#">Cloning</a></li>
-    </ul>
+    </ul>-->
             
-<!--        </div>-->
+
         
    
         

@@ -39,18 +39,21 @@
     <center><br/><br/><h1>Case Management</h1>
 
         <form action ="ProcessResetAll" method="post">
-            <input type="submit" class="button" value="Reset All">
+            <input type = "submit" class="deletebutton tiny" onclick="if (!resetConfirmation())
+                                    return false" value="Reset All" >
+            
         </form>
-    </center>
-    <div class="large-12 columns" style="padding-top: 20px;">
-        <%  //Retrieve all the successful messages 
-            String success = "";
-            if (session.getAttribute("success") != null) {
-                success = (String) session.getAttribute("success");
-                session.setAttribute("success", "");
-            }
 
-        %>
+        </center>
+        <div class="large-12 columns" style="padding-top: 20px;">
+            <%  //Retrieve all the successful messages 
+                String success = "";
+                if (session.getAttribute("success") != null) {
+                    success = (String) session.getAttribute("success");
+                    session.setAttribute("success", "");
+                }
+
+            %>
         <!--Retrieve all scenarios from scenarioDAO-->
         <%List<Scenario> scenarioList = ScenarioDAO.retrieveAll();%>
 
@@ -153,6 +156,16 @@
         function deleteConfirmation() {
             var deleteButton = confirm("Are you sure you want to delete? ")
             if (deleteButton) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        
+        function resetConfirmation() {
+            var resetButton = confirm("Resetting will delete ALL information, you will not be able to retrieve them. Please ensure you have exported the documents before resetting. ")
+            if (resetButton) {
                 return true;
             }
             else {
