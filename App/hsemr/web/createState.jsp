@@ -17,10 +17,10 @@
         <script type="text/javascript" src="js/humane.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <link rel="stylesheet" href="/resources/demos/style.css">
-
+        <title>Case Setup </title>
     </head>
     <body>
-
+        
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
         <center><h1>Case Setup</h1></center>
@@ -219,7 +219,7 @@
             <form action = "ProcessReportUpload" method = "POST" enctype = "multipart/form-data"> 
                 State
                 <select name = "stateID" required>
-                    <option>--Please select the state that this medicine will be tag to--</option>
+                    <option>--Please select the state that this report will be tag to--</option>
                     <%                             for (State state : stateList) {%>
                     <option><%=state.getStateID()%></option>
                     <% }

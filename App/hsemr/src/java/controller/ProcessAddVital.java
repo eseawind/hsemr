@@ -6,10 +6,8 @@
 
 package controller;
 
-import dao.PracticalGroupDAO;
-import dao.VitalDAO;
-import java.io.IOException;
-import java.io.PrintWriter;
+import dao.*;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,6 +43,8 @@ public class ProcessAddVital extends HttpServlet {
             String intravenousType = (String) (request.getParameter("intravenousType"));
             String intravenousAmount = (String) (request.getParameter("intravenousAmount"));
             String output = (String) (request.getParameter("output"));
+            HttpSession session = request.getSession(false);
+            String practicalGroupID = (String)session.getAttribute("nurse");
             Date dateTime= new Date();
             
             DateFormat dateFormatter;
@@ -111,7 +111,7 @@ public class ProcessAddVital extends HttpServlet {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
-            HttpSession session = request.getSession();
+
             if (BPsystolic != 0 && BPdiastolic == 0) {
                 session.setAttribute("error", "Update failed: Please update BOTH Systolic and Diastolic values.");
                 session.setAttribute("active", "vital");
@@ -137,8 +137,8 @@ public class ProcessAddVital extends HttpServlet {
                 session.setAttribute("active", "vital");
                 response.sendRedirect("./viewPatientInformation.jsp");
             } else { 
-               VitalDAO.add(scenarioID, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount,0);
-
+                VitalDAO.add(scenarioID, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount,0);
+                VitalHistoryDAO.add(scenarioID, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount,practicalGroupID);
                 session.setAttribute("active", "vital");
                 session.setAttribute("success", "Vital signs have been updated!");
                 response.sendRedirect("./viewPatientInformation.jsp");

@@ -47,19 +47,112 @@
         <title>Case Setup - Create Case</title>
     </head>
     <body>
-
+        <br>
+<!--        <div class ="large-10">-->
+             <ul class="breadcrumbs">
+        <li><a href="#">Step 1: Create Case</a></li>
+        <li><a href="#">Step 2: Create State</a></li>
+        <li><a href="#">Step 3: Create Medication</a></li>
+        <li><a href="#">Step 3: Upload Reports</a></li>
+        <li><a href="#">Step 3: Upload Documents</a></li>
+        <li class="unavailable"><a href="#">Gene Splicing</a></li>
+        <li class="current"><a href="#">Cloning</a></li>
+    </ul>
+            
+<!--        </div>-->
+        
+   
+        
     <center><h1>Case Set Up</h1>
+       
+    
     <h2>Step 1: Create case</h2>
+  
+    <%
+    //for repopulating the fields, if there is an error
+    String scenarioName = "";
+    String scenarioDescription = "";
+    String admissionInfo = "";
+    String patientNRIC = "";
+    String firstName = "";
+    String lastName = "";
+    String dobString = "";
+    String allergy = "";
+    String temperature0 = "";
+    String RR0 = "";
+    String HR0 = "";
+    String BPS = "";
+    String BPD = "";
+    String SPO0 = "";
+    
+    if(request.getAttribute("scenarioName") != null){
+        scenarioName = (String)request.getAttribute("scenarioName");
+    }
+    
+    if(request.getAttribute("scenarioDescription") != null){
+        scenarioDescription = (String)request.getAttribute("scenarioDescription");
+    }
+    
+    if(request.getAttribute("admissionInfo") != null){
+        admissionInfo = (String)request.getAttribute("admissionInfo");
+    }
+    
+    if(request.getAttribute("patientNRIC") != null){
+        patientNRIC = (String)request.getAttribute("patientNRIC");
+    }
+    
+    if(request.getAttribute("firstName") != null){
+        firstName = (String)request.getAttribute("firstName");
+    }
+    
+    if(request.getAttribute("lastName") != null){
+        lastName = (String)request.getAttribute("lastName");
+    }
+    
+    if(request.getAttribute("dobString") != null){
+        dobString = (String)request.getAttribute("dobString");
+    }
+    
+    if(request.getAttribute("allergy") != null){
+        allergy = (String)request.getAttribute("allergy");
+    }
+    
+    if(request.getAttribute("temperature0") != null){
+        temperature0 = String.valueOf(request.getAttribute("temperature0"));
+    }
+    
+    if(request.getAttribute("RR0") != null){
+        RR0 = String.valueOf(request.getAttribute("RR0"));
+    }
+    
+    if(request.getAttribute("HR0") != null){
+        HR0 = String.valueOf(request.getAttribute("HR0"));
+    }
+    
+    if(request.getAttribute("BPS") != null){
+        BPS = String.valueOf(request.getAttribute("BPS"));
+    }
+    
+    if(request.getAttribute("BPD") != null){
+        BPD = String.valueOf(request.getAttribute("BPD"));
+    }
+    
+    if(request.getAttribute("SPO0") != null){
+        SPO0 = String.valueOf(request.getAttribute("SPO0"));
+    }
+    
+    
+    %>
        
     <form data-abide action ="ProcessAddScenario" method ="POST">
             <div class="row">
                 <div class="small-8">
                     <div class="row">
                         <div class="small-3 columns">
-                            <label for="right-label" class="right inline">Case Name</label>
+                            <label for="right-label" class="right inline" >Case Name</label>
                         </div>
                         <div class="small-9 columns">
-                            <input type="text" id="password" name="scenarioName" required>
+                            <input type="text" id="password" name="scenarioName" value = "<%=scenarioName%>" required>
                         </div>
                     </div>
                 </div>
@@ -74,10 +167,10 @@
                 <center>
                     <div class="large-9">
                         <label>Case Description</label>
-                        <textarea style = "resize:vertical"  name="scenarioDescription" rows="2" cols="10" required></textarea>
+                        <textarea style = "resize:vertical"  name="scenarioDescription" rows="2" cols="10" placeholder ="<%=scenarioDescription%>" required></textarea>
 
                         <label>Admission Information</label>
-                        <textarea style = "resize:vertical"  name="admissionInfo" rows="2" cols="10" required></textarea>
+                        <textarea style = "resize:vertical"  name="admissionInfo" rows="2" cols="10" placeholder = "<%=admissionInfo%>" required></textarea>
                     </div>
                 </center>
             </div>
@@ -92,20 +185,20 @@
                 <div class="row">
                     <div class="large-4 columns">
                         <label>Patient's NRIC
-                            <input type="text" maxlength="9" name ="patientNRIC" value="S9263445I" required pattern ="^[SFTG]\d{7}[A-Z]$"/>
+                            <input type="text" maxlength="9" name ="patientNRIC" value="<%=patientNRIC%>" required pattern ="^[SFTG]\d{7}[A-Z]$"/>
                             <small class="error">Please enter a valid NRIC according to Singapore's standard.</small>
                         </label>
                         
                     </div>
                     <div class="large-4 columns">
                         <label>First Name
-                            <input type="text" name ="firstName" value="grace" required pattern ="^[a-zA-Z]+$"/>
+                            <input type="text" name ="firstName" value="<%=firstName%>" required pattern ="^[a-zA-Z ]+$"/>
                             <small class="error">Only alphabets accepted.</small>
                         </label>
                     </div>
                     <div class="large-4 columns">
                         <label>Last Name
-                            <input type="text" name ="lastName" value="Khoo" required pattern ="^[a-zA-Z]+$"/>
+                            <input type="text" name ="lastName" value="<%=lastName%>" required pattern ="^[a-zA-Z ]+$"/>
                             <small class="error">Only alphabets accepted.</small>
                         </label>
                     </div>
@@ -115,12 +208,12 @@
                 <div class="row">
                     <div class="large-4 columns">
                         <label>Date of Birth</label>
-                        <input type="text" id="datepicker" name = "DOB" value="01/10/1992" required pattern = "^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$">
+                        <input type="text" id="datepicker" name = "DOB" value="<%=dobString%>" required pattern = "^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$">
                         <small class="error">Please enter in DD/MM/YYYY.</small>
                     </div>
                     <div class="large-4 columns">
                         <label>Allergy</label>
-                        <input type="text" name ="allergy" value="no allergy" required pattern ="^[a-zA-Z ]+$"/>
+                        <input type="text" name ="allergy" value="<%=allergy%>" required pattern ="^[a-zA-Z ]+$"/>
                         <small class="error">Only alphabets accepted.</small>
                     </div>
                     <div class="large-4 columns">
@@ -140,32 +233,32 @@
                 <div class="row">
                     <div class="large-4 columns">
                         <label>Temperature</label>
-                        <input type="text" name="temperature0" value="40" maxlength="4" pattern ="\b(3[4-9](\.[0-9]{1,2})?|4[0-2])(\.[0-9]{1,2})?$\b">
+                        <input type="text" name="temperature0" value="<%=temperature0%>" maxlength="4" pattern ="\b(3[4-9](\.[0-9]{1,2})?|4[0-2])(\.[0-9]{1,2})?$\b">
                         <small class="error">Temperature must be between 34 - 42.</small>
                     </div>
                     <div class="large-4 columns">
                         <label>Respiratory Rate</label>
-                        <input type="text" name="RR0" value="60" maxlength = "2" pattern ="^([0-9]|[1-5][0-9]|60)$">
+                        <input type="text" name="RR0" value="<%=RR0%>" maxlength = "2" pattern ="^([0-9]|[1-5][0-9]|60)$">
                         <small class="error">Respiratory Rate must be between 0 - 60.</small>
                     </div>
                     <div class="large-4 columns">
                         <label>Heart Rate</label>
-                        <input type="text" name="HR0" value="71" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$">
+                        <input type="text" name="HR0" value="<%=HR0%>" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|20[0-0])$">
                         <small class="error">Heart Rate must be between 0 - 200.</small>
                     </div>
                     <div class="large-4 columns">
                         <label>Blood Pressure Systolic</label>
-                        <input type="text" name="BPS" value="72" maxlength ="3" pattern = "^([0-9]{1,2}|[12][0-9]{2}|300)$">
+                        <input type="text" name="BPS" value="<%=BPS%>" maxlength ="3" pattern = "^([0-9]{1,2}|[12][0-9]{2}|300)$">
                         <small class="error">BP systolic must be numeric and between 0 - 300.</small>
                     </div> 
                     <div class="large-4 columns">
                         <label>Blood Pressure Diastolic</label>
-                        <input type="text" name="BPD" value="75" maxlength ="3" pattern = "^([0-9]{1,2}|1[0-9]{2}|200)$">
+                        <input type="text" name="BPD" value="<%=BPD%>" maxlength ="3" pattern = "^([0-9]{1,2}|1[0-9]{2}|200)$">
                         <small class="error">BP diastolic must be numeric and between 0 - 200.</small>
                     </div>
                     <div class="large-4 columns">
                         <label>SpO<sub>2</sub></label>
-                        <input type="text" name="SPO0" value="78" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$">
+                        <input type="text" name="SPO0" value="<%=SPO0%>" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$">
                         <small class="error">SPO must be numeric and between 0 - 100%.</small>
                     </div>
                    

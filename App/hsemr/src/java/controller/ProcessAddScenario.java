@@ -9,10 +9,6 @@ package controller;
 import dao.*;
 import entity.*;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,10 +34,12 @@ public class ProcessAddScenario extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {//Retrieve case information
+            throws ServletException, IOException { //Retrieve case information
             String scenarioName = request.getParameter("scenarioName");
             String scenarioDescription = request.getParameter("scenarioDescription");
             String admissionInfo = request.getParameter("admissionInfo");
+            
+
             
             //retrieve the biggest bed number so we know what scenario to auto increment
             int maxBed = ScenarioDAO.retrieveMaxBedNumber();
@@ -59,18 +57,30 @@ public class ProcessAddScenario extends HttpServlet {
             //Retrieve patient's default state
             String stateID0 = "ST0";
             String temperatureString0 = request.getParameter("temperature0");
-            double temperature0 = Double.parseDouble(temperatureString0);
             String RRString0 = request.getParameter("RR0");
-            int RR0= Integer.parseInt(RRString0);
             String HRString0 = request.getParameter("HR0");
-            int HR0= Integer.parseInt(HRString0);
             String BPSString0 = request.getParameter("BPS");
-            int BPS0= Integer.parseInt(BPSString0);
             String BPDString0 = request.getParameter("BPD");
-            int BPD0= Integer.parseInt(BPDString0);
             String SPOString0 = request.getParameter("SPO0");
-            int SPO0= Integer.parseInt(SPOString0);
- 
+            
+            double temperature0 = 0;
+            int RR0 = 0; 
+            int HR0 = 0; 
+            int BPS0 = 0;
+            int BPD0 = 0; 
+            int SPO0 =0;
+
+            try{
+                temperature0 = Double.parseDouble(temperatureString0);
+                RR0= Integer.parseInt(RRString0);
+                HR0= Integer.parseInt(HRString0);
+                BPS0= Integer.parseInt(BPSString0);
+                BPD0= Integer.parseInt(BPDString0);
+                SPO0= Integer.parseInt(SPOString0);
+            }catch(NumberFormatException e){
+                //do nothing
+            }
+            
             String stateDescription0 = "default state"; //for the default state only
           
             int newBed = ScenarioDAO.retrieveMaxBedNumber()+1;
@@ -81,6 +91,24 @@ public class ProcessAddScenario extends HttpServlet {
             
             if(retrievedPatient != null){ // patientNRIC exists
                 session.setAttribute("error", "Patient NRIC: " + retrievedPatient.getPatientNRIC() +  " exists. Patient NRIC needs to be unique.");
+                
+                //for repopulating the fields in createScenario.jsp 
+                request.setAttribute("scenarioName",scenarioName);
+                request.setAttribute("scenarioDescription", scenarioDescription);
+                request.setAttribute("admissionInfo", admissionInfo);
+                request.setAttribute("patientNRIC", patientNRIC);
+                request.setAttribute("firstName", firstName);
+                request.setAttribute("lastName", lastName);
+                request.setAttribute("gender", gender);
+                request.setAttribute("dobString",dobString);
+                request.setAttribute("allergy",allergy);
+                request.setAttribute("temperature0",temperature0);
+                request.setAttribute("RR0",RRString0);
+                request.setAttribute("HR0",HR0);
+                request.setAttribute("BPS",BPSString0);
+                request.setAttribute("BPD",BPDString0);
+                request.setAttribute("SPO0",SPOString0);
+                
                 RequestDispatcher rd = request.getRequestDispatcher("createScenario.jsp");
                 rd.forward(request, response);
             }else{
@@ -91,7 +119,7 @@ public class ProcessAddScenario extends HttpServlet {
                 ScenarioDAO.add(scenarioID, scenarioName, scenarioDescription, 0, admissionInfo, newBed);
                 StateDAO.add(stateID0, scenarioID, stateDescription0, 0, patientNRIC); //1 because default state status will be activate
                 VitalDAO.add(scenarioID, temperature0, RR0, BPS0, BPD0, HR0, SPO0, "", "", "", "", "", 1);
-
+                
                 session.setAttribute("scenarioID", scenarioID);
                 session.setAttribute("patientNRIC", patientNRIC);
                 session.setAttribute("success", "New scenario: " + scenarioID +  " has been created successfully!");
@@ -101,7 +129,6 @@ public class ProcessAddScenario extends HttpServlet {
             
             
             
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
