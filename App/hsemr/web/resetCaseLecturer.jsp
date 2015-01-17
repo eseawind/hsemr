@@ -3,6 +3,7 @@
     Created on : Jan 16, 2015, 9:49:55 PM
     Author     : jocelyn.ng.2012
 --%>
+<%@page import="dao.StateDAO"%>
 <%@page import="entity.Scenario"%>
 <%@page import="dao.ScenarioDAO"%>
 <%@page import="entity.Vital"%>
@@ -148,6 +149,7 @@
                 <h2>Case Information</h2> 
                 
                 <%
+                    StateDAO.resetStateStatus(scenario.getScenarioID());
                     ReportDAO.resetStatus(scenario.getScenarioID());
                     VitalDAO.resetVital(scenario.getScenarioID());
                 %>
