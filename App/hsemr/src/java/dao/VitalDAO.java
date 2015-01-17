@@ -555,5 +555,23 @@ public class VitalDAO {
         }
         return intakeOralList;
     }
+    public static void resetToDefault() {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM vital WHERE initialVital =?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, "0");
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+        
+    }
     
 }

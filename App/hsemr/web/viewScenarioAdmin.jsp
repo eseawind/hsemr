@@ -36,8 +36,12 @@
     </head>
 
     <body style="font-size:14px; background-color: #ffffff">
-    <center><br/><br/><h1>Case Management</h1></center>
+    <center><br/><br/><h1>Case Management</h1>
 
+        <form action ="ProcessResetAll" method="post">
+            <input type="submit" class="button" value="Reset All">
+        </form>
+    </center>
     <div class="large-12 columns" style="padding-top: 20px;">
         <%  //Retrieve all the successful messages 
             String success = "";
@@ -103,7 +107,7 @@
                         <%} else { %>
                         <input type ="submit" class="button tiny" value="activate">
                         <% }
-                                    }%>
+                            }%>
                         <input type="hidden" name="status" value="activated">
                     </form>
 
@@ -135,7 +139,7 @@
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
     <script>
-                            $(document).ready(function() {
+                            $(document).ready(function () {
                                 $(document).foundation();
                                 var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
 
