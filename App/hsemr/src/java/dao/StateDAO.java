@@ -43,8 +43,8 @@ public class StateDAO {
         }
         return state;
     }
-    
-     public static State retrieveStateInScenario(String scenarioID) {
+
+    public static State retrieveStateInScenario(String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -67,7 +67,7 @@ public class StateDAO {
         }
         return state;
     }
-    
+
     public static void add(String stateID, String scenarioID, String stateDescription, int stateStatus, String patientNRIC) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -76,7 +76,7 @@ public class StateDAO {
         try {
             conn = ConnectionManager.getConnection();
             preparedStatement = conn.prepareStatement(query);
-            
+
             preparedStatement.setString(1, stateID);
             preparedStatement.setString(2, scenarioID);
             preparedStatement.setString(3, stateDescription);
@@ -141,7 +141,7 @@ public class StateDAO {
         return state;
     }
 
-     public static void resetState() {
+    public static void resetState() {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         String query = "UPDATE state SET stateStatus =0";
@@ -158,7 +158,25 @@ public class StateDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
-    
+
+    public static void resetStateStatus(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE state SET stateStatus =0 WHERE scenarioID =?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, scenarioID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
 
     public static void updateState(String stateID, String scenarioID, int stateStatus) {
         Connection conn = null;
