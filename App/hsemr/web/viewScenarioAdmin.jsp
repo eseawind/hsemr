@@ -117,7 +117,11 @@
                     <!--EDIT-->
                     <form action ="editScenario.jsp" method ="POST">
                         <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                        <% if (status == 1) { %>
+                        <input type = "submit" class="button tiny" value="edit" disabled>
+                        <% } else { %>
                         <input type = "submit" class="button tiny" value="edit">
+                        <% } %>
                     </form>
 
                     <!--DELETE-->    

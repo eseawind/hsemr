@@ -8,6 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
+        <link rel="stylesheet" href="css/original.css" />
         <script src="responsive-tables.js"></script>
         <%@include file="/topbar/topbarAdmin.jsp" %>
 
@@ -47,21 +48,40 @@
 
         %>
         <center>
-
+       
         <h2>Step 2: Create State <a href="#" data-reveal-id="createState"><img src="img/add.png" height ="30" width = "30"></a></h2>
         <!--Display states that are in the database-->
 
         <%                out.println("");
             List<State> stateList = StateDAO.retrieveAll(scenarioID);
 
-            if (stateList == null || stateList.size() == 0) {
+            if (stateList == null || stateList.size()-1 == 0) {
                 out.println("There are no states created yet. Click the + to create a state.");
             } else {
-                out.println("<h3> States created: </h3>");
-                for (State state : stateList) {
-
-                    out.print("<h4>" + state.getStateID().replace("ST", "State ") + "</h4>");
-                }
+                int sizeOfStates = stateList.size()-1;
+                out.print("<h4><b>No. of State added <i>(Excluding State 0) </i></b>: " + sizeOfStates + "</h4>");
+                %>
+                <table>
+                    <tr>
+                        <td><b>State</b></td>
+                        <td><b>Name</b></td>
+                    </tr>
+                    <% for (State state: stateList) {
+                       String stateNumber = state.getStateID(); 
+                       String stateName = state.getStateDescription();
+                       if(!stateNumber.equals("ST0")) {
+                    %>
+                    <tr>
+                        <td><%=stateNumber.replace("ST", "STATE ")%></td>
+                        <td><%=stateName%></td>
+                    </tr>
+                    <%   }
+                    
+                    
+                    }
+                %>
+                </table>
+                <%
             }
 
         %>
@@ -271,8 +291,9 @@
 
     <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>"/>
     <input type ="hidden" name ="patientNRIC" value ="<%=patientNRIC%>"/>
-    <center><input type ="submit" class ="button" value ="Create State(s)"></center>
-
+    <<form action="viewScenarioAdmin.jsp" method="POST">
+    <center><input type ="submit" class ="button" value ="Return to Admin Homepage"></center>
+    </form>
     
     <!--Script for "Add Medicine" button-->
     <script>

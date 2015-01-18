@@ -39,9 +39,7 @@ public class ProcessResetScenario extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
+        
             /* TODO output your page here. You may use following sample code. */
 
             String scenarioID = (String) request.getParameter("scenarioID");
@@ -52,9 +50,7 @@ public class ProcessResetScenario extends HttpServlet {
 //                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
 //                rd.forward(request, response);
             response.sendRedirect("resetCaseLecturer.jsp");
-        } finally {
-            out.close();
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

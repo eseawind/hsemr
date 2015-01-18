@@ -154,6 +154,7 @@
                     VitalDAO.resetVital(scenario.getScenarioID());
                 %>
                 <input type ="hidden" id= "status" name = "status" value = "reset">
+                <input type ="hidden" id= "scenarioID" name = "scenarioID" value = "<%=scenario.getScenarioID()%>">
                 <input type ="submit" class="button tiny" value = "Reset Case">
                 
                 <p class="lead"><b>Case Number:</b> <%=scenario.getScenarioID()%> </p>
@@ -161,7 +162,7 @@
                 <p class="lead"><b>Case Description:</b> <%=scenario.getScenarioDescription()%> </p>
                 <p class="lead"><b>Admission Info:</b> <%=scenario.getAdmissionNote()%> </p>
 
-                <input type ="hidden" id= "scenarioID" name = "scenarioID" value = "<%=scenario.getScenarioID()%>">
+                
 
 
             </form>

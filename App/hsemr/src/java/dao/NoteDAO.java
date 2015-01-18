@@ -48,7 +48,7 @@ public class NoteDAO {
         return note;
     }
     
-    public static List<Note> retrieveNotesByPraticalGrp(String practicalGrp) {
+    public static List<Note> retrieveNotesByPraticalGrp(String practicalGrp, String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -56,8 +56,9 @@ public class NoteDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM note where practicalGroupID= ?");
+            stmt = conn.prepareStatement("SELECT * FROM note where practicalGroupID= ? and scenarioID= ?");
             stmt.setString(1, practicalGrp);
+            stmt.setString(2, scenarioID);
             
             rs = stmt.executeQuery();
             while (rs.next()) {

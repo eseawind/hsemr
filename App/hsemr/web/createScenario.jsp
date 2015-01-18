@@ -28,6 +28,20 @@
             $(function () {
                 $("#datepicker").datepicker();
             });
+//            function ValidateForm()
+//            {
+//                $('span.error_msg').html('');
+//               var success = true;
+//                $("#personID input").each(function()
+//                    {
+//                        if($(this).val()=="")
+//                        {
+//                            $(this).next().html("Field needs filling");
+//                            success = false;
+//                        }
+//                });
+//                return success;
+//            }
         </script>
         <%
         String success = "";
@@ -186,7 +200,7 @@
                     <div class="large-4 columns">
                         <label>Patient's NRIC
                             <input type="text" maxlength="9" name ="patientNRIC" value="<%=patientNRIC%>" required pattern ="^[SFTG]\d{7}[A-Z]$"/>
-                            <small class="error">Please enter a valid NRIC according to Singapore's standard.</small>
+                            <small class="error">Please enter a valid NRIC according to Singapore's standard. <i>E.g. S9472733Z</i></small>
                         </label>
                         
                     </div>
@@ -291,6 +305,7 @@
             }
 
         });
+        
     </script>
     
 </body>

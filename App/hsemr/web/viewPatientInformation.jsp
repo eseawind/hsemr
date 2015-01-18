@@ -81,15 +81,19 @@
 
                     patientNRIC = retrieveScenarioState.getPatientNRIC();
                     retrievePatient = PatientDAO.retrieve(patientNRIC);
-
+                    
+                    String stateID = retrieveScenarioState.getStateID();
+                    String scenarioID = scenarioActivated.getScenarioID();
+                    session.setAttribute("scenarioID", scenarioID);
+                    
                     //retrieve case's information
                     String admissionNotes = scenarioActivated.getAdmissionNote();
 
                     //retrieve nurse praticalGroup ID
                     String practicalGrp = (String) session.getAttribute("nurse");
-
+                    
                     //retrieve note's information
-                    List<Note> notesListRetrieved = NoteDAO.retrieveNotesByPraticalGrp(practicalGrp);
+                    List<Note> notesListRetrieved = NoteDAO.retrieveNotesByPraticalGrp(practicalGrp, scenarioID);
 
                     //retrieve patient's information
                     String firstName = retrievePatient.getFirstName();
@@ -116,9 +120,7 @@
 //            String oralAmount = vital.getOralAmount();
 //            String intravenousType = vital.getIntravenousType();
 //            String intravenousAmoun = vital.getIntravenousAmount();
-                    String stateID = retrieveScenarioState.getStateID();
-                    String scenarioID = scenarioActivated.getScenarioID();
-                    session.setAttribute("scenarioID", scenarioID);
+                    
                 %>
                 <br>   
                 <!--Patient's Information-->
@@ -701,7 +703,7 @@
                                                                         <div class="large-12 columns">
                                                                             <%
                                                                                         if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
-                                                                            <label for="right-label" class="right inline">No groups have enter their notes yet.</label>
+                                                                                        <label for="right-label" class="right inline"><h5><center>No past notes yet.</center></h5></label>
                                                                             <% } else { %> <br/>
                                                                             <!--TABLE-->
                                                                             <table class="responsive" id="cssTable">
@@ -750,20 +752,12 @@
                                                 <h4>Consent Forms</h4><br/>
 
                                                 <%
-                                                    // store reports of all activated states
-                                                    HashMap<List<Document>, String> stateDocumentsHM = new HashMap<List<Document>, String>();
-
-                                                    // add forms of the history states to array
-                                                    for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
-                                                        String state = entry.getKey();
-                                                        List<Document> documents = DocumentDAO.retrieveDocumentsByState(scenarioID, state);
-                                                        String doctorOrderTime = entry.getValue();
-                                                        if (documents != null && documents.size() != 0) {
-                                                            stateDocumentsHM.put(documents, doctorOrderTime);
-                                                        }
-                                                    }
+                                                    
+                                                    List<Document> documents = DocumentDAO.retrieveDocumentsByScenario(scenarioID); 
+                                                        
+                                                    
                                                     //List<Document> documentList = DocumentDAO.retrieveDocumentsByState(scenarioID, stateID);
-                                                    if (stateDocumentsHM != null && stateDocumentsHM.size() != 0) {
+                                                    if (documents != null && documents.size() != 0) {
                                                 %>
 
                                                 <table>
@@ -777,25 +771,20 @@
                                                         // the string representation of date (month/day/year)
                                                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                                         //String firstObtain = (String) session.getAttribute("obtained");
-                                                        for (Map.Entry<List<Document>, String> entry : stateDocumentsHM.entrySet()) {
-                                                            List<Document> stateDocuments = entry.getKey();
-
-                                                            //String doctorOrderTime = entry.getValue();
-
-                                                            for (Document document : stateDocuments) {
-                                                                String consentName = document.getConsentName();
-                                                                String consentFile = document.getConsentFile();
-                                                                String consentResults = "";
-                                                                consentResults = "documents/" + consentFile;
-                                                            %> 
-                                                                <tr>
-                                                                    <td><%=consentName%></td>
-                                                                    <td>
-                                                                     <!-- // results column (link) -->
-                                                                    <a href="<%=consentResults%>" target="_blank">View Form</a>
-                                                                    </td>
-                                                                </tr>
-                                                        <%                                                                    }
+                                                        for (Document document : documents) {
+                                                            String consentName = document.getConsentName();
+                                                            String consentFile = document.getConsentFile();
+                                                            String consentResults = "";
+                                                            consentResults = "documents/" + consentFile;
+                                                        %> 
+                                                            <tr>
+                                                                <td><%=consentName%></td>
+                                                                <td>
+                                                                 <!-- // results column (link) -->
+                                                                <a href="<%=consentResults%>" target="_blank">View Form</a>
+                                                                </td>
+                                                            </tr>
+                                                        <%                                                                    
                                                             }
                                                         } else {
                                                             out.println("No documents at the moment.");

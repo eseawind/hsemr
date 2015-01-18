@@ -97,13 +97,17 @@
 
                     labels: true,
                     type: 'line',
+                    
 //                    color: {
 //                        pattern: ['#d00', '#363FBC']
 //                    }
                     color: function (color, d) {
-                        return d.index === 4 ? "#ddd" : "#d00";
+                        return d.index === 4 ? "#d00" : "#d00";
                     }
                     
+                },
+                legend: {
+                        show: false
                 },
 
 
