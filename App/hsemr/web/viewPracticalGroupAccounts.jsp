@@ -49,107 +49,102 @@
         %>
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
-                <div class="row collapse">
-                    <div class="large-10 columns">
-                        <br/>
-                        <center><h1>Practical Group Accounts Management</h1></center>
-                    </div>
-                    <div class="large-2 columns">
-                        <form action="createPracticalGroupAccount.jsp" method="post">
-                            <input type="hidden" name="type" value="nurse">
-                            <input type="submit" class="addaccount" value="+">
-                        </form>
-                    </div>
-                </div>
-                <center>
-                    <div class ="large-11">
-                        <%                          String success = "";
-
-                            if (session.getAttribute("success") != null) {
-
-                                success = (String) session.getAttribute("success");
-                                session.setAttribute("success", "");
-
-                            }
-                        %>
-
-
-                        <table class="responsive" id="cssTable">
-                            <col width="25%">
-                            <col width="25%">
-                            <col width="25%">
-                            <col width="10%">
-                            <col width="10%">
-                            <thead>
-                                <tr>
-                                    <td><b>User ID</b></td>
-                                    <td><b>Password</b></td>
-                                    <td><b>Lecturer-in-charge</b></td>
-                                    <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
-                                </tr>
-                            </thead>
-                            <%
-                                for (PracticalGroup practicalGroup : practicalGroupList) {
-                            %>
-                            <tr>
-                                <td> <%=practicalGroup.getPracticalGroupID()%> </td>
-                                <td> ********** </td>
-                                <td> <%=practicalGroup.getLecturerID()%> </td>
-                                <td> 
-                                    <form action="editPracticalGroupAccount.jsp" method="post">
-                                        <input type="hidden" name="userID" value="<%=practicalGroup.getPracticalGroupID()%>">
-                                        <input type="hidden" name="password" value="<%=practicalGroup.getPracticalGroupPassword()%>">
-                                        <input type="hidden" name="lecturerID" value="<%=practicalGroup.getLecturerID()%>">
-                                        <input type="hidden" name="type" value="nurse">
-                                        <input type="submit" class="button tinytable" value="edit">
-                                    </form>
-                                </td>
-                                <%
-                                    String userLoggedIn = (String) session.getAttribute("nurse");
-                                %>
-                                <td>
-                                    <form action="ProcessDeleteAccount" method="post">
-                                        <input type="hidden" name="userID" value="<%=practicalGroup.getPracticalGroupID()%>">
-                                        <input type="hidden" name="type" value="nurse">
-                                        <%
-                                            if (userLoggedIn != null && userLoggedIn.equals(practicalGroup.getPracticalGroupID())) {
-                                        %>
-                                        <!--<input type = "submit" class="button tinytable" value="delete" disabled>-->
-                                        <div class style="padding-top:7px"><b><font color="#368a55">LOGGED IN</font></b></div>
-                                                <%
-                                                } else {
-                                                %>
-                                        <input type="submit" class="button tinytable" onclick="if (!deleteConfirmation())
-                                                    return false" value="delete" >
-                                        <%
-                                            }
-                                        %>
-                                    </form>
-                                </td>
-                                <%
-                                    }
-                                %>
-                            </tr>
-
-                        </table><br/><br/><br/>
-                </center>
+                <br/>
+                <center><h1>Practical Group Accounts Management</h1></center><br/>
             </div>
+            <center>
+                <div class ="large-12">
+                    <%                          String success = "";
+
+                        if (session.getAttribute("success") != null) {
+
+                            success = (String) session.getAttribute("success");
+                            session.setAttribute("success", "");
+
+                        }
+                    %>
+
+
+                    <table class="responsive" id="cssTable">
+                        <col width="25%">
+                        <col width="25%">
+                        <col width="25%">
+                        <col width="10%">
+                        <col width="10%">
+                        <thead>
+                            <tr>
+                                <td><b>User ID</b></td>
+                                <td><b>Password</b></td>
+                                <td><b>Lecturer-in-charge</b></td>
+                                <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
+                            </tr>
+                        </thead>
+                        <%
+                            for (PracticalGroup practicalGroup : practicalGroupList) {
+                        %>
+                        <tr>
+                            <td> <%=practicalGroup.getPracticalGroupID()%> </td>
+                            <td> ********** </td>
+                            <td> <%=practicalGroup.getLecturerID()%> </td>
+                            <td> 
+                                <form action="editPracticalGroupAccount.jsp" method="post">
+                                    <input type="hidden" name="userID" value="<%=practicalGroup.getPracticalGroupID()%>">
+                                    <input type="hidden" name="password" value="<%=practicalGroup.getPracticalGroupPassword()%>">
+                                    <input type="hidden" name="lecturerID" value="<%=practicalGroup.getLecturerID()%>">
+                                    <input type="hidden" name="type" value="nurse">
+                                    <input type="submit" class="button tinytable" value="edit">
+                                </form>
+                            </td>
+                            <%
+                                String userLoggedIn = (String) session.getAttribute("nurse");
+                            %>
+                            <td>
+                                <form action="ProcessDeleteAccount" method="post">
+                                    <input type="hidden" name="userID" value="<%=practicalGroup.getPracticalGroupID()%>">
+                                    <input type="hidden" name="type" value="nurse">
+                                    <%
+                                        if (userLoggedIn != null && userLoggedIn.equals(practicalGroup.getPracticalGroupID())) {
+                                    %>
+                                    <!--<input type = "submit" class="button tinytable" value="delete" disabled>-->
+                                    <div class style="padding-top:7px"><b><font color="#368a55">LOGGED IN</font></b></div>
+                                            <%
+                                            } else {
+                                            %>
+                                    <input type="submit" class="button tinytable" onclick="if (!deleteConfirmation())
+                                                return false" value="delete" >
+                                    <%
+                                        }
+                                    %>
+                                </form>
+                            </td>
+                            <%
+                                }
+                            %>
+                        </tr>
+
+                    </table><br/><br/><br/>
+                    <form action="createPracticalGroupAccount.jsp" method="post">
+                        <input type="hidden" name="type" value="nurse">
+                        <input type="submit" class="button small" value="Create new account">
+                    </form>
+            </center>
         </div>
-        <script src="js/vendor/jquery.js"></script>
-        <script src="js/foundation.min.js"></script>
-        <script>
+    </div>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script>
 
-                                            $(document).ready(function() {
-                                                $(document).foundation();
-                                                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 1000, clickToClose: true})
+                                        $(document).ready(function() {
+                                            $(document).foundation();
+                                            var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 1000, clickToClose: true})
 
-                                                var success1 = "<%=success%>";
-                                                if (success1 !== "") {
-                                                    humaneSuccess.log(success1);
-                                                }
+                                            var success1 = "<%=success%>";
+                                            if (success1 !== "") {
+                                                humaneSuccess.log(success1);
+                                            }
 
-                                            });
-        </script>
-        <script type="text/javascript" src="js/humane.js"></script>     
-    </body>
+                                        });
+    </script>
+    <script type="text/javascript" src="js/humane.js"></script>     
+</body>
 </html>
