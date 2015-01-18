@@ -224,5 +224,22 @@ public class ScenarioDAO {
         }
         return scenarioList;
     }
+    public static void resetScenario() {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE scenario SET scenarioStatus =0";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
 
 }

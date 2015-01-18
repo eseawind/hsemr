@@ -8,6 +8,8 @@ package controller;
 import dao.MedicationHistoryDAO;
 import dao.NoteDAO;
 import dao.ReportDAO;
+import dao.ScenarioDAO;
+import dao.StateDAO;
 import dao.StateHistoryDAO;
 import dao.VitalDAO;
 import dao.VitalHistoryDAO;
@@ -48,6 +50,9 @@ public class ProcessResetAll extends HttpServlet {
             NoteDAO.deleteAll();
             VitalHistoryDAO.deleteAll();
             StateHistoryDAO.clearAllHistory();
+            StateDAO.resetState();
+            ScenarioDAO.resetScenario();
+            
             
             HttpSession session = request.getSession(false);
             session.setAttribute("success", "You have successfully reset all information to default state ");
