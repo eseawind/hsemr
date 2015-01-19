@@ -93,7 +93,7 @@ public class MedicineDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select distinct * from medicine");
+            stmt = conn.prepareStatement("select distinct * from medicine group by medicineName");
 
             rs = stmt.executeQuery();
             while (rs.next()) {

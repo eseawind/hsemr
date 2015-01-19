@@ -39,7 +39,7 @@ public class ProcessAddNewMedicine extends HttpServlet {
         String route = request.getParameter("route");
         MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName, route);
          
-        response.sendRedirect("createState.jsp");
+        response.sendRedirect("createMedicationBC.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

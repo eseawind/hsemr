@@ -59,10 +59,12 @@
         %>
 
         <title>Case Setup - Create Case</title>
+        
+        
     </head>
     <body>
         <br>
-
+        <b>Step 1: Case creation</b> > Step 2: State creation > Step 3: Medication creation > Step 4: Report and Document creation
 <!--    <ul class="breadcrumbs">
         <li><a href="#">Step 1: Create Case</a></li>
         <li><a href="#">Step 2: Create State</a></li>

@@ -13,6 +13,7 @@ import entity.Medicine;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,6 +46,11 @@ public class ProcessAddMedication extends HttpServlet {
             String scenarioID = (String) session.getAttribute("scenarioID");
             String stateID = (String) request.getParameter("stateID");
             String fullTextStateID = stateID.replace("ST", "State ");
+            
+            int counter= Integer.parseInt(request.getParameter("counter"));
+            counter++;
+            String counterStr= Integer.toString(counter);
+             request.setAttribute("counter", counterStr);
             
             //retrieve values for Medicine table
             String medicineName = request.getParameter("medicineName");
@@ -84,7 +90,10 @@ public class ProcessAddMedication extends HttpServlet {
             
             PrescriptionDAO.add(scenarioID,stateID,doctorName,doctorOrder,freq, medicineBarcode);
             MedicinePrescriptionDAO.add(medicineBarcode,scenarioID,stateID,freq,dosage);
-            response.sendRedirect("createState.jsp");
+            
+            RequestDispatcher rd = request.getRequestDispatcher("createMedicationBC.jsp");
+             rd.forward(request, response);
+            
 
         } finally {
             out.close();

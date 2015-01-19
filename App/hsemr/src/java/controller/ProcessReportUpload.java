@@ -136,7 +136,7 @@ public class ProcessReportUpload extends HttpServlet {
         // redirects client to message page
         HttpSession session = request.getSession(false);
         session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
-        response.sendRedirect("createState.jsp");
+        response.sendRedirect("createReportDocumentBC.jsp");
 //        getServletContext().getRequestDispatcher("/createStateWithReports.jsp").forward(
 //                request, response);
     }

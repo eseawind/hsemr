@@ -9,6 +9,7 @@ import dao.StateDAO;
 import entity.State;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,16 +39,25 @@ public class ProcessAddState extends HttpServlet {
         String scenarioID = request.getParameter("scenarioID");
         String patientNRIC = request.getParameter("patientNRIC");
         String stateDescription = request.getParameter("stateDescription");
+        int counter= Integer.parseInt(request.getParameter("counter"));
+        
+        counter++;
+        String counterStr= Integer.toString(counter);
+        request.setAttribute("counter", counterStr);
         
         ArrayList<State> stateList = (ArrayList<State>) StateDAO.retrieveAll(scenarioID);
         int stateNumber = stateList.size();
-        
-        
+     
         String stateID = "ST" + stateNumber;
-
+        
+        
+        
         //StateDAO.add(stateID, scenarioID, RR, BP, HR, SPO, intake, output, temperature, stateDescription, patientNRIC);
         StateDAO.add(stateID, scenarioID, stateDescription, 0, patientNRIC);
-        response.sendRedirect("createState.jsp");
+       // response.sendRedirect("createStateBC.jsp");
+        
+        RequestDispatcher rd = request.getRequestDispatcher("createStateBC.jsp");
+         rd.forward(request, response);
 
     }
 
