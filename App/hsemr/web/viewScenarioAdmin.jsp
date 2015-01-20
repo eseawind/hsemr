@@ -45,7 +45,7 @@
         </form>
 
     </center>
-    <div class="large-12 columns" style="padding-top: 20px;">
+    <div class="large-12 columns" style="padding-top: 0px;">
         <%  //Retrieve all the successful messages 
             String success = "";
             if (session.getAttribute("success") != null) {
@@ -58,13 +58,13 @@
         <%List<Scenario> scenarioList = ScenarioDAO.retrieveAll();%>
 
         <!--TABLE-->
-        <table class="responsive">
+        <table>
             <col width="2%">
             <col width="5%">
             <col width="5%">
-            <col width="20%">
-            <col width="30%">
-            <col width="15%">
+            <col width="25%">
+            <col width="58%">
+            <col width="5%">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -97,55 +97,47 @@
 
 
                 <!--ACTIVATE-->
-                <td>   
-                    <div class="row collapse">
-                        <div class="small-5 columns">
-                            <form action ="ProcessActivateScenarioAdmin" method ="POST">
-                                <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                                <% if (status == 1) {%>
-                                <input type ="submit" class="button tiny" value = "deactivate">
-                                <input type="hidden" name="status" value="deactivated">
-                                <%} else {
-                                    Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
-                                    if (activatedScenario != null) { %>
-                                <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
-                                            return false" value="activate" >
-                                <%} else { %>
-                                <input type ="submit" class="button tiny" value="activate">
-                                <% }
-                                    }%>
-                                <input type="hidden" name="status" value="activated">
-                            </form>
-                        </div>
+                <td><center>
+                <form action ="ProcessActivateScenarioAdmin" method ="POST">
+                    <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                    <% if (status == 1) {%>
+                    <input type ="submit" class="button tiny" value = "deactivate">
+                    <input type="hidden" name="status" value="deactivated">
+                    <%} else {
+                        Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
+                        if (activatedScenario != null) { %>
+                    <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
+                                return false" value="activate" >
+                    <%} else { %>
+                    <input type ="submit" class="button tiny" value="activate">
+                    <% }
+                            }%>
+                    <input type="hidden" name="status" value="activated">
+                </form>
 
-                        <div class="small-2 columns">
-                            <!--EDIT-->
-                            <form action ="editScenario.jsp" method ="POST">
-                                <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                                <% if (status == 1) { %>
-                                <input type = "submit" class="button tiny" value="edit" disabled>
-                                <% } else { %>
-                                <input type = "submit" class="button tiny" value="edit">
-                                <% }%>
-                            </form>
-                        </div>
+                <!--EDIT-->
+                <form action ="editScenario.jsp" method ="POST">
+                    <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                    <% if (status == 1) { %>
+                    <input type = "submit" class="button tiny" value="edit" disabled>
+                    <% } else { %>
+                    <input type = "submit" class="button tiny" value="edit">
+                    <% }%>
+                </form>
 
-                        <div class="small-2 columns">
-                            <!--DELETE-->    
-                            <form action ="ProcessDeleteScenario" method ="POST">
-                                <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                                <% if (status == 1) {
-                                %>
-                                <input type = "submit" class="deletebutton tiny" value="delete" disabled>
-                                <% } else {
-                                %>
-                                <input type = "submit" class="deletebutton tiny" onclick="if (!deleteConfirmation())
-                                            return false" value="delete" >
-                                <% } %>
-                            </form>
-                        </div>
-                    </div>  
-                </td>  
+                <!--DELETE-->    
+                <form action ="ProcessDeleteScenario" method ="POST">
+                    <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                    <% if (status == 1) {
+                    %>
+                    <input type = "submit" class="deletebutton tiny" value="delete" disabled>
+                    <% } else {
+                    %>
+                    <input type = "submit" class="deletebutton tiny" onclick="if (!deleteConfirmation())
+                                return false" value="delete" >
+                    <% } %>
+                </form>
+            </center></td>  
             </tr>
             <%}%>  
         </table> 
@@ -156,15 +148,15 @@
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
     <script>
-                                    $(document).ready(function() {
-                                        $(document).foundation();
-                                        var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
+                        $(document).ready(function() {
+                            $(document).foundation();
+                            var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
 
-                                        var success1 = "<%=success%>";
-                                        if (success1 !== "") {
-                                            humaneSuccess.log(success1);
-                                        }
-                                    });
+                            var success1 = "<%=success%>";
+                            if (success1 !== "") {
+                                humaneSuccess.log(success1);
+                            }
+                        });
     </script>
     <script type="text/javascript">
         function deleteConfirmation() {

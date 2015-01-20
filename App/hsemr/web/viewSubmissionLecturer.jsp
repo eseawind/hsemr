@@ -112,10 +112,10 @@
                     %> 
 
                 </table>
-                <form action="ProcessExportPDF" method="POST">
+                <!--<form action="ProcessExportPDF" method="POST">
                     <br>
                     <input type="submit" class="report-despatch button tinytable" value="Export to PDF">
-                </form>
+                </form>-->
             </div>
         </div>
     </body>

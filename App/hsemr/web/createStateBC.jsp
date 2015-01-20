@@ -35,22 +35,20 @@
             <li class="current">Step 2: State Creation</li>
             <li class="unavailable"><a href="#">Step 3: Medication Creation</a></li>
             <li class="unavailable"><a href="#">Step 4: Report and Document Creation</a></li>
-        </ul>
+        </ul><br/>
 
         <%            String success = "";
             String error = "";
-
-
 
             String scenarioID = (String) session.getAttribute("scenarioID");
             String patientNRIC = (String) session.getAttribute("patientNRIC");
 
         %>
 
-        
+
 
         <%List<State> stateList = StateDAO.retrieveAll(scenarioID);%>
-        <center><h2>Step 2: Create State <%=stateList.size()%></h2>
+    <center><h2>Step 2: Create State <%=stateList.size()%></h2>
 
         States are created in <b>ascending</b> order. <br><br>
 
@@ -71,12 +69,13 @@
             <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>">
             <input type ="hidden" name ="patientNRIC" value ="<%=patientNRIC%>">
             
+            <br/><br/>
             <input type="submit" value="Create State" class="button tiny">
             <a href="createMedicationBC.jsp" class="button tiny">Proceed to Step 3</a> 
         </form>
-   
-            
-       
+
+
+
         <!--Display states that are in the database-->
         <% if (stateList == null || stateList.size() - 1 == 0 || stateList.size() - 1 == -1) {
                 out.println("<h3>" + "There are no states created yet." + "</h3>");
@@ -91,12 +90,13 @@
                 if (!stateNumber.equals("ST0")) {
 
                     stateNumber.replace("ST", "State ");
-                String stateDesc = stateNumber.replace("ST", "State ") + " - " + stateName;%>
+                    String stateDesc = stateNumber.replace("ST", "State ") + " - " + stateName;%>
 
         <a href="#" class="button casecreationbutton tiny"><%=stateDesc%></a>
         <%}
-            
-        }}%>
+
+                }
+            }%>
         <!--End of display states in the database-->
 
     </center>

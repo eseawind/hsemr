@@ -21,16 +21,16 @@
         <title>View Ward Information</title>
 
     </head>
-    <body>
     <body>  
     <center>
-        <div class="row" style="padding-top: 70px;">
+        <div class="row" style="padding-top: 60px;">
 
             <h1>Please select a ward:</h1>
             <br/>
-            <div class="large-12 columns" style="padding-top: 10px;">
+            <div class="large-12 columns" style="padding-top: 20px;">
 
-                <table style ="border-spacing:30px; border:none"><tr>
+                <table style ="border-spacing:20px; border:none">
+                    <tr>
                         <%
                             //String[] wards = {"Ward A", "Ward B", "Ward C"};
                             String[] wardList = new String[]{"Simulation Lab 1", "Simulation Lab 2", "Simulation Lab 3", "Simulation Lab 4"};
@@ -46,12 +46,12 @@
                         <td> <form method="POST" action="viewWard4.jsp"><input type="submit"  class="ward" value="Ward 4"/></form></td>
                                 <%}%>
 
-
                         <%}
 
 
                         %>
-                    </tr></table>
+                    </tr>
+                </table>
             </div>
         </div>
     </center>

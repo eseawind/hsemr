@@ -49,11 +49,7 @@
         %>
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
-                <br/>
-                <center><h1>Practical Group Accounts Management</h1></center><br/>
-            </div>
-            <center>
-                <div class ="large-12">
+                <center><h1>Practical Group Accounts Management</h1><br/><br/>
                     <%                          String success = "";
 
                         if (session.getAttribute("success") != null) {
@@ -66,9 +62,9 @@
 
 
                     <table class="responsive" id="cssTable">
-                        <col width="25%">
-                        <col width="25%">
-                        <col width="25%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="20%">
                         <col width="10%">
                         <col width="10%">
                         <thead>
@@ -125,14 +121,14 @@
                     </table><br/><br/><br/>
                     <form action="createPracticalGroupAccount.jsp" method="post">
                         <input type="hidden" name="type" value="nurse">
-                        <input type="submit" class="button small" value="Create new account">
+                        <input type="submit" class="button small" value="Create New Account">
                     </form>
-            </center>
+                </center>
+            </div>
         </div>
-    </div>
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
-    <script>
+        <script src="js/vendor/jquery.js"></script>
+        <script src="js/foundation.min.js"></script>
+        <script>
 
                                         $(document).ready(function() {
                                             $(document).foundation();
@@ -144,7 +140,7 @@
                                             }
 
                                         });
-    </script>
-    <script type="text/javascript" src="js/humane.js"></script>     
-</body>
+        </script>
+        <script type="text/javascript" src="js/humane.js"></script>     
+    </body>
 </html>

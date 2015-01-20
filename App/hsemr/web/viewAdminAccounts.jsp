@@ -47,87 +47,85 @@
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center><h1>Administrator Accounts Management</h1><br/><br/>
-                    <div class="large-12">
-                        <center>
+                    <%
+                        String success = "";
+
+                        if (session.getAttribute("success") != null) {
+
+                            success = (String) session.getAttribute("success");
+                            session.setAttribute("success", "");
+
+                        }
+                    %>
+                    <!--TABLE-->
+                    <table class="responsive" id="cssTable">
+                        <col width="30%">
+                        <col width="30%">
+                        <col width="10%">
+                        <col width="10%">
+                        <thead>
+                            <tr>
+                                <td><b>User ID</b></td>
+                                <td><b>Password</b></td>
+                                <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
+                            </tr>
+                        </thead>
+                        <%
+                            for (Admin admin : adminList) {
+                        %>
+                        <tr>
+                            <td> <%=admin.getAdminID()%> </td>
+                            <td> ************** </td>
+                            <td> 
+                                <form action="editAccount.jsp" method="post">
+                                    <input type="hidden" name="userID" value="<%=admin.getAdminID()%>">
+                                    <input type="hidden" name="password" value="<%=admin.getAdminPassword()%>">
+                                    <input type="hidden" name="type" value="admin">
+                                    <input type="submit" class="button tinytable" value="edit">
+                                </form>
+                            </td>
                             <%
-                                String success = "";
-
-                                if (session.getAttribute("success") != null) {
-
-                                    success = (String) session.getAttribute("success");
-                                    session.setAttribute("success", "");
-
-                                }
+                                String userLoggedIn = (String) session.getAttribute("admin");
                             %>
-                            <!--TABLE-->
-                            <table class="responsive" id="cssTable">
-                                <col width="30%">
-                                <col width="30%">
-                                <col width="20%">
-                                <col width="20%">
-                                <thead>
-                                    <tr>
-                                        <td><b>User ID</b></td>
-                                        <td><b>Password</b></td>
-                                        <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
-                                    </tr>
-                                </thead>
-                                <%
-                                    for (Admin admin : adminList) {
-                                %>
-                                <tr>
-                                    <td> <%=admin.getAdminID()%> </td>
-                                    <td> ************** </td>
-                                    <td> 
-                                        <form action="editAccount.jsp" method="post">
-                                            <input type="hidden" name="userID" value="<%=admin.getAdminID()%>">
-                                            <input type="hidden" name="password" value="<%=admin.getAdminPassword()%>">
-                                            <input type="hidden" name="type" value="admin">
-                                            <input type="submit" class="button tinytable" value="edit">
-                                        </form>
-                                    </td>
+                            <td>
+                                <form action="ProcessDeleteAccount" method="post">
+                                    <input type="hidden" name="userID" value="<%=admin.getAdminID()%>">
+                                    <input type="hidden" name="password" value="<%=admin.getAdminPassword()%>">
+                                    <input type="hidden" name="type" value="admin">
                                     <%
-                                        String userLoggedIn = (String) session.getAttribute("admin");
+                                        if (userLoggedIn != null && userLoggedIn.equals(admin.getAdminID())) {
                                     %>
-                                    <td>
-                                        <form action="ProcessDeleteAccount" method="post">
-                                            <input type="hidden" name="userID" value="<%=admin.getAdminID()%>">
-                                            <input type="hidden" name="password" value="<%=admin.getAdminPassword()%>">
-                                            <input type="hidden" name="type" value="admin">
+                                    <!--<input type="submit" class="button tinytable" value="delete" disabled>-->
+                                    <div class style="padding-top:7px"><b><font color="#368a55">LOGGED IN</font></b></div>
                                             <%
-                                                if (userLoggedIn != null && userLoggedIn.equals(admin.getAdminID())) {
+                                            } else {
                                             %>
-                                            <!--<input type="submit" class="button tinytable" value="delete" disabled>-->
-                                            <div class style="padding-top:7px"><b><font color="#368a55">LOGGED IN</font></b></div>
-                                                    <%
-                                                    } else {
-                                                    %>
-                                            <input type="submit" class="button tinytable" onclick="if (!deleteConfirmation())
-                                            return false" value="delete" >
-                                            <%
-                                                }
-                                            %>
-                                        </form>
-                                    </td>
+                                    <input type="submit" class="button tinytable" onclick="if (!deleteConfirmation())
+                                                return false" value="delete" >
                                     <%
                                         }
                                     %>
-                                </tr>
+                                </form>
+                            </td>
+                            <%
+                                }
+                            %>
+                        </tr>
 
-                            </table><br/><br/><br/>
+                    </table><br/><br/><br/>
 
-                            <!--Create New Account button-->
-                            <form action="createAccount.jsp" method="post">
-                                <input type="hidden" name="type" value="admin">
-                                <input type="submit" class="button small" value="Create New Account">
-                            </form>
-                        </center>
-                    </div>
+                    <!--Create New Account button-->
+                    <form action="createAccount.jsp" method="post">
+                        <input type="hidden" name="type" value="admin">
+                        <input type="submit" class="button small" value="Create New Account">
+                    </form>
+                </center>
             </div>
-            <!--Scripts-->
-            <script src="js/vendor/jquery.js"></script>
-            <script src="js/foundation.min.js"></script>
-            <script>
+        </div>
+        <!--Scripts-->
+        <script src="js/vendor/jquery.js"></script>
+        <script src="js/foundation.min.js"></script>
+        <script>
 
                                         $(document).ready(function() {
                                             $(document).foundation();
@@ -139,8 +137,8 @@
                                             }
 
                                         });
-            </script>
-            <script type="text/javascript" src="js/humane.js"></script>
+        </script>
+        <script type="text/javascript" src="js/humane.js"></script>
     </body>
 
 </html>

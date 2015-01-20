@@ -1118,7 +1118,7 @@ ward, .ward {
     border-width: 0px;
     cursor: pointer;
     font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-weight: normal;
+    font-weight: 300;
     line-height: normal;
     margin: 0 0 1.25rem;
     position: relative;
@@ -1154,7 +1154,7 @@ bed, .bed {
     border-width: 0px;
     cursor: pointer;
     font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-weight: normal;
+    font-weight: 300;
     line-height: normal;
     margin: 0 0 1.25rem;
     position: relative;
@@ -1165,7 +1165,7 @@ bed, .bed {
     display: inline-block;
     border-style: solid;
     border-top-width:60px;	
-    border-top-color:whitesmoke;
+    border-top-color: #e5e5e5;
     padding-top: 6rem;
     padding-right: 3rem;
     padding-bottom: 6rem;
@@ -1180,7 +1180,7 @@ bed:hover, bed:focus, .bed:hover, .bed:focus {
     color: white;
     border-style: solid;
     border-top-width:60px;	
-    border-top-color: #efefef;
+    border-top-color: #e3e3e3;
 }
 bed.off:hover, bed.off:focus, .bed.off:hover, .bed.off:focus {
     background-color: #368a55; }
@@ -1191,7 +1191,7 @@ bedactive, .bedactive {
     border-width: 0px;
     cursor: pointer;
     font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-weight: normal;
+    font-weight: 300;
     line-height: normal;
     margin: 0 0 1.25rem;
     position: relative;
@@ -1202,7 +1202,7 @@ bedactive, .bedactive {
     display: inline-block;
     border-style: solid;
     border-top-width:60px;	
-    border-top-color:whitesmoke;
+    border-top-color:#e5e5e5;
     padding-top: 6rem;
     padding-right: 3rem;
     padding-bottom: 6rem;
@@ -1217,7 +1217,7 @@ bedactive:hover, bedactive:focus, .bedactive:hover, .bedactive:focus {
     color: white;
     border-style: solid;
     border-top-width:60px;	
-    border-top-color: #efefef;
+    border-top-color: #e3e3e3;
 }
 bedactive.off:hover, bedactive.off:focus, .bedactive.off:hover, .bedactive.off:focus {
     background-color: #368a55; }
@@ -1256,7 +1256,7 @@ button, .button {
     border-width: 1px;
     cursor: pointer;
     font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-weight: normal;
+    font-weight: 400;
     line-height: normal;
     margin: 0 0 1.25rem;
     position: relative;
@@ -1536,14 +1536,14 @@ meta.foundation-mq-topbar {
     border-right: solid 1px #368a55;
     line-height: 53px;
     font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-size: 1.5000rem;
+    font-size: 1.7000rem;
     margin: 0; }
 .top-bar .name h1 a {
-    font-weight: normal;
+    font-weight: 400;
     color: #34893E;
-    width: 75%;
+    width: 100%;
     display: block;
-    padding: 0 15px; }
+    padding: 0 10px; }
 .top-bar .toggle-topbar {
     position: absolute;
     right: 0;
@@ -1616,8 +1616,8 @@ meta.foundation-mq-topbar {
     padding: 10px 0 10px 0;
     padding-left: 10px;
     font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-size: 1.0000rem;
-    font-weight: normal;
+    font-size: 1.100rem;
+    font-weight: 400;
     text-transform: none; }
 .top-bar-section ul li > a.button {
     font-size: 0.8125rem;
@@ -1935,7 +1935,7 @@ meta.foundation-mq-topbar {
 
 .breadcrumbs {
     display: block;
-    padding: 0.5625rem 0.875rem 0.5625rem;
+    padding: 0.8625rem 1.175rem 0.8625rem;
     overflow: hidden;
     margin-left: 0;
     list-style: none;
@@ -1947,7 +1947,7 @@ meta.foundation-mq-topbar {
 .breadcrumbs > * {
     margin: 0;
     float: left;
-    font-size: 0.6875rem;
+    font-size: 1.45rem;
     line-height: 0.6875rem;
     text-transform: uppercase;
     color: #008cba; }
@@ -2889,10 +2889,10 @@ a img {
 /* Default paragraph styles */
 p {
     font-family: inherit;
-    font-weight: normal;
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 1.25rem;
+    font-weight: 300;
+    font-size: 1.15rem;
+    line-height: 1.5;
+    margin-bottom: 1.0rem;
     text-rendering: optimizeLegibility; }
 p.lead {
     font-size: 1.21875rem;
@@ -3204,7 +3204,6 @@ blockquote p {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 16.669%;
-
     border-right: solid 1px #368a55;
     border-top: solid 1px #368a55;
     border-bottom: solid 1px #368a55;
@@ -3215,7 +3214,8 @@ blockquote p {
     color: black;
     padding: 1.5rem;
     font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-size: 0.90rem; }
+    font-weight: 300;
+    font-size: 1.10rem; }
 .tabs dd > a:hover, .tabs .tab-title > a:hover {
     background: #F5FCED; }
 .tabs dd.active a, .tabs .tab-title.active a {

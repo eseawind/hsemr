@@ -21,7 +21,7 @@
     <center>
         <br/><br/><br/>
         <h1>Case Information</h1><br/><br/>
-        <div class="large-centered large-8 columns">
+        <div class="large-centered large-6 columns">
             <% Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
         if (scenarioActivated != null) {%>
             <form action ="viewPatientInformation.jsp" method="post">
@@ -31,7 +31,7 @@
 
                     <tr>
                         <td>
-                            <b>Scenario Name</b>
+                            <h5><font style="font-weight:400">Scenario Name</font></h5>
                         </td>
 
                         <td> 
@@ -56,7 +56,7 @@
                     </tr>-->
                     <tr>
                         <td>
-                            <b>Scenario Description </b>
+                            <h5><font style="font-weight:400">Scenario Description</font></h5>
                         </td>
 
                         <td>
@@ -64,7 +64,7 @@
                         </td>
                     </tr>
 
-                </table><br/><br/><br/>
+                </table><br/><br/><br/><br/>
                 <input type="submit" class="button" value="Proceed">
             </form>
             <%

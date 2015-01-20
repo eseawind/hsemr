@@ -24,10 +24,10 @@
     </head>
     <body>
     <center>
-        <div class="row" style="padding-top: 70px;">
+        <div class="row" style="padding-top: 60px;">
 
-            <h1>Beds in Ward 3</h1>
-            <br/>
+            <h1>Please select a bed in <font style="font-weight:300">Ward 3</font>:</h1>
+
             <div class="large-12 columns" style="padding-top: 20px;"> 
                 <table style ="border-spacing:5px; border:none">    
                     <%
@@ -81,8 +81,8 @@
 
                 </table>
                 <form>
-                    <br/><br/><br/>
-                    <input type="button" value="Back to Ward Overview" class="button tiny" onClick="window.location = 'viewWardInformation.jsp'"/>
+                    <br/>
+                    <input type="button" value="Back to Ward Overview" class="button" onClick="window.location = 'viewWardInformation.jsp'"/>
                 </form>
             </div>
         </div>

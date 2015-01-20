@@ -49,8 +49,6 @@
             <div class="large-centered large-12 columns">
                 <center>
                     <h1>Lecturer Accounts Management</h1><br/><br/>
-        
-                    <div class ="large-12">
                         <%
                         String success = ""; 
                         String error = "";
@@ -68,10 +66,10 @@
                         }
                         %>
                     <table class="responsive" id="cssTable">
-                        <col width="38%">
-                        <col width="38%">
-                        <col width="12%">
-                        <col width="12%">
+                        <col width="30%">
+                        <col width="30%">
+                        <col width="10%">
+                        <col width="10%">
                         <thead>
                         <tr>
                             <th><b>User ID</b></th>
@@ -129,7 +127,6 @@
                     </form>
 
                 </center>
-
             </div>
         </div>
         <script src="js/vendor/jquery.js"></script>

@@ -36,7 +36,7 @@
             <li><a href="createStateBC.jsp">Step 2: State Creation</a></li>
             <li class="current"><a href="#">Step 3: Medication Creation</a></li>
             <li class="unavailable"><a href="#">Step 4: Report and Document Creation</a></li>
-        </ul>
+        </ul><br/>
         
         <center><h1>Step 3: Medication Creation</h1></center>
         <br>
