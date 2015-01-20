@@ -77,12 +77,14 @@
 
                         DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
                         List<PracticalGroup> pgList = PracticalGroupDAO.retrieveAll();
+                        Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
+                        String scenarioID = scenarioActivated.getScenarioID();
                         for (int p = 1; p <= pgList.size(); p++) {
                             String pgIDStr = "P0" + p;
                             PracticalGroup pg = PracticalGroupDAO.retrieve(pgIDStr);
                             String pgLecturer = pg.getLecturerID();
                             if (userLoggedIn.equals(pgLecturer)) {
-                                List<Note> notesToPrint = NoteDAO.retrieveNotesByPraticalGrp(pgIDStr);
+                                List<Note> notesToPrint = NoteDAO.retrieveNotesByPraticalGrp(pgIDStr, scenarioID);
                                 for (int n = 0; n < notesToPrint.size(); n++) {
                                     Note nn = notesToPrint.get(n);
                                     String notePGId = nn.getPracticalGroupID();
@@ -111,6 +113,7 @@
 
                 </table>
                 <form action="ProcessExportPDF" method="POST">
+                    <br>
                     <input type="submit" class="report-despatch button tinytable" value="Export to PDF">
                 </form>
             </div>
