@@ -441,61 +441,73 @@
                             <tr>
                                 <td><b>Medicine Barcode</b></td>
                                 <td><b>Medicine Name<b></td>
-                                            <td><b>Route</b></td>
-                                            <td><b>Dosage</b></td>
-                                            <td><b>Frequency</b></td>
-                                            <td><b>Doctor Name/MCR No.</b></td>
-                                            </tr>
-                                            <%for (MedicinePrescription medicinePrescription : medicinePrescriptionList) {
-                                                    String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
+                                <td><b>Route</b></td>
+                                <td><b>Dosage</b></td>
+                                <td><b>Frequency</b></td>
+                                <td><b>Doctor Name/MCR No.</b></td>
+                                <td><b>Remarks</b></td>
+                                </tr>
+                                <%for (MedicinePrescription medicinePrescription : medicinePrescriptionList) {
+                                        String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
 
-                                                    if (medicineBarcodeInput == null) {
-                                                        medicineBarcodeInput = "";
-                                                    }
+                                        if (medicineBarcodeInput == null) {
+                                            medicineBarcodeInput = "";
+                                        }
 
-                                            %>
-                                            <tr>
-                                                <td>   
+                                %>
+                                <tr>
+                                    <td>   
 
-                                                    <form action = "ProcessMedicineBarcode" method = "POST">
-                                                        <div class="password-confirmation-field">
-                                                            <input type="hidden" name = "medicineBarcode" id="medicineBarcode" value = "<%=medicinePrescription.getMedicineBarcode()%>">
-                                                            <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>"  <%=disabled%>>
+                                        <form action = "ProcessMedicineBarcode" method = "POST">
+                                            <div class="password-confirmation-field">
+                                                <input type="hidden" name = "medicineBarcode" id="medicineBarcode" value = "<%=medicinePrescription.getMedicineBarcode()%>">
+                                                <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>"  <%=disabled%>>
 
-                                                        </div>
-
-
-                                                    </form></td>
-                                                <td>
-                                                    
-                                                    <%=MedicineDAO.retrieve(medicinePrescription.getMedicineBarcode()).getMedicineName()%>
-                                                
-                                                
-                                                </td>
-                                                <td>
-                                                    <%
-
-                                                        String medicineBarcode = medicinePrescription.getMedicineBarcode();
-                                                        if (medicineBarcode != null) {
-                                                            Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
-                                                            out.println(medicine.getRouteAbbr());
-                                                        }
-                                                    %>
+                                            </div>
 
 
-                                                </td>
-                                                <td><%=medicinePrescription.getDosage()%></td>
-                                                <td><%=medicinePrescription.getFreqAbbr()%></td>                                          
-                                                <td>Dr.Tan/01234Z</td>
-                                            </tr>  
-                                            <%}
-                                                    //session.removeAttribute("patientBarcodeInput");
-                                                }
-                                                session.removeAttribute("isMedicationVerified");
-                                                session.removeAttribute("isPatientVerified");
-                                            %>
+                                        </form></td>
+                                    <td>
 
-                                            </table>
+                                        <%=MedicineDAO.retrieve(medicinePrescription.getMedicineBarcode()).getMedicineName()%>
+
+
+                                    </td>
+                                    <td>
+                                        <%
+
+                                            String medicineBarcode = medicinePrescription.getMedicineBarcode();
+                                            if (medicineBarcode != null) {
+                                                Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
+                                                out.println(medicine.getRouteAbbr());
+                                            }
+                                        %>
+
+
+                                    </td>
+                                    <td><%=medicinePrescription.getDosage()%></td>
+                                    <td><%=medicinePrescription.getFreqAbbr()%></td>                                          
+                                    <td>Dr.Tan/01234Z</td>
+                                    <td>
+                                        <%
+                                            String medicineBarcodeToRetrieve = medicinePrescription.getMedicineBarcode();
+                                            Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID, medicineBarcodeToRetrieve);
+                                            
+                                            if(medicineBarcodeToRetrieve != null && prescription != null){
+                                                out.println(prescription.getDoctorOrder());
+                                            }
+                                        %>
+                                        
+                                    </td>
+                                </tr>  
+                                <%}
+                                        //session.removeAttribute("patientBarcodeInput");
+                                    }
+                                    session.removeAttribute("isMedicationVerified");
+                                    session.removeAttribute("isPatientVerified");
+                                %>
+
+                                </table>
 
                                             </div> 
                                             <!--End of medication tab-->
