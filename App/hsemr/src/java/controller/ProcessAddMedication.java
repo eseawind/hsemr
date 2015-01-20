@@ -47,11 +47,6 @@ public class ProcessAddMedication extends HttpServlet {
             String stateID = (String) request.getParameter("stateID");
             String fullTextStateID = stateID.replace("ST", "State ");
             
-            int counter= Integer.parseInt(request.getParameter("counter"));
-            counter++;
-            String counterStr= Integer.toString(counter);
-             request.setAttribute("counter", counterStr);
-            
             //retrieve values for Medicine table
             String medicineName = request.getParameter("medicineName");
             Medicine medicineRetrieved = MedicineDAO.retrieveByMedicineName(medicineName);
@@ -61,7 +56,7 @@ public class ProcessAddMedication extends HttpServlet {
             
             String route = request.getParameter("route");
         
-             //retrieve values for Prescription table
+            //retrieve values for Prescription table
             String doctorName= request.getParameter("doctorName");
             String doctorOrder = request.getParameter("doctorOrder");
             String freq = request.getParameter("frequency");
@@ -83,16 +78,18 @@ public class ProcessAddMedication extends HttpServlet {
             
             if(!route.equals(routeRetrieved)){ //create new medicine with a different route
                 MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
+                PrescriptionDAO.add(scenarioID,stateID,doctorName,doctorOrder,freq, medicineBarcode);
+                MedicinePrescriptionDAO.add(medicineBarcode,scenarioID,stateID,freq,dosage);
             }else if(medicineName != null){            
                 MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
+                PrescriptionDAO.add(scenarioID,stateID,doctorName,doctorOrder,freq, medicineBarcode);
+                MedicinePrescriptionDAO.add(medicineBarcode,scenarioID,stateID,freq,dosage);
 
             }
             
-            PrescriptionDAO.add(scenarioID,stateID,doctorName,doctorOrder,freq, medicineBarcode);
-            MedicinePrescriptionDAO.add(medicineBarcode,scenarioID,stateID,freq,dosage);
             
-            RequestDispatcher rd = request.getRequestDispatcher("createMedicationBC.jsp");
-             rd.forward(request, response);
+            
+            response.sendRedirect("createMedicationBC.jsp");
             
 
         } finally {

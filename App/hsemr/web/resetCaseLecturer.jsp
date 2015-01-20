@@ -148,11 +148,6 @@
             <form action = "ProcessResetScenario" method = "POST">   
                 <h2>Case Information</h2> 
                 
-                <%
-                    StateDAO.resetStateStatus(scenario.getScenarioID());
-                    ReportDAO.resetStatus(scenario.getScenarioID());
-                    VitalDAO.resetVital(scenario.getScenarioID());
-                %>
                 <input type ="hidden" id= "status" name = "status" value = "reset">
                 <input type ="hidden" id= "scenarioID" name = "scenarioID" value = "<%=scenario.getScenarioID()%>">
                 <input type ="submit" class="button tiny" value = "Reset Case">

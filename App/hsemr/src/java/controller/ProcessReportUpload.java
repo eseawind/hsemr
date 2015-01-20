@@ -125,17 +125,17 @@ public class ProcessReportUpload extends HttpServlet {
             //save it to database
             ReportDAO.add(reportName, fileName, scenarioID, stateID,0);
             HttpSession session = request.getSession(false);
-            session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
+            //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
             
         } catch (Exception ex) {
             request.setAttribute("message",
                     "There was an error: " + ex.getMessage());
             HttpSession session = request.getSession(false);
-            session.setAttribute("error", "There was an error in uploading " + fileName + " .");
+            //session.setAttribute("error", "There was an error in uploading " + fileName + " .");
         }
         // redirects client to message page
         HttpSession session = request.getSession(false);
-        session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
+        //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
         response.sendRedirect("createReportDocumentBC.jsp");
 //        getServletContext().getRequestDispatcher("/createStateWithReports.jsp").forward(
 //                request, response);

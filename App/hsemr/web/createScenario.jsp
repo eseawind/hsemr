@@ -58,13 +58,19 @@
         }
         %>
 
-        <title>Case Setup - Create Case</title>
-        
+        <title>Case Setup - Case Creation</title>
         
     </head>
     <body>
         <br>
-        <b>Step 1: Case creation</b> > Step 2: State creation > Step 3: Medication creation > Step 4: Report and Document creation
+        
+        <ul class="breadcrumbs">
+            <li class="current">Step 1: Case Creation</a></li>
+            <li class="unavailable">Step 2: State Creation</li>
+            <li class="unavailable"><a href="#">Step 3: Medication Creation</a></li>
+            <li class="unavailable"><a href="#">Step 4: Report and Document Creation</a></li>
+        </ul>
+        <!--<b>Step 1: Case creation</b> > Step 2: State creation > Step 3: Medication creation > Step 4: Report and Document creation-->
 <!--    <ul class="breadcrumbs">
         <li><a href="#">Step 1: Create Case</a></li>
         <li><a href="#">Step 2: Create State</a></li>
@@ -74,15 +80,10 @@
         <li class="unavailable"><a href="#">Gene Splicing</a></li>
         <li class="current"><a href="#">Cloning</a></li>
     </ul>-->
-            
-
-        
-   
         
     <center><h1>Case Set Up</h1>
-       
-    
-    <h2>Step 1: Create case</h2>
+
+<!--    <h2>Step 1: Create case</h2>-->
   
     <%
     //for repopulating the fields, if there is an error
@@ -168,16 +169,16 @@
                             <label for="right-label" class="right inline" >Case Name</label>
                         </div>
                         <div class="small-9 columns">
-                            <input type="text" id="password" name="scenarioName" value = "<%=scenarioName%>" required>
+                            <input type="text" name="scenarioName" value = "<%=scenarioName%>" required>
                         </div>
                     </div>
                 </div>
             </div>
 
       
-    <dl class="accordion" data-accordion>
-        <dd class="accordion-navigation">
-            <a href="#panel1">Case Information</a>
+    <!--<dl class="accordion" data-accordion>-->
+        <!--<dd class="accordion-navigation">-->
+            <!--<a href="#panel1">Case Information</a>-->
 
             <div id="panel1" class="content">
                 <center>
@@ -190,11 +191,11 @@
                     </div>
                 </center>
             </div>
-        </dd>
+        <!--</dd>-->
         
-        <dd class="accordion-navigation">
-            <a href="#panel2">Patient's Information</a>
-            <div id="panel2" class="content">
+        <!--<dd class="accordion-navigation">-->
+            <!--<a href="#panel2">Patient's Information</a>-->
+            <!--<div id="panel2" class="content">-->
                 <!--New row 1-->
                 <div class="row">
 
@@ -240,9 +241,9 @@
                 </div>
                 
             </div>
-        </dd>
-        <dd class="accordion-navigation">
-            <a href="#panel3">Default Vital Signs for State 0</a>
+        <!--</dd>-->
+        <!--<dd class="accordion-navigation">-->
+            <!--<a href="#panel3">Default Vital Signs for State 0</a>-->
             <!--State 0-->
             <div id="panel3" class="content">
                 <div style="margin-left:100px;"> Leave empty if not applicable.</div><br/>
@@ -282,10 +283,10 @@
                     <div class="large-4 columns"></div>
                 </div>
             </div>
-        </dd>
-    </dl>
+        <!--</dd>-->
+    <!--</dl>-->
     <br/>
-    <center><input type ="submit" class ="button" value ="Create Case"></center>
+    <input type="submit" value="Proceed" class="button tiny">  
 </form>
 
 

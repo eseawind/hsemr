@@ -94,6 +94,30 @@ public class PrescriptionDAO {
         return list;
     }
     
+    public static ArrayList<Prescription> retrieve(String scenarioID) {
+        ArrayList<Prescription> list = new ArrayList<Prescription>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from prescription WHERE scenarioID = ?");
+            stmt.setString(1, scenarioID);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Prescription prescription = new Prescription(rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
+                list.add(prescription);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return list;
+    }
+    
     public static void delete(String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;

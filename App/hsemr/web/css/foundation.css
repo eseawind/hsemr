@@ -1313,9 +1313,43 @@ deletebutton.tiny, .deletebutton.tiny {
     padding-left: 1.05rem;
     font-size: 0.8875rem; }
 
+casecreationbutton, .casecreationbutton {
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Roboto", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    line-height: normal;
+    margin: 0 0 1.25rem;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    display: inline-block;
+    padding-top: 1rem;
+    padding-right: 2rem;
+    padding-bottom: 1.0625rem;
+    padding-left: 2rem;
+    font-size: 1.2rem;
+    background-color: #f1efef;
+    border-color: #afaeae;
+    color: #afaeae;
+    transition: background-color 300ms ease-out; }
+casecreationbutton:hover, casecreationbutton:focus, .casecreationbutton:hover, .casecreationbutton:focus {
+    background-color: #e7e7e7; }
+casecreationbutton:hover, casecreationbutton:focus, .casecreationbutton:hover, .casecreationbutton:focus {
+    color: #afaeae; }
+casecreationbutton.tiny, .casecreationbutton.tiny {
+    padding-top: 0.325rem;
+    padding-right: 1.05rem;
+    padding-bottom: 0.3875rem;
+    padding-left: 1.05rem;
+    font-size: 0.8875rem; }
+
+
+
 button.secondary, .button.secondary {
     background-color: #e7e7e7;
-    border-color: #007095;
     color: #333333; }
 button.secondary:hover, button.secondary:focus, .button.secondary:hover, .button.secondary:focus {
     background-color: #007095; }

@@ -122,7 +122,7 @@ public class ProcessAddScenario extends HttpServlet {
                 
                 session.setAttribute("scenarioID", scenarioID);
                 session.setAttribute("patientNRIC", patientNRIC);
-                session.setAttribute("success", "New scenario: " + scenarioID +  " has been created successfully!");
+               // session.setAttribute("success", "New scenario: " + scenarioID +  " has been created successfully!");
                 response.sendRedirect("createStateBC.jsp");
                 
             }

@@ -14,7 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
         <link rel="stylesheet" href="css/original.css" />
@@ -27,31 +27,23 @@
         <script type="text/javascript" src="js/humane.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <link rel="stylesheet" href="/resources/demos/style.css">
-        <title>Case Setup of Report and Document</title>
+        <title>Case Setup - Upload Report and Document</title>
     </head>
-    <body>  
-        <script src="js/vendor/jquery.js"></script>
-        <script src="js/foundation.min.js"></script>
-        <center><h1>Report and Document creation</h1></center>
+    <body>
         <br>
-        <b> Step 1: Case creation > <a href="createStateBC.jsp">Step 2: State creation</a>  > <a href="createMedicationBC.jsp">Step 3: Medication creation</a> > <a href="createReportDocumentBC.jsp">Step 4: Report and Document Creation</a> </b>
-   
+        <ul class="breadcrumbs">
+            <li class="unavailable">Step 1: Case Creation</li>
+            <li><a href="createStateBC.jsp">Step 2: State Creation</a></li>
+            <li><a href="createMedicationBC.jsp">Step 2: State Creation</a></li>
+            <li class="unavailable"><a href="#">Step 4: Report and Document Creation</a></li>
+        </ul>
+        <center><h1>Step 4: Report and Document Creation</h1></center>
+        <br>
+    
           <%
 
             String success = "";
             String error = "";
-
-            if (session.getAttribute("success") != null) {
-
-                success = (String) session.getAttribute("success");
-                session.setAttribute("success", "");
-            }
-
-            if (session.getAttribute("error") != null) {
-
-                error = (String) session.getAttribute("error");
-                session.setAttribute("error", "");
-            }
 
             String scenarioID = (String) session.getAttribute("scenarioID");
             String patientNRIC = (String) session.getAttribute("patientNRIC");
@@ -60,26 +52,43 @@
         %>
         
         
-         <h2>Step 4: Upload Reports <a href="#" data-reveal-id="uploadReports"><img src="img/add.png" height ="30" width = "30"></a></h2>
-         <% 
-               List<Report> reportList=  ReportDAO.retrieveReportsByScenario(scenarioID);
-                for(Report reportRetrieve : reportList){%>
-        <h4><%=reportRetrieve.getStateID().replace("ST", "State ") +  " - " + reportRetrieve.getReportName() + " (" + reportRetrieve.getReportFile()+ ") " +  "<br>"%></h4>
-            
-           <% }
-        
-        %>
+        <center><h2>Step 4: Upload Reports <a href="#" data-reveal-id="uploadReports"><img src="img/add.png" height ="30" width = "30"></a></h2></center>
+
+        <!--Display reports that are in the database-->
+            <center>
+            <%   List<Report> reportList=  ReportDAO.retrieveReportsByScenario(scenarioID);
+                if (reportList == null || reportList.size() == 0 ) {
+                    out.println("<h3>" + "There are no reports(s) uploaded yet." + "</h3>");
+
+                } else {
+                    out.print("<h3>Reports(s) Uploaded</h3>");
+            %>
+
+            <%for (Report report : reportList) {
+                    String stateNumber = report.getStateID();
+                    String reportName = report.getReportName();
+                    String reportFile = report.getReportFile();
+
+                    stateNumber.replace("ST", "State ");
+                    String stateDesc = stateNumber.replace("ST", "State ") + " - " + reportName + "(" + reportFile + ")";%>
+
+            <a href="#" class="button casecreationbutton tiny"><%=stateDesc%></a>
+       
+
+            <%}}%>
+            </center>
+        <!--End of display reports in the database-->
         
         <!--Reveal modal for upload reports-->
         <div id="uploadReports" class="reveal-modal" data-reveal>
-            <h2>Step 4: Upload Report</h2>
+            <h2>Upload Report</h2>
             
             Please upload ONE at a time. <br><br>
 
             <form action = "ProcessReportUpload" method = "POST" enctype = "multipart/form-data"> 
                 State
                 <select name = "stateID" required>
-                    <option>--Please select the state that this report will be tag to--</option>
+                    <option disabled="disabled" selected="selected" value = "">--Please select the state that this report will be tag to--</option>
                     <%                             for (State state : stateList) {%>
                     <option><%=state.getStateID()%></option>
                     <% }
@@ -97,15 +106,34 @@
             <a class="close-reveal-modal">&#215;</a>
         </div>
                 
-        <h2>Step 4: Upload Documents <a href="#" data-reveal-id="uploadDocuments"><img src="img/add.png" height ="30" width = "30"></a></h2>
-         <%  
-             
-             List<Document> documentList= DocumentDAO.retrieveDocumentsByScenario(scenarioID);
+            <center><h2>Step 4: Upload Documents <a href="#" data-reveal-id="uploadDocuments"><img src="img/add.png" height ="30" width = "30"></a></h2></center>
+           
+           
+            <!--Display documents that are in the database-->
+            <center>
+            <%  List<Document> documentList= DocumentDAO.retrieveDocumentsByScenario(scenarioID);
+                if (documentList == null || documentList.size() == 0) {
+                    out.println("<h3>" + "There are no documents(s) uploaded yet." + "</h3>");
 
-              for(Document documentRetrieve : documentList){%>
-        <h4><% out.println(documentRetrieve.getConsentName() + " (" + documentRetrieve.getConsentFile()+ ") " +  "<br>");%></h4>
-            
-           <% } %>
+                } else {
+                    out.print("<h3>Documents(s) Uploaded</h3>");
+            %>
+
+            <%for (Document document : documentList) {
+                    String stateNumber = document.getStateID();
+                    String consentName = document.getConsentName();
+                    String consentFile = document.getConsentFile();
+                  
+
+                        stateNumber.replace("ST", "State ");
+                        String stateDesc = stateNumber.replace("ST", "State ") + " - " + consentName + "(" + consentFile + ")";%>
+
+            <a href="#" class="button casecreationbutton tiny"><%=stateDesc%></a>
+       
+
+            <%}}%>
+            </center>
+            <!--End of display documents in the database-->
            
         
         <!--Reveal modal for upload documents-->
@@ -129,7 +157,7 @@
 
                 
       <form action="viewScenarioAdmin.jsp" method="POST">
-    <center><input type ="submit" class ="button" value ="Return to Admin Homepage"></center>
+    <center><input type ="submit" class ="button tiny" value ="Return to Admin Homepage"></center>
     </form>
                 
            <script src="js/vendor/jquery.js"></script>

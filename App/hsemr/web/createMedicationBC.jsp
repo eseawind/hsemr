@@ -3,7 +3,6 @@
     Created on : Jan 20, 2015, 1:23:50 AM
     Author     : hpkhoo.2012
 --%>
-
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="dao.*"%>
@@ -15,7 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
         <link rel="stylesheet" href="css/original.css" />
@@ -28,16 +27,22 @@
         <script type="text/javascript" src="js/humane.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <link rel="stylesheet" href="/resources/demos/style.css">
-        <title>Case Setup of Medication</title>
+        <title>Case Setup - Medication Creation</title>
     </head>
     <body>
-        <script src="js/vendor/jquery.js"></script>
-        <script src="js/foundation.min.js"></script>
-        <center><h1>Medication creation</h1></center>
         <br>
-        <b>Step 1: Case creation > <a href="createStateBC.jsp">Step 2: State creation</a>  > <a href="createMedicationBC.jsp">Step 3: Medication creation</a> </b> > Step 4: Report and Document creation
+        <ul class="breadcrumbs">
+            <li class="unavailable">Step 1: Case Creation</li>
+            <li><a href="createStateBC.jsp">Step 2: State Creation</a></li>
+            <li class="current"><a href="#">Step 3: Medication Creation</a></li>
+            <li class="unavailable"><a href="#">Step 4: Report and Document Creation</a></li>
+        </ul>
+        
+        <center><h1>Step 3: Medication Creation</h1></center>
+        <br>
+        
          <%
-
+         //for printing of error/success messages
             String success = "";
             String error = "";
 
@@ -58,21 +63,8 @@
              List<State> stateList = StateDAO.retrieveAll(scenarioID);
 
         %>
-        
-        
-        <%
-            List<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieveFromScenario(scenarioID);
-            
-            for(MedicinePrescription medicinePrescription : medicinePrescriptionList){%>
-        <h4><%=medicinePrescription.getStateID().replace("ST", "State ") +  " - " + medicinePrescription.getMedicineBarcode() + " [" + medicinePrescription.getFreqAbbr()+ " " + medicinePrescription.getDosage() + "] " +"<br>"%></h4>
-            
-           <% }
-        
-        %>
-         
-        
-        <h2>Step 3: Create Medication</h2>
-            Can't find the medicine you're looking for? Add new medicine <a href="#" data-reveal-id="addNewMedicine">here</a><br><br>
+
+           <center>Can't find the medicine you're looking for? Add new medicine <a href="#" data-reveal-id="addNewMedicine">here</a><br><br></center>
             
             <!--add new medicine reveal modal-->
             <div id="addNewMedicine" class="reveal-modal" data-reveal>
@@ -83,9 +75,7 @@
                 Medicine Barcode <input type ="text" name ="newMedicineBarcode" style="text-transform:uppercase;" required pattern ="^[0-9a-zA-Z]+$">
                  
                 <small class="error">No space and numbers allowed.</small> 
-                
-                <!--Medicine Barcode <input type="text" name="newMedicineBarcode" style="text-transform:uppercase;" required />-->
-                Route <select name="route">
+                Route <select name="route" required>
                 <option>--Please select the Route--</option>
                 <%
                     List<Route> routeList = RouteDAO.retrieveAll();
@@ -102,109 +92,139 @@
                 
             <!--Add medication form-->
             <form action ="ProcessAddMedication" method ="POST">
-                
-                <%
-                    int counter=0; 
-                    String counterStr= (String) request.getAttribute("counter");
-                    
-                    if(counterStr==null){
-                        counter=0;
-                    }else{                 
-                         counter = Integer.parseInt(counterStr);
-                    }
-                %>
-
                 <%
                     List<Medicine> medicineList = MedicineDAO.retrieveAll();
                     
                     List<Frequency> freqList = FrequencyDAO.retrieveAll();
-                    //List<Prescription> prescriptionList= PrescriptionDAO.retrieveAll();
-
                 %>
-                State
-                <select name = "stateID" required>
-                    <option>--Please select the state that this medicine will be tag to--</option>
-                    <%      
-                    for (State state : stateList) {%>
-                    <option><%=state.getStateID()%></option>
-                    <% }
-                    %>
-                </select>
-                Medicine Name 
-                <select name="medicineName">
-                    <%
-                    for (Medicine medicine : medicineList) {%>
-                    <option><%=medicine.getMedicineName()%></option>
-                    <%}
-                        %>
-                </select>
-                 <!--if select same route as database, then use the medicine in the database, else take this route-->
-                Route 
-                <select name="route">
-                    <option>--Please select the Route--</option>
-                    <%
-                        for (Route route : routeList) {
-                    %>
-                    <option><%=route.getRouteAbbr()%></option>
-                    <%}%>
-                </select>
-                
-                
-                Frequency 
-                <select name="frequency">
-                    <option selected>--Please select the Frequency--</option>
-                    <%
-                        for (Frequency freq : freqList) {
-                        //out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
-                    %>
-                    <option><%=freq.getFreqAbbr()%></option>
-                    <%}
-                    %>
-                </select>
-
-                Doctor's Name/MCR No.<input type="text" name="doctorName" value="Dr.Tan/01234Z" required>
-
-                Doctor's Order <input type="text" name="doctorOrder" required>
-
-                Dosage <input type="text" name="dosage" required>
-
-                <input type ="hidden" name ="counter" value ="<%=counter%>">
-                <% if(counter == 0) {%>
-                    <input type ="submit" class ="button" value ="Create Medication">
-              <%  }else{ %>
-                    <input type ="submit" class ="button" value ="Create Medication">
-              </form>
+  
+                <div class="row">
+                    <div class="small-3 columns">
+                        <label for="right-label" class="right inline" >State</label>
+                    </div>
+                    <div class="small-9 columns">
+                        <select name = "stateID" required>
+                            <option disabled="disabled" selected="selected" value = "">--Please select the state that this medicine will be tag to--</option>
+                            <%      
+                            for (State state : stateList) {%>
+                            <option><%=state.getStateID()%></option>
+                            <% }
+                            %>
+                        </select>
+                    </div>
+                </div>
+                        
+                <div class="row">
+                    <div class="small-3 columns">
+                        <label for="right-label" class="right inline" > Medicine Name </label>
+                    </div>
+                    <div class="small-9 columns">
+                        <select name="medicineName" required>
+                            <option disabled="disabled" selected="selected" value = "">--Please select the Medicine--</option>
+                            <%
+                            for (Medicine medicine : medicineList) {%>
+                            <option><%=medicine.getMedicineName()%></option>
+                            <%}
+                                %>
+                        </select>
+                    </div>
+                </div>
+                        
+                <div class="row">
+                    <div class="small-3 columns">
+                        <label for="right-label" class="right inline" > Route </label>
+                    </div>
+                    <div class="small-9 columns">
+                        <select name="route" required>
+                            <option disabled="disabled" selected="selected" value = "">--Please select the Route--</option>
+                            <%
+                                for (Route route : routeList) {
+                            %>
+                            <option><%=route.getRouteAbbr()%></option>
+                            <%}%>
+                        </select>
+                    </div>
+                </div>
                     
-                    <form action="createReportDocumentBC.jsp" method="POST">
-                    <input type ="submit" class ="button" value ="Proceed to Step 4">
-                    </form>
-              <%  } %>
-
+                <div class="row">
+                    <div class="small-3 columns">
+                        <label for="right-label" class="right inline" > Frequency </label>
+                    </div>
+                    <div class="small-9 columns">
+                        <select name="frequency" required>
+                            <option disabled="disabled" selected="selected" value = "">--Please select the Frequency--</option>
+                            <%
+                                for (Frequency freq : freqList) {
+                                //out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
+                            %>
+                            <option><%=freq.getFreqAbbr()%></option>
+                            <%}
+                            %>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="small-3 columns">
+                        <label for="right-label" class="right inline" > Doctor's Name/MCR No. </label>
+                    </div>
+                    <div class="small-9 columns">
+                        <input type="text" name="doctorName" value="Dr.Tan/01234Z" required>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="small-3 columns">
+                        <label for="right-label" class="right inline" > Doctor's Order </label>
+                    </div>
+                    <div class="small-9 columns">
+                        <input type="text" name="doctorOrder" required>
+                    </div>
+                </div>
+                        
+                <div class="row">
+                    <div class="small-3 columns">
+                        <label for="right-label" class="right inline" > Dosage </label>
+                    </div>
+                    <div class="small-9 columns">
+                        <input type="text" name="dosage" required>
+                    </div>
+                </div>
                 
 
- <!--Script for "Add Medicine" button-->
-    <script>
-        $(document).ready(function() {
-            var max_fields = 2; //maximum input boxes allowed
-            var wrapper = $(".input_fields_wrap"); //Fields wrapper
-            var add_button = $(".add_field_button"); //Add button ID
+                <center>
+                    <input type="submit" value="Create Medication" class="button tiny">
+                    <a href="createReportDocumentBC.jsp" class="button tiny">Proceed to Step 4</a>
+                </center> 
+            
+                    
+            </form>
+        
+            <!--Display medication that are in the database-->
+            <center>
+            <%  List<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID);
+                if (prescriptionList == null || prescriptionList.size() == 0) {
+                    out.println("<h3>" + "There are no medication created yet." + "</h3>");
 
-            var x = 1; //initlal text box count
-            $(add_button).click(function(e) { //on add input button click
-                e.preventDefault();
-                if (x < max_fields) { //max input box allowed
-                    x++; //text box increment
-                    $(wrapper).append('<div>Medicine Name <input type="text" name="newMedicineName" required/>Medicine Barcode <input type="text" name="newMedicineBarcode" required/><a href="#" class="remove_field">Remove</a></div>'); //add input box
-                }
-            });
+                } else {
+                    out.print("<h3>Medication(s) Created</h3>");
+            %>
 
-            $(wrapper).on("click", ".remove_field", function(e) { //user click on remove text
-                e.preventDefault();
-                $(this).parent('div').remove();
-                x--;
-            })
-        });
-    </script>
+            <%for (Prescription prescription : prescriptionList) {
+                    String stateNumber = prescription.getStateID();
+                    String doctorOrder = prescription.getDoctorOrder();
+                    
+
+                        stateNumber.replace("ST", "State ");
+                        String stateDesc = stateNumber.replace("ST", "State ") + " - " + doctorOrder;%>
+
+            <a href="#" class="button casecreationbutton tiny"><%=stateDesc%></a>
+            <%
+
+            }}%>
+            </center>
+            <!--End of display medication in the database-->
+
 
        <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
@@ -226,9 +246,6 @@
 
         });
     </script>
-
-
-
     <script type="text/javascript" src="js/humane.js"></script>
     </body>
 </html>

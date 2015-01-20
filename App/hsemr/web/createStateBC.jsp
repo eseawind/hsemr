@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
         <link rel="stylesheet" href="css/original.css" />
@@ -26,110 +26,84 @@
         <script type="text/javascript" src="js/humane.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <link rel="stylesheet" href="/resources/demos/style.css">
-        <title>Case Setup of State</title>
+        <title>Case Setup - State Creation</title>
     </head>
     <body>
-         <script src="js/vendor/jquery.js"></script>
-        <script src="js/foundation.min.js"></script>
-        <center><h1>State Creation</h1></center>
-        
-         <br>
-        <b>Step 1: Case creation > <a href="createStateBC.jsp">Step 2: State creation</a> </b> > Step 3: Medication creation > Step 4: Report and Document creation
-        <%
+        <br>
+        <ul class="breadcrumbs">
+            <li class="unavailable">Step 1: Case Creation</li>
+            <li class="current">Step 2: State Creation</li>
+            <li class="unavailable"><a href="#">Step 3: Medication Creation</a></li>
+            <li class="unavailable"><a href="#">Step 4: Report and Document Creation</a></li>
+        </ul>
 
-            String success = "";
+        <%            String success = "";
             String error = "";
 
-            if (session.getAttribute("success") != null) {
 
-                success = (String) session.getAttribute("success");
-                session.setAttribute("success", "");
-            }
-
-            if (session.getAttribute("error") != null) {
-
-                error = (String) session.getAttribute("error");
-                session.setAttribute("error", "");
-            }
 
             String scenarioID = (String) session.getAttribute("scenarioID");
             String patientNRIC = (String) session.getAttribute("patientNRIC");
 
         %>
-        
-         <!--Display states that are in the database-->
-         <br>
-        <%                out.println("");
-            List<State> stateList = StateDAO.retrieveAll(scenarioID);
 
-            if (stateList == null || stateList.size()-1 == 0 || stateList.size()-1 == -1) {
-                out.println("<h3>"+ "There are no states created yet." + "</h3>");
-                
+        
+
+        <%List<State> stateList = StateDAO.retrieveAll(scenarioID);%>
+        <center><h2>Step 2: Create State <%=stateList.size()%></h2>
+
+        States are created in <b>ascending</b> order. <br><br>
+
+
+        <form action = "ProcessAddState" method = "POST">
+            <div class="row">
+                <div class="small-8">
+                    <div class="row">
+                        <div class="small-3 columns">
+                            <label for="right-label" class="right inline" >State Description</label>
+                        </div>
+                        <div class="small-9 columns">
+                            <input type="text" name="stateDescription" value = "" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>">
+            <input type ="hidden" name ="patientNRIC" value ="<%=patientNRIC%>">
+            
+            <input type="submit" value="Create State" class="button tiny">
+            <a href="createMedicationBC.jsp" class="button tiny">Proceed to Step 3</a> 
+        </form>
+   
+            
+       
+        <!--Display states that are in the database-->
+        <% if (stateList == null || stateList.size() - 1 == 0 || stateList.size() - 1 == -1) {
+                out.println("<h3>" + "There are no states created yet." + "</h3>");
+
             } else {
-                int sizeOfStates = stateList.size()-1;
-                out.print("<h4><b>No. of State added <i>(Excluding State 0) </i></b>: " + sizeOfStates + "</h4>");
-                %>
-                <table>
-                    <tr>
-                        <td><b>State</b></td>
-                        <td><b>Name</b></td>
-                    </tr>
-                    <% for (State state: stateList) {
-                       String stateNumber = state.getStateID(); 
-                       String stateName = state.getStateDescription();
-                       if(!stateNumber.equals("ST0")) {
-                    %>
-                    <tr>
-                        <td><%=stateNumber.replace("ST", "STATE ")%></td>
-                        <td><%=stateName%></td>
-                    </tr>
-                    <%   }
-                    
-                    
-                    }
-                %>
-                </table>
-                <%
-            }
-
+                out.print("<h3>State(s) Created</h3>");
         %>
-        
-         <h2>Step 2: Create State <%=stateList.size()%></h2>
-            States are created in <b>ascending</b> order. <br><br>
 
-            <form action = "ProcessAddState" method = "POST"> 
-                <%
-                    int counter=0; 
-                    String counterStr= (String) request.getAttribute("counter");
-                    
-                    if(counterStr==null){
-                        counter=0;
-                    }else{                 
-                         counter = Integer.parseInt(counterStr);
-                    }
-                %>
-                State Description 
-                <div><textarea name="stateDescription" id="notes" rows="7" cols="10" required></textarea>
+        <%for (State state : stateList) {
+                String stateNumber = state.getStateID();
+                String stateName = state.getStateDescription();
+                if (!stateNumber.equals("ST0")) {
 
-                <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>">
-                <input type ="hidden" name ="patientNRIC" value ="<%=patientNRIC%>">
-                <input type ="hidden" name ="counter" value ="<%=counter%>">
-                
-               <% if(counter == 0) {%>
-                    <input type ="submit" class ="button" value ="Create State">
-              <%  }else{ %>
-                    <input type ="submit" class ="button" value ="Create State">
-              </form>
-                    <form action="createMedicationBC.jsp" method="POST">
-                    <input type ="submit" class ="button" value ="Proceed to Step 3">
-                    </form>
-              <%  } %>
-             
-              
-       <script src="js/vendor/jquery.js"></script>
+                    stateNumber.replace("ST", "State ");
+                String stateDesc = stateNumber.replace("ST", "State ") + " - " + stateName;%>
+
+        <a href="#" class="button casecreationbutton tiny"><%=stateDesc%></a>
+        <%}
+            
+        }}%>
+        <!--End of display states in the database-->
+
+    </center>
+    <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
 
-        <script>
+    <script>
 
         $(document).ready(function() {
             $(document).foundation();
@@ -146,11 +120,8 @@
 
         });
     </script>
-
-
-
     <script type="text/javascript" src="js/humane.js"></script>
-    
-   
-    </body>
+
+
+</body>
 </html>
