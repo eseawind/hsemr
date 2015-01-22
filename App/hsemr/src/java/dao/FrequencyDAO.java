@@ -28,7 +28,7 @@ public class FrequencyDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from Frequency");
+            stmt = conn.prepareStatement("select * from frequency");
          
             rs = stmt.executeQuery();
             while (rs.next()) {

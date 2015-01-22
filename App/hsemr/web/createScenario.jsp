@@ -65,7 +65,7 @@
     <center>
         
         <ul class="breadcrumbs">
-                <li class="current">Step 1: Case Creation</a></li>
+                <li class="current">Step 1: Case Creation</li>
                 <li class="unavailable">Step 2: State Creation</li>
                 <li class="unavailable"><a href="#">Step 3: Medication Creation</a></li>
                 <li class="unavailable"><a href="#">Step 4: Report and Document Creation</a></li>
@@ -172,7 +172,8 @@
                                 <label for="right-label" class="right inline" >Case Name</label>
                             </div>
                             <div class="small-9 columns">
-                                <input type="text" name="scenarioName" value = "<%=scenarioName%>" required>
+                                <input type="text" name="scenarioName" value = "<%=scenarioName%>" required pattern ="^[a-zA-Z ]+$">
+                                <small class="error">Please enter a case name.</small>
                             </div>
                         </div>
                     </div>

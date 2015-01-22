@@ -27,7 +27,7 @@ public class RouteDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from Route");
+            stmt = conn.prepareStatement("select * from route");
          
             rs = stmt.executeQuery();
             while (rs.next()) {
