@@ -24,15 +24,20 @@
     <body>  
     <center>
         <div class="row" style="padding-top: 60px;">
-
-            <h1>Please select a ward:</h1>
-            <br/>
             <div class="large-12 columns" style="padding-top: 20px;">
 
                 <table style ="border-spacing:20px; border:none">
                     <tr>
                         <%
-                            //String[] wards = {"Ward A", "Ward B", "Ward C"};
+                            Scenario scenario = ScenarioDAO.retrieveActivatedScenario();
+
+                            if (scenario == null) {
+                                out.println("<h1>No Case Activated</h1>");
+                                out.println("Please contact lecturer/ administrator.");
+                            } else {%>
+                                <h1>Please select a ward:</h1>
+                                <%
+                                //String[] wards = {"Ward A", "Ward B", "Ward C"};
                             String[] wardList = new String[]{"Simulation Lab 1", "Simulation Lab 2", "Simulation Lab 3", "Simulation Lab 4"};
                             //String[] wardList = 
                             for (String ward : wardList) {
@@ -52,6 +57,10 @@
                         %>
                     </tr>
                 </table>
+                                
+                            <%}%>
+
+                            
             </div>
         </div>
     </center>

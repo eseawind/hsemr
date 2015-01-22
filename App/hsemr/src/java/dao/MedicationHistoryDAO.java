@@ -94,6 +94,9 @@ public class MedicationHistoryDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+    
+    
+    
     public static void deleteAll (){
         Connection conn = null;
         PreparedStatement preparedStatement = null;

@@ -369,7 +369,7 @@
                                 <col width="35%">  
                                 <col width="65%">  
                                 <!--  <th>Vital Signs/Input/Output</th> -->
-                                <tr><td><b>Temperature</b><a href="#" data-reveal-id="tempchart" style="color:white"><img src="img/Historial.jpg"></a></td>
+                                <tr><td><b>Temperature</b><a href="#" data-reveal-id="tempchart" style="color:green"><br><i><u>View Temperature history</u></i></a></td>
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
                                                 <!--validates for 1 decimal place-->
@@ -380,7 +380,7 @@
                                         </div></td>
                                 </tr> 
 
-                                <tr><td><b>Respiratory Rate</b><a href="#" data-reveal-id="RRchart" style="color:white"><img src="img/Historial.jpg"></a></td>
+                                <tr><td><b>Respiratory Rate</b><a href="#" data-reveal-id="RRchart" style="color:green"><br><i><u>View RR history</u></i></a></a></td>
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
                                                 <input type="text" name ="RR" maxlength="2" pattern ="^([0-9]|[1-5][0-9]|60)$"/>
@@ -392,7 +392,7 @@
                                         </div>
                                 </tr>
 
-                                <tr><td><b>Heart Rate</b><a href="#" data-reveal-id="HRchart" style="color:white"><img src="img/Historial.jpg"></a></td>
+                                <tr><td><b>Heart Rate</b><a href="#" data-reveal-id="HRchart" style="color:green"><br><i><u>View Heart Rate history</u></i></a></td>
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
                                                 <!--validates between 0 - 200-->
@@ -403,7 +403,7 @@
                                         </div></td>
                                 </tr>
 
-                                <tr><td><b>Blood Pressure<a href="#" data-reveal-id="BPchart" style="color:white"><img src="img/Historial.jpg"></a></td>
+                                <tr><td><b>Blood Pressure</b><a href="#" data-reveal-id="BPchart" style="color:green"><br><i><u>View BP history</u></i></a></td>
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
                                                 <!--<input type="text" name ="BPsystolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
@@ -427,7 +427,8 @@
 
                                         </div>
                                     </td></tr>
-                                <tr><td><b>SpO<sub>2</sub></b><a href="#" data-reveal-id="SPOchart" style="color:white"><img src="img/Historial.jpg"></a></td>
+                                <tr><td><b>SpO<sub>2</sub></b><a href="#" data-reveal-id="SPOchart" style="color:green"><br><i><u>View SpO<sub>2</sub> history</u></i></a></td>
+                                    
 
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
@@ -438,7 +439,7 @@
                                             <label for="right-label" class="left inline">%</label>
 
                                         </div></td></tr>
-                                <tr><td><b>Intake - Oral/Intragastric</b><a href="#" data-reveal-id="IntakeOI" style="color:blue"><br><i><u>View past records</u></i></a></td>
+                                <tr><td><b>Intake - Oral/Intragastric</b><a href="#" data-reveal-id="IntakeOI" style="color:green"><br><i><u>View past records</u></i></a></td>
 
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
@@ -458,7 +459,7 @@
                                         </div>
                                     </td></tr>
 
-                                <tr><td><b>Intake - Intravenous</b><a href="#" data-reveal-id="IntakeIntra" style="color:blue"><br><i><u>View past records</u></i></a></td>
+                                <tr><td><b>Intake - Intravenous</b><a href="#" data-reveal-id="IntakeIntra" style="color:green"><br><i><u>View past records</u></i></a></td>
 
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
@@ -478,7 +479,7 @@
                                         </div>
                                     </td></tr>
 
-                                <tr><td><b>Output</b><a href="#" data-reveal-id="Output" style="color:blue"><br><i><u>View past records</u></i></a></td>
+                                <tr><td><b>Output</b><a href="#" data-reveal-id="Output" style="color:green"><br><i><u>View past records</u></i></a></td>
 
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
@@ -517,6 +518,7 @@
                                 <tr>
                                     <td><b>Date Administered</b></td>
                                     <td><b>Medicine Barcode</b></td>
+                                    <td><b>Administered By</b></td>
                                 </tr>
 
                                 <%
@@ -527,6 +529,7 @@
 
                                     <td><%=dateFormatterFprMedicationHistory.format(medicationHistory.getMedicineDatetime())%></td>
                                     <td><%=medicationHistory.getMedicineBarcode()%></td>
+                                    <td><%=session.getAttribute("nurse")%></td>
 
 
                                 </tr> 
@@ -566,8 +569,12 @@
 
                         <form action = "ProcessPatientBarcode" method = "POST" name = "medicationTab">
 
-                            <%                                if (patientBarcodeInput == null) {
+                            <%                                
+                                String patientBarcodeDisabled = "";
+                                if (patientBarcodeInput == null) {
                                     patientBarcodeInput = "";
+                                }else{
+                                    patientBarcodeDisabled = "disabled";
                                 }
 
                             %>
@@ -578,7 +585,7 @@
                                 </div>
                                 <div class="small-9 columns">
                                     <input type="hidden" name = "patientBarcode" id="patientBarcode" value = "<%=patientNRIC%>">
-                                    <input type="text" value = "<%=patientBarcodeInput%>" name = "patientBarcodeInput" autofocus/>
+                                    <input type="text" value = "<%=patientBarcodeInput%>" name = "patientBarcodeInput" <%=patientBarcodeDisabled%>/>
                                 </div>
                             </div>    
 
@@ -706,52 +713,48 @@
                                                     </div>  
                                                 </form>
 
-                                                <dl class="accordion" data-accordion>
-                                                    <dd class="accordion-navigation">
-                                                        <a href="#pastNotes">View Past Groups notes here</a>
-                                                        <div id="pastNotes" class="content">
-                                                            <div class="row">
-                                                                <div class="large-12">
-                                                                    <div class="row">
-                                                                        <div class="large-12 columns">
-                                                                            <%
-                                                                                if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
-                                                                            <label for="right-label" class="right inline"><h5><center>No past notes yet.</center></h5></label>
-                                                                            <% } else { %> <br/>
-                                                                            <!--TABLE-->
-                                                                            <table class="responsive" id="cssTable">
-                                                                                <col width="20%">
-                                                                                <col width="30%">
-                                                                                <col width="15%">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th>Nurses In-Charge</th>
-                                                                                        <th>Multidisciplinary Notes</th>
-                                                                                        <th>Time Submitted</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <%
-                                                                                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                                                        //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
-                                                                                        for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
-                                                                                            Note notesRetrieve = notesListRetrieved.get(i);
-                                                                                            // out.print("<b>Practical Group: </b>" + notes.getPracticalGroupID() + "<br>");
-                                                                                            out.println("<tr>");
-                                                                                            out.print("<td>" + notesRetrieve.getGrpMemberNames() + "</td>");
-                                                                                            out.print("<td>" + notesRetrieve.getMultidisciplinaryNote() + "</td>");
-                                                                                            out.print("<td>" + df.format(notesRetrieve.getNoteDatetime()) + "</td>");
-                                                                                            out.println("</tr>");
-                                                                                        }
+                                                <h4>Multidiscplinary Notes History</h4><br> 
+                                                <div class="row">
+                                                    <div class="large-12">
+                                                        <div class="row">
+                                                            <div class="large-12 columns">
+                                                                <%
+                                                                    if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
+                                                                <label for="right-label" class="right inline"><h5><center>No past notes yet.</center></h5></label>
+                                                                <% } else { %> <br/>
+                                                                <!--TABLE-->
+                                                                <table class="responsive" id="cssTable">
+                                                                    <col width="20%">
+                                                                    <col width="30%">
+                                                                    <col width="15%">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Nurses In-Charge</th>
+                                                                            <th>Multidisciplinary Notes</th>
+                                                                            <th>Time Submitted</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <%
+                                                                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                                            //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
+                                                                            for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
+                                                                                Note notesRetrieve = notesListRetrieved.get(i);
+                                                                                // out.print("<b>Practical Group: </b>" + notes.getPracticalGroupID() + "<br>");
+                                                                                out.println("<tr>");
+                                                                                out.print("<td>" + notesRetrieve.getGrpMemberNames() + "</td>");
+                                                                                out.print("<td>" + notesRetrieve.getMultidisciplinaryNote() + "</td>");
+                                                                                out.print("<td>" + df.format(notesRetrieve.getNoteDatetime()) + "</td>");
+                                                                                out.println("</tr>");
+                                                                            }
 
-                                                                                    }//end of else %>
+                                                                        }//end of else %>
 
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                </table>
                                                             </div>
                                                         </div>
-                                                    </dd>
+                                                    </div>
+                                                </div>  
+                                                 
                                             </div>
 
                                             <!--DOCUMENTS-->

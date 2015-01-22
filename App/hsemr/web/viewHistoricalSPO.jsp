@@ -61,7 +61,7 @@
            String dataOfSPO= withoutbracket.replace("]", "") ;
           
         %>
-       <h3>SPO Chart</h3>           
+        <h3>SPO<sub>2</sub> Chart</h3>           
        
         <div id="chart"></div>
         

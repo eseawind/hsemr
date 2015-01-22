@@ -46,6 +46,7 @@ public class ProcessResetScenario extends HttpServlet {
             StateDAO.resetStateStatus(scenarioID);
             StateDAO.updateState("ST0", scenarioID, 1);
             ReportDAO.resetStatus(scenarioID);
+            MedicationHistoryDAO.delete(scenarioID);
             VitalDAO.resetVital(scenarioID);
             
             HttpSession session = request.getSession(false);
