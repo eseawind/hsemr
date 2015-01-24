@@ -189,7 +189,7 @@
                         <div class="large-9">
                             <label>Case Description</label>
                             <textarea style = "resize:vertical"  name="scenarioDescription" rows="2" cols="10" placeholder ="<%=scenarioDescription%>" required></textarea>
-
+                              
                             <label>Admission Information</label>
                             <textarea style = "resize:vertical"  name="admissionInfo" rows="2" cols="10" placeholder = "<%=admissionInfo%>" required></textarea>
                         </div>
@@ -239,7 +239,7 @@
                         </div>
                         <div class="large-4 columns">
                             <label>Gender</label>
-                            <input type="radio" value="Male" name = "gender" required> Male <br/>
+                            <input type="radio" value="Male" name = "gender" checked="true"> Male <br/>
                             <input type="radio" value="Female" name = "gender"> Female
                         </div>
                     </div>

@@ -23,7 +23,6 @@ import java.util.TimeZone;
  * @author weiyi.ngow.2012
  */
 public class VitalDAO {
-    
 
     
     public static List<Integer> retrieveBPDiastolic(String scenarioID) {
@@ -560,12 +559,11 @@ public class VitalDAO {
     public static void resetToDefault() {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "DELETE FROM vital WHERE initialVital =?";
+        String query = "DELETE FROM vital WHERE initialVital =0";
 
         try {
             conn = ConnectionManager.getConnection();
             preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, "0");
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
