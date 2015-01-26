@@ -75,15 +75,8 @@
                 Medicine Barcode <input type ="text" name ="newMedicineBarcode" style="text-transform:uppercase;" required pattern ="^[0-9a-zA-Z]+$">
                  
                 <small class="error">No space and numbers allowed.</small> 
-                Route <select name="route" required>
-                <option>--Please select the Route--</option>
-                <%
-                    List<Route> routeList = RouteDAO.retrieveAll();
-                    for (Route route : routeList) {
-                %>
-                <option><%=route.getRouteAbbr()%></option>
-                <%}%>
-                </select>
+              
+                <input type ="hidden" name ="route" value ="I.V.">
                 <input type ="submit" class ="button" value ="Create Medicine">
                 </form>
                 <a class="close-reveal-modal">&#215;</a>
@@ -138,6 +131,7 @@
                         <select name="route" required>
                             <option disabled="disabled" selected="selected" value = "">--Please select the Route--</option>
                             <%
+                                List<Route> routeList = RouteDAO.retrieveAll();
                                 for (Route route : routeList) {
                             %>
                             <option><%=route.getRouteAbbr()%></option>
