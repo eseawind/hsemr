@@ -478,9 +478,9 @@ public class VitalDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
-    
-    // IntakeOI
-    public static List<Vital> retrieveIntakeOralByScenarioID(String scenarioID) {
+        
+    //Retrieve intake and output based on scenario     
+    public static List<Vital> retrieveIntakeOutputHistoryByScenarioID(String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -488,7 +488,7 @@ public class VitalDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from vital where scenarioID = ? AND oralType <> '' AND oralType <> '-' AND oralAmount <> '-' AND oralAmount <> '' order by vitalDatetime asc");
+            stmt = conn.prepareStatement("select * from vital where scenarioID = ? AND ((oralType <> '-' AND oralAmount <> '-') OR (intravenousType <> '-' AND intravenousAmount <> '-') OR (output <> '-')) order by vitalDatetime desc");
             stmt.setString(1, scenarioID);
 
             rs = stmt.executeQuery();
@@ -503,59 +503,10 @@ public class VitalDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return intakeOralList;
-    }
+    }    
+        
     
-    // IntakeIntra
-    public static List<Vital> retrieveIntakeIntraByScenarioID(String scenarioID) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<Vital> intakeOralList = new ArrayList<Vital>();
-
-        try {
-            conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from vital where scenarioID = ? AND intravenousType <> '' AND intravenousType <> '-' AND intravenousAmount <> '-' AND intravenousAmount <> '' order by vitalDatetime asc");
-            stmt.setString(1, scenarioID);
-
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
-                intakeOralList.add(vital);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionManager.close(conn, stmt, rs);
-        }
-        return intakeOralList;
-    }
     
-    // Output
-    public static List<Vital> retrieveOutputByScenarioID(String scenarioID) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<Vital> intakeOralList = new ArrayList<Vital>();
-
-        try {
-            conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from vital where scenarioID = ? AND output <> '' AND output <> '-' order by vitalDatetime asc");
-            stmt.setString(1, scenarioID);
-
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
-                intakeOralList.add(vital);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionManager.close(conn, stmt, rs);
-        }
-        return intakeOralList;
-    }
     public static void resetToDefault() {
         Connection conn = null;
         PreparedStatement preparedStatement = null;

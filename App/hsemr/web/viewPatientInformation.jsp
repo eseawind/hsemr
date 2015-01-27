@@ -46,6 +46,8 @@
         <%@include file="/topbar/topbar.jsp" %> 
     </head>
     <body>
+
+           
         <script src="js/foundation.min.js"></script>
 
         <div align ="center">
@@ -68,7 +70,7 @@
                     if (scenarioActivated == null) {
                 %> 
 
-                <p><h1>No Case Activated</h1></p>
+                <h1>No Case Activated</h1>
                 Please contact administrator/lecturer for case activation.
 
                 <%
@@ -105,19 +107,6 @@
                         allergy = "none";
                     }
 
-//            Vital vital = VitalDAO.retrieveByDatetime(patientNRIC,"2014-10-11 15:00:00");
-                    //retrieve state's information
-//             double temperature = vital.getTemperature();
-//             int rr = vital.getRr();
-//             int bpSystolic = vital.getBpSystolic();
-//             int bpDiasolic = vital.getBpDiastolic();
-//             int hr = vital.getHr();
-//             int spo = vital.getSpo();
-//             String output = vital.getOutput();
-//            String oralType = vital.getOralType();
-//            String oralAmount = vital.getOralAmount();
-//            String intravenousType = vital.getIntravenousType();
-//            String intravenousAmoun = vital.getIntravenousAmount();
 
                 %>
                 <br>   
@@ -362,13 +351,16 @@
                             String currentDateFormatted = dateFormatter.format(currentDateTime);
 
                         %>
+                        <input data-reveal-id="IntakeOutputChart" type="submit" value="View Intake and Output Chart" class="button tiny">  
+                        
                         <form data-abide action="ProcessAddVital" method="POST">
-                            <h4>Vital Signs</h4><br/>
+                            
+                            
                             <table width='65%'>
                                 <br/>
                                 <col width="35%">  
                                 <col width="65%">  
-                                <!--  <th>Vital Signs/Input/Output</th> -->
+                                
                                 <tr><td><b>Temperature</b><a href="#" data-reveal-id="tempchart" style="color:green"><br><i><u>View Temperature history</u></i></a></td>
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
@@ -428,7 +420,7 @@
                                         </div>
                                     </td></tr>
                                 <tr><td><b>SpO<sub>2</sub></b><a href="#" data-reveal-id="SPOchart" style="color:green"><br><i><u>View SpO<sub>2</sub> history</u></i></a></td>
-                                    
+
 
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
@@ -439,7 +431,7 @@
                                             <label for="right-label" class="left inline">%</label>
 
                                         </div></td></tr>
-                                <tr><td><b>Intake - Oral/Intragastric</b><a href="#" data-reveal-id="IntakeOI" style="color:green"><br><i><u>View past records</u></i></a></td>
+                                <tr><td><b>Intake - Oral/Intragastric</b><a href="#" data-reveal-id="IntakeOutputChart" style="color:green"><br><i><u>View past records</u></i></a></td>
 
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
@@ -459,7 +451,7 @@
                                         </div>
                                     </td></tr>
 
-                                <tr><td><b>Intake - Intravenous</b><a href="#" data-reveal-id="IntakeIntra" style="color:green"><br><i><u>View past records</u></i></a></td>
+                                <tr><td><b>Intake - Intravenous</b><a href="#" data-reveal-id="IntakeOutputChart" style="color:green"><br><i><u>View past records</u></i></a></td>
 
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
@@ -479,7 +471,7 @@
                                         </div>
                                     </td></tr>
 
-                                <tr><td><b>Output</b><a href="#" data-reveal-id="Output" style="color:green"><br><i><u>View past records</u></i></a></td>
+                                <tr><td><b>Output</b><a href="#" data-reveal-id="IntakeOutputChart" style="color:green"><br><i><u>View past records</u></i></a></td>
 
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
@@ -569,11 +561,10 @@
 
                         <form action = "ProcessPatientBarcode" method = "POST" name = "medicationTab">
 
-                            <%                                
-                                String patientBarcodeDisabled = "";
+                            <%                                String patientBarcodeDisabled = "";
                                 if (patientBarcodeInput == null) {
                                     patientBarcodeInput = "";
-                                }else{
+                                } else {
                                     patientBarcodeDisabled = "disabled";
                                 }
 
@@ -754,7 +745,7 @@
                                                         </div>
                                                     </div>
                                                 </div>  
-                                                 
+
                                             </div>
 
                                             <!--DOCUMENTS-->
@@ -846,13 +837,13 @@
 
                                             </div>
 
-                                            <!-- Reveal model for Intake Oral chart -->
-                                            <div id="IntakeOI" class="reveal-modal large-10" data-reveal>
+                                            <!-- Reveal model for Intake and Output chart -->
+                                            <div id="IntakeOutputChart" class="reveal-modal large-10" data-reveal>
 
-                                                <h3>Intake - Oral/Intragastric</h3>
+                                                <h3>Intake and Output Chart</h3>
 
                                                 <%
-                                                    List<Vital> oralIntakeList = VitalDAO.retrieveIntakeOralByScenarioID(scenarioID);
+                                                    List<Vital> oralIntakeList = VitalDAO.retrieveIntakeOutputHistoryByScenarioID(scenarioID);
 
                                                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                                     if (oralIntakeList.size() == 0) {
@@ -862,99 +853,34 @@
 
                                                 <table>
                                                     <tr>
-                                                        <td>Time taken</td>
-                                                        <td>Intake Type</td>
-                                                        <td>Intake Amount</td>
+                                                        <td></td>
+                                                        <td colspan="4"><center><b>INTAKE</b></center></td>
+                                                        <td colspan="4"><center><b>OUTPUT</b></center></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Time taken</b></td>
+                                                        <td><b>Oral Intake</b></td>
+                                                        <td><b>Oral Intake Amount</b></td>
+                                                        <td><b>Intravenous Intake</b></td>
+                                                        <td><b>Intravenous Intake Amount</b></td>
+                                                        <td><b>Output</b></td>
                                                     </tr>
                                                     <%
                                                         for (Vital vital : oralIntakeList) {
                                                             String oralType = vital.getOralType();
                                                             String oralAmount = vital.getOralAmount();
+                                                            String intravenousType = vital.getIntravenousType();
+                                                            String intravenousAmount = vital.getIntravenousAmount();
+                                                            String output = vital.getOutput();
                                                             Date oralDate = vital.getVitalDatetime();
-                                                            String strOralDate = df.format(oralDate);
+                                                            String vitalDatetime = df.format(oralDate);
                                                     %>
                                                     <tr>
-                                                        <td><%=strOralDate%></td>
+                                                        <td><%=vitalDatetime%></td>
                                                         <td><%=oralType%></td>
                                                         <td><%=oralAmount%></td>
-                                                    </tr>
-                                                    <%}
-                                                        }
-                                                    %>
-
-                                                </table>
-
-                                                <a class="close-reveal-modal">&#215;</a>
-
-                                            </div>
-
-                                            <!-- Reveal model for Intake Intravenous chart -->
-                                            <div id="IntakeIntra" class="reveal-modal large-10" data-reveal>
-
-                                                <h3>Intake - Intravenous</h3>
-
-                                                <%
-                                                    List<Vital> intakeIntraList = VitalDAO.retrieveIntakeIntraByScenarioID(scenarioID);
-
-                                                    if (intakeIntraList.size() == 0) {
-                                                        out.println("<h5>There is no historial data at the moment.</h5>");
-                                                    } else {
-                                                %>
-
-                                                <table>
-                                                    <tr>
-                                                        <td>Time taken</td>
-                                                        <td>Intake Type</td>
-                                                        <td>Intake Amount</td>
-                                                    </tr>
-                                                    <%
-                                                        for (Vital vital : intakeIntraList) {
-                                                            String intraType = vital.getIntravenousType();
-                                                            String intraAmount = vital.getIntravenousAmount();
-                                                            Date intraDate = vital.getVitalDatetime();
-                                                            String strIntraDate = df.format(intraDate);
-                                                    %>
-                                                    <tr>
-                                                        <td><%=strIntraDate%></td>
-                                                        <td><%=intraType%></td>
-                                                        <td><%=intraAmount%></td>
-                                                    </tr>
-                                                    <%}
-                                                        }
-                                                    %>
-
-                                                </table>
-
-                                                <a class="close-reveal-modal">&#215;</a>
-
-                                            </div>
-
-                                            <!-- Reveal model for Output chart -->
-                                            <div id="Output" class="reveal-modal large-10" data-reveal>
-
-                                                <h3>Output</h3>
-
-                                                <%
-                                                    List<Vital> outputList = VitalDAO.retrieveOutputByScenarioID(scenarioID);
-
-                                                    if (outputList.size() == 0) {
-                                                        out.println("<h5>There is no historial data at the moment.</h5>");
-                                                    } else {
-                                                %>
-
-                                                <table>
-                                                    <tr>
-                                                        <td>Time taken</td>
-                                                        <td>Output</td>
-                                                    </tr>
-                                                    <%
-                                                        for (Vital vital : outputList) {
-                                                            String output = vital.getOutput();
-                                                            Date intraDate = vital.getVitalDatetime();
-                                                            String strIntraDate = df.format(intraDate);
-                                                    %>
-                                                    <tr>
-                                                        <td><%=strIntraDate%></td>
+                                                        <td><%=intravenousType%></td>
+                                                        <td><%=intravenousAmount%></td>
                                                         <td><%=output%></td>
                                                     </tr>
                                                     <%}
@@ -966,6 +892,8 @@
                                                 <a class="close-reveal-modal">&#215;</a>
 
                                             </div>
+
+                                            
 
                                             <% }
                                             %>
