@@ -43,14 +43,18 @@
 
         </script>
         <title>NP Health Sciences | Patient Information</title>
+   
         <%@include file="/topbar/topbar.jsp" %> 
+
     </head>
     <body>
 
            
         <script src="js/foundation.min.js"></script>
-
-        <div align ="center">
+        
+        <!--RESPONSIVE. WEB VERSION HERE-->
+        <div class="hide-for-small-only">
+            <div align ="center">
             <div class="large-centered large-11 columns">
                 <%
                     String active = active = (String) session.getAttribute("active");
@@ -748,159 +752,316 @@
 
                                             </div>
 
-                                            <!--DOCUMENTS-->
-                                            <div class="<% 
-                                                if (active != null && active.equals("documents")) {
-                                                    out.println("content active");
-                                                } else {
-                                                    out.println("content");
-                                                } %>" id="documents">
+                                        <!--DOCUMENTS-->
+                                        <div class="<% 
+                                            if (active != null && active.equals("documents")) {
+                                                out.println("content active");
+                                            } else {
+                                                out.println("content");
+                                            } %>" id="documents">
 
-                                                <h4>Consent Forms</h4><br/>
+                                            <h4>Consent Forms</h4><br/>
 
-                                                <%
+                                    <%
 
-                                                    List<Document> documents = DocumentDAO.retrieveDocumentsByScenario(scenarioID);
+                                        List<Document> documents = DocumentDAO.retrieveDocumentsByScenario(scenarioID);
 
-                                                    //List<Document> documentList = DocumentDAO.retrieveDocumentsByState(scenarioID, stateID);
-                                                    if (documents != null && documents.size() != 0) {
-                                                %>
+                                        //List<Document> documentList = DocumentDAO.retrieveDocumentsByState(scenarioID, stateID);
+                                        if (documents != null && documents.size() != 0) {
+                                    %>
 
-                                                <table>
-                                                    <tr>
-                                                        <td><b>Document name</b></td>
-                                                        <td><b>Action</b></td>
-                                                    </tr>
+                                    <table>
+                                        <tr>
+                                            <td><b>Document name</b></td>
+                                            <td><b>Action</b></td>
+                                        </tr>
 
-                                                    <%
-                                                        // Create an instance of SimpleDateFormat used for formatting 
-                                                        // the string representation of date (month/day/year)
-                                                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                        //String firstObtain = (String) session.getAttribute("obtained");
-                                                        for (Document document : documents) {
-                                                            String consentName = document.getConsentName();
-                                                            String consentFile = document.getConsentFile();
-                                                            String consentResults = "";
-                                                            consentResults = "documents/" + consentFile;
-                                                    %> 
-                                                    <tr>
-                                                        <td><%=consentName%></td>
-                                                        <td>
-                                                            <!-- // results column (link) -->
-                                                            <a href="<%=consentResults%>" target="_blank">View Form</a>
-                                                        </td>
-                                                    </tr>
-                                                    <%
-                                                            }
-                                                        } else {
-                                                            out.println("No documents at the moment.");
-                                                        }
-                                                    %>  </table>
-                                            </div>  
-                                            <!-- Reveal model for temperature chart -->
-                                            <div id="tempchart" class="reveal-modal large-10" data-reveal>
+                                        <%
+                                            // Create an instance of SimpleDateFormat used for formatting 
+                                            // the string representation of date (month/day/year)
+                                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                            //String firstObtain = (String) session.getAttribute("obtained");
+                                            for (Document document : documents) {
+                                                String consentName = document.getConsentName();
+                                                String consentFile = document.getConsentFile();
+                                                String consentResults = "";
+                                                consentResults = "documents/" + consentFile;
+                                        %> 
+                                        <tr>
+                                            <td><%=consentName%></td>
+                                            <td>
+                                                <!-- // results column (link) -->
+                                                <a href="<%=consentResults%>" target="_blank">View Form</a>
+                                            </td>
+                                        </tr>
+                                        <%
+                                                }
+                                            } else {
+                                                out.println("No documents at the moment.");
+                                            }
+                                        %>  </table>
+                                </div>  
+                                            
+                            <!-- Reveal model for temperature chart -->
+                            <div id="tempchart" class="reveal-modal large-10" data-reveal>
 
-                                                <iframe src = "viewHistoricalTemp.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
-                                                <a class="close-reveal-modal">&#215;</a>
+                                <iframe src = "viewHistoricalTemp.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
+                                <a class="close-reveal-modal">&#215;</a>
 
-                                            </div>
-
-
-                                            <!-- Reveal model for Respiratory chart -->
-                                            <div id="RRchart" class="reveal-modal large-10" data-reveal>
-
-                                                <iframe src = "viewHistoricalRR.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
-                                                <a class="close-reveal-modal">&#215;</a>
-
-                                            </div>
+                            </div>
 
 
-                                            <!-- Reveal model for Heart Rate chart -->
-                                            <div id="HRchart" class="reveal-modal large-10" data-reveal>
+                            <!-- Reveal model for Respiratory chart -->
+                            <div id="RRchart" class="reveal-modal large-10" data-reveal>
 
-                                                <iframe src = "viewHistoricalHR.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
-                                                <a class="close-reveal-modal">&#215;</a>
+                                <iframe src = "viewHistoricalRR.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
+                                <a class="close-reveal-modal">&#215;</a>
 
-                                            </div>
-                                            <div id="BPchart" class="reveal-modal large-10" data-reveal>
-                                                <!-- Reveal model for Blood Pressure chart -->
-                                                <iframe src = "viewHistoricalBP.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
-                                                <a class="close-reveal-modal">&#215;</a>
+                            </div>
 
-                                            </div>
 
-                                            <!-- Reveal model for SPO chart -->
-                                            <div id="SPOchart" class="reveal-modal large-10" data-reveal>
+                            <!-- Reveal model for Heart Rate chart -->
+                            <div id="HRchart" class="reveal-modal large-10" data-reveal>
 
-                                                <iframe src = "viewHistoricalSPO.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
-                                                <a class="close-reveal-modal">&#215;</a>
+                                <iframe src = "viewHistoricalHR.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
+                                <a class="close-reveal-modal">&#215;</a>
 
-                                            </div>
+                            </div>
+                            <div id="BPchart" class="reveal-modal large-10" data-reveal>
+                                <!-- Reveal model for Blood Pressure chart -->
+                                <iframe src = "viewHistoricalBP.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
+                                <a class="close-reveal-modal">&#215;</a>
 
-                                            <!-- Reveal model for Intake and Output chart -->
-                                            <div id="IntakeOutputChart" class="reveal-modal large-10" data-reveal>
+                            </div>
 
-                                                <h3>Intake and Output Chart</h3>
+                            <!-- Reveal model for SPO chart -->
+                            <div id="SPOchart" class="reveal-modal large-10" data-reveal>
 
-                                                <%
-                                                    List<Vital> oralIntakeList = VitalDAO.retrieveIntakeOutputHistoryByScenarioID(scenarioID);
+                                <iframe src = "viewHistoricalSPO.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
+                                <a class="close-reveal-modal">&#215;</a>
 
-                                                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                    if (oralIntakeList.size() == 0) {
-                                                        out.println("<h5>There is no historial data at the moment.</h5>");
-                                                    } else {
-                                                %>
+                            </div>
 
-                                                <table>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td colspan="4"><center><b>INTAKE</b></center></td>
-                                                        <td colspan="4"><center><b>OUTPUT</b></center></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><b>Time taken</b></td>
-                                                        <td><b>Oral Intake</b></td>
-                                                        <td><b>Oral Intake Amount</b></td>
-                                                        <td><b>Intravenous Intake</b></td>
-                                                        <td><b>Intravenous Intake Amount</b></td>
-                                                        <td><b>Output</b></td>
-                                                    </tr>
-                                                    <%
-                                                        for (Vital vital : oralIntakeList) {
-                                                            String oralType = vital.getOralType();
-                                                            String oralAmount = vital.getOralAmount();
-                                                            String intravenousType = vital.getIntravenousType();
-                                                            String intravenousAmount = vital.getIntravenousAmount();
-                                                            String output = vital.getOutput();
-                                                            Date oralDate = vital.getVitalDatetime();
-                                                            String vitalDatetime = df.format(oralDate);
-                                                    %>
-                                                    <tr>
-                                                        <td><%=vitalDatetime%></td>
-                                                        <td><%=oralType%></td>
-                                                        <td><%=oralAmount%></td>
-                                                        <td><%=intravenousType%></td>
-                                                        <td><%=intravenousAmount%></td>
-                                                        <td><%=output%></td>
-                                                    </tr>
-                                                    <%}
-                                                        }
-                                                    %>
+                            <!-- Reveal model for Intake and Output chart -->
+                            <div id="IntakeOutputChart" class="reveal-modal large-10" data-reveal>
 
-                                                </table>
+                                <h3>Intake and Output Chart</h3>
 
-                                                <a class="close-reveal-modal">&#215;</a>
+                                <%
+                                    List<Vital> oralIntakeList = VitalDAO.retrieveIntakeOutputHistoryByScenarioID(scenarioID);
 
-                                            </div>
+                                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    if (oralIntakeList.size() == 0) {
+                                        out.println("<h5>There is no historial data at the moment.</h5>");
+                                    } else {
+                                %>
+
+                            <table>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="4"><center><b>INTAKE</b></center></td>
+                                    <td colspan="4"><center><b>OUTPUT</b></center></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Time taken</b></td>
+                                    <td><b>Oral Intake</b></td>
+                                    <td><b>Oral Intake Amount</b></td>
+                                    <td><b>Intravenous Intake</b></td>
+                                    <td><b>Intravenous Intake Amount</b></td>
+                                    <td><b>Output</b></td>
+                                </tr>
+                                <%
+                                    for (Vital vital : oralIntakeList) {
+                                        String oralType = vital.getOralType();
+                                        String oralAmount = vital.getOralAmount();
+                                        String intravenousType = vital.getIntravenousType();
+                                        String intravenousAmount = vital.getIntravenousAmount();
+                                        String output = vital.getOutput();
+                                        Date oralDate = vital.getVitalDatetime();
+                                        String vitalDatetime = df.format(oralDate);
+                                %>
+                                <tr>
+                                    <td><%=vitalDatetime%></td>
+                                    <td><%=oralType%></td>
+                                    <td><%=oralAmount%></td>
+                                    <td><%=intravenousType%></td>
+                                    <td><%=intravenousAmount%></td>
+                                    <td><%=output%></td>
+                                </tr>
+                                <%}
+                                    }
+                                %>
+
+                            </table>
+
+                            <a class="close-reveal-modal">&#215;</a>
+
+                    </div>
 
                                             
 
-                                            <% }
-                                            %>
-                                            </div>
-                                            </div>
-                                            </div>
-                                            <script>
+            <% }
+            %>
+            </div>
+            </div>
+            </div>
+            
+            
+        </div>
+                                            
+        <!--RESPONSIVE. END OF WEB VERSION HERE-->
+        
+        <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
+        
+        <div class ="show-for-small-only">
+            <%
+
+            if (scenarioActivated == null) {
+                
+            %> 
+
+            <h1>No Case Activated</h1>
+            Please contact administrator/lecturer for case activation.
+
+                <%
+                } else {
+
+                    //get the most recently activated scenario's state
+                    retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
+
+                    patientNRIC = retrieveScenarioState.getPatientNRIC();
+                    retrievePatient = PatientDAO.retrieve(patientNRIC);
+
+                    String stateID = retrieveScenarioState.getStateID();
+                    String scenarioID = scenarioActivated.getScenarioID();
+                    
+                    //retrieve case's information
+                    String admissionNotes = scenarioActivated.getAdmissionNote();
+
+                    //retrieve nurse praticalGroup ID
+                    String practicalGrp = (String) session.getAttribute("nurse");
+
+                    //retrieve note's information
+                    List<Note> notesListRetrieved = NoteDAO.retrieveNotesByPraticalGrp(practicalGrp, scenarioID);
+
+                    //retrieve patient's information
+                    String firstName = retrievePatient.getFirstName();
+                    String lastName = retrievePatient.getLastName();
+                    String fullName = firstName + " " + lastName;
+                    String dob = retrievePatient.getDob();
+                    String gender = retrievePatient.getGender();
+                    String allergy = PatientDAO.retrieveAllergy(patientNRIC);
+
+                    if (allergy == null) {
+                        allergy = "none";
+                    }
+            
+
+                %>
+   
+      
+        <dl class="accordion" data-accordion>
+        <dd class="accordion-navigation">
+            <a href="#panel1">Patient Information</a>
+            <div id="panel1" class="content active">
+                <ul class="pricing-table">
+                  <li class="price"><%=fullName%></li>
+                  <li class="bullet-item"><%=patientNRIC%></li>
+                  <li class="bullet-item"><%=dob%></li>
+                  <li class="bullet-item"><%=gender%></li>
+                  <li class="bullet-item"><font color="red"><%=allergy%></font></li>
+                </ul>
+            </div>
+        </dd>
+        <dd class="accordion-navigation">
+            <a href="#panel2">Admission Information</a>
+            <div id="panel2" class="content">
+              <%=scenarioActivated.getAdmissionNote() %>
+            </div>
+        </dd>
+        
+        <dd class="accordion-navigation">
+          <a href="#panel3">Clinical Charts</a>
+          <div id="panel3" class="content">
+              <b>Intake and Output chart</b><br>
+              <b>Clinical Charts</b>
+          </div>
+        </dd>
+        
+        <dd class="accordion-navigation">
+          <a href="#panel4">Medication</a>
+          <div id="panel4" class="content">
+              <ul class="pricing-table">
+                <li class="price">Medication History</li>   
+              
+
+              
+              <%
+              List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAll(scenarioID);
+                if (medicationHistoryList == null || medicationHistoryList.size() == 0) {
+                    out.println("<center>There are no records at the moment</center>");
+                } else { 
+                    DateFormat dateFormatterFprMedicationHistory = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+
+                    for (MedicationHistory medicationHistory : medicationHistoryList) {
+                        String medicationHistoryInformation = dateFormatterFprMedicationHistory.format(medicationHistory.getMedicineDatetime()) + " | " + medicationHistory.getMedicineBarcode() + " | " + session.getAttribute("nurse");
+
+                    %>
+
+                     <li class="bullet-item"><%=medicationHistoryInformation%></li>
+                    <% } } %>
+                   
+                </ul>      
+              
+               <ul class="pricing-table">
+                    <li class="price">Doctor's Order</li>
+
+                    <%
+                      ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
+
+                      if(medicinePrescriptionList != null || medicinePrescriptionList.size() != 0){
+                          out.println("<center>There are no records at the moment</center>");
+                          
+                        for(MedicinePrescription medicinePrescription: medicinePrescriptionList){
+
+
+                        String medicineBarcodeToRetrieve = medicinePrescription.getMedicineBarcode();
+
+                        Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID, medicineBarcodeToRetrieve);
+                        String doctorOrder = prescription.getDoctorOrder();%>
+                        <li class="bullet-item"><%=doctorOrder%></li>
+                      <%}}
+                      %>
+                
+               
+              </ul>
+          </div>
+        </dd>
+        
+       
+        <dd class="accordion-navigation">
+          <a href="#panel5">Multidisciplinary Notes</a>
+          <div id="panel5" class="content">
+            Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </div>
+        </dd>
+        <dd class="accordion-navigation">
+          <a href="#panel6">Documents</a>
+          <div id="panel6" class="content">
+            Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </div>
+        </dd>
+      </dl> 
+        <%}%>   
+            
+            
+            
+        </div>
+        
+        <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
+
+        
+        <script>
 
             $(document).ready(function() {
                 $(document).foundation();
@@ -959,10 +1120,10 @@
                     }
                 }, 3000);
             });
-                                            </script>
+        </script>
 
 
-                                            </body>
-                                            <script type="text/javascript" src="js/humane.js"></script>
+        </body>
+        <script type="text/javascript" src="js/humane.js"></script>
 
-                                            </html>
+</html>
