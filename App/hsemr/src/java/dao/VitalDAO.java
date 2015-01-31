@@ -208,20 +208,22 @@ public class VitalDAO {
         return vitalsList;
     }
 
-    public static Vital retrieveLatestDateTime(String scenarioID) {
+    public static List<Date> retrieveLatestDateTime(String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Vital vital = null;
-
+        List<Date> returnVitalTimeList = new ArrayList<Date>();
+        
+     
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from vital where scenarioID = ? order by vitalDatetime desc limit 1");
+            stmt = conn.prepareStatement("select vitalDatetime from vital where scenarioID = ? order by vitalDatetime asc");
             stmt.setString(1, scenarioID);
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                vital = new Vital(rs.getDate(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                Date vitalDate= rs.getTimestamp(1);
+                returnVitalTimeList.add(vitalDate);
             }
 
         } catch (SQLException e) {
@@ -229,7 +231,7 @@ public class VitalDAO {
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return vital;
+        return returnVitalTimeList;
     }
     
     public static List<Date> retrieveVitalTime(List<Vital> vitalsList) {
@@ -311,7 +313,7 @@ public class VitalDAO {
         return vitalsList;
     }
     
-      // RR
+   // RR
     public static List<Vital> retrieveRRByScenarioID(String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;

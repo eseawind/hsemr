@@ -70,19 +70,19 @@
 
                     //retrieve current scenario
                     Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
+                    //get the most recently activated scenario's state
+                    retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
 
-                    if (scenarioActivated == null) {
+                    if (scenarioActivated == null || retrieveScenarioState == null) {
                 %> 
 
-                <h1>No Case Activated</h1>
+                <h1>No Case/States Activated</h1>
                 Please contact administrator/lecturer for case activation.
 
                 <%
                 } else {
 
-                    //get the most recently activated scenario's state
-                    retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
-
+                    
                     patientNRIC = retrieveScenarioState.getPatientNRIC();
                     retrievePatient = PatientDAO.retrieve(patientNRIC);
 
@@ -355,6 +355,7 @@
                             String currentDateFormatted = dateFormatter.format(currentDateTime);
 
                         %>
+                        <input data-reveal-id="AllChart" type="submit" value="View All Charts" class="button tiny">  
                         <input data-reveal-id="IntakeOutputChart" type="submit" value="View Intake and Output Chart" class="button tiny">  
                         
                         <form data-abide action="ProcessAddVital" method="POST">
@@ -838,6 +839,12 @@
                             <div id="SPOchart" class="reveal-modal large-10" data-reveal>
 
                                 <iframe src = "viewHistoricalSPO.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
+                                <a class="close-reveal-modal">&#215;</a>
+
+                            </div>
+                            <div id="AllChart" class="reveal-modal large-10" data-reveal>
+
+                                <iframe src = "viewAllChart.jsp" frameborder ="0" width = "1000" height = "900"></iframe> 
                                 <a class="close-reveal-modal">&#215;</a>
 
                             </div>
