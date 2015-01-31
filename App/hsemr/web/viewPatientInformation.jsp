@@ -61,8 +61,6 @@
                     
                     //create an arraylist to be passed to check validity of medicine
                     ArrayList<String> medicineVerifiedList = new ArrayList<String>();
-                    medicineVerifiedList.add("TEST");
-                    session.setAttribute("medicineVerifiedList",medicineVerifiedList);
 
 
                     String success = "";
@@ -558,7 +556,7 @@
 
                         <h4>Step 1: Scan Patient's Barcode</h4>
                         <%
-                           
+                            out.println(medicineVerifiedList);
                             String patientBarcodeInput = (String) session.getAttribute("patientBarcodeInput");
                             String isPatientVerified = (String) session.getAttribute("isPatientVerified");
                             String disabled = "disabled";
@@ -619,9 +617,6 @@
                                 </tr>
                                 <%
                               
-                                ArrayList<String> medicineVerifiedListReturned = (ArrayList<String>) (session.getAttribute("medicineVerifiedListReturned"));
-                                
-                                 out.println(medicineVerifiedListReturned);
                                 
                                 for (MedicinePrescription medicinePrescription : medicinePrescriptionList) {
                                         String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
@@ -676,9 +671,11 @@
                                     <td>
                                         <%
                                         
-                                            if(!medicineVerifiedListReturned.contains(medicineBarcode)){
-                                                medicineVerifiedListReturned.add(medicineBarcode);
-                                            }
+                                        for(String medicine : medicineVerifiedList){
+                                            if(medicine.equals(MedicineDAO.retrieve(medicinePrescription.getMedicineBarcode()).getMedicineBarcode())){%>
+                                            <%=medicine%>
+                                            <%}
+                                        }
                                         %>
                                         
                                     </td>
