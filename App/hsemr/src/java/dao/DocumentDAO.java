@@ -105,6 +105,9 @@ public class DocumentDAO {
         }
         return docList;
     }
+      
+
+   
     public static void updateStatus(Date consentDatetime, String consentName, int consentStatus, String scenarioID, String stateID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;

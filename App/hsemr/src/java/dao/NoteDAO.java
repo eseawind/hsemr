@@ -74,6 +74,32 @@ public class NoteDAO {
         return noteList;
     }
     
+     public static List<Note> retrieveNotesByPraticalGrpDesc(String practicalGrp, String scenarioID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Note> noteList = new ArrayList<Note>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT * FROM note where practicalGroupID= ? and scenarioID= ? order by noteDatetime desc");
+            stmt.setString(1, practicalGrp);
+            stmt.setString(2, scenarioID);
+            
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Note newNote = new Note(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getString(5), rs.getString(6));
+                noteList.add(newNote);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return noteList;
+    }
+    
     public static List<Note> retrieveAll() {
         Connection conn = null;
         PreparedStatement stmt = null;
