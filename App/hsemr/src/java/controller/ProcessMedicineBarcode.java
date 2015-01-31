@@ -8,6 +8,7 @@ package controller;
 import dao.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,18 +37,23 @@ public class ProcessMedicineBarcode extends HttpServlet {
         HttpSession session = request.getSession(false);
         String practicalGroupID = (String) request.getSession().getAttribute("nurse");
         
+        
+        
         String medicineBarcode = (String) request.getParameter("medicineBarcode");
         String medicineBarcodeInput = (String) request.getParameter("medicineBarcodeInput");
         String scenarioID = (String) session.getAttribute("scenarioID");
 
+
         if (medicineBarcode.equals(medicineBarcodeInput)) {//correct combination
-            MedicationHistoryDAO.add(medicineBarcode, practicalGroupID, scenarioID);
+            //MedicationHistoryDAO.add(medicineBarcode, practicalGroupID, scenarioID);
             session.setAttribute("success", medicineBarcodeInput + " barcode verified, you can proceed to administer. Medication has been added to historial records.");
+           
+            session.setAttribute("medicineVerified",medicineBarcode);
             
             session.setAttribute("isMedicationVerified", "true");
             session.setAttribute("isPatientVerified", "true");
             session.setAttribute("active", "medication");
-            response.sendRedirect("viewPatientInformation.jsp");
+//            response.sendRedirect("viewPatientInformation.jsp");
         } else {
             session.setAttribute("active", "medication");
             session.setAttribute("error", "Wrong medicine! Please verify and rescan.");
