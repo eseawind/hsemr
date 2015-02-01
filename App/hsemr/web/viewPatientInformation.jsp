@@ -505,8 +505,24 @@
                             out.println("content");
                         }%>" id="medication">
                         
-                     
-
+                        <%
+                            ArrayList<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID, stateID);
+                            ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
+                            
+                            if(medicinePrescriptionList.size() != 0){%>
+                                    
+                        
+                        <font color ="red">Click "Administer" once you are done scanning with the medicine(s). Medicine will be added to history once "Administer" is clicked.</font><br><br>   
+                        
+                        <form action ="ProcessAdministerMedicine" method="post">
+                           <input type = "submit" class="deletebutton tiny" onclick="if (!administerConfirmation())
+                               return false" value="Administer Medicine" ><br>   
+                        </form>
+                            <%}
+                        
+                        %>
+                        
+                   
                         
                         <input data-reveal-id="medicationHistory" type="submit" value="View Medication History" class="button tiny">  
 
@@ -549,8 +565,7 @@
                         </div>
 
                         <%
-                            ArrayList<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID, stateID);
-                            ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
+                            
 
                             if (medicinePrescriptionList.size() == 0) {
                                 out.println("<br>There's no prescription at the moment.");
@@ -559,15 +574,7 @@
                         
                         
                         %>
-                        
-                        <br>
-                        
-                        <form action ="ProcessAdministerMedicine" method="post">
-                           <input type = "submit" class="deletebutton tiny" onclick="if (!administerConfirmation())
-                               return false" value="Administer Medicine" ><br>
-                        <font color ="red">Click "Administer" once you are done scanning with the medicine(s).Medicine will be added to history once "Administer" is clicked.</font><br><br>   
-                           
-                        </form>
+                
 
                         <h4>Step 1: Scan Patient's Barcode</h4>
                         <%
@@ -703,18 +710,18 @@
                                         %>   
                                     </td>
                                 
-                                            </tr>  
-                                            <%}
-                                                    session.removeAttribute("patientBarcodeInput");
-                                                }
-                                                session.removeAttribute("isMedicationVerified");
-                                              
-                                            %>
+                                </tr>  
+                                <%}
+                                        session.removeAttribute("patientBarcodeInput");
+                                    }
+                                    session.removeAttribute("isMedicationVerified");
 
-                                            </table>
+                                %>
 
-                                            </div> 
-                                            <!--End of medication tab-->
+                                </table>
+
+                                </div> 
+                                <!--End of medication tab-->
 
                                             <!--MULTIDISCIPLINARY NOTES-->
                                             <div class="<% if (active != null && active.equals(
