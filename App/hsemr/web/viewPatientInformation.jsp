@@ -505,14 +505,7 @@
                             out.println("content");
                         }%>" id="medication">
                         
-                        
-                        <font color ="red">Click "Administer" once you are done scanning with the medicine(s).Medicine will be added to history once "Administer" is clicked.</font><br><br>
-                        <form action ="ProcessAdministerMedicine" method="post">
-                           <input type = "submit" class="deletebutton tiny" onclick="if (!administerConfirmation())
-                                return false" value="Administer Medicine" >
-                           
-                           
-                        </form>
+                     
 
                         
                         <input data-reveal-id="medicationHistory" type="submit" value="View Medication History" class="button tiny">  
@@ -562,7 +555,19 @@
                             if (medicinePrescriptionList.size() == 0) {
                                 out.println("<br>There's no prescription at the moment.");
 
-                            } else {%>
+                            } else {
+                        
+                        
+                        %>
+                        
+                        <br>
+                        
+                        <form action ="ProcessAdministerMedicine" method="post">
+                           <input type = "submit" class="deletebutton tiny" onclick="if (!administerConfirmation())
+                               return false" value="Administer Medicine" ><br>
+                        <font color ="red">Click "Administer" once you are done scanning with the medicine(s).Medicine will be added to history once "Administer" is clicked.</font><br><br>   
+                           
+                        </form>
 
                         <h4>Step 1: Scan Patient's Barcode</h4>
                         <%
