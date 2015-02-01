@@ -569,15 +569,18 @@
                             String patientBarcodeInput = (String) session.getAttribute("patientBarcodeInput");
                             String isPatientVerified = (String) session.getAttribute("isPatientVerified");
                             String medicineBarcodeDisabled = "disabled";
-         
+                            String patientBarcodeDisabled = "";
+                            
                             //patient is verified, enable the medicine textbox
                             if (isPatientVerified != null) {
                                 medicineBarcodeDisabled = "";
+                                patientBarcodeDisabled = "disabled";
                                 patientBarcodeInput = patientBarcodeInput;
                             }
                             
                             if(patientBarcodeInput != null){
                                 medicineBarcodeDisabled = "";
+                                patientBarcodeDisabled = "disabled";
                                 patientBarcodeInput = patientBarcodeInput;
                             }
                         %>
@@ -586,7 +589,7 @@
 
                             <%                                
                             
-                            String patientBarcodeDisabled = "";
+                            
                                 if (patientBarcodeInput == null) {
                                     patientBarcodeInput = "";
                                 } else if(patientBarcodeInput == ""){
@@ -700,7 +703,7 @@
                                                     session.removeAttribute("patientBarcodeInput");
                                                 }
                                                 session.removeAttribute("isMedicationVerified");
-                                                session.removeAttribute("isPatientVerified");
+                                              
                                             %>
 
                                             </table>

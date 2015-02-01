@@ -34,7 +34,7 @@ public class ProcessPatientBarcode extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         String patientBarcode = request.getParameter("patientBarcode");
-        String patientBarcodeInput = request.getParameter("patientBarcodeInput");
+        String patientBarcodeInput = request.getParameter("patientBarcodeInput").trim();
 
         if (patientBarcode.equals(patientBarcodeInput)) {
             session.setAttribute("patientBarcodeInput", patientBarcodeInput);

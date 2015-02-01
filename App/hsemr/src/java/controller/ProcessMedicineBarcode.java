@@ -38,13 +38,12 @@ public class ProcessMedicineBarcode extends HttpServlet {
       
         
         String medicineBarcode = (String) request.getParameter("medicineBarcode");
-        String medicineBarcodeInput = (String) request.getParameter("medicineBarcodeInput");
+        String medicineBarcodeInput = (String) request.getParameter("medicineBarcodeInput").trim();
         ArrayList<String> medicineVerifiedListReturned = (ArrayList<String>)session.getAttribute("medicineVerifiedList");
 
 
         if (medicineBarcode.equals(medicineBarcodeInput)) {//correct combination
             //MedicationHistoryDAO.add(medicineBarcode, practicalGroupID, scenarioID);
-            session.setAttribute("success", medicineBarcodeInput + " barcode verified, you can proceed to administer. Medication has been added to historial records.");
             
             //add new medicine to arraylist and pass back to previous page
             

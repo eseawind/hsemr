@@ -40,8 +40,11 @@ public class ProcessAdministerMedicine extends HttpServlet {
         
         ArrayList<String> medicineVerifiedList = (ArrayList<String>)session.getAttribute("medicineVerifiedListReturned");
         
-
-        if(medicineVerifiedList != null){
+        if(medicineVerifiedList.size() == 0){
+            session.setAttribute("error",  "There is no medicine scanned. Please check again. ");
+            session.setAttribute("active", "medication");
+            response.sendRedirect("viewPatientInformation.jsp");
+        }else if (medicineVerifiedList != null){
             String scenarioID = (String) session.getAttribute("scenarioID");
 
             //loop the list and add it to MedicationHistory
@@ -57,12 +60,9 @@ public class ProcessAdministerMedicine extends HttpServlet {
             session.setAttribute("medicineVerifiedList",emptyArrayList);
             session.removeAttribute("isMedicationVerified");
             session.removeAttribute("isPatientVerified");
+            response.getWriter().println(medicineVerifiedList);
             response.sendRedirect("viewPatientInformation.jsp");
         
-        }else{
-            session.setAttribute("error",  "There is no medicine scanned. Please check again. ");
-            session.setAttribute("active", "medication");
-            response.sendRedirect("viewPatientInformation.jsp");
         }
         
         
