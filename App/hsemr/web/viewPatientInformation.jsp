@@ -59,8 +59,8 @@
                 <%
                     String active = active = (String) session.getAttribute("active");
                     
-                    //create an arraylist to be passed to check validity of medicine
-                    ArrayList<String> medicineVerifiedList = new ArrayList<String>();
+               
+                    
 
 
                     String success = "";
@@ -504,7 +504,17 @@
                         } else {
                             out.println("content");
                         }%>" id="medication">
+                        
+                        
+                        <font color ="red">Click "Administer" once you are done scanning with the medicine(s).Medicine will be added to history once "Administer" is clicked.</font><br><br>
+                        <form action ="ProcessAdministerMedicine" method="post">
+                           <input type = "submit" class="deletebutton tiny" onclick="if (!administerConfirmation())
+                                return false" value="Administer Medicine" >
+                           
+                           
+                        </form>
 
+                        
                         <input data-reveal-id="medicationHistory" type="submit" value="View Medication History" class="button tiny">  
 
                         <div id="medicationHistory" class="reveal-modal" data-reveal>
@@ -556,25 +566,20 @@
 
                         <h4>Step 1: Scan Patient's Barcode</h4>
                         <%
-                            out.println(medicineVerifiedList);
                             String patientBarcodeInput = (String) session.getAttribute("patientBarcodeInput");
                             String isPatientVerified = (String) session.getAttribute("isPatientVerified");
-                            String disabled = "disabled";
-                            
-                                
+                            String medicineBarcodeDisabled = "disabled";
+         
                             //patient is verified, enable the medicine textbox
                             if (isPatientVerified != null) {
-                                disabled = "";
+                                medicineBarcodeDisabled = "";
                                 patientBarcodeInput = patientBarcodeInput;
                             }
                             
                             if(patientBarcodeInput != null){
-                                disabled = "";
+                                medicineBarcodeDisabled = "";
                                 patientBarcodeInput = patientBarcodeInput;
                             }
-
-                           
-
                         %>
 
                         <form action = "ProcessPatientBarcode" method = "POST" name = "medicationTab">
@@ -584,7 +589,10 @@
                             String patientBarcodeDisabled = "";
                                 if (patientBarcodeInput == null) {
                                     patientBarcodeInput = "";
-                                } else {
+                                } else if(patientBarcodeInput == ""){
+                                    patientBarcodeInput = "";
+                                } 
+                                else {
                                     patientBarcodeDisabled = "disabled";
                                 }
 
@@ -615,25 +623,32 @@
                                 <td><b>Remarks</b></td>
                                 <td><b>Verified</b></td>
                                 </tr>
+                             
+                                <tr>
                                 <%
                               
+                                ArrayList<String> medicineVerifiedList = (ArrayList<String>)session.getAttribute("medicineVerifiedList");
+                                
+                                if(medicineVerifiedList.size() != 1){ //then take the values from ProcessMedicineBarcode
+                                    medicineVerifiedList = (ArrayList<String>)session.getAttribute("medicineVerifiedListReturned");
+                                }   
                                 
                                 for (MedicinePrescription medicinePrescription : medicinePrescriptionList) {
                                         String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
-
                                         if (medicineBarcodeInput == null) {
                                             medicineBarcodeInput = "";
                                         }
 
                                 %>
-                                <tr>
                                     <td>   
-                                        <form action = "newjsp.jsp" method = "POST">
+                                        <form action = "ProcessMedicineBarcode" method = "POST">
                                             <div class="password-confirmation-field">
                                                 <input type="hidden" name = "medicineBarcode" id="medicineBarcode" value = "<%=medicinePrescription.getMedicineBarcode()%>">
-                                                <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>"  <%=disabled%>>
+                                                
+                                                <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>"  <%=medicineBarcodeDisabled%>>
                                             </div>
-                                        </form></td>
+                                        </form>
+                                    </td>
                                     <td>
 
                                         <%--<%=MedicineDAO.retrieve(medicinePrescription.getMedicineBarcode()).getMedicineName()%>--%>
@@ -643,15 +658,12 @@
                                     </td>
                                     <td>
                                         <%
-
                                             String medicineBarcode = medicinePrescription.getMedicineBarcode();
                                             if (medicineBarcode != null) {
                                                 Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
                                                 out.println(medicine.getRouteAbbr());
                                             }
                                         %>
-
-
                                     </td>
                                     <td><%=medicinePrescription.getDosage()%></td>
                                     <td><%=medicinePrescription.getFreqAbbr()%></td>                                          
@@ -668,20 +680,24 @@
 
                                     </td>   
                                     
+                                    
                                     <td>
                                         <%
-                                        
-                                        for(String medicine : medicineVerifiedList){
-                                            if(medicine.equals(MedicineDAO.retrieve(medicinePrescription.getMedicineBarcode()).getMedicineBarcode())){%>
-                                            <%=medicine%>
+                                            
+                                            if(medicineVerifiedList.contains(medicineBarcode)){
+                                                %>
+                                                <b><font color="#368a55"> YES</font></b>
+                                                <img src="img/verified.gif" width = "15" height = "15"/>
+                                            
                                             <%}
-                                        }
-                                        %>
-                                        
+                                      
+                                 
+                                        %>   
                                     </td>
+                                
                                             </tr>  
                                             <%}
-                                                    //session.removeAttribute("patientBarcodeInput");
+                                                    session.removeAttribute("patientBarcodeInput");
                                                 }
                                                 session.removeAttribute("isMedicationVerified");
                                                 session.removeAttribute("isPatientVerified");
@@ -1230,6 +1246,17 @@
 
         
         <script>
+            
+            function administerConfirmation() {
+                var activateButton = confirm("Once administered, it will be added to medication history. Please check before you administer.")
+                if (activateButton) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            
 
             $(document).ready(function() {
                 $(document).foundation();

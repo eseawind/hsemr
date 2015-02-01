@@ -21,6 +21,15 @@
     <center>
         <br/><br/><br/>
         <h1>Case Information</h1><br/><br/>
+        
+        <%
+             //create an arraylist to be passed to check validity of medicine
+                    ArrayList<String> medicineVerifiedList = new ArrayList<String>();
+                    medicineVerifiedList.add("TESTING");
+                    session.setAttribute("medicineVerifiedList",medicineVerifiedList);
+        
+        
+        %>
         <div class="large-centered large-6 columns">
             <% Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
         if (scenarioActivated != null) {%>
@@ -38,22 +47,6 @@
                             <%=ScenarioDAO.retrieveActivatedScenario().getScenarioName()%>
                         </td>
                     </tr>
-                    <!--<tr>
-                        <td>
-                            <b>Ward</b>
-                        </td>
-                        <td> 
-                            B
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>Bed</b>
-                        </td>
-                        <td>
-                            B3
-                        </td>
-                    </tr>-->
                     <tr>
                         <td>
                             <h5><font style="font-weight:400">Scenario Description</font></h5>

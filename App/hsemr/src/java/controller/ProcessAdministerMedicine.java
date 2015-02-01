@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package controller;
 
-import dao.*;
+import dao.MedicationHistoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Administrator
  */
-@WebServlet(name = "ProcessMedicineBarcode", urlPatterns = {"/ProcessMedicineBarcode"})
-public class ProcessMedicineBarcode extends HttpServlet {
+@WebServlet(name = "ProcessAdministerMedicine", urlPatterns = {"/ProcessAdministerMedicine"})
+public class ProcessAdministerMedicine extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,39 +36,36 @@ public class ProcessMedicineBarcode extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-      
+        String practicalGroupID = (String) request.getSession().getAttribute("nurse");
         
-        String medicineBarcode = (String) request.getParameter("medicineBarcode");
-        String medicineBarcodeInput = (String) request.getParameter("medicineBarcodeInput");
-        ArrayList<String> medicineVerifiedListReturned = (ArrayList<String>)session.getAttribute("medicineVerifiedList");
+        ArrayList<String> medicineVerifiedList = (ArrayList<String>)session.getAttribute("medicineVerifiedListReturned");
+        
 
+        if(medicineVerifiedList != null){
+            String scenarioID = (String) session.getAttribute("scenarioID");
 
-        if (medicineBarcode.equals(medicineBarcodeInput)) {//correct combination
-            //MedicationHistoryDAO.add(medicineBarcode, practicalGroupID, scenarioID);
-            session.setAttribute("success", medicineBarcodeInput + " barcode verified, you can proceed to administer. Medication has been added to historial records.");
-            
-            //add new medicine to arraylist and pass back to previous page
-            
-            if(!medicineVerifiedListReturned.contains(medicineBarcode)){
-                medicineVerifiedListReturned.add(medicineBarcode);
+            //loop the list and add it to MedicationHistory
+            for(String medicine: medicineVerifiedList){       
+                MedicationHistoryDAO.add(medicine, practicalGroupID, scenarioID);
             }
-            
-            session.setAttribute("medicineVerifiedListReturned",medicineVerifiedListReturned);
-            
-            session.setAttribute("isMedicationVerified", "true");
-            session.setAttribute("isPatientVerified", "true");
+            session.setAttribute("success",  "Medication has been added to historial records. ");
             session.setAttribute("active", "medication");
 
-            String patientBarcodeInput = (String)session.getAttribute("patientBarcodeInput");
-            session.setAttribute("patientBarcodeInput", patientBarcodeInput);
-            
+            ArrayList<String> emptyArrayList = new ArrayList<String>();
+         
+            session.setAttribute("medicineVerifiedListReturned",emptyArrayList);
+            session.setAttribute("medicineVerifiedList",emptyArrayList);
+            session.removeAttribute("isMedicationVerified");
+            session.removeAttribute("isPatientVerified");
             response.sendRedirect("viewPatientInformation.jsp");
-        } else {
+        
+        }else{
+            session.setAttribute("error",  "There is no medicine scanned. Please check again. ");
             session.setAttribute("active", "medication");
-            session.setAttribute("error", "Wrong medicine! Please verify and rescan.");
-            session.setAttribute("isPatientVerified", "true");
             response.sendRedirect("viewPatientInformation.jsp");
         }
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
