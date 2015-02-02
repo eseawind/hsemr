@@ -58,11 +58,6 @@
             <div class="large-centered large-11 columns">
                 <%
                     String active = active = (String) session.getAttribute("active");
-                    
-               
-                    
-
-
                     String success = "";
                     String error = "";
                     //retrieve all successfulmessages
@@ -237,6 +232,11 @@
 
                             <%
                                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                
+                                if (StateHistoryDAO.retrieveAll().isEmpty()) {
+                                    StateHistoryDAO.addStateHistory(scenarioID, "ST0");
+                                }
+                                
                                 // loop through each report
                                 for (Map.Entry<List<Report>, String> entry : stateReportsHM.entrySet()) {
                                     List<Report> stateReports = entry.getKey();
@@ -505,27 +505,10 @@
                             out.println("content");
                         }%>" id="medication">
                         
-                        <%
-                            ArrayList<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID, stateID);
-                            ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
-                            
-                            if(medicinePrescriptionList.size() != 0){%>
-                                    
-                        
-                        <font color ="red">Click "Administer" once you are done scanning with the medicine(s). Medicine will be added to history once "Administer" is clicked.</font><br><br>   
-                        
-                        <form action ="ProcessAdministerMedicine" method="post">
-                           <input type = "submit" class="deletebutton tiny" onclick="if (!administerConfirmation())
-                               return false" value="Administer Medicine" ><br>   
-                        </form>
-                            <%}
-                        
-                        %>
-                        
-                   
-                        
+                        <h4>Step 1: Scan Patient's Barcode > Step 2: Scan Medicine's Barcode > Step 3: Administer Medicine </h4>
                         <input data-reveal-id="medicationHistory" type="submit" value="View Medication History" class="button tiny">  
-
+                        
+                        <!--Start of Reveal Modal for Medication History-->
                         <div id="medicationHistory" class="reveal-modal" data-reveal>
                             <h2>Medication History</h2>
 
@@ -540,277 +523,290 @@
                                     <td><b>Medicine Barcode</b></td>
                                     <td><b>Administered By</b></td>
                                 </tr>
-
                                 <%
                                     DateFormat dateFormatterFprMedicationHistory = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 
                                     for (MedicationHistory medicationHistory : medicationHistoryList) {%>
                                 <tr>
-
                                     <td><%=dateFormatterFprMedicationHistory.format(medicationHistory.getMedicineDatetime())%></td>
                                     <td><%=medicationHistory.getMedicineBarcode()%></td>
                                     <td><%=session.getAttribute("nurse")%></td>
-
-
                                 </tr> 
-
                                 <% }
 
                                 %>
                             </table>
                             <% }
                             %>
-
                             <a class="close-reveal-modal">&#215;</a>
                         </div>
-
-                        <%
+                        <!--End of Reveal Modal for Medication History-->
                             
-
-                            if (medicinePrescriptionList.size() == 0) {
-                                out.println("<br>There's no prescription at the moment.");
-
-                            } else {
                         
-                        
-                        %>
-                
-
-                        <h4>Step 1: Scan Patient's Barcode</h4>
                         <%
-                            String patientBarcodeInput = (String) session.getAttribute("patientBarcodeInput");
-                            String isPatientVerified = (String) session.getAttribute("isPatientVerified");
-                            String medicineBarcodeDisabled = "disabled";
-                            String patientBarcodeDisabled = "";
-                            
-                            //patient is verified, enable the medicine textbox
-                            if (isPatientVerified != null) {
-                                medicineBarcodeDisabled = "";
-                                patientBarcodeDisabled = "disabled";
-                                patientBarcodeInput = patientBarcodeInput;
+                            // to store prescriptions of all activated states
+                            HashMap<List<Prescription>, String> prescriptionHM = new HashMap<List<Prescription>, String>();
+                            // remove duplicates
+                            List<String> tempPrescriptionList = new ArrayList<String>();
+                            // remove duplicates and add reports of that state into array reports
+                            for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
+                                String state = entry.getKey();
+                                if (tempPrescriptionList.size() == 0) {
+                                    tempPrescriptionList = new ArrayList<String>();
+                                }
+                                if (tempPrescriptionList.contains(state)) {
+                                    activatedStates.remove(state);
+                                } else {
+                                    tempPrescriptionList.add(state);
+                                    List<Prescription> prescriptions = PrescriptionDAO.retrieve(scenarioID, state);
+                                    String doctorOrderTime = entry.getValue();
+                                    if (prescriptions != null && prescriptions.size() != 0) {
+                                        prescriptionHM.put(prescriptions, doctorOrderTime);
+                                    }
+                                }
                             }
                             
-                            if(patientBarcodeInput != null){
-                                medicineBarcodeDisabled = "";
-                                patientBarcodeDisabled = "disabled";
-                                patientBarcodeInput = patientBarcodeInput;
-                            }
-                        %>
+                            if(prescriptionHM == null || prescriptionHM.size() == 0){
+                                out.println("There are no prescription(s) at the moment. ");
+                            }else{%>
+                                <h4>Step 1: Scan Patient's Barcode</h4>     
+                              <%
+                                String patientBarcodeInput = (String) session.getAttribute("patientBarcodeInput");
+                                String isPatientVerified = (String) session.getAttribute("isPatientVerified");
+                                String medicineBarcodeDisabled = "disabled";
+                                String patientBarcodeDisabled = "";
 
-                        <form action = "ProcessPatientBarcode" method = "POST" name = "medicationTab">
-
-                            <%                                
-                            
-                            
-                                if (patientBarcodeInput == null) {
-                                    patientBarcodeInput = "";
-                                } else if(patientBarcodeInput == ""){
-                                    patientBarcodeInput = "";
-                                } 
-                                else {
+                                //patient is verified, enable the medicine textbox
+                                if (isPatientVerified != null) {
+                                    medicineBarcodeDisabled = "";
                                     patientBarcodeDisabled = "disabled";
+                                    patientBarcodeInput = patientBarcodeInput;
                                 }
 
+                                if(patientBarcodeInput != null){
+                                    medicineBarcodeDisabled = "";
+                                    patientBarcodeDisabled = "disabled";
+                                    patientBarcodeInput = patientBarcodeInput;
+                                }%>
+                                
+                                <form action = "ProcessPatientBarcode" method = "POST" name = "medicationTab">
+                                    <%
+                                     if (patientBarcodeInput == null) {
+                                        patientBarcodeInput = "";
+                                    } else if(patientBarcodeInput == ""){
+                                        patientBarcodeInput = "";
+                                    } 
+                                    else {
+                                        patientBarcodeDisabled = "disabled";
+                                    }
+                                    %>
+                                    
+                                    <div class="small-8">
+                                        <div class="small-3 columns">
+                                            <label for="right-label" class="right inline">Patient's Barcode</label>
+                                        </div>
+                                        <div class="small-9 columns">
+                                            <input type="hidden" name = "patientBarcode" id="patientBarcode" value = "<%=patientNRIC%>">
+                                            <input type="text" value = "<%=patientBarcodeInput%>" name = "patientBarcodeInput" <%=patientBarcodeDisabled%>/>
+                                        </div>
+                                    </div>       
+                                </form>
+                                <br><br><p><br>
+                                    
+                                <h4>Step 2: Scan Medicine Barcode</h4>
+                                <table>
+                                    <tr>
+                                        <td><b>Medicine Barcode</b></td>
+                                        <td><b>Medicine Name<b></td>
+                                        <td><b>Route</b></td>
+                                        <td><b>Frequency</b></td>
+                                        <td><b>Doctor Name/MCR No.</b></td>
+                                        <td><b>Remarks</b></td>
+                                        <td><b>Verified</b></td>
+                                        <td><b>Discontinued</b></td>
+                                        </tr>
+
+                                    <tr>
+                                    <%
+                                        //taken from processMedicineBarcode
+                                        ArrayList<String> medicineVerifiedList = (ArrayList<String>)session.getAttribute("medicineVerifiedList");
+
+                                        if(medicineVerifiedList.size() != 1){ //then take the values from ProcessMedicineBarcode
+                                            medicineVerifiedList = (ArrayList<String>)session.getAttribute("medicineVerifiedListReturned");
+                                        }   
+                                        
+                                        
+                                        //loop through every medication
+                                        for (Map.Entry<List<Prescription>, String> entry : prescriptionHM.entrySet()) {
+                                            List<Prescription> statePrescription = entry.getKey();
+
+                                            //Display Prescriptions
+                                            for (Prescription prescription : statePrescription) {                                                
+                                                String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
+                                                    if (medicineBarcodeInput == null) {
+                                                        medicineBarcodeInput = "";
+                                                }%>
+                                                <td>   
+                                                    <form action = "ProcessMedicineBarcode" method = "POST">
+                                                        <div class="password-confirmation-field">
+                                                            <input type="hidden" name = "medicineBarcode" id="medicineBarcode" value = "<%=prescription.getMedicineBarcode()%>">
+
+                                                            <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>"  <%=medicineBarcodeDisabled%>>
+                                                        </div>
+                                                    </form>
+                                                </td>    
+                                                <td>
+                                                    <%=MedicineDAO.retrieve(prescription.getMedicineBarcode()).getMedicineName()%>
+                                                </td>
+                                                <td>
+                                                     <%
+                                                        String medicineBarcode = prescription.getMedicineBarcode();
+                                                        if (medicineBarcode != null) {
+                                                            Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
+                                                            out.println(medicine.getRouteAbbr());
+                                                        }
+                                                        
+                                                    %> 
+                                                </td>
+                                                <%--<%=MedicinePrescriptionDAO.retrieve(scenarioID, stateID, prescription.getMedicineBarcode())%>--%>
+                                           
+                                                <td><%=prescription.getFreqAbbr()%></td>                                          
+                                                <td>Dr.Tan/01234Z</td>
+                                                <td><%=prescription.getDoctorOrder()%></td>
+                                                <td>
+                                                    <%
+                                                        if(medicineVerifiedList.contains(medicineBarcode)){
+                                                            %>
+                                                            <b><font color="#368a55"> YES</font></b>
+                                                            <img src="img/verified.gif" width = "15" height = "15"/>
+
+                                                        <%}
+                                                    %>   
+                                                </td>
+                                                </tr>    
+                                            <%
+                                        }
+                              
+                                            session.removeAttribute("patientBarcodeInput");
+                                             }
+                                          session.removeAttribute("isMedicationVerified");
+                                                
+
+                                        %>
+                                            
+                                           
+                                        </table>
+                            <%} //end of else statement
+
+                            ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
                             %>
 
-                            <div class="small-8">
-                                <div class="small-3 columns">
-                                    <label for="right-label" class="right inline">Patient's Barcode</label>
-                                </div>
-                                <div class="small-9 columns">
-                                    <input type="hidden" name = "patientBarcode" id="patientBarcode" value = "<%=patientNRIC%>">
-                                    <input type="text" value = "<%=patientBarcodeInput%>" name = "patientBarcodeInput" <%=patientBarcodeDisabled%>/>
-                                </div>
-                            </div>    
+                        
+                                <br>
+                                <%if(medicinePrescriptionList.size() != 0){%>
+                                    
+                                <h4>Step 3: Administer Medicine</h4>
+                                <font color ="red">Click "Administer Medicine" once you are done scanning with the medicine(s). Medicine will be added to history once "Administer" is clicked.</font><br><br>   
 
-                        </form>
-
-                        <br><br><p><br>
-                        <h4>Step 2: Scan Medicine Barcode</h4>
-                        <table>
-                            <tr>
-                                <td><b>Medicine Barcode</b></td>
-                                <td><b>Medicine Name<b></td>
-                                <td><b>Route</b></td>
-                                <td><b>Dosage</b></td>
-                                <td><b>Frequency</b></td>
-                                <td><b>Doctor Name/MCR No.</b></td>
-                                <td><b>Remarks</b></td>
-                                <td><b>Verified</b></td>
-                                </tr>
-                             
-                                <tr>
-                                <%
-                              
-                                ArrayList<String> medicineVerifiedList = (ArrayList<String>)session.getAttribute("medicineVerifiedList");
-                                
-                                if(medicineVerifiedList.size() != 1){ //then take the values from ProcessMedicineBarcode
-                                    medicineVerifiedList = (ArrayList<String>)session.getAttribute("medicineVerifiedListReturned");
-                                }   
-                                
-                                for (MedicinePrescription medicinePrescription : medicinePrescriptionList) {
-                                        String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
-                                        if (medicineBarcodeInput == null) {
-                                            medicineBarcodeInput = "";
-                                        }
+                                <form action ="ProcessAdministerMedicine" method="post">
+                                   <input type = "submit" class="deletebutton tiny" onclick="if (!administerConfirmation())
+                                       return false" value="Administer Medicine" ><br>   
+                                </form>
+                                    <%}
 
                                 %>
-                                    <td>   
-                                        <form action = "ProcessMedicineBarcode" method = "POST">
-                                            <div class="password-confirmation-field">
-                                                <input type="hidden" name = "medicineBarcode" id="medicineBarcode" value = "<%=medicinePrescription.getMedicineBarcode()%>">
-                                                
-                                                <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>"  <%=medicineBarcodeDisabled%>>
-                                            </div>
-                                        </form>
-                                    </td>
-                                    <td>
-
-                                        <%--<%=MedicineDAO.retrieve(medicinePrescription.getMedicineBarcode()).getMedicineName()%>--%>
-                                        <%=MedicineDAO.retrieve(medicinePrescription.getMedicineBarcode()).getMedicineBarcode()%>
-
-
-                                    </td>
-                                    <td>
-                                        <%
-                                            String medicineBarcode = medicinePrescription.getMedicineBarcode();
-                                            if (medicineBarcode != null) {
-                                                Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
-                                                out.println(medicine.getRouteAbbr());
-                                            }
-                                        %>
-                                    </td>
-                                    <td><%=medicinePrescription.getDosage()%></td>
-                                    <td><%=medicinePrescription.getFreqAbbr()%></td>                                          
-                                    <td>Dr.Tan/01234Z</td>
-                                    <td>
-                                        <%
-                                            String medicineBarcodeToRetrieve = medicinePrescription.getMedicineBarcode();
-                                            Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID, medicineBarcodeToRetrieve);
-
-                                            if (medicineBarcodeToRetrieve != null && prescription != null) {
-                                                out.println(prescription.getDoctorOrder());
-                                            }
-                                        %>
-
-                                    </td>   
-                                    
-                                    
-                                    <td>
-                                        <%
-                                            
-                                            if(medicineVerifiedList.contains(medicineBarcode)){
-                                                %>
-                                                <b><font color="#368a55"> YES</font></b>
-                                                <img src="img/verified.gif" width = "15" height = "15"/>
-                                            
-                                            <%}
-                                      
-                                 
-                                        %>   
-                                    </td>
-                                
-                                </tr>  
-                                <%}
-                                        session.removeAttribute("patientBarcodeInput");
-                                    }
-                                    session.removeAttribute("isMedicationVerified");
-
-                                %>
-
-                                </table>
 
                                 </div> 
                                 <!--End of medication tab-->
 
-                                            <!--MULTIDISCIPLINARY NOTES-->
-                                            <div class="<% if (active != null && active.equals(
-                                                        "multidisciplinary")) {
-                                                    out.println("content active");
-                                                } else {
-                                                    out.println("content");
-                                                }%>" id="multidisciplinary">
+                                <!--MULTIDISCIPLINARY NOTES-->
+                                <div class="<% if (active != null && active.equals(
+                                            "multidisciplinary")) {
+                                        out.println("content active");
+                                    } else {
+                                        out.println("content");
+                                    }%>" id="multidisciplinary">
 
-                                                <form action="ProcessAddNote" method="POST">
+                                    <form action="ProcessAddNote" method="POST">
+                                        <%
+                                            String grpNames = (String) session.getAttribute("grpNames");
+                                            String notes = (String) session.getAttribute("notes");
+
+                                        %> 
+
+                                        <h4>Enter New Multidisciplinary Notes</h4><br>
+                                        <div id="newNotes" class="content">
+                                            <div class="small-8">
+                                                <div class="small-3 columns">
+                                                    <label for="right-label" class="right inline">Nurses in-charge</label>
+                                                    <label for="right-label" class="right inline">Multidisciplinary Note</label>
+                                                </div>
+                                                <div class="small-9 columns">
+                                                    <input type ="hidden" name="scenarioID" value="<%=scenarioID%>"/>
+
+                                                    <input type ="text" id= "grpNames" name="grpNames" value="<% if (grpNames == null || grpNames == "") {
+                                                            out.print("");
+                                                        } else {
+                                                            out.print(grpNames);
+                                                        }%>" >
+                                                    <textarea name="notes" id="notes" rows="7" cols="10" ><% if (notes == null || notes == "") {
+                                                            out.print("");
+                                                        } else {
+                                                            out.print(notes);
+                                                        }%></textarea>
+                                                </div>
+
+                                                <br>
+                                                <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
+                                                <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
+
+                                            </div> 
+                                        </div>  
+                                    </form>
+
+                                    <h4>Multidiscplinary Notes History</h4><br> 
+                                    <div class="row">
+                                        <div class="large-12">
+                                            <div class="row">
+                                                <div class="large-12 columns">
                                                     <%
-                                                        String grpNames = (String) session.getAttribute("grpNames");
-                                                        String notes = (String) session.getAttribute("notes");
+                                                        if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
+                                                    <label for="right-label" class="right inline"><h5><center>No past notes yet.</center></h5></label>
+                                                    <% } else { %> <br/>
+                                                    <!--TABLE-->
+                                                    <table class="responsive" id="cssTable">
+                                                        <col width="20%">
+                                                        <col width="30%">
+                                                        <col width="15%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nurses In-Charge</th>
+                                                                <th>Multidisciplinary Notes</th>
+                                                                <th>Time Submitted</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <%
+                                                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                                //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
+                                                                for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
+                                                                    Note notesRetrieve = notesListRetrieved.get(i);
+                                                                    // out.print("<b>Practical Group: </b>" + notes.getPracticalGroupID() + "<br>");
+                                                                    out.println("<tr>");
+                                                                    out.print("<td>" + notesRetrieve.getGrpMemberNames() + "</td>");
+                                                                    out.print("<td>" + notesRetrieve.getMultidisciplinaryNote() + "</td>");
+                                                                    out.print("<td>" + df.format(notesRetrieve.getNoteDatetime()) + "</td>");
+                                                                    out.println("</tr>");
+                                                                }
 
-                                                    %> 
+                                                            }//end of else %>
 
-                                                    <h4>Enter New Multidisciplinary Notes</h4><br>
-                                                    <div id="newNotes" class="content">
-                                                        <div class="small-8">
-                                                            <div class="small-3 columns">
-                                                                <label for="right-label" class="right inline">Nurses in-charge</label>
-                                                                <label for="right-label" class="right inline">Multidisciplinary Note</label>
-                                                            </div>
-                                                            <div class="small-9 columns">
-                                                                <input type ="hidden" name="scenarioID" value="<%=scenarioID%>"/>
-
-                                                                <input type ="text" id= "grpNames" name="grpNames" value="<% if (grpNames == null || grpNames == "") {
-                                                                        out.print("");
-                                                                    } else {
-                                                                        out.print(grpNames);
-                                                                    }%>" >
-                                                                <textarea name="notes" id="notes" rows="7" cols="10" ><% if (notes == null || notes == "") {
-                                                                        out.print("");
-                                                                    } else {
-                                                                        out.print(notes);
-                                                                    }%></textarea>
-                                                            </div>
-
-                                                            <br>
-                                                            <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
-                                                            <input type="submit" name="buttonChoosen" value="Submit" class="button tiny"> 
-
-                                                        </div> 
-                                                    </div>  
-                                                </form>
-
-                                                <h4>Multidiscplinary Notes History</h4><br> 
-                                                <div class="row">
-                                                    <div class="large-12">
-                                                        <div class="row">
-                                                            <div class="large-12 columns">
-                                                                <%
-                                                                    if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
-                                                                <label for="right-label" class="right inline"><h5><center>No past notes yet.</center></h5></label>
-                                                                <% } else { %> <br/>
-                                                                <!--TABLE-->
-                                                                <table class="responsive" id="cssTable">
-                                                                    <col width="20%">
-                                                                    <col width="30%">
-                                                                    <col width="15%">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Nurses In-Charge</th>
-                                                                            <th>Multidisciplinary Notes</th>
-                                                                            <th>Time Submitted</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <%
-                                                                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                                            //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
-                                                                            for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
-                                                                                Note notesRetrieve = notesListRetrieved.get(i);
-                                                                                // out.print("<b>Practical Group: </b>" + notes.getPracticalGroupID() + "<br>");
-                                                                                out.println("<tr>");
-                                                                                out.print("<td>" + notesRetrieve.getGrpMemberNames() + "</td>");
-                                                                                out.print("<td>" + notesRetrieve.getMultidisciplinaryNote() + "</td>");
-                                                                                out.print("<td>" + df.format(notesRetrieve.getNoteDatetime()) + "</td>");
-                                                                                out.println("</tr>");
-                                                                            }
-
-                                                                        }//end of else %>
-
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>  
-
+                                                    </table>
+                                                </div>
                                             </div>
+                                        </div>
+                                    </div>  
+
+                                </div>
 
                                         <!--DOCUMENTS-->
                                         <div class="<% 
@@ -820,7 +816,7 @@
                                                 out.println("content");
                                             } %>" id="documents">
 
-                                            <h4>Consent Forms</h4><br/>
+                                            <h4>Documents</h4><br/>
 
                                     <%
 

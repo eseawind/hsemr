@@ -65,6 +65,31 @@ public class MedicinePrescriptionDAO {
         return list;
     }
     
+      public static MedicinePrescription retrieve(String medicineBarcode) {
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        MedicinePrescription medicinePrescription = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from medicine_prescription WHERE medicineBarcode = ?");
+  
+            stmt.setString(3, medicineBarcode);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                medicinePrescription = new MedicinePrescription(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return medicinePrescription;
+    }
+    
     public static ArrayList<MedicinePrescription> retrieveFromScenario(String scenarioID) {
         ArrayList<MedicinePrescription> list = new ArrayList<MedicinePrescription>();
         Connection conn = null;

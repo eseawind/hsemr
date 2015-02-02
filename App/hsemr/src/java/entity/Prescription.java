@@ -16,17 +16,23 @@ public class Prescription {
    private String doctorName;
    private String doctorOrder;
    private String freqAbbr;
+   private String medicineBarcode;
 
-    public Prescription(String scenarioID, String stateID, String doctorName, String doctorOrder, String freqAbbr) {
+    public Prescription(String scenarioID, String stateID, String doctorName, String doctorOrder, String freqAbbr, String medicineBarcode) {
         this.scenarioID = scenarioID;
         this.stateID = stateID;
         this.doctorName = doctorName;
         this.doctorOrder = doctorOrder;
         this.freqAbbr = freqAbbr;
+        this.medicineBarcode = medicineBarcode;
     }
 
     public String getScenarioID() {
         return scenarioID;
+    }
+    
+    public String getMedicineBarcode() {
+        return medicineBarcode;
     }
 
     public void setScenarioID(String scenarioID) {
@@ -39,6 +45,10 @@ public class Prescription {
 
     public void setStateID(String stateID) {
         this.stateID = stateID;
+    }
+    
+    public void setMedicineBarcode(String medicineBarcode) {
+        this.medicineBarcode = medicineBarcode;
     }
 
     public String getDoctorName() {
