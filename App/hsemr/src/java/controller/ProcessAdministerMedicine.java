@@ -41,7 +41,7 @@ public class ProcessAdministerMedicine extends HttpServlet {
         ArrayList<String> medicineVerifiedList = (ArrayList<String>)session.getAttribute("medicineVerifiedListReturned");
         
         if(medicineVerifiedList == null || medicineVerifiedList.size() == 0){
-            session.setAttribute("error",  "There is no medicine scanned. Please check again. ");
+            session.setAttribute("error",  "Please scan patient barcode first.");
             session.setAttribute("active", "medication");
             response.sendRedirect("viewPatientInformation.jsp");
         }else if (medicineVerifiedList != null){

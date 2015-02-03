@@ -654,22 +654,7 @@
                                                         medicineBarcodeInput = "";
                                                     }
                                                String discontinueState = prescription.getDiscontinueState();
-                                               
-//                                               for(String activatedState: activatedStateList ){
-//                                                   if(activatedState.equals(discontinueState)){
-//                                                       medicineBarcodeDisabled = "disabled";
-//                                                   }
-//                                               }
-                                               
-//                                               if(discontinueState!= null){
-//                                                    //has been activated, disable the textbox
-//                                                    if(activatedStateList.contains(discontinueState)){
-//                                                        out.println(discontinueState + "!");
-////                                                        PrescriptionDAO.updateDiscontinueStatus();
-//                                                        medicineBarcodeDisabled = "disabled";
-//                                                        out.println("YES");
-//                                                    }
-//                                               }
+
 
                                     %>
                                     
@@ -756,7 +741,11 @@
 
                         
                                 <br>
-                                <%if(medicinePrescriptionList.size() != 0){%>
+                                <%if(prescriptionHM.size() != 0){%>
+                                
+                             
+                                
+                                
                                     
                                 <h4>Step 3: Administer Medicine</h4>
                                 <font color ="red">Click "Administer Medicine" once you are done scanning with the medicine(s). Medicine will be added to history once "Administer" is clicked.</font><br><br>   
