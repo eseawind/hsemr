@@ -46,14 +46,16 @@ public class ProcessResetScenario extends HttpServlet {
             StateDAO.resetStateStatus(scenarioID);
             StateDAO.updateState("ST0", scenarioID, 1);
             ReportDAO.resetStatus(scenarioID);
+            ReportDAO.resetToInitialValues(scenarioID);
             MedicationHistoryDAO.delete(scenarioID);
             VitalDAO.resetVital(scenarioID);
             
+            response.getWriter().println(scenarioID);
             HttpSession session = request.getSession(false);
             session.setAttribute("success", "You have successfully reset the case: " + scenarioID + " !");
 //                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
 //                rd.forward(request, response);
-            response.sendRedirect("resetCaseLecturer.jsp");
+           response.sendRedirect("resetCaseLecturer.jsp");
         
     }
 

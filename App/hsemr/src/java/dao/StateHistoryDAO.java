@@ -6,6 +6,7 @@
 
 package dao;
 
+import entity.Prescription;
 import entity.State;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -50,6 +51,30 @@ public class StateHistoryDAO {
         }
         return stateHashMap;
     }
+    
+    public static ArrayList<StateHistory> retrieveStateHistory() {   
+        ArrayList<StateHistory> list = new ArrayList<StateHistory>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from state_history");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                StateHistory stateHistory = new StateHistory(rs.getString(1), rs.getString(2), rs.getTimestamp(3));
+                list.add(stateHistory);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return list;
+    }
+    
     
     public static void addStateHistory(String scenarioID, String stateID) {
         Connection conn = null;

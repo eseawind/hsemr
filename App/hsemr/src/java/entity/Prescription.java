@@ -17,14 +17,34 @@ public class Prescription {
    private String doctorOrder;
    private String freqAbbr;
    private String medicineBarcode;
+   private String discontinueState; 
+   private int discontinueStatus;
 
-    public Prescription(String scenarioID, String stateID, String doctorName, String doctorOrder, String freqAbbr, String medicineBarcode) {
+    public Prescription(String scenarioID, String stateID, String doctorName, String doctorOrder, String freqAbbr, String medicineBarcode, String discontinueState, int discontinueStatus) {
         this.scenarioID = scenarioID;
         this.stateID = stateID;
         this.doctorName = doctorName;
         this.doctorOrder = doctorOrder;
         this.freqAbbr = freqAbbr;
         this.medicineBarcode = medicineBarcode;
+        this.discontinueState = discontinueState;
+        this.discontinueStatus = discontinueStatus;
+    }
+
+    public String getDiscontinueState() {
+        return discontinueState;
+    }
+
+    public void setDiscontinueState(String discontinueState) {
+        this.discontinueState = discontinueState;
+    }
+
+    public void setDiscontinueStatus(int discontinueStatus) {
+        this.discontinueStatus = discontinueStatus;
+    }
+
+    public int getDiscontinueStatus() {
+        return discontinueStatus;
     }
 
     public String getScenarioID() {

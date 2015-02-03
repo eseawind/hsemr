@@ -619,6 +619,7 @@
                                         <td><b>Medicine Barcode</b></td>
                                         <td><b>Medicine Name<b></td>
                                         <td><b>Route</b></td>
+                                        <td><b>Dosage</b></td>
                                         <td><b>Frequency</b></td>
                                         <td><b>Doctor Name/MCR No.</b></td>
                                         <td><b>Remarks</b></td>
@@ -654,10 +655,12 @@
                                                             <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>"  <%=medicineBarcodeDisabled%>>
                                                         </div>
                                                     </form>
-                                                </td>    
+                                                </td>
+                                                
                                                 <td>
                                                     <%=MedicineDAO.retrieve(prescription.getMedicineBarcode()).getMedicineName()%>
                                                 </td>
+                                                
                                                 <td>
                                                      <%
                                                         String medicineBarcode = prescription.getMedicineBarcode();
@@ -667,7 +670,10 @@
                                                         }
                                                         
                                                     %> 
+                                                    
                                                 </td>
+                                                <td>DOSAGE</td>
+                                                
                                                 <%--<%=MedicinePrescriptionDAO.retrieve(scenarioID, stateID, prescription.getMedicineBarcode())%>--%>
                                            
                                                 <td><%=prescription.getFreqAbbr()%></td>                                          
@@ -683,6 +689,24 @@
                                                         <%}
                                                     %>   
                                                 </td>
+                                                <td><%
+                                                    ArrayList<StateHistory> stateHistoryList = StateHistoryDAO.retrieveStateHistory();
+                                                    String discontinueState = prescription.getDiscontinueState();
+                                                    
+                                                  
+                                                    
+                                                    for(StateHistory stateHistory : stateHistoryList){
+                                                        //out.println(stateHistory.getStateID());
+                                                        String stateHistoryID = stateHistory.getStateID();
+                                                        
+                                                        if(stateHistoryID.equals(discontinueState)){
+                                                            out.println("YES");
+                                                        }
+                                                    }
+                                                    
+                                                    
+                                                
+                                                %></td>
                                                 </tr>    
                                             <%
                                         }
