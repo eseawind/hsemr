@@ -75,8 +75,7 @@ public class MedicinePrescriptionDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("select * from medicine_prescription WHERE medicineBarcode = ?");
-  
-            stmt.setString(3, medicineBarcode);
+            stmt.setString(1, medicineBarcode);
 
             rs = stmt.executeQuery();
             while (rs.next()) {

@@ -36,36 +36,44 @@ public class ProcessMedicineBarcode extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
       
+        String isPatientVerified = (String)session.getAttribute("isPatientVerified");
+        if(isPatientVerified == null || !isPatientVerified.equals("true")){
+            session.setAttribute("active", "medication");
+            session.setAttribute("error", "Please scan patient barcode first.");
+            response.sendRedirect("viewPatientInformation.jsp");
+            
+        }else{
         
-        String medicineBarcode = (String) request.getParameter("medicineBarcode");
-        String medicineBarcodeInput = (String) request.getParameter("medicineBarcodeInput").trim();
-        ArrayList<String> medicineVerifiedListReturned = (ArrayList<String>)session.getAttribute("medicineVerifiedList");
+            String medicineBarcode = (String) request.getParameter("medicineBarcode");
+            String medicineBarcodeInput = (String) request.getParameter("medicineBarcodeInput").trim();
+            ArrayList<String> medicineVerifiedListReturned = (ArrayList<String>)session.getAttribute("medicineVerifiedList");
 
 
-        if (medicineBarcode.equals(medicineBarcodeInput)) {//correct combination
-            //MedicationHistoryDAO.add(medicineBarcode, practicalGroupID, scenarioID);
-            
-            //add new medicine to arraylist and pass back to previous page
-            
-            if(!medicineVerifiedListReturned.contains(medicineBarcode)){
-                medicineVerifiedListReturned.add(medicineBarcode);
+            if (medicineBarcode.equals(medicineBarcodeInput)) {//correct combination
+                //MedicationHistoryDAO.add(medicineBarcode, practicalGroupID, scenarioID);
+
+                //add new medicine to arraylist and pass back to previous page
+
+                if(!medicineVerifiedListReturned.contains(medicineBarcode)){
+                    medicineVerifiedListReturned.add(medicineBarcode);
+                }
+
+                session.setAttribute("medicineVerifiedListReturned",medicineVerifiedListReturned);
+
+                session.setAttribute("isMedicationVerified", "true");
+                session.setAttribute("isPatientVerified", "true");
+                session.setAttribute("active", "medication");
+
+                String patientBarcodeInput = (String)session.getAttribute("patientBarcodeInput");
+                session.setAttribute("patientBarcodeInput", patientBarcodeInput);
+
+                response.sendRedirect("viewPatientInformation.jsp");
+            } else {
+                session.setAttribute("active", "medication");
+                session.setAttribute("error", "Wrong medicine! Please verify and rescan.");
+                session.setAttribute("isPatientVerified", "true");
+                response.sendRedirect("viewPatientInformation.jsp");
             }
-            
-            session.setAttribute("medicineVerifiedListReturned",medicineVerifiedListReturned);
-            
-            session.setAttribute("isMedicationVerified", "true");
-            session.setAttribute("isPatientVerified", "true");
-            session.setAttribute("active", "medication");
-
-            String patientBarcodeInput = (String)session.getAttribute("patientBarcodeInput");
-            session.setAttribute("patientBarcodeInput", patientBarcodeInput);
-            
-            response.sendRedirect("viewPatientInformation.jsp");
-        } else {
-            session.setAttribute("active", "medication");
-            session.setAttribute("error", "Wrong medicine! Please verify and rescan.");
-            session.setAttribute("isPatientVerified", "true");
-            response.sendRedirect("viewPatientInformation.jsp");
         }
     }
 
