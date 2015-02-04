@@ -214,7 +214,7 @@
                     columns: [
                      //   ['x', '2014-12-28T11:44:51'],
                         ['Respiratory',  <% out.println(dataOfRR); %>],        
-                        ['Heart Rate',  <% out.println(dataOfHR); %>],
+                        ['HeartRate',  <% out.println(dataOfHR); %>],
                         ['SPO',  <% out.println(dataOfSPO); %>],
                         ['BPsystolic',  <% out.println(dataOfBPsystolic); %>],
                         ['BPdiastolic', <% out.println(dataOfBPdiastolic); %>]
@@ -226,10 +226,13 @@
                         BPdiastolic: '#d00',
                         BPsystolic: '#d00',
                         Respiratory: '#216608',
-                        SPO: '#000000'
-                    },
+                        SPO: '#F2CE02',
+                        HeartRate: '#5D98FC'
+                    }
                 },
-    
+                legend: {
+                        show: false
+                },
                 axis: { 
                
                     x: { 
@@ -274,6 +277,7 @@
                 }
 
             });
+            
             chart2.resize({height:300, width:700});
 
 //        chart.load({
@@ -282,7 +286,9 @@
 //            ['data2', 100, 200, 150, 50, 100, 250]
 //            ]
 //        });
+    
         </script>  
         <% } %>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="img/Legend.PNG" width = "400" height = "30"/>
     </body>
 </html>

@@ -34,7 +34,7 @@ public class StateHistoryDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM state_history");
+            stmt = conn.prepareStatement("SELECT * FROM state_history order by timeActivated ASC");
             rs = stmt.executeQuery();
 
             while (rs.next()) {

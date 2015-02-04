@@ -217,4 +217,28 @@ public class PrescriptionDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+    public static ArrayList<Prescription> retrieveOnlyNA(String scenarioID, String stateID) {
+        ArrayList<Prescription> list = new ArrayList<Prescription>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from prescription WHERE scenarioID = ? and stateID = ? and medicineBarcode = 'NA'");
+            stmt.setString(1, scenarioID);
+            stmt.setString(2, stateID);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Prescription prescription = new Prescription(rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8));
+                list.add(prescription);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return list;
+    }
 }

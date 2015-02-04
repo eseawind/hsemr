@@ -195,7 +195,7 @@
 
                         <%
                             if (StateHistoryDAO.retrieveAll().isEmpty()) {
-                                StateHistoryDAO.addStateHistory(scenarioID, "ST0");
+                                StateHistoryDAO.addStateHistory(scenarioID, stateID);
                             }
                             HashMap<String, String> activatedStates = StateHistoryDAO.retrieveAll();
                             // to store reports of all activated states
@@ -235,7 +235,7 @@
                                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                 
                                 if (StateHistoryDAO.retrieveAll().isEmpty()) {
-                                    StateHistoryDAO.addStateHistory(scenarioID, "ST0");
+                                    StateHistoryDAO.addStateHistory(scenarioID, stateID);
                                 }
                                 
                                 // loop through each report
@@ -353,12 +353,57 @@
                         } %>" id="vital">
 
                         <%
-
                             Date currentDateTime = new Date();
                             DateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy H:m:s");
                             dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
                             String currentDateFormatted = dateFormatter.format(currentDateTime);
-
+                            
+                            String temp1 = (String)session.getAttribute("temperature");
+                            String HR1 = (String)session.getAttribute("HR");
+                            String RR1 = (String)session.getAttribute("RR");
+                            String SPO1 = (String)session.getAttribute("SPO");
+                            String BPsystolic1 = (String)session.getAttribute("BPsystolic");
+                            String BPdiastolic1 = (String)session.getAttribute("BPdiastolic");
+                            String oralAmount1 = (String)session.getAttribute("oralAmount");
+                            String oralType1 = (String)session.getAttribute("oralType");
+                            String intravenousType1 = (String)session.getAttribute("intravenousType");
+                            String intravenousAmount1 = (String)session.getAttribute("intravenousAmount");
+                            String output1 = (String)session.getAttribute("output");
+                            
+                            if(temp1 == null) { 
+                                temp1 = "";
+                            };
+                            if(HR1 ==  null) { 
+                                HR1 = "";
+                            };
+                            if(RR1 ==  null) { 
+                                RR1 = "";
+                            };
+                            if(SPO1 ==  null) { 
+                                SPO1 = "";
+                            };
+                            if(BPsystolic1 ==  null) { 
+                                BPsystolic1 = "";
+                            };
+                            if(BPdiastolic1 ==  null) { 
+                                BPdiastolic1 = "";
+                            };
+                            if(oralAmount1 ==  null) { 
+                                oralAmount1 = " ";
+                            };
+                            if(oralType1 ==  null) { 
+                                oralType1 = " ";
+                            };
+                            if(intravenousType1 ==  null) { 
+                                intravenousType1 = " ";
+                            };
+                            if(intravenousAmount1 ==  null) { 
+                                intravenousAmount1 = " ";
+                            };
+                            if(output1 ==  null) { 
+                                output1 = " ";
+                            };
+                        
                         %>
                         <input data-reveal-id="AllChart" type="submit" value="View All Charts" class="button tiny">  
                         <input data-reveal-id="IntakeOutputChart" type="submit" value="View Intake and Output Chart" class="button tiny">  
@@ -375,7 +420,7 @@
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
                                                 <!--validates for 1 decimal place-->
-                                                <input type="text" name ="temperature" maxlength="4" pattern ="\b(3[4-9](\.[0-9]{1,2})?|4[0-2])(\.[0-9]{1,2})?$\b" />
+                                                <input type="text" name ="temperature" maxlength="4" pattern ="\b(3[4-9](\.[0-9]{1,2})?|4[0-2])(\.[0-9]{1,2})?$\b"  value="<%=temp1%>"/>
                                                 <small class="error">Temperature must be between 34 - 42.</small>
                                             </div>
                                             <label for="right-label" class="left inline">ºC</label>
@@ -385,7 +430,7 @@
                                 <tr><td><b>Respiratory Rate</b><a href="#" data-reveal-id="RRchart" style="color:green"><br><i><u>View RR history</u></i></a></a></td>
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="RR" maxlength="2" pattern ="^([0-9]|[1-5][0-9]|60)$"/>
+                                                <input type="text" name ="RR" maxlength="2" pattern ="^([0-9]|[1-5][0-9]|60)$" value="<%=RR1%>"/>
                                                 <small class="error">Respiratory Rate must be between 0 - 60.</small>
                                             </div>
 
@@ -398,7 +443,7 @@
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
                                                 <!--validates between 0 - 200-->
-                                                <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|30[0-0])$"/>
+                                                <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|30[0-0])$" value="<%=HR1%>"/>
                                                 <small class="error">Heart Rate must be between 0 - 200.</small>
                                             </div>
                                             <label for="right-label" class="left inline">beats/min</label>
@@ -409,7 +454,7 @@
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
                                                 <!--<input type="text" name ="BPsystolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
-                                                <input type="text" name ="BPsystolic" maxlength = "3" pattern = "^([0-9]{1,2}|[12][0-9]{2}|300)$"/>
+                                                <input type="text" name ="BPsystolic" maxlength = "3" pattern = "^([0-9]{1,2}|[12][0-9]{2}|300)$" value="<%=BPsystolic1%>"/>
                                                 <small class="error">BP systolic must be numeric and between 0 - 300.</small>
                                             </div>
 
@@ -419,7 +464,7 @@
                                         <div class="row">
                                             <div class="small-4 columns" style="width:200px">
                                                 <!--<input type="text" name ="BPdiastolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
-                                                <input type="text" name ="BPdiastolic" maxlength = "3" pattern = "^([0-9]{1,2}|1[0-9]{2}|200)$"/>
+                                                <input type="text" name ="BPdiastolic" maxlength = "3" pattern = "^([0-9]{1,2}|1[0-9]{2}|200)$" value="<%=BPdiastolic1%>"/>
                                                 <div class ="input wrapper">
                                                     <small class="error">BP diastolic must be numeric and between 0 - 200.</small>
                                                 </div>
@@ -434,7 +479,7 @@
 
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="SPO" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$"/>
+                                                <input type="text" name ="SPO" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$" value="<%=SPO1%>"/>
                                                 <small class="error">SPO must be numeric and between 0 - 100%.</small>
                                             </div>
 
@@ -445,7 +490,7 @@
 
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="oralType" value= " "/>
+                                                <input type="text" name ="oralType" value= "<%=oralType1%>"/>
                                             </div>
 
                                             <label for="left-label" class="left inline">Type</label>
@@ -453,7 +498,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="oralAmount"  value= " "/>
+                                                <input type="text" name ="oralAmount"  value="<%=oralAmount1%>"/>
                                             </div>
 
                                             <label for="left-label" class="left inline">Amount Taken</label>
@@ -465,7 +510,7 @@
 
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="intravenousType" value= " "/>
+                                                <input type="text" name ="intravenousType" value="<%=intravenousType1%>"/>
                                             </div>
 
                                             <label for="left-label" class="left inline">Type</label>
@@ -473,7 +518,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="intravenousAmount"  value= " "/>
+                                                <input type="text" name ="intravenousAmount"  value="<%=intravenousAmount1%>" />
                                             </div>
 
                                             <label for="left-label" class="left inline">Amount Infused</label>
@@ -485,7 +530,7 @@
 
                                     <td><div class="row">
                                             <div class="small-4 columns" style="width:200px">
-                                                <input type="text" name ="output" style="width:170px" value= " "/>
+                                                <input type="text" name ="output" style="width:170px" value= "<%=output1%>"/>
                                             </div>
                                             <label for="left-label" class="left inline"></label>
                                         </div>
@@ -907,7 +952,7 @@
                                       HashMap<List<Prescription>, String> stateDoctorOrderHM = new HashMap<List<Prescription>, String>();
                                       for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
                                         String state = entry.getKey();
-                                        List<Prescription> prescriptions = PrescriptionDAO.retrieve(scenarioID, state);
+                                        List<Prescription> prescriptions = PrescriptionDAO.retrieveOnlyNA(scenarioID, state);
                                         String doctorOrderTime = entry.getValue();
                                         if (prescriptions != null && prescriptions.size() != 0) {
                                             stateDoctorOrderHM.put(prescriptions, doctorOrderTime);
@@ -1377,27 +1422,6 @@
                     humaneError.log(error1);
                 }
 
-            });
-            $(document).ready(function() {
-                var counter = 10;
-                var id = setInterval(function() {
-                    counter--;
-
-                    if (counter > 0) {
-
-                        var msg = 'Waiting for response..';
-                        $('#docLinkMsg').text(msg);
-                    } else {
-                        $('#docLinkMsg').hide();
-                        $('#docDateWaiting').hide();
-                        $('#docStatusWaiting').hide();
-                        $('#downloadDoc').show();
-                        $('#docDateDisplay').show();
-                        $('#docStatusDisplay').show();
-                        $('#consentLink').show();
-                        clearInterval(id);
-                    }
-                }, 3000);
             });
 
             $(document).ready(function() {

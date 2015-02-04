@@ -111,7 +111,19 @@ public class ProcessAddVital extends HttpServlet {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
-
+            
+            session.setAttribute("temperature", request.getParameter("temperature"));
+            session.setAttribute("HR", request.getParameter("HR"));
+            session.setAttribute("RR", request.getParameter("RR"));
+            session.setAttribute("SPO", request.getParameter("SPO"));
+            session.setAttribute("BPsystolic", request.getParameter("BPsystolic"));
+            session.setAttribute("BPdiastolic", request.getParameter("BPdiastolic"));
+            session.setAttribute("oralAmount", request.getParameter("oralAmount"));
+            session.setAttribute("oralType", request.getParameter("oralType"));
+            session.setAttribute("intravenousType", request.getParameter("intravenousType"));
+            session.setAttribute("intravenousAmount", request.getParameter("intravenousAmount"));
+            session.setAttribute("output", request.getParameter("output"));
+            
             if (BPsystolic != 0 && BPdiastolic == 0) {
                 session.setAttribute("error", "Update failed: Please update BOTH Systolic and Diastolic values.");
                 session.setAttribute("active", "vital");
@@ -141,6 +153,17 @@ public class ProcessAddVital extends HttpServlet {
                 VitalHistoryDAO.add(scenarioID, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount,practicalGroupID);
                 session.setAttribute("active", "vital");
                 session.setAttribute("success", "Vital signs have been updated!");
+                session.setAttribute("temperature", "");
+                session.setAttribute("HR", "");
+                session.setAttribute("RR", "");
+                session.setAttribute("SPO", "");
+                session.setAttribute("BPsystolic", "");
+                session.setAttribute("BPdiastolic", "");
+                session.setAttribute("oralAmount", "");
+                session.setAttribute("oralType", "");
+                session.setAttribute("intravenousType", "");
+                session.setAttribute("intravenousAmount", "");
+                session.setAttribute("output", "");
                 response.sendRedirect("./viewPatientInformation.jsp");
             }
             
