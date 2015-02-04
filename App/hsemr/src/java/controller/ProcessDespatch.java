@@ -46,11 +46,11 @@ public class ProcessDespatch extends HttpServlet {
         String stateID = request.getParameter("stateID");
         String reportName = request.getParameter("reportName");
         Date date=new Date();
-        
+        String clickedID = request.getParameter("clickedID");
         ReportDAO.updateStatus(date, reportName, 1, scenarioID, stateID);
         HttpSession session = request.getSession(false);
         // to be used to determine whether to retrieve report for the first time
-        session.setAttribute("obtainedReport", "1");
+        session.setAttribute("clickedID", clickedID);
         session.setAttribute("success", "Despatching Report: " + reportName + " to the lab. Please follow up on the results. ");
         
         session.setAttribute("active","reports");

@@ -239,6 +239,7 @@
                                 }
                                 
                                 // loop through each report
+                                int counter = 0;
                                 for (Map.Entry<List<Report>, String> entry : stateReportsHM.entrySet()) {
                                     List<Report> stateReports = entry.getKey();
 
@@ -268,12 +269,15 @@
                                 <%
                                     // check if require retrieve process 
                                     // despatch Date time column 
-                                    String firstDespatch = (String) session.getAttribute("obtainedReport");
+                                    
+                                    String counterStr = String.valueOf(counter);
+                                    String firstDespatch = (String) session.getAttribute("clickedID");
+                                    
                                     if (dispatchStatus == 1) {
-                                        if (firstDespatch != null && !firstDespatch.equals("0")) {%>
+                                        if (firstDespatch != null && !firstDespatch.equals("") && firstDespatch.equals(counterStr)) {%>
                                 <td><div id="reportDateWaiting">Waiting..</div>
                                     <div id="reportDateDisplay" style="display:none;"><%=reportDatetime%></div></td>
-                                    <% session.setAttribute("obtainedReport", "0");
+                                    <% 
                                     } else {%>  
                                 <td><%=reportDatetime%></td>
                                 <% }
@@ -283,7 +287,7 @@
 
                                 <td><% // action (despatch status) column 
                                     if (dispatchStatus == 1) {
-                                        if (firstDespatch != null && !firstDespatch.equals("0")) { %>
+                                        if (firstDespatch != null && !firstDespatch.equals("") && firstDespatch.equals(counterStr)) {%>
                                     <div id="reportStatusWaiting">Waiting..</div>
                                     <div id="reportStatusDisplay" style="display:none;">Despatched</div></td>
                                     <%
@@ -296,7 +300,7 @@
                                 <input type="hidden" name="reportName" value="<%=reportName%>">
                                 <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
                                 <input type="hidden" name="stateID" value="<%=report.getStateID()%>">
-
+                                <input type ="hidden" name="clickedID" value ="<%=counter%>">
                                 <input type="submit" id="downloadReport" class="report-despatch button tinytable" value="Despatch">
                             </form>
                             <% } %>
@@ -304,22 +308,18 @@
 
                             <td>
                                 <% // results column (link) 
-                                    if (dispatchStatus == 1) {
+                                if (dispatchStatus == 1) {
+                                    if (firstDespatch != null && !firstDespatch.equals("") && firstDespatch.equals(counterStr)) {
                                 %>
+                                
+                                        <div id="reportLinkMsg">Loading..</div>
+                                        <a href="<%=reportResults%>" id="reportLink" target="_blank" style="display:none;">View Report</a>
                                 <%
-                                    if (firstDespatch != null && !firstDespatch.equals("0")) {
-                                %>
-                                <div id="reportLinkMsg">Loading..</div>
-                                <%
-                                    session.setAttribute("obtainedReport", "0");
-
-                                %> <a href="<%=reportResults%>" id="reportLink" target="_blank" style="display:none;">View Report</a>
-                                <%
-                                } else {
+                                    } else {
                                 %>
                                 <a href="<%=reportResults%>" target="_blank">View Report</a>
-                                <% }%>
-                                <% } else {
+                                <%  }
+                                } else {
                                         out.println("N/A");
 
                                     }
@@ -330,8 +330,10 @@
                             </tr>
 
                             <%
+                                    counter++;
                                     }
                                 }
+                                session.setAttribute("clickedID", "");
                             %>
                         </table>
                         <%
