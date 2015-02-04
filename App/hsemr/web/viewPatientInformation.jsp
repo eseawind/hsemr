@@ -646,94 +646,91 @@
                                         //loop through every medication
                                         for (Map.Entry<List<Prescription>, String> entry : prescriptionHM.entrySet()) {
                                             List<Prescription> statePrescription = entry.getKey();
-
+                                            
                                             //Display Prescriptions
                                             for (Prescription prescription : statePrescription) {                                                
-                                                String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
-                                                    if (medicineBarcodeInput == null) { 
-                                                        medicineBarcodeInput = "";
-                                                    }
-                                               String discontinueState = prescription.getDiscontinueState();
-
-
-                                    %>
-                                    
-                                    
-                                    <%
-                                        if(discontinueState!= null){ 
-                                            //has been activated, disable the textbox
-                                            if(activatedStateList.contains(discontinueState)){
-                                                medicineBarcodeDisabled = "disabled";
-
-                                            }
-                                       }
-                                    
-                                    %>
-                                    <td>   
-                                        <form action = "ProcessMedicineBarcode" method = "POST">
-                                            <div class="password-confirmation-field">
-                                                <input type="hidden" name = "medicineBarcode" id="medicineBarcode" value = "<%=prescription.getMedicineBarcode()%>">
-
-                                                <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>"  <%=medicineBarcodeDisabled%>>
-                                            </div>
-                                        </form>
-                                    </td>
-                                    <%//reset it back to enabled
-                                        medicineBarcodeDisabled = "";
-                                    %>
-                                    <td>
-                                        <%=MedicineDAO.retrieve(prescription.getMedicineBarcode()).getMedicineName()%>
-                                    </td>
-
-                                                <td>
-                                                     <%
-                                                        String medicineBarcode = prescription.getMedicineBarcode();
-                                                        if (medicineBarcode != null) {
-                                                            Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
-                                                            out.println(medicine.getRouteAbbr());
+                                                if(!prescription.getMedicineBarcode().equals("NA")) {
+                                                    String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
+                                                        if (medicineBarcodeInput == null) { 
+                                                            medicineBarcodeInput = "";
                                                         }
-                                                        
-                                                    %> 
-                                                    
-                                                </td>
-                                                <td><%=MedicinePrescriptionDAO.retrieve(prescription.getMedicineBarcode()).getDosage()%></td>
-                                       
-                                           
-                                                <td><%=prescription.getFreqAbbr()%></td>                                          
-                                                <td>Dr.Tan/01234Z</td>
-                                                <td><%=prescription.getDoctorOrder()%></td>
-                                                <td>
-                                                    <%
-                                                        if(medicineVerifiedList.contains(medicineBarcode)){
-                                                            %>
-                                                            <b><font color="#368a55"> YES</font></b>
-                                                            <img src="img/verified.gif" width = "15" height = "15"/>
+                                                   String discontinueState = prescription.getDiscontinueState();
 
-                                                        <%}
-                                                    %>   
-                                                </td>
-                                                <td>
-                                                    <%
-                                                    if(activatedStateList.contains(discontinueState)){
-                                                        out.println("YES");
-                                                    }
-                                                    %>
-                                                </td>
-                                                
-                                                </tr>    
-                                            <%
-                                        }
-                                            
-                                            session.removeAttribute("patientBarcodeInput");
-                                             }
-                                          session.removeAttribute("isMedicationVerified");
-                                          
-                                                
 
                                         %>
+
+
+                                        <%
+                                            if(discontinueState!= null){ 
+                                                //has been activated, disable the textbox
+                                                if(activatedStateList.contains(discontinueState)){
+                                                    medicineBarcodeDisabled = "disabled";
+
+                                                }
+                                           }
+
+                                        %>
+                                        <td>   
+                                            <form action = "ProcessMedicineBarcode" method = "POST">
+                                                <div class="password-confirmation-field">
+                                                    <input type="hidden" name = "medicineBarcode" id="medicineBarcode" value = "<%=prescription.getMedicineBarcode()%>">
+
+                                                    <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>"  <%=medicineBarcodeDisabled%>>
+                                                </div>
+                                            </form>
+                                        </td>
+                                        <%//reset it back to enabled
+                                            medicineBarcodeDisabled = "";
+                                        %>
+                                        <td>
+                                            <%=MedicineDAO.retrieve(prescription.getMedicineBarcode()).getMedicineName()%>
+                                        </td>
+
+                                                    <td>
+                                                         <%
+                                                            String medicineBarcode = prescription.getMedicineBarcode();
+                                                            if (medicineBarcode != null) {
+                                                                Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
+                                                                out.println(medicine.getRouteAbbr());
+                                                            }
+
+                                                        %> 
+
+                                                    </td>
+                                                    <td><%=MedicinePrescriptionDAO.retrieve(prescription.getMedicineBarcode()).getDosage()%></td>
+
+
+                                                    <td><%=prescription.getFreqAbbr()%></td>                                          
+                                                    <td>Dr.Tan/01234Z</td>
+                                                    <td><%=prescription.getDoctorOrder()%></td>
+                                                    <td>
+                                                        <%
+                                                            if(medicineVerifiedList.contains(medicineBarcode)){
+                                                                %>
+                                                                <b><font color="#368a55"> YES</font></b>
+                                                                <img src="img/verified.gif" width = "15" height = "15"/>
+
+                                                            <%}
+                                                        %>   
+                                                    </td>
+                                                    <td>
+                                                        <%
+                                                        if(activatedStateList.contains(discontinueState)){
+                                                            out.println("YES");
+                                                        }
+                                                        %>
+                                                    </td>
+
+                                                    </tr>    
+                                                <%
+                                            }
+                                        }
                                             
-                                           
-                                        </table>
+                                        session.removeAttribute("patientBarcodeInput");
+                                    }
+                                    session.removeAttribute("isMedicationVerified");
+                                %>
+                            </table>
                             <%} //end of else statement
 
                             ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
