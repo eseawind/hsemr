@@ -45,6 +45,7 @@ public class ProcessResetAll extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
             ReportDAO.resetToDefault();
+            StateHistoryDAO.reset();
             MedicationHistoryDAO.deleteAll();
             VitalDAO.resetToDefault();
             NoteDAO.deleteAll();

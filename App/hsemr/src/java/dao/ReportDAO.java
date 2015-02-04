@@ -131,7 +131,7 @@ public class ReportDAO {
 
     }
     
-        public static void resetStatus(String scenarioID) {
+    public static void resetStatus(String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         String query = "UPDATE report SET dispatchStatus = 0 where scenarioID = ?";
@@ -140,7 +140,6 @@ public class ReportDAO {
             conn = ConnectionManager.getConnection();
             preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, scenarioID);
-            preparedStatement.setString(2, scenarioID);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -151,7 +150,7 @@ public class ReportDAO {
 
     }
         
-        public static void resetToInitialValues(String scenarioID) {
+    public static void resetToInitialValues(String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         String query = "UPDATE report SET dispatchStatus= 1 WHERE scenarioID= ? AND initialReport = 1";

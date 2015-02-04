@@ -37,11 +37,17 @@ public class ProcessAdministerMedicine extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         String practicalGroupID = (String) request.getSession().getAttribute("nurse");
+        String isPatientVerified = (String)session.getAttribute("isPatientVerified");
         
         ArrayList<String> medicineVerifiedList = (ArrayList<String>)session.getAttribute("medicineVerifiedListReturned");
         
-        if(medicineVerifiedList == null || medicineVerifiedList.size() == 0){
+        if(isPatientVerified == null){
             session.setAttribute("error",  "Please scan patient barcode first.");
+            session.setAttribute("active", "medication");
+            response.sendRedirect("viewPatientInformation.jsp");
+        }
+        else if(medicineVerifiedList == null || medicineVerifiedList.size() == 0){
+            session.setAttribute("error",  "No medicine has been scanned. Please scan medicine before administering.");
             session.setAttribute("active", "medication");
             response.sendRedirect("viewPatientInformation.jsp");
         }else if (medicineVerifiedList != null){
