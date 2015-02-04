@@ -768,7 +768,10 @@
                                     } else {
                                         out.println("content");
                                     }%>" id="multidisciplinary">
-
+                                            
+                                    <input data-reveal-id="pastDoctorOrder" type="submit" value="View Past Doctor's Order" class="button tiny">  
+                                    
+                                    
                                     <form action="ProcessAddNote" method="POST">
                                         <%
                                             String grpNames = (String) session.getAttribute("grpNames");
@@ -899,7 +902,61 @@
                                             }
                                         %>  </table>
                                 </div>  
-                                            
+                                   <!-- Reveal model for past doctor orders -->
+                                    <div id="pastDoctorOrder" class="reveal-modal large-10" data-reveal>
+                                        <h4>Past Doctor Orders</h4>
+
+                                    <%
+                                      HashMap<List<Prescription>, String> stateDoctorOrderHM = new HashMap<List<Prescription>, String>();
+                                      for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
+                                        String state = entry.getKey();
+                                        List<Prescription> prescriptions = PrescriptionDAO.retrieve(scenarioID, state);
+                                        String doctorOrderTime = entry.getValue();
+                                        if (prescriptions != null && prescriptions.size() != 0) {
+                                            stateDoctorOrderHM.put(prescriptions, doctorOrderTime);
+                                        }
+                                      }
+                                      if (stateDoctorOrderHM != null && stateDoctorOrderHM.size() != 0) {
+                                          %>
+                                          <table>
+                                              <tr>
+                                                  <td><b>Doctor Name</b></td>
+                                                  <td><b>Doctor Order</b></td>
+                                                  <td><b>Ordered Time</b></td>
+                                              </tr>
+
+                                              <%
+                                              for (Map.Entry<List<Prescription>, String> entry : stateDoctorOrderHM.entrySet()) {
+                                                    List<Prescription> prescriptions = entry.getKey();
+
+                                                    // if needed to display:
+                                                    String doctorOrderTime = entry.getValue();
+
+                                                    for (Prescription prescription : prescriptions) {
+                                                        String doctorName = prescription.getDoctorName();
+                                                        String doctorOrder = prescription.getDoctorOrder();
+                                                    %>
+                                                    <tr>
+                                                        <td><%=doctorName%></td>
+                                                        <td><%=doctorOrder%></td>
+                                                        <td><%=doctorOrderTime%></td>
+                                                    </tr>
+                                                    <%
+                                                    }
+                                              %>
+
+                                          </table>
+
+                                    <%
+                                         }
+                                      }
+                                    %>    
+
+
+                                        <a class="close-reveal-modal">&#215;</a>
+
+                                    </div>
+         
                             <!-- Reveal model for temperature chart -->
                             <div id="tempchart" class="reveal-modal large-10" data-reveal>
 
@@ -1000,10 +1057,8 @@
 
                             <a class="close-reveal-modal">&#215;</a>
 
-                    </div>
-
-                                            
-
+                        </div>
+                    
             <% }
             %>
             </div>
