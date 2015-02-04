@@ -75,11 +75,11 @@ public class ProcessReportUpload extends HttpServlet {
         upload.setSizeMax(MAX_REQUEST_SIZE);
 
         // constructs the directory path to store upload file
-        // this path is relative to application's directory
-//        String uploadPath = getServletContext().getRealPath("")
-//                + File.separator + UPLOAD_DIRECTORY;
-        
-        String uploadPath = System.getenv("OPENSHIFT_DATA_DIR") + UPLOAD_DIRECTORY;
+//         this path is relative to application's directory
+        String uploadPath = getServletContext().getRealPath("")
+                + File.separator + UPLOAD_DIRECTORY;
+//        
+//        String uploadPath = System.getenv("OPENSHIFT_DATA_DIR") + UPLOAD_DIRECTORY;
 
         // creates the directory if it does not exist
         File uploadDir = new File(uploadPath);
