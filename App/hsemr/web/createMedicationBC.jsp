@@ -106,6 +106,21 @@
                         </select>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="small-3 columns">
+                        <label for="right-label" class="right inline" >Discontinue State</label>
+                    </div>   
+                    <div class="small-9 columns">
+                        <select name = "discontinueStateID" required>
+                            <option disabled="disabled" selected="selected" value = "">--Please select the state that this medicine discontinues--</option>
+                            <%      
+                            for (State state : stateList) {%>
+                            <option><%=state.getStateID()%></option>
+                            <% }
+                            %>
+                        </select>
+                    </div>
+                </div>
                         
                 <div class="row">
                     <div class="small-3 columns">

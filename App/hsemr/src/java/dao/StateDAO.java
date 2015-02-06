@@ -218,4 +218,44 @@ public class StateDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+    public static void updateStateDesc(String stateID, String stateDescription, String scenarioID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE state SET stateDescription=? WHERE stateID=? AND scenarioID=?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, stateDescription);
+            preparedStatement.setString(2, stateID);
+            preparedStatement.setString(3, scenarioID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
+    public static void updateNRIC(String patientNRIC, String retrieveNRIC) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE state SET patientNRIC=? WHERE patientNRIC=?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, patientNRIC);
+            //preparedStatement.setString(2, scenarioID);
+            preparedStatement.setString(2, retrieveNRIC);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
 }

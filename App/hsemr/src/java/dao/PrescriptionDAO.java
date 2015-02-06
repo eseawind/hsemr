@@ -25,13 +25,13 @@ import java.util.TimeZone;
  */
 public class PrescriptionDAO {
     
-    public static void add(String scenarioID, String stateID, String doctorName, String doctorOrder, String freqAbbr, String medicineBarcode) {
+    public static void add(String scenarioID, String stateID, String doctorName, String doctorOrder, String freqAbbr, String medicineBarcode, String discontinueStateID) {
         Connection conn = null;
         PreparedStatement stmt = null;
       
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO prescription(scenarioID,stateID,doctorName,doctorOrder,freqAbbr, medicineBarcode) VALUES (?,?,?,?,?,?)");
+            stmt = conn.prepareStatement("INSERT INTO prescription(scenarioID,stateID,doctorName,doctorOrder,freqAbbr, medicineBarcode, discontinueState, discontinueStatus) VALUES (?,?,?,?,?,?,?,0)");
           
             stmt.setString(1, scenarioID);
             stmt.setString(2, stateID);
@@ -39,6 +39,7 @@ public class PrescriptionDAO {
             stmt.setString(4, doctorOrder);
             stmt.setString(5, freqAbbr);
             stmt.setString(6, medicineBarcode);
+            stmt.setString(7, discontinueStateID);
              stmt.executeUpdate();
              
         } catch (SQLException e) {
@@ -240,5 +241,29 @@ public class PrescriptionDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return list;
+    }
+
+    public static void updatePres(String doctorName, String doctorOrder, String freqAbbr, String scenarioID, String stateID, String medicineBarcode) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE prescription SET doctorName=? , doctorOrder=?, freqAbbr=? WHERE scenarioID=? AND stateID=? AND medicineBarcode=?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, doctorName);
+            preparedStatement.setString(2, doctorOrder);
+            preparedStatement.setString(3, freqAbbr);
+            preparedStatement.setString(4, scenarioID);
+            preparedStatement.setString(5, stateID);
+            preparedStatement.setString(6, medicineBarcode);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
     }
 }

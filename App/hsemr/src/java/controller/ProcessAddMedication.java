@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package controller;
 
 import dao.MedicineDAO;
@@ -41,57 +40,65 @@ public class ProcessAddMedication extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        try {          
+        try {
             HttpSession session = request.getSession(false);
+            
+            String editMedicine = request.getParameter("editingMedicine");
             String scenarioID = (String) session.getAttribute("scenarioID");
             String stateID = (String) request.getParameter("stateID");
+            String discontinueStateID = (String) request.getParameter("discontinueStateID");
             String fullTextStateID = stateID.replace("ST", "State ");
-            
+
             //retrieve values for Medicine table
             String medicineName = request.getParameter("medicineName");
             Medicine medicineRetrieved = MedicineDAO.retrieveByMedicineName(medicineName);
             String medicineBarcode = medicineRetrieved.getMedicineBarcode();
-            
+
             String routeRetrieved = medicineRetrieved.getRouteAbbr();
-            
+
             String route = request.getParameter("route");
-        
+
             //retrieve values for Prescription table
-            String doctorName= request.getParameter("doctorName");
+            String doctorName = request.getParameter("doctorName");
             String doctorOrder = request.getParameter("doctorOrder");
             String freq = request.getParameter("frequency");
-            
+
             //retrieve values for Frequency table
-            String dosage= request.getParameter("dosage");
+            String dosage = request.getParameter("dosage");
+//
+//            out.println("stateID" + stateID);
+//            out.println("discontinueStateID" + discontinueStateID);
+//            out.println("scenarioID" + scenarioID);
+//            out.println("medicineName" + medicineName);
+//            out.println("medicineBarcode" + medicineBarcode);
+//
+//            out.println("route" + route);
+//            out.println("routeRetrieved" + routeRetrieved);
+//            out.println("doctorName" + doctorName);
+//            out.println("order" + doctorOrder);
+//            out.println("freq" + freq);
+
+            if (!route.equals(routeRetrieved)) { //create new medicine with a different route
                 
-            out.println("stateID" + stateID);
-            out.println("scenarioID" + scenarioID);
-            out.println("medicineName" + medicineName);
-            out.println("medicineBarcode" + medicineBarcode);
-            
-            
-            out.println("route" + route);
-            out.println("route" + routeRetrieved);
-            out.println("doctorName" + doctorName);
-            out.println("order" + doctorOrder);
-            out.println("freq" + freq);
-            
-            if(!route.equals(routeRetrieved)){ //create new medicine with a different route
                 MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
-                PrescriptionDAO.add(scenarioID,stateID,doctorName,doctorOrder,freq, medicineBarcode);
-                MedicinePrescriptionDAO.add(medicineBarcode,scenarioID,stateID,freq,dosage);
-            }else if(medicineName != null){            
+                PrescriptionDAO.add(scenarioID, stateID, doctorName, doctorOrder, freq, medicineBarcode, discontinueStateID);
+                MedicinePrescriptionDAO.add(medicineBarcode, scenarioID, stateID, freq, dosage);
+            } else if (medicineName != null) {
+
                 MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
-                PrescriptionDAO.add(scenarioID,stateID,doctorName,doctorOrder,freq, medicineBarcode);
-                MedicinePrescriptionDAO.add(medicineBarcode,scenarioID,stateID,freq,dosage);
+                PrescriptionDAO.add(scenarioID, stateID, doctorName, doctorOrder, freq, medicineBarcode, discontinueStateID);
+                MedicinePrescriptionDAO.add(medicineBarcode, scenarioID, stateID, freq, dosage);
 
             }
             
-            
-            
+            if (editMedicine == null || editMedicine.equals("")) {
             response.sendRedirect("createMedicationBC.jsp");
-            
+        } else {
+            response.sendRedirect("editMedication.jsp");
+        }
 
+            
+            
         } finally {
             out.close();
         }

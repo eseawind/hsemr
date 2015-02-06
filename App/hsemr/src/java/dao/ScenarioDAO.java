@@ -241,5 +241,27 @@ public class ScenarioDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+    public static void update(String scenarioID, String scenarioName, String scenarioDescription, String admissionNote) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE scenario SET  scenarioName=?, scenarioDescription=?, admissionNote =?  WHERE scenarioID =?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, scenarioName);
+            preparedStatement.setString(2, scenarioDescription);
+            preparedStatement.setString(3, admissionNote);
+            preparedStatement.setString(4, scenarioID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+
+    }
 
 }

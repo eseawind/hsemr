@@ -53,7 +53,7 @@ public class ProcessReportUpload extends HttpServlet {
       
        // String stateID = (String) request.getParameter("stateID");
        // String reportName= (String) request.getParameter("reportName");;
-        
+        String editReport = "";
         String reportName = "";
         String scenarioID = ""; 
         String stateID = "";
@@ -119,6 +119,9 @@ public class ProcessReportUpload extends HttpServlet {
                         if(item.getFieldName().equals("reportName")){
                             reportName= item.getString();
                         }
+                        if(item.getFieldName().equals("editReport")){
+                            editReport= item.getString();
+                        }
                     }
                     
                 }
@@ -138,7 +141,12 @@ public class ProcessReportUpload extends HttpServlet {
         // redirects client to message page
         HttpSession session = request.getSession(false);
         //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
-        response.sendRedirect("createReportDocumentBC.jsp");
+        
+        if (editReport == null || editReport.equals("")) {
+            response.sendRedirect("createReportDocumentBC.jsp");
+        } else {
+            response.sendRedirect("editReportDocument.jsp");
+        }
 //        getServletContext().getRequestDispatcher("/createStateWithReports.jsp").forward(
 //                request, response);
     }

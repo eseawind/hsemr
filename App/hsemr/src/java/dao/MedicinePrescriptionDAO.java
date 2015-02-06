@@ -132,5 +132,52 @@ public class MedicinePrescriptionDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+    public static void updateMedPres(String freqAbbr, String dosage, String medicineBarcode, String scenarioID, String stateID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE medicine_prescription SET freqAbbr=?, dosage=? WHERE medicineBarcode=? AND scenarioID=? AND stateID=?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, freqAbbr);
+            preparedStatement.setString(2, dosage);
+            preparedStatement.setString(3, medicineBarcode);
+            preparedStatement.setString(4, scenarioID);
+            preparedStatement.setString(5, stateID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
+
+    public static String retrieveDosage(String scenarioID, String stateID, String MedicineBarcode, String freqAbbr) {
+        String dosage = "";
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select dosage from medicine_prescription WHERE scenarioID=? AND stateID=? AND medicineBarcode=? AND freqAbbr=?");
+            stmt.setString(1, scenarioID);
+            stmt.setString(2, stateID);
+            stmt.setString(3, MedicineBarcode);
+            stmt.setString(4, freqAbbr);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                dosage = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return dosage;
+    }
 
 }

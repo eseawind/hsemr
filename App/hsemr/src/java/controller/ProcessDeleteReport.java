@@ -5,12 +5,7 @@
  */
 package controller;
 
-import dao.AllergyPatientDAO;
-import dao.PatientDAO;
-import dao.ScenarioDAO;
-import dao.StateDAO;
-import dao.VitalDAO;
-import entity.Scenario;
+import dao.ReportDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -18,14 +13,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Administrator
+ * @author gladyskhong.2012
  */
-@WebServlet(name = "ProcessEditScenario", urlPatterns = {"/ProcessEditScenario"})
-public class ProcessEditScenario extends HttpServlet {
+@WebServlet(name = "ProcessDeleteReport", urlPatterns = {"/ProcessDeleteReport"})
+public class ProcessDeleteReport extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,47 +32,14 @@ public class ProcessEditScenario extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-            String scenarioID = request.getParameter("scenarioID");
-            String scenarioName = request.getParameter("scenarioName");
-            String scenarioDescription = request.getParameter("scenarioDescription");
-            String admissionInfo = request.getParameter("admissionInfo");
+            String reportFile = request.getParameter("reportFile");
+            ReportDAO.deleteReport(reportFile);
 
-            String retrieveNRIC = request.getParameter("retrieveNRIC");
-            String patientNRIC = request.getParameter("patientNRIC");
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
-            String dob = request.getParameter("DOB");
-            String allergy = request.getParameter("allergy");
-            String gender = request.getParameter("gender");
-            String temperature = request.getParameter("temperature0");
-            String rr = request.getParameter("RR0");
-            String hr = request.getParameter("HR0");
-            String bps = request.getParameter("BPS");
-            String bpd = request.getParameter("BPD");
-            String spo = request.getParameter("SPO0");
-
-            AllergyPatientDAO.update(patientNRIC, allergy, retrieveNRIC);
-            StateDAO.updateNRIC(patientNRIC, retrieveNRIC);
-            PatientDAO.update(patientNRIC, firstName, lastName, gender, dob, retrieveNRIC);
-
-            VitalDAO.update(temperature, rr, hr, bps, bpd, spo, scenarioID);
-            ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, admissionInfo);
-
-            HttpSession session = request.getSession(false);
-            session.setAttribute("scenarioIDedit", scenarioID);
-            session.setAttribute("patientNRIC", patientNRIC);
-//            RequestDispatcher rd = request.getRequestDispatcher("/editState.jsp");
-//            
-//            rd.forward(request, response);
-
-            response.sendRedirect("editState.jsp");
-        } catch (Exception e) {
-            e.printStackTrace();
-
+            response.sendRedirect("editReportDocument.jsp");
         } finally {
             out.close();
         }

@@ -54,7 +54,7 @@ public class ProcessDocumentUpload extends HttpServlet {
             return;
         }
         
-        
+        String editDocument = "";
         String documentName = "";
         String scenarioID = ""; 
         String stateID = "ST0"; //always ST0 because documents will be there through out 
@@ -120,6 +120,9 @@ public class ProcessDocumentUpload extends HttpServlet {
                         if(item.getFieldName().equals("documentName")){
                             documentName= item.getString();
                         }
+                        if(item.getFieldName().equals("editDocument")){
+                            editDocument= item.getString();
+                        }
                     }
                     
                 }
@@ -139,7 +142,11 @@ public class ProcessDocumentUpload extends HttpServlet {
         // redirects client to message page
         HttpSession session = request.getSession(false);
         //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
-        response.sendRedirect("createReportDocumentBC.jsp");
+        if(editDocument == null){
+            response.sendRedirect("createReportDocumentBC.jsp");
+        } else {
+            response.sendRedirect("editReportDocument.jsp");
+        }
 //        getServletContext().getRequestDispatcher("/createStateWithReports.jsp").forward(
 //                request, response);
     }

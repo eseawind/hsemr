@@ -45,7 +45,8 @@ public class ProcessAddState extends HttpServlet {
      
         String stateID = "ST" + stateNumber;
         
-        
+        // Check if its directed from editState.jsp
+        String edit = request.getParameter("editState");
         
         //StateDAO.add(stateID, scenarioID, RR, BP, HR, SPO, intake, output, temperature, stateDescription, patientNRIC);
         StateDAO.add(stateID, scenarioID, stateDescription, 0, patientNRIC);
@@ -54,7 +55,11 @@ public class ProcessAddState extends HttpServlet {
 //        RequestDispatcher rd = request.getRequestDispatcher("createStateBC.jsp");
 //         rd.forward(request, response);
          
-         response.sendRedirect("createStateBC.jsp");
+          if (edit== null || edit.equals(" ")) {
+            response.sendRedirect("createStateBC.jsp");
+        } else {
+            response.sendRedirect("editState.jsp");
+        }
 
     }
 

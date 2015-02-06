@@ -607,5 +607,29 @@ public class VitalDAO {
         }
         
     }
+    public static void update(String temp, String rr, String hr, String bps, String bpd, String spo, String scenarioID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE vital SET temperature =?, RR = ?, HR=?, BPsystolic=?, BPdiastolic=?, SPO=? WHERE scenarioID =?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, temp);
+            preparedStatement.setString(2, rr);
+            preparedStatement.setString(3, hr);
+            preparedStatement.setString(4, bps);
+            preparedStatement.setString(5, bps);
+            preparedStatement.setString(6, spo);
+            preparedStatement.setString(7, scenarioID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
     
 }

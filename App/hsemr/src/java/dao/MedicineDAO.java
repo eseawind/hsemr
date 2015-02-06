@@ -108,4 +108,25 @@ public class MedicineDAO {
         return medicineList;
     }
 
+    public static void updateMed(String medicineBarcode, String medicineName, String route, String initialRoute) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE medicine SET routeAbbr=? WHERE medicineName=? AND medicineBarcode=? AND routeAbbr=?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, route);
+            preparedStatement.setString(2, medicineName);
+            preparedStatement.setString(3, medicineBarcode);
+            preparedStatement.setString(4, initialRoute);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
 }

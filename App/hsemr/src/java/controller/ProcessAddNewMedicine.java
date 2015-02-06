@@ -36,8 +36,7 @@ public class ProcessAddNewMedicine extends HttpServlet {
         
         String newMedicineName = request.getParameter("newMedicineName");
         String newMedicineBarcode = request.getParameter("newMedicineBarcode").trim().toUpperCase();
-        String route = request.getParameter("route");
-        MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName, route);
+        MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName, "N.A");
          
         response.sendRedirect("createMedicationBC.jsp");
     }

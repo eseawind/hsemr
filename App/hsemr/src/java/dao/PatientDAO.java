@@ -40,7 +40,7 @@ public class PatientDAO {
         }
         return patient;
     }
- 
+
     public static void add(String patientNRIC, String firstName, String lastName, String gender, String DOB) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -49,7 +49,7 @@ public class PatientDAO {
         try {
             conn = ConnectionManager.getConnection();
             preparedStatement = conn.prepareStatement(query);
-            
+
             preparedStatement.setString(1, patientNRIC);
             preparedStatement.setString(2, firstName);
             preparedStatement.setString(3, lastName);
@@ -63,8 +63,7 @@ public class PatientDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
-    
-    
+
     public static String retrieveAllergy(String patientNRIC) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -89,7 +88,7 @@ public class PatientDAO {
         return allergy;
 
     }
-    
+
     public static void delete(String patientNric) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -109,4 +108,28 @@ public class PatientDAO {
         }
     }
 
+    public static void update(String patientNRIC, String firstName, String lastName, String gender, String DOB, String retrieveNRIC) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "UPDATE patient SET patientNRIC=?, firstName=?, lastName=?, gender=?, DOB=? WHERE patientNRIC =?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+            preparedStatement = conn.prepareStatement(query);
+
+            preparedStatement.setString(1, patientNRIC);
+            preparedStatement.setString(2, firstName);
+            preparedStatement.setString(3, lastName);
+            preparedStatement.setString(4, gender);
+            preparedStatement.setString(5, DOB);
+            preparedStatement.setString(6, retrieveNRIC);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
 }

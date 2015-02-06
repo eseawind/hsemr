@@ -50,5 +50,23 @@ public class AllergyPatientDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+    public static void update(String patientNRIC, String allergy, String retrieveNRIC) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String queryLine = "UPDATE allergy_patient SET  patientNRIC=?, allergy=? WHERE patientNRIC=?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+            preparedStatement = conn.prepareStatement(queryLine);
+            preparedStatement.setString(1, patientNRIC);
+            preparedStatement.setString(2, allergy);
+            preparedStatement.setString(3, retrieveNRIC);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
     
 }
