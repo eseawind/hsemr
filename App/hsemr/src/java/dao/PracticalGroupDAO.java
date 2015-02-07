@@ -19,7 +19,7 @@ import java.util.List;
  * @author weiyi.ngow.2012
  */
 public class PracticalGroupDAO {
-        public static PracticalGroup retrieve(String practicalGroupID) {
+    public static PracticalGroup retrieve(String practicalGroupID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -43,6 +43,8 @@ public class PracticalGroupDAO {
         
         return practicalGroup;
     }
+
+    
     
     public static List<PracticalGroup> retrieveAll() {
         List<PracticalGroup> list = new ArrayList<PracticalGroup>();
@@ -66,6 +68,32 @@ public class PracticalGroupDAO {
         }
         return list;
     }
+    
+    public static List<PracticalGroup> retrieveByLecturerID(String lecturerID) {
+        List<PracticalGroup> list = new ArrayList<PracticalGroup>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+
+        try {
+           conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from practicalgroup where lecturerID = ?");
+            stmt.setString(1, lecturerID);
+            
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                PracticalGroup practicalGroup = new PracticalGroup(rs.getString(1), rs.getString(2), rs.getString(3));
+                list.add(practicalGroup);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return list;
+    }
+    
     
     public static PracticalGroup retrieveByLecturer(String lecturerID) {
         Connection conn = null;

@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package controller;
 
+import dao.NoteDAO;
 import dao.ScenarioDAO;
-import dao.StateDAO;
-import dao.StateHistoryDAO;
+import entity.Note;
 import entity.Scenario;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +25,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Administrator
  */
-@WebServlet(name = "ProcessActivateScenarioAdmin", urlPatterns = {"/ProcessActivateScenarioAdmin"})
-public class ProcessActivateScenarioAdmin extends HttpServlet {
+@WebServlet(name = "ProcessRetrieveNotesByPracticalGroup", urlPatterns = {"/ProcessRetrieveNotesByPracticalGroup"})
+public class ProcessRetrieveNotesByPracticalGroup extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,36 +39,25 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //To retrieve the selected id to activate or deactive
-        String status = (String) request.getParameter("status");
-        String scenarioID = (String) request.getParameter("scenarioID");
-      //make sure no other case are activated before activating a new case
-        //prevents having more than 1 case activated 
-        if (status.equals("deactivated")) {
-            ScenarioDAO.updateScenarioStatus(scenarioID, 0);
-            HttpSession session = request.getSession(false);
-            session.setAttribute("success", "You have successfully deactivated the case: " + scenarioID + "!");
-//            RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioAdmin.jsp");
-//            rd.forward(request, response);
-             response.sendRedirect("viewScenarioAdmin.jsp");
-        } else {
-            Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
-            if (activatedScenario != null) {
-                if (!activatedScenario.getScenarioID().equals(scenarioID)) {
-                    ScenarioDAO.updateScenarioStatus(activatedScenario.getScenarioID(), 0);
-                 
-                }
-            }
-             ScenarioDAO.updateScenarioStatus(scenarioID, 1);
-             StateDAO.updateState("ST0", scenarioID, 1);
-             HttpSession session = request.getSession(false);
-            StateHistoryDAO.clearAllHistory();
-            StateHistoryDAO.addStateHistory(scenarioID, "ST0");
-            session.setAttribute("success", "You have successfully activated the case: " + scenarioID + "!");
-            
-            //response.sendRedirect("viewScenarioAdmin.jsp");
+        HttpSession session = request.getSession(false);
+        String practicalGroup = request.getParameter("practicalGroup");
+        String scenarioName = request.getParameter("scenarioName");
+        
+        Scenario scenario = ScenarioDAO.retrieveByScenarioName(scenarioName);
+        String scenarioID = scenario.getScenarioID();
+        ArrayList<Note> noteList = (ArrayList<Note>) NoteDAO.retrieveNotesByPraticalGrpDesc(practicalGroup, scenarioID);
+        
+        if(noteList == null || noteList.size() == 0){
+            session.setAttribute("error", "There are no notes available for " + scenarioName + " for " + practicalGroup + ".");
+            response.sendRedirect("viewSubmissionLecturer.jsp");
+        }else{
+            request.setAttribute("retrievedNoteList",noteList);
+            //response.getWriter().println(noteList.size());
+            session.setAttribute("success", "Successfully retrieved notes for " + scenarioName + " for " + practicalGroup + ".");
+            RequestDispatcher rd = request.getRequestDispatcher("/viewSubmissionLecturer.jsp");
+            rd.forward(request, response);
+            //response.sendRedirect("viewSubmissionLecturer.jsp");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

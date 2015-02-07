@@ -56,59 +56,105 @@
                     String dateTime = "";
                     if (notesList == null || notesList.size() == 0) {%>
 
-                <label for="right-label" class="right inline">No groups have enter their notes yet.</label>
+                <label for="right-label" class="right inline">No groups have entered their notes yet.</label>
 
                 <% } else { %>
-                <!--TABLE-->
-                <table class="responsive" id="cssTable">
-                    <col width="15%">
-                    <col width="20%">
-                    <col width="30%">
-                    <col width="15%">
-                    <thead>
-                        <tr>
-                            <th>Practical Group ID</th> 
-                            <th>Nurses In-Charge</th>
-                            <th>Multidisciplinary Notes</th>
-                            <th>Time Submitted</th>
-                        </tr>
-                    </thead>
+                <form action ="ProcessRetrieveNotesByPracticalGroup" method ="POST">
+                    <div class="row">
+                      <div class="small-8">
+                        <div class="row">
+                          <div class="small-3 columns">
+                            <label for="right-label" class="right">Practical Group</label>
+                          </div>
+                          <div class="small-9 columns">
+                            <select name = "practicalGroup" required>
+                                <option disabled="disabled" selected="selected" value = "">--Please select the practical group to view--</option>
+                                <% 
+                                String loggedInLecturer = (String)session.getAttribute("lecturer");
+                                out.println(loggedInLecturer);
+                                List<PracticalGroup> practicalGroupList = PracticalGroupDAO.retrieveByLecturerID(loggedInLecturer);
+                                for (PracticalGroup practicalGroup : practicalGroupList) {%>
+                                <option><%=practicalGroup.getPracticalGroupID()%></option>
+                                <% }
+                                %>
+                            </select>
+                          </div>   
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="small-8">
+                        <div class="row">
+                          <div class="small-3 columns">
+                            <label for="right-label" class="right">Scenario Name</label>
+                          </div>
+                          <div class="small-9 columns">
+                            <select name = "scenarioName" required>
+                                <option disabled="disabled" selected="selected" value = "">--Please select the scenario to view--</option>
+                                <% 
+                                List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
+                                for (Scenario scenario : scenarioList) {%>
+                                <option><%=scenario.getScenarioName()%></option>
+                                <% }
+                                %>
+                            </select>
+                          </div>   
+                        </div>
+                      </div>
+                    </div>
+                            <center><input type ="submit" value ="View Notes" class = "button tiny"/></center>
+                </form>
+
+            
+            
                     <%
 
                         DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-                        List<PracticalGroup> pgList = PracticalGroupDAO.retrieveAll();
-                        Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
-                        String scenarioID = scenarioActivated.getScenarioID();
-                        for (int p = 1; p <= pgList.size(); p++) {
-                            String pgIDStr = "P0" + p;
-                            PracticalGroup pg = PracticalGroupDAO.retrieve(pgIDStr);
-                            String pgLecturer = pg.getLecturerID();
-                            if (userLoggedIn.equals(pgLecturer)) {
-                                List<Note> notesToPrint = NoteDAO.retrieveNotesByPraticalGrp(pgIDStr, scenarioID);
-                                for (int n = 0; n < notesToPrint.size(); n++) {
-                                    Note nn = notesToPrint.get(n);
-                                    String notePGId = nn.getPracticalGroupID();
-                                    if (notePGId.equals(pgIDStr)) {
-                                        practicalGroupID = nn.getPracticalGroupID();
-                                        nursesInCharge = nn.getGrpMemberNames();
-                                        notes = nn.getMultidisciplinaryNote();
-                                        dateTime = df.format(nn.getNoteDatetime());
-
+                        
+                        List<Note> retrievedNoteList = (List<Note>)request.getAttribute("retrievedNoteList");
+                        
+                        if(retrievedNoteList != null){%>
+                        <%
+                            //retrieve 1st note to get the practical group
+                            Note retrieved1Note = retrievedNoteList.get(1); 
+                            String practicalGroup = retrieved1Note.getPracticalGroupID();
+                            String scenarioName = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
+                        
+                        %>
+                            <center><h2>Submissions for <%=practicalGroup%> for <%=scenarioName%> </h2></center>
+                            <!--TABLE-->
+                            <table class="responsive" id="cssTable">
+                                <col width="15%">
+                                <col width="20%">
+                                <col width="30%">
+                                <col width="15%">
+                                <thead>
+                                    <tr>
+                                        <th>Practical Group ID</th> 
+                                        <th>Nurses In-Charge</th>
+                                        <th>Multidisciplinary Notes</th>
+                                        <th>Time Submitted</th>
+                                    </tr>
+                                </thead>
+                            <%for (Note note: retrievedNoteList) {
 
                     %>
+                    
                     <tr>
-                        <td><%=practicalGroupID%></td>
-                        <td><%=nursesInCharge%></td>
-                        <td><%=notes%></td>
-                        <td><%=dateTime%></td>
+                        <td><%=note.getPracticalGroupID() %></td>
+                        <td><%=note.getGrpMemberNames() %></td>
+                        <td><%=note.getMultidisciplinaryNote()%></td>
+                        <td><%=df.format(note.getNoteDatetime())%></td>
                     </tr>
                     <%
 
-                                        }
-                                    }
-                                }
-                            }
                         }
+                        }
+                        
+                    }
+
+
                     %> 
 
                 </table>
@@ -118,7 +164,8 @@
                 </form>-->
             </div>
         </div>
+        <script type="text/javascript" src="js/humane.js"></script>
     </body>
-    <script type="text/javascript" src="js/humane.js"></script>
+    
 
 </html>

@@ -1,4 +1,4 @@
-<%-- 
+table<%-- 
     Document   : editReportDocument
     Created on : Feb 1, 2015, 1:02:33 PM
     Author     : gladyskhong.2012
@@ -206,7 +206,7 @@
 
     <center><h3> Current Documents</h3></center>
 
-    <!-- Report table -->
+    <!-- Documents table -->
     <table class="responsive" id="cssTable" align="center">
         <col width="10%">
         <col width="20%">
@@ -235,9 +235,6 @@
                 consentName = d.getConsentName();
                 docURL = d.getConsentFile();
                 documentURL = "documents/" + docURL;
-                //out.println(docURL);
-//                String currentDocStateID = "state" + counter;
-//                String stateIDNum = "state" + counter;
 
         %>
 
@@ -263,9 +260,8 @@
     </table>
     <br><br><br>
     <!-- End Report table -->
-    <form action="ProcessEditReportDocument" method="POST">
-        
-        <center><input type = "submit" Value ="Save and Proceed" class="button tiny"></center>
+    <form action="viewScenarioAdmin.jsp" method="POST">
+        <center><input type ="submit" class ="button" value ="Proceed to Admin Homepage"></center>
     </form>
 
     <script src="js/vendor/jquery.js"></script>

@@ -77,6 +77,8 @@
             <small class="error">No space and numbers allowed.</small> 
 
             <input type ="hidden" name ="route" value ="I.V.">
+            <!--To differentiate it comes from which page. If edit medicine, route it back to editMedicationPage-->
+            <input type ="hidden" name ="editMedicine" value ="Yes">
             <input type ="submit" class ="button" value ="Create Medicine">
         </form>
         <a class="close-reveal-modal">&#215;</a>
@@ -215,170 +217,178 @@
 
                         
                         
-                        
 
-    <form action ="ProcessEditMedication" method ="POST">
-        <table class="responsive" id="cssTable">
-            <col width="5%">
-            <col width="15%">
-            <col width="10%">
-            <col width="10%">
-            <col width="10%">
-            <col width="15%">
-            <col width="35%">
-            <col width="10%">
-            <thead>
-                <tr>
-                    <th>State</th> 
-                    <th>Medicine Barcode</th>
-                    <th>Medicine Name</th>
-                    <th>Route</th>
-                    <th>Frequency</th>
-                    <th>Doctor's Name/ MCR No.</th>
-                    <th>Doctor's Order</th>
-                    <th>Dosage</th>
-                </tr>
-            </thead>
-            <%
-//                medicineList = MedicineDAO.retrieveAll();
-//
-               List<Frequency> fList = FrequencyDAO.retrieveAll();
-            %>
+        <form action ="ProcessEditMedication" method ="POST">
+            <table class="responsive" id="cssTable">
+                <col width="5%">
+                <col width="5%">
+                <col width="10%">
+                <col width="10%">
+                <col width="5%">
+                <col width="5%">
+                <col width="10%">
+                <col width="35%">
+                <col width="10%">
+                <thead>
+                    <tr>
+                        <th>State</th> 
+                        <th>Discontinue State</th> 
+                        <th>Medicine Barcode</th>
+                        <th>Medicine Name</th>
+                        <th>Route</th>
+                        <th>Frequency</th>
+                        <th>Doctor's Name/ MCR No.</th>
+                        <th>Doctor's Order</th>
+                        <th>Dosage</th>
+                    </tr>
+                </thead>
+                <%
 
-
-            <!--Display medication that are in the database-->
-            <center>
-                <%  List<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID);
-
-                    if (prescriptionList == null || prescriptionList.size() == 0) {
-                        out.println("<h3>" + "There are no medication created yet." + "</h3>");
-
-                    } else {
-                        out.print("<h3>Medication(s) Created</h3>");
+                   List<Frequency> fList = FrequencyDAO.retrieveAll();
                 %>
-            </center>
-
-            <%
-                String doctorOrder = "";
-                String doctorName = "";
-                String medBarcode = ""; // from medicine
-                String stateID = "";
-                String freqAbbr = "";
-                String dosage = "";
-                String medicineID = "";
-                String medicineName = "";
-                Medicine m = null;
-                String route = "";
-                int counter = 0;
-                //int counter2 = 0;
-                String stateDesc = "";
-
-                for (Prescription prescription : prescriptionList) { // loop 9 times
-                    doctorOrder = prescription.getDoctorOrder();
-                    doctorName = prescription.getDoctorName();
-                    stateID = prescription.getStateID();
-                    freqAbbr = prescription.getFreqAbbr();
-
-                    medBarcode = prescription.getMedicineBarcode();
-
-                    //stateID.replace("ST", "State ");
-                    stateDesc = stateID.replace("ST", "State ");
-                    //out.println(counter);
-                    String medBarcodeNumber = "medBarcode" + counter;
-                    //String stateDescNumber = "stateDesc" + counter;
-                    String routeNumber = "route" + counter;
-                    String routeDefault = "routeDefault" + counter;
-                    String frequencyNumber = "frequency" + counter;
-                    String frequencyDefault = "frequencyDefault" + counter;
-                    String doctorNameNumber = "doctorName" + counter;
-                    String doctorOrderNumber = "doctorOrder" + counter;
-                    String dosageNumber = "dosage" + counter;
-                    String stateIDNumber = "stateID" + counter;
-                    String medicineNameNumber = "medicineName" + counter;
-                    String counterNumber = "counter" + counter;
-                    //barcodeList.add(medBarcode);
-                    m = MedicineDAO.retrieve(medBarcode);
-                    route = m.getRouteAbbr();
-                    medicineName = m.getMedicineName();
-
-                    dosage = MedicinePrescriptionDAO.retrieveDosage(scenarioID, stateID, medBarcode, freqAbbr);
 
 
-            %>
+                <!--Display medication that are in the database-->
+                <center>
+                    <%  List<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID);
 
-            <!--End of display medication in the database-->
+                        if (prescriptionList == null || prescriptionList.size() == 0) {
+                            out.println("<h3>" + "There are no medication created yet." + "</h3>");
 
-            
-            
-            
-            <input type="hidden" name="<%=counterNumber%>" value="<%=counter%>">
+                        } else {
+                            out.print("<h3>Medication(s) Created</h3>");
+                    %>
+                </center>
+
+                <%
+                    String doctorOrder = "";
+                    String doctorName = "";
+                    String medBarcode = ""; // from medicine
+                    String stateID = "";
+                    String freqAbbr = "";
+                    String dosage = "";
+                    String medicineID = "";
+                    String discontinueStateID = "";
+                    String medicineName = "";
+                    Medicine m = null;
+                    String route = "";
+                    int counter = 0;
+                    //int counter2 = 0;
+                    String stateDesc = "";
+                    String discontinueStateDesc = "";
+
+                    for (Prescription prescription : prescriptionList) { // loop 9 times
+                        doctorOrder = prescription.getDoctorOrder();
+                        doctorName = prescription.getDoctorName();
+                        stateID = prescription.getStateID();
+                        discontinueStateID = prescription.getDiscontinueState();
+                        freqAbbr = prescription.getFreqAbbr();
+
+                        medBarcode = prescription.getMedicineBarcode();
+
+                        //stateID.replace("ST", "State ");
+                        stateDesc = stateID.replace("ST", "State ");
+                        discontinueStateDesc = discontinueStateID.replace("ST", "State ");
+                        //out.println(counter);
+                        String medBarcodeNumber = "medBarcode" + counter;
+                        //String stateDescNumber = "stateDesc" + counter;
+                        String routeNumber = "route" + counter;
+                        String routeDefault = "routeDefault" + counter;
+                        String frequencyNumber = "frequency" + counter;
+                        String frequencyDefault = "frequencyDefault" + counter;
+                        String doctorNameNumber = "doctorName" + counter;
+                        String doctorOrderNumber = "doctorOrder" + counter;
+                        String dosageNumber = "dosage" + counter;
+                        String stateIDNumber = "stateID" + counter;
+                        String medicineNameNumber = "medicineName" + counter;
+                        String counterNumber = "counter" + counter;
+                        //barcodeList.add(medBarcode);
+                        m = MedicineDAO.retrieve(medBarcode);
+                        route = m.getRouteAbbr();
+                        medicineName = m.getMedicineName();
+
+                        dosage = MedicinePrescriptionDAO.retrieveDosage(scenarioID, stateID, medBarcode, freqAbbr);
 
 
-            <input type="hidden" name="<%=stateIDNumber%>" value="<%=stateID%>">
-            <input type="hidden" name="stateDesc" value="<%=stateDesc%>">
-            <input type="hidden" name ="prescriptionListSize" value="<%=prescriptionList.size()%>">
+                %>
 
-            <tr>
+                <!--End of display medication in the database-->
 
-                <td>
-                    <%=stateDesc%>
-                </td>
-                <td>
-                    <%=medBarcode%>
-                    <input type="hidden" name="<%=medBarcodeNumber%>" value="<%=medBarcode%>">
-                </td>
-                <td>
-                    <input type="hidden" name="<%=medicineNameNumber%>" value="<%=medicineName%>">
-                    <%=medicineName%>
-                </td>
-                <td>
-                    <input type="hidden" name="<%=routeDefault%>" value="<%=route%>">
-                    <select name="<%=routeNumber%>" required>
-                        <option disabled="disabled" selected="selected" value = "<%=route%>"><%=route%></option>
-                        <%
-                            List<Route> rList = RouteDAO.retrieveAll();
-                            for (Route rr : rList) {
-                        %>
-                        <option value="<%=rr.getRouteAbbr()%>"><%=rr.getRouteAbbr()%></option>
-                        <%}%>
-                    </select>
 
-                </td>
-                <td> <input type="hidden" name="<%=frequencyDefault%>" value="<%=freqAbbr%>">
-                    <select name="<%=frequencyNumber%>" required>
-                        <option disabled="disabled" selected="selected" value="<%=freqAbbr%>"><%=freqAbbr%></option>
-                        <%
-                            for (Frequency freq : freqList) {
-                                out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
-                        %>
-                        <option value="<%=freq.getFreqAbbr()%>"><%=freq.getFreqAbbr()%></option>
-                        <%
-                            }
-                        %>
-                    </select>
 
-                </td>
-                <td>
-                    <input type="text" name="<%=doctorNameNumber%>" value="<%=doctorName%>" required></td>
-                <td><input type="text" name="<%=doctorOrderNumber%>" value="<%=doctorOrder%>" required></td>
-                <td><input type="text" name="<%=dosageNumber%>" value="<%=dosage%>" required></td>
 
-            </tr>
-            <%
-                        counter++;
+                <input type="hidden" name="<%=counterNumber%>" value="<%=counter%>">
+
+
+                <input type="hidden" name="<%=stateIDNumber%>" value="<%=stateID%>">
+                <input type="hidden" name="stateDesc" value="<%=stateDesc%>">
+                <input type="hidden" name ="prescriptionListSize" value="<%=prescriptionList.size()%>">
+
+                <tr>
+
+                    <td>
+                        <%=stateDesc%>
+                    </td>
+                    <td>
+                        <%=discontinueStateDesc%>
+                    </td>
+                    <td>
+                        <%=medBarcode%>
+                        <input type="hidden" name="<%=medBarcodeNumber%>" value="<%=medBarcode%>">
+                    </td>
+                    <td>
+                        <input type="hidden" name="<%=medicineNameNumber%>" value="<%=medicineName%>">
+                        <%=medicineName%>
+                    </td>
+                    <td>
+                        <input type="hidden" name="<%=routeDefault%>" value="<%=route%>">
+                        <select name="<%=routeNumber%>" required>
+                            <option disabled="disabled" selected="selected" value = "<%=route%>"><%=route%></option>
+                            <%
+                                List<Route> rList = RouteDAO.retrieveAll();
+                                for (Route rr : rList) {
+                            %>
+                            <option value="<%=rr.getRouteAbbr()%>"><%=rr.getRouteAbbr()%></option>
+                            <%}%>
+                        </select>
+
+                    </td>
+                    <td> <input type="hidden" name="<%=frequencyDefault%>" value="<%=freqAbbr%>">
+                        <select name="<%=frequencyNumber%>" required>
+                            <option disabled="disabled" selected="selected" value="<%=freqAbbr%>"><%=freqAbbr%></option>
+                            <%
+                                for (Frequency freq : freqList) {
+                                    out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
+                            %>
+                            <option value="<%=freq.getFreqAbbr()%>"><%=freq.getFreqAbbr()%></option>
+                            <%
+                                }
+                            %>
+                        </select>
+
+                    </td>
+                    <td>
+                        <input type="text" name="<%=doctorNameNumber%>" value="<%=doctorName%>" required></td>
+                    <td><input type="text" name="<%=doctorOrderNumber%>" value="<%=doctorOrder%>" required></td>
+                    <td><input type="text" name="<%=dosageNumber%>" value="<%=dosage%>" required></td>
+
+                </tr>
+                <%
+                            counter++;
+                        }
+                        //out.println("Prescrition list size: " + prescriptionList.size());
                     }
-                    //out.println("Prescrition list size: " + prescriptionList.size());
-                }
 
 
-            %> 
-        </table>
-        <br>
-        <br>
-        <br>
-        <center>
-            <input type = "submit" Value ="Save and Proceed" class="button tiny"></center>
-    </form>
+                %> 
+            </table>
+            <br>
+            <br>
+            <br>
+            <center>
+                <input type = "submit" Value ="Save and Proceed" class="button tiny"></center>
+        </form>
+
 
 
 

@@ -5,6 +5,7 @@
  */
 package controller;
 
+import dao.PrescriptionDAO;
 import dao.StateDAO;
 import entity.State;
 import java.io.IOException;
@@ -39,6 +40,7 @@ public class ProcessAddState extends HttpServlet {
         String scenarioID = request.getParameter("scenarioID");
         String patientNRIC = request.getParameter("patientNRIC");
         String stateDescription = request.getParameter("stateDescription");
+        String doctorOrderForState = request.getParameter("doctorOrderForState");
         
         ArrayList<State> stateList = (ArrayList<State>) StateDAO.retrieveAll(scenarioID);
         int stateNumber = stateList.size();
@@ -50,12 +52,10 @@ public class ProcessAddState extends HttpServlet {
         
         //StateDAO.add(stateID, scenarioID, RR, BP, HR, SPO, intake, output, temperature, stateDescription, patientNRIC);
         StateDAO.add(stateID, scenarioID, stateDescription, 0, patientNRIC);
-       // response.sendRedirect("createStateBC.jsp");
-        
-//        RequestDispatcher rd = request.getRequestDispatcher("createStateBC.jsp");
-//         rd.forward(request, response);
-         
-          if (edit== null || edit.equals(" ")) {
+        //add  doctor's order for this state, which is stored in prescription
+        PrescriptionDAO.add(scenarioID, stateID, "Dr. Tan/01234Z", doctorOrderForState, "NA", "NA", "-");
+
+        if (edit== null || edit.equals(" ")) {
             response.sendRedirect("createStateBC.jsp");
         } else {
             response.sendRedirect("editState.jsp");

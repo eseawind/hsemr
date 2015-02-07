@@ -66,17 +66,18 @@ public class ProcessAddMedication extends HttpServlet {
             //retrieve values for Frequency table
             String dosage = request.getParameter("dosage");
 //
-//            out.println("stateID" + stateID);
-//            out.println("discontinueStateID" + discontinueStateID);
-//            out.println("scenarioID" + scenarioID);
-//            out.println("medicineName" + medicineName);
-//            out.println("medicineBarcode" + medicineBarcode);
-//
-//            out.println("route" + route);
-//            out.println("routeRetrieved" + routeRetrieved);
-//            out.println("doctorName" + doctorName);
-//            out.println("order" + doctorOrder);
-//            out.println("freq" + freq);
+            out.println("stateID" + stateID);
+            out.println("discontinueStateID" + discontinueStateID);
+            out.println("scenarioID" + scenarioID);
+            out.println("medicineName" + medicineName);
+            out.println("medicineBarcode" + medicineBarcode);
+
+            out.println("route" + route);
+            out.println("routeRetrieved" + routeRetrieved);
+            out.println("doctorName" + doctorName);
+            out.println("order" + doctorOrder);
+            out.println("freq" + freq);
+            out.println("editMedicine" + editMedicine);
 
             if (!route.equals(routeRetrieved)) { //create new medicine with a different route
                 

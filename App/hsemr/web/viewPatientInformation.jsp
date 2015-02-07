@@ -1331,7 +1331,7 @@
           <a href="#panel5">Multidisciplinary Notes</a>
           <div id="panel5" class="content">
               <ul class="pricing-table">
-                <li class="price">Medication History</li>   
+                <li class="price">Multidisciplinary Notes History</li>   
                 
               <%
                       

@@ -172,7 +172,7 @@
                                 <label for="right-label" class="right inline" >Case Name</label>
                             </div>
                             <div class="small-9 columns">
-                                <input type="text" name="scenarioName" value = "<%=scenarioName%>" required pattern ="^[a-zA-Z ]+$">
+                                <input type="text" name="scenarioName" value = "<%=scenarioName%>" required pattern ="^[a-zA-Z0-9 ]+$">
                                 <small class="error">Please enter a case name.</small>
                             </div>
                         </div>

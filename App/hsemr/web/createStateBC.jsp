@@ -66,6 +66,21 @@
                     </div>
                 </div>
             </div>
+            
+            
+            <div class="row">
+                <div class="small-8">
+                    <div class="row">
+                        <div class="small-3 columns">
+                            <label for="right-label" class="right inline" >Healthcare Provider's Order</label>
+                        </div>
+                        <div class="small-9 columns">
+                             <textarea style = "resize:vertical"  name="doctorOrderForState" rows="10" cols="10" placeholder ="" required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>">
             <input type ="hidden" name ="patientNRIC" value ="<%=patientNRIC%>">
             

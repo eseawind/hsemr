@@ -34,11 +34,20 @@ public class ProcessAddNewMedicine extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String newMedicineName = request.getParameter("newMedicineName");
-        String newMedicineBarcode = request.getParameter("newMedicineBarcode").trim().toUpperCase();
-        MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName, "N.A");
-         
-        response.sendRedirect("createMedicationBC.jsp");
+            String newMedicineName = request.getParameter("newMedicineName");
+            String newMedicineBarcode = request.getParameter("newMedicineBarcode").trim().toUpperCase();
+            MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName, "N.A");
+            
+            String editMedicine = request.getParameter("editMedicine");
+            
+            response.getWriter().println(newMedicineName);
+            response.getWriter().println(newMedicineBarcode);
+            if(editMedicine == null ){
+                response.sendRedirect("createMedicationBC.jsp");
+            }else{
+                response.sendRedirect("editMedication.jsp");
+            }
+            
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

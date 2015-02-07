@@ -42,6 +42,30 @@ public class ScenarioDAO {
         }
         return scenario;
     }
+    
+    public static Scenario retrieveByScenarioName(String scenarioName) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Scenario scenario = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from scenario where scenarioName = ?");
+            stmt.setString(1, scenarioName);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return scenario;
+    }
 
     public static Scenario retrieveActivatedScenario() {
         Connection conn = null;
