@@ -289,29 +289,47 @@
                         freqAbbr = prescription.getFreqAbbr();
 
                         medBarcode = prescription.getMedicineBarcode();
+                        
+                        String counterNumber = "";
+                        String stateIDNumber = "";
+                        String medBarcodeNumber = "";
+                        String routeNumber = "";
+                        String routeDefault = ""; 
+                        String frequencyNumber = "";
+                        String frequencyDefault = "";
+                        String doctorNameNumber = "";
+                        String doctorOrderNumber = "";
+                        String dosageNumber = "";
+                        String medicineNameNumber = "";
+                                
+                        
+                        
+                        if(!medBarcode.equals("NA")){
+                            //stateID.replace("ST", "State ");
+                            stateDesc = stateID.replace("ST", "State ");
+                            discontinueStateDesc = discontinueStateID.replace("ST", "State ");
+                            //out.println(counter);
+                            medBarcodeNumber = "medBarcode" + counter;
+                            //String stateDescNumber = "stateDesc" + counter;
+                            routeNumber = "route" + counter;
+                            routeDefault = "routeDefault" + counter;
+                            frequencyNumber = "frequency" + counter;
+                            frequencyDefault = "frequencyDefault" + counter;
+                            doctorNameNumber = "doctorName" + counter;
+                            doctorOrderNumber = "doctorOrder" + counter;
+                            dosageNumber = "dosage" + counter;
+                            stateIDNumber = "stateID" + counter;
+                            medicineNameNumber = "medicineName" + counter;
+                            counterNumber = "counter" + counter;
+                            //barcodeList.add(medBarcode);
+                            m = MedicineDAO.retrieve(medBarcode);
+                            route = m.getRouteAbbr();
+                            medicineName = m.getMedicineName();
 
-                        //stateID.replace("ST", "State ");
-                        stateDesc = stateID.replace("ST", "State ");
-                        discontinueStateDesc = discontinueStateID.replace("ST", "State ");
-                        //out.println(counter);
-                        String medBarcodeNumber = "medBarcode" + counter;
-                        //String stateDescNumber = "stateDesc" + counter;
-                        String routeNumber = "route" + counter;
-                        String routeDefault = "routeDefault" + counter;
-                        String frequencyNumber = "frequency" + counter;
-                        String frequencyDefault = "frequencyDefault" + counter;
-                        String doctorNameNumber = "doctorName" + counter;
-                        String doctorOrderNumber = "doctorOrder" + counter;
-                        String dosageNumber = "dosage" + counter;
-                        String stateIDNumber = "stateID" + counter;
-                        String medicineNameNumber = "medicineName" + counter;
-                        String counterNumber = "counter" + counter;
-                        //barcodeList.add(medBarcode);
-                        m = MedicineDAO.retrieve(medBarcode);
-                        route = m.getRouteAbbr();
-                        medicineName = m.getMedicineName();
+                            dosage = MedicinePrescriptionDAO.retrieveDosage(scenarioID, stateID, medBarcode, freqAbbr);
+                        
 
-                        dosage = MedicinePrescriptionDAO.retrieveDosage(scenarioID, stateID, medBarcode, freqAbbr);
+                        
 
 
                 %>
@@ -374,6 +392,7 @@
                 </tr>
                 <%
                             counter++;
+                        }
                         }
                         //out.println("Prescrition list size: " + prescriptionList.size());
                     }
