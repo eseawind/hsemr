@@ -65,7 +65,7 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
             StateHistoryDAO.addStateHistory(scenarioID, "ST0");
             session.setAttribute("success", "You have successfully activated the case: " + scenarioID + "!");
             
-            //response.sendRedirect("viewScenarioAdmin.jsp");
+            response.sendRedirect("viewScenarioAdmin.jsp");
         }
 
     }
