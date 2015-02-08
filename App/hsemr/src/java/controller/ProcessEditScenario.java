@@ -96,7 +96,6 @@ public class ProcessEditScenario extends HttpServlet {
             if(newDefaultVital.equals("yes")) {
                 VitalDAO.add(scenarioID, temperature, rr, bps, bpd, hr, spo, "-", "-", "-", "-", "-", 1);
             } else {
-                
                 VitalDAO.update(temperature, rr, hr, bps, bpd, spo, scenarioID);
             }
            
