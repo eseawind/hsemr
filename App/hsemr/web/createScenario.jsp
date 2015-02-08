@@ -250,7 +250,7 @@
                 <!--<a href="#panel3">Default Vital Signs for State 0</a>-->
                 <!--State 0-->
                 <div id="panel3" class="content">
-                    <div style="margin-left:100px;"> Leave empty if not applicable.</div><br/>
+                    <div style="margin-left:100px;">Leave the following fields empty if not applicable.</div><br/>
                     <div class="row">
                         <div class="large-4 columns">
                             <label>Temperature</label>

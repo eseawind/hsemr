@@ -131,9 +131,7 @@
                         success = (String) session.getAttribute("success");
                         session.setAttribute("success", "");
                     }
-                %>
-
-                <%if (session.getAttribute("error") != null) {
+                    if (session.getAttribute("error") != null) {
 
                         error = (String) session.getAttribute("error");
                         session.setAttribute("error", "");
@@ -813,7 +811,7 @@
                                         out.println("content");
                                     }%>" id="multidisciplinary">
                                             
-                                    <input data-reveal-id="pastDoctorOrder" type="submit" value="View Past Doctor's Order" class="button tiny">  
+                                    <input data-reveal-id="pastDoctorOrder" type="submit" value="View Doctor's Order" class="button tiny">  
                                     
                                     
                                     <form action="ProcessAddNote" method="POST">
@@ -951,8 +949,9 @@
                                         <h4>Past Doctor Orders</h4>
 
                                     <%
-                                      HashMap<List<Prescription>, String> stateDoctorOrderHM = new HashMap<List<Prescription>, String>();
+                                      LinkedHashMap<List<Prescription>, String> stateDoctorOrderHM = new LinkedHashMap<List<Prescription>, String>();
                                       for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
+                                        
                                         String state = entry.getKey();
                                         List<Prescription> prescriptions = PrescriptionDAO.retrieveOnlyNA(scenarioID, state);
                                         String doctorOrderTime = entry.getValue();
@@ -972,10 +971,10 @@
                                               <%
                                               for (Map.Entry<List<Prescription>, String> entry : stateDoctorOrderHM.entrySet()) {
                                                     List<Prescription> prescriptions = entry.getKey();
-
+                                                    
                                                     // if needed to display:
                                                     String doctorOrderTime = entry.getValue();
-
+                                                    
                                                     for (Prescription prescription : prescriptions) {
                                                         String doctorName = prescription.getDoctorName();
                                                         String doctorOrder = prescription.getDoctorOrder();

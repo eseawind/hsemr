@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -26,15 +27,15 @@ import java.util.TimeZone;
  */
 public class StateHistoryDAO {
     
-    public static HashMap<String,String> retrieveAll() {
+    public static LinkedHashMap<String,String> retrieveAll() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        HashMap<String,String> stateHashMap = new HashMap<String,String>();
+        LinkedHashMap<String,String> stateHashMap = new LinkedHashMap<String,String>();
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM state_history order by timeActivated ASC");
+            stmt = conn.prepareStatement("SELECT * FROM state_history order by timeActivated DESC");
             rs = stmt.executeQuery();
 
             while (rs.next()) {

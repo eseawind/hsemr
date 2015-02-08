@@ -222,7 +222,7 @@ public class ReportDAO {
     public static void resetToDefault() {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "DELETE FROM report WHERE initialReport =?";
+        String query = "UPDATE report SET dispatchStatus= 0 WHERE initialReport =?";
 
         try {
             conn = ConnectionManager.getConnection();

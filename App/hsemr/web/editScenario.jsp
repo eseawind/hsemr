@@ -81,7 +81,7 @@
         <br>
     <center>
         <ul class="breadcrumbs">
-            <li>Edit Case Information</li>
+            <li class="current">Edit Case Information</li>
             <li><a href="editState.jsp">Edit State Information</a></li>
             <li><a href="editMedication.jsp">Edit Medication </a></li>
             <li><a href="editReportDocument.jsp">Edit Report and Document </a></li>
@@ -127,26 +127,45 @@
 
                     List<Vital> vitalList = VitalDAO.retrieveAllVitalByScenarioID(scenarioID);
                     Vital initialVital;
-                    double temperature0 = 0.0;
-                    int RR0 = 0;
-                    int HR0 = 0;
-                    int BPS = 0;
-                    int BPD = 0;
-                    int SPO0 = 0;
+                    String temperature0 = "";
+                    String RR0 = "";
+                    String HR0 = "";
+                    String BPS = "";
+                    String BPD = "";
+                    String SPO0 = "";
 
                     for (int i = 0; i < vitalList.size(); i++) {
                         Vital v = vitalList.get(i);
                         if (v.getInitialVital() == 1) {
                             initialVital = v;
 
-                            temperature0 = initialVital.getTemperature();
-                            RR0 = initialVital.getRr();
-                            HR0 = initialVital.getHr();
-                            BPS = initialVital.getBpSystolic();
-                            BPD = initialVital.getBpDiastolic();
-                            SPO0 = initialVital.getSpo();
+                            temperature0 = String.valueOf(initialVital.getTemperature());
+                            RR0 = String.valueOf(initialVital.getRr());
+                            HR0 = String.valueOf(initialVital.getHr());
+                            BPS = String.valueOf(initialVital.getBpSystolic());
+                            BPD = String.valueOf(initialVital.getBpDiastolic());
+                            SPO0 = String.valueOf(initialVital.getSpo());
                         }
                     }
+                    if (temperature0.equals("0.00") || temperature0.equals("0.0")) {
+                        temperature0 = "";
+                    }
+                    if (RR0.equals("0")) {
+                        RR0 = "";
+                    }
+                    if (HR0.equals("0")) {
+                        HR0 = "";
+                    }
+                    if (BPS.equals("0")) {
+                        BPS = "";
+                    }
+                    if (BPD.equals("0")) {
+                        BPD = "";
+                    }
+                    if(SPO0.equals("0")) {
+                        SPO0 = "";
+                    }
+                    
 
                 
             %>

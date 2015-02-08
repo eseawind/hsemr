@@ -1275,9 +1275,11 @@ button, .button {
     color: #368a55;
     transition: background-color 300ms ease-out; }
 button:hover, button:focus, .button:hover, .button:focus {
-    background-color: #368a55; }
+    background-color: #368a55; 
+    text-decoration: none;}
 button:hover, button:focus, .button:hover, .button:focus {
-    color: white; }
+    color: white; 
+    text-decoration: none;}
 
 deletebutton, .deletebutton {
     border-style: solid;
@@ -1789,7 +1791,8 @@ meta.foundation-mq-topbar {
     .top-bar .title-area {
         float: left; }
     .top-bar .name h1 a {
-        width: auto; }
+        width: auto;
+        text-decoration: none;}
     .top-bar input,
     .top-bar .button,
     .top-bar button {
@@ -2882,7 +2885,8 @@ a {
     text-decoration: none;
     line-height: inherit; }
 a:hover, a:focus {
-    color: #0078a0; }
+    color: #0078a0; 
+    text-decoration: underline;}
 a img {
     border: none; }
 

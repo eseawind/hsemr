@@ -39,12 +39,13 @@ table<%--
             <li><a href="editScenario.jsp">Edit Case Information</a></li>
             <li><a href="editState.jsp">Edit State Information</a></li>
             <li><a href="editMedication.jsp">Edit Medication </a></li>
-            <li><a href="#">Edit Report and Document </a></li>
+            <li class="current"><a href="#">Edit Report and Document </a></li>
         </ul><br/>
     <center><h1>Edit Report and Document Creation</h1></center>
     <br>
 
-    <%              String success = "";
+    <%              
+        String success = "";
         String error = "";
 
         String scenarioID = (String) session.getAttribute("scenarioID");
@@ -135,8 +136,24 @@ table<%--
     </div>        
 
     <br/><br/>
-
-    <center><h3>Current Reports</h3></center>
+    <div class="large-12 columns">
+   
+        <%
+            List<Report> currentReportList = ReportDAO.retrieveReportsByScenario(scenarioID);
+            String stateID = "";
+            String reportName = "";
+            String reportURL = "";
+            String dateTime = "";
+            String reportFile = "";
+            Date date = null;
+            int counter = 0;
+            int sizeList = currentReportList.size();
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            
+            if (sizeList > 0) {
+        %> 
+        
+         <center><h3>Current Reports</h3></center>
     <!-- Report table -->
 
     <table class="responsive" id="cssTable" align="center">
@@ -155,19 +172,8 @@ table<%--
                 <th>Action</th>
             </tr>
         </thead>
-        <%
-            List<Report> currentReportList = ReportDAO.retrieveReportsByScenario(scenarioID);
-            String stateID = "";
-            String reportName = "";
-            String reportURL = "";
-            String dateTime = "";
-            String reportFile = "";
-            Date date = null;
-            int counter = 0;
-            int sizeList = currentReportList.size();
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-
-            for (Report r : currentReportList) {
+            
+            <%for (Report r : currentReportList) {
                 stateID = r.getStateID();
                 reportName = r.getReportName();
                 reportFile = r.getReportFile();
@@ -197,13 +203,25 @@ table<%--
         <%
                 counter++;
             }
+            
         %>
     </table>
+    <% } %>
     <!-- End Report table -->
     <br><br>
 
 
-
+        <%
+            List<Document> currentDocumentList = DocumentDAO.retrieveDocumentsByScenario(scenarioID);
+            String docStateID = "";
+            String consentName = "";
+            String docURL = "";
+            String documentURL = "";
+            int counterDoc = 0;
+            
+            if (currentDocumentList.size() > 0) {
+                %>
+                
     <center><h3> Current Documents</h3></center>
 
     <!-- Documents table -->
@@ -222,14 +240,9 @@ table<%--
                 <th>Action</th>
             </tr>
         </thead>
-        <%
-            List<Document> currentDocumentList = DocumentDAO.retrieveDocumentsByScenario(scenarioID);
-            String docStateID = "";
-            String consentName = "";
-            String docURL = "";
-            String documentURL = "";
-            int counterDoc = 0;
 
+<%
+            
             for (Document d : currentDocumentList) {
                 docStateID = d.getStateID();
                 consentName = d.getConsentName();
@@ -258,12 +271,14 @@ table<%--
             }
         %>
     </table>
+    <%}%>
     <br><br><br>
+    
     <!-- End Report table -->
     <form action="viewScenarioAdmin.jsp" method="POST">
         <center><input type ="submit" class ="button" value ="Proceed to Admin Homepage"></center>
     </form>
-
+    </div>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
 

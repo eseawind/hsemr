@@ -47,7 +47,19 @@
             <br/>
             <div class="large-12 columns" style="padding-top: 20px;">
 
-                <%                    //retrieve note's information
+                <%
+                String success = "" ; 
+                String error = "";
+                if (session.getAttribute("success") != null) {
+                    success = (String) session.getAttribute("success");
+                    session.setAttribute("success", "");
+                 }
+                
+                if (session.getAttribute("error") != null) {
+                    error = (String) session.getAttribute("error");
+                    session.setAttribute("error", "");
+                }
+                //retrieve note's information
                     List<Note> notesList = NoteDAO.retrieveAll();
                     String userLoggedIn = (String) session.getAttribute("lecturer");
                     String practicalGroupID = "";
@@ -56,7 +68,7 @@
                     String dateTime = "";
                     if (notesList == null || notesList.size() == 0) {%>
 
-                <label for="right-label" class="right inline">No groups have entered their notes yet.</label>
+                    <center>No groups have entered their notes yet.</center>
 
                 <% } else { %>
                 <form action ="ProcessRetrieveNotesByPracticalGroup" method ="POST">
@@ -164,6 +176,23 @@
                 </form>-->
             </div>
         </div>
+                    <script>
+                                    $(document).ready(function() {
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+
+                var success1 = "<%=success%>";
+                var error1 = "<%=error%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                } else if (error1 !== "") {
+                    humaneError.log(error1);
+                }
+
+            });
+
+                        </script>
         <script type="text/javascript" src="js/humane.js"></script>
     </body>
     

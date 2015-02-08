@@ -5,6 +5,8 @@
  */
 package controller;
 
+import dao.MedicinePrescriptionDAO;
+import dao.PrescriptionDAO;
 import dao.StateDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,15 +40,30 @@ public class ProcessEditState extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession(false);
-
             String scenarioID = request.getParameter("scenarioID");
-
             int stateListSize = Integer.parseInt(request.getParameter("stateListSize"));
             for (int i = 0; i < stateListSize; i++) {
-                String descNum = "statedescription" + i;
+                int num = i+1;
+                String descNum = "statedescription" + num;
+                String doNum = "doctorOrder" + num;
+                String pNum = "p" + num;
                 String desc = request.getParameter(descNum);
-                int statenum = i;
+                String doctorOrder = request.getParameter(doNum);
+//                String prescription = request.getParameter(pNum);
+                String prescription = request.getParameter("prescription");
+                int statenum = i + 1;
                 String stateID = "ST" + statenum;
+                
+                if (prescription == null) {
+                    if (doctorOrder != null && !doctorOrder.equals("") ) {
+                        MedicinePrescriptionDAO.add("NA", scenarioID, stateID, "NA", "Nil");
+                        PrescriptionDAO.add(scenarioID, stateID, "Dr.Tan/01234Z", doctorOrder, "NA", "NA", "-") ;
+                    }
+                } else {
+                   out.println();
+                    PrescriptionDAO.updatePres("Dr.Tan/01234Z", doctorOrder, "NA", scenarioID, stateID, "NA");
+                }
+                
                 StateDAO.updateStateDesc(stateID, desc, scenarioID);
             }
 

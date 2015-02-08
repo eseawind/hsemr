@@ -33,7 +33,7 @@
         <br>
         <ul class="breadcrumbs">
             <li><a href="editScenario.jsp">Edit Case Information</a></li>
-            <li>Edit State Information</li>
+            <li class="current">Edit State Information</li>
             <li><a href="editMedication.jsp">Edit Medication </a></li>
             <li><a href="editReportDocument.jsp">Edit Report and Document </a></li>
         </ul><br/>
@@ -43,15 +43,94 @@
             String error = "";
 
             String scenarioID = (String) session.getAttribute("scenarioID");
+            String scenario = scenarioID.replace("SC", "Case ");
             String patientNRIC = (String) session.getAttribute("patientNRIC");
             String editingInProcess = "editingInProcess";
+            
+            List<State> stateList = StateDAO.retrieveAll(scenarioID);
+            
         %>
+    
+        <!--Display states that are in the database-->
+        <center>
+        <% if (stateList == null || stateList.size() - 1 == 0 || stateList.size() - 1 == -1) {
+                out.println("<h3>" + "There are no states created yet." + "</h3>");
+
+            } else {
+                out.print("<h3>Edit States</h3>");
+        %>
+        <h5><a href="#" data-reveal-id="createState">Click to Add New State for <%=scenario%></a></h5>   
+        <form action ="ProcessEditState" method="POST">
+        <%
+                List<String> stList = new ArrayList<String>();
+                String stateDescription ="";
+                int counter =0;
+                for (State state : stateList) {
+                String stateRetrieved = state.getStateID();
+                stateDescription = state.getStateDescription();
+                String stateNumber = "";
+                if (!stateRetrieved.equals("ST0")) {
+                    int number = Integer.parseInt(stateRetrieved.replace("ST",""));
+                    //stateNumber.replace("ST", "State ");
+                    String stateDescriptionNumber = "statedescription" + counter;
+                    session.setAttribute("dNum",stateDescriptionNumber);
+                    String stateDesc = stateRetrieved.replace("ST", "State ");
+                   
+                    Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateRetrieved, "NA");
+                    String doNum = "doctorOrder" + counter;
+                    String pNum = "p" + counter;
+                    String doctorOrder = "";
+                    String p = "prescription is not null";
+                    if (prescription != null) {
+                        doctorOrder = prescription.getDoctorOrder();  
+                    } else {
+                        p = "null";
+                    }
+        
+            %>
+           
+        <div class="row">
+            <div class="small-8">
+                <div class="row">
+                    <div align="left">  <b><%=stateDesc%></b></div><br/>
+                    <input type="hidden" name ="stateNumber" value="<%=stateNumber%>">
+                    <input type="hidden" name ="stateListSize" value="<%=stateList.size()%>">
+                    Description <input type ="text" name ="<%=stateDescriptionNumber%>" value ="<%=stateDescription%>">
+                    <label>Healthcare Provider's Order</label>
+                    <!--<i>Please include "&lt;br&gt;" to separate doctor order to next line.</i>-->
+                    <textarea style = "resize:vertical"  name="<%=doNum%>" rows="2" cols="10"><%=doctorOrder%></textarea>
+                    <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>">
+                    <input type ="hidden" name="<%=pNum%>" value="<%=p%>">
+                </div>
+            </div>
+
+        </div>
+        <% }
+                //stateName = state.getStateDescription();
+                counter++;
+                
+                }
+                
+                //session.setAttribute("stateListSize", counter);
+               // session.setAttribute("stList", stList);
+                //stList = request.getAttribute("stList");
+            }%>
+        <!--End of display states in the database-->
+        <input type = "submit" Value ="Save and Proceed" class="button tiny">
+        
+            </form>
+            
+            
 
 
+    </center>
+    
+    
+            <!-- Reveal model for Create State -->
+            <div id="createState" class="reveal-modal large-10" data-reveal>
 
-        <%List<State> stateList = StateDAO.retrieveAll(scenarioID);%>
-    <center><h2>Create State <%=stateList.size()%></h2>
-
+            <h2>Add State <%=stateList.size()%></h2>
+            
 
 
 
@@ -89,56 +168,9 @@
             <br/><br/>
             <input type="submit" value="Create State" class="button tiny">
         </form>
+                <a class="close-reveal-modal">&#215;</a>
 
-
-
-        <!--Display states that are in the database-->
-        <% if (stateList == null || stateList.size() - 1 == 0 || stateList.size() - 1 == -1) {
-                out.println("<h3>" + "There are no states created yet." + "</h3>");
-
-            } else {
-                out.print("<h3>Edit States</h3>");
-        %>
-            <form action ="ProcessEditState" method="POST">
-        <%
-                List<String> stList = new ArrayList<String>();
-                String stateDescription ="";
-                int counter =0;
-                for (State state : stateList) {
-                String stateNumber = state.getStateID();
-                stateDescription = state.getStateDescription();
-                if (!stateNumber.equals("ST0")) {
-                    int number = Integer.parseInt(stateNumber.replace("ST",""));
-                    stateNumber.replace("ST", "State ");
-                    String stateDescriptionNumber = "statedescription" + counter;
-                    session.setAttribute("dNum",stateDescriptionNumber);
-                    String stateDesc = stateNumber.replace("ST", "State ");%>
-        <div class="row">
-            <div class="small-8">
-                <div class="row">
-                    <div align="left">  <b><%=stateDesc%></b></div><br/>
-                    <input type="hidden" name ="stateNumber" value="<%=stateNumber%>">
-                    <input type="hidden" name ="stateListSize" value="<%=stateList.size()%>">
-                    <input type ="text" name ="<%=stateDescriptionNumber%>" value ="<%=stateDescription%>">
-            <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>">
-                </div>
             </div>
-
-        </div>
-        <% }
-                //stateName = state.getStateDescription();
-                counter++;
-                
-                }
-                
-                //session.setAttribute("stateListSize", counter);
-               // session.setAttribute("stList", stList);
-                //stList = request.getAttribute("stList");
-            }%>
-        <!--End of display states in the database-->
-        <input type = "submit" Value ="Save and Proceed" class="button tiny">
-            </form>
-    </center>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
 

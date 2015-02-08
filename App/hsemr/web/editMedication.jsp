@@ -35,12 +35,11 @@
         <ul class="breadcrumbs">
             <li><a href="editScenario.jsp">Edit Case Information</a></li>
             <li><a href="editState.jsp">Edit State Information </a></li>
-            <li>Edit Medication</li>
+            <li class="current">Edit Medication</li>
             <li><a href="editReportDocument.jsp">Edit Report and Document </a></li>
         </ul><br/>
 
     <center><h1>Edit Medication</h1></center>
-    <br>
 
     <%             //for printing of error/success messages
         String success = "";
@@ -57,15 +56,16 @@
             error = (String) session.getAttribute("error");
             session.setAttribute("error", "");
         }
-
+        
         String scenarioID = (String) session.getAttribute("scenarioID");
+        String scenario = scenarioID.replace("SC", "Case ");        
         String patientNRIC = (String) session.getAttribute("patientNRIC");
         List<State> stateList = StateDAO.retrieveAll(scenarioID);
         String editingMedicine = "editingInProgress";
     %>
 
-    <center>Can't find the medicine you're looking for? Add new medicine <a href="#" data-reveal-id="addNewMedicine">here</a><br><br></center>
-
+    <center>
+        <h5><a href="#" data-reveal-id="addNewMedication">Click here to Add New Medication for <%=scenario%></a></h5>    
     <!--add new medicine reveal modal-->
     <div id="addNewMedicine" class="reveal-modal" data-reveal>
         <h2>Add New Medicine</h2>
@@ -81,12 +81,18 @@
             <input type ="hidden" name ="editMedicine" value ="Yes">
             <input type ="submit" class ="button" value ="Create Medicine">
         </form>
-        <a class="close-reveal-modal">&#215;</a>
+        
+<a class="close-reveal-modal">&#215;</a>
     </div>
     <!--end of add new medicine reveal modal-->
 
-
 <!--Add medication form-->
+    <!--add new medicine reveal modal-->
+    <div id="addNewMedication" class="reveal-modal" data-reveal>
+   <center>
+          <h2>Add New Medication</h2>
+       Can't find the medicine you're looking for? Add new medicine <a href="#" data-reveal-id="addNewMedicine">here</a><br><br></center>
+ 
             <form action ="ProcessAddMedication" method ="POST">
                 <%
                 String editMedicine = "editingInProgress";
@@ -215,8 +221,20 @@
             
             </form>
 
-                        
-                        
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+    <!--end of add new medicine reveal modal-->
+    <div class="large-12 columns">
+        <!--Display medication that are in the database-->
+        <center>
+        <%  
+            List<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID);
+
+            if (prescriptionList == null || prescriptionList.size() == 0) {
+                out.println("<h3>" + "There are no medication created yet." + "</h3>");
+
+            } else {
+                %>
 
         <form action ="ProcessEditMedication" method ="POST">
             <table class="responsive" id="cssTable">
@@ -224,10 +242,10 @@
                 <col width="5%">
                 <col width="10%">
                 <col width="10%">
-                <col width="5%">
-                <col width="5%">
                 <col width="10%">
-                <col width="35%">
+                <col width="10%">
+                <col width="10%">
+                <col width="25%">
                 <col width="10%">
                 <thead>
                     <tr>
@@ -245,22 +263,8 @@
                 <%
 
                    List<Frequency> fList = FrequencyDAO.retrieveAll();
-                %>
-
-
-                <!--Display medication that are in the database-->
-                <center>
-                    <%  List<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID);
-
-                        if (prescriptionList == null || prescriptionList.size() == 0) {
-                            out.println("<h3>" + "There are no medication created yet." + "</h3>");
-
-                        } else {
-                            out.print("<h3>Medication(s) Created</h3>");
-                    %>
-                </center>
-
-                <%
+                   out.print("<h3>Medication(s) Created</h3>");
+                
                     String doctorOrder = "";
                     String doctorName = "";
                     String medBarcode = ""; // from medicine
@@ -314,19 +318,14 @@
 
                 <!--End of display medication in the database-->
 
-
-
-
-                <input type="hidden" name="<%=counterNumber%>" value="<%=counter%>">
-
-
-                <input type="hidden" name="<%=stateIDNumber%>" value="<%=stateID%>">
-                <input type="hidden" name="stateDesc" value="<%=stateDesc%>">
-                <input type="hidden" name ="prescriptionListSize" value="<%=prescriptionList.size()%>">
-
                 <tr>
 
                     <td>
+                        <input type="hidden" name="<%=counterNumber%>" value="<%=counter%>">
+                        <input type="hidden" name="<%=stateIDNumber%>" value="<%=stateID%>">
+                        <input type="hidden" name="stateDesc" value="<%=stateDesc%>">
+                        <input type="hidden" name ="prescriptionListSize" value="<%=prescriptionList.size()%>">
+
                         <%=stateDesc%>
                     </td>
                     <td>
@@ -388,13 +387,7 @@
             <center>
                 <input type = "submit" Value ="Save and Proceed" class="button tiny"></center>
         </form>
-
-
-
-
-    <br>
-    <br>
-    <br>
+    </div>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
 
