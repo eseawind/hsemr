@@ -42,6 +42,7 @@ public class ProcessEditScenario extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession(false);
             String scenarioID = request.getParameter("scenarioID");
             String scenarioName = request.getParameter("scenarioName");
             String scenarioDescription = request.getParameter("scenarioDescription");
@@ -100,15 +101,12 @@ public class ProcessEditScenario extends HttpServlet {
             }
            
             ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, admissionInfo);
-
-            HttpSession session = request.getSession(false);
-            session.setAttribute("scenarioIDedit", scenarioID);
             session.setAttribute("patientNRIC", patientNRIC);
 //            RequestDispatcher rd = request.getRequestDispatcher("/editState.jsp");
 //            
 //            rd.forward(request, response);
 
-            //response.sendRedirect("editState.jsp");
+            response.sendRedirect("editState.jsp");
         } catch (Exception e) {
             e.printStackTrace();
 

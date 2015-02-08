@@ -100,6 +100,7 @@
                 String sessionScenario = (String) session.getAttribute("scenarioID");
                 if (request.getParameter("scenarioID") != null) {
                     scenarioID = request.getParameter("scenarioID");
+                    
                     session.setAttribute("scenarioID", scenarioID);
                 } else if (sessionScenario != null) {
                     scenarioID = sessionScenario;

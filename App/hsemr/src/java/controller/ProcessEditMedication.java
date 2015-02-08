@@ -41,7 +41,7 @@ public class ProcessEditMedication extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession(false);
             
-            String scenarioID = (String) session.getAttribute("scenarioIDedit");
+            String scenarioID = (String) session.getAttribute("scenarioID");
 
             int prescriptionListSize = Integer.parseInt(request.getParameter("prescriptionListSize"));
 
@@ -58,7 +58,7 @@ public class ProcessEditMedication extends HttpServlet {
                 String stateIDNumber = "stateID" + i;
 
                 String stateID = request.getParameter(stateIDNumber);
-                out.println(stateID);
+                
                 String medicineName = request.getParameter(medicineNameNumber);
                 String route = request.getParameter(routeNumber);
                 if (route == null) {
@@ -77,13 +77,20 @@ public class ProcessEditMedication extends HttpServlet {
 
                 MedicinePrescriptionDAO.updateMedPres(frequency, dosage, medBarcode, scenarioID, stateID);
                 MedicineDAO.updateMed(medBarcode, medicineName, route, initialRoute); // route can change
+                
                 PrescriptionDAO.updatePres(doctorName, doctorOrder, frequency, scenarioID, stateID, medBarcode);
-
+                
+                out.println(doctorName + "<BR>");
+                out.println(doctorOrder + "<BR>");
+                out.println("freq to update" + frequency);
+                out.println("scenario to updat" + scenarioID);
+                out.println("stateID to updat" + stateID);
+                out.println("medbarcode to updat" + medBarcode);
+                
                 out.println("<BR>" + medicineName + "<BR>");
                 out.println(route + "<BR>");
                 out.println(frequency + "<BR>");
-                out.println(doctorName + "<BR>");
-                out.println(doctorOrder + "<BR>");
+                
                 out.println(dosage + "<BR>");
                 out.println(medBarcode + "<BR><BR><BR>");
 

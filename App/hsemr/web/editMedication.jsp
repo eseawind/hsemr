@@ -394,7 +394,7 @@
                             counter++;
                         }
                         }
-                        //out.println("Prescrition list size: " + prescriptionList.size());
+                        
                     }
 
 
