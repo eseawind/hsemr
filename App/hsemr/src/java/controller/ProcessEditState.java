@@ -50,18 +50,23 @@ public class ProcessEditState extends HttpServlet {
                 String desc = request.getParameter(descNum);
                 String doctorOrder = request.getParameter(doNum);
 //                String prescription = request.getParameter(pNum);
-                String prescription = request.getParameter("prescription");
+                String prescription = request.getParameter(pNum);
                 int statenum = i + 1;
                 String stateID = "ST" + statenum;
                 
-                if (prescription == null) {
+                
+                if (prescription == null || prescription.equals("null")) {
                     if (doctorOrder != null && !doctorOrder.equals("") ) {
                         MedicinePrescriptionDAO.add("NA", scenarioID, stateID, "NA", "Nil");
                         PrescriptionDAO.add(scenarioID, stateID, "Dr.Tan/01234Z", doctorOrder, "NA", "NA", "-") ;
                     }
                 } else {
-                   out.println();
-                    PrescriptionDAO.updatePres("Dr.Tan/01234Z", doctorOrder, "NA", scenarioID, stateID, "NA");
+                    if(doctorOrder == null || doctorOrder.equals("")) {
+                        MedicinePrescriptionDAO.deleteNA(scenarioID, stateID);
+                        PrescriptionDAO.deletePrescriptionNA(scenarioID, stateID) ;
+                    } else {
+                        PrescriptionDAO.updatePres("Dr.Tan/01234Z", doctorOrder, "NA", scenarioID, stateID, "NA");
+                    }
                 }
                 
                 StateDAO.updateStateDesc(stateID, desc, scenarioID);

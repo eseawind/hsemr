@@ -179,5 +179,25 @@ public class MedicinePrescriptionDAO {
         }
         return dosage;
     }
+    
+    public static void deleteNA(String scenarioID, String stateID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM medicine_prescription WHERE scenarioID =? AND stateID =? AND freqAbbr =?";
 
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, scenarioID);
+            preparedStatement.setString(2, stateID);
+            preparedStatement.setString(3, "NA");
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
 }

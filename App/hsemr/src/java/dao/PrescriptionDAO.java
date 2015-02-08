@@ -266,4 +266,25 @@ public class PrescriptionDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+   
+    public static void deletePrescriptionNA (String scenarioID, String stateID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM prescription WHERE scenarioID =? AND stateID =? AND medicineBarcode =?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, scenarioID);
+            preparedStatement.setString(2, stateID);
+            preparedStatement.setString(3, "NA");
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
 }
