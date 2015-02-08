@@ -54,18 +54,52 @@ public class ProcessEditScenario extends HttpServlet {
             String dob = request.getParameter("DOB");
             String allergy = request.getParameter("allergy");
             String gender = request.getParameter("gender");
-            String temperature = request.getParameter("temperature0");
-            String rr = request.getParameter("RR0");
-            String hr = request.getParameter("HR0");
-            String bps = request.getParameter("BPS");
-            String bpd = request.getParameter("BPD");
-            String spo = request.getParameter("SPO0");
-
+            String temperatureStr = request.getParameter("temperature0");
+            String rrStr = request.getParameter("RR0");
+            String hrStr = request.getParameter("HR0");
+            String bpsStr = request.getParameter("BPS");
+            String bpdStr = request.getParameter("BPD");
+            String spoStr = request.getParameter("SPO0");
+            if (temperatureStr.equals("")) {
+                temperatureStr = "0";
+            }
+            if (rrStr.equals("")) {
+                rrStr = "0";
+            }
+            if (hrStr.equals("")) {
+                hrStr = "0";
+            }
+            if (bpsStr.equals("")) {
+                bpsStr = "0";
+            }
+            if (bpdStr.equals("")) {
+                bpdStr = "0";
+            }
+            if (spoStr.equals("")) {
+                spoStr = "0";
+            }
+            
+            double temperature = Double.parseDouble(temperatureStr);
+            int rr = Integer.parseInt(rrStr);
+            int hr = Integer.parseInt(hrStr);
+            int bps = Integer.parseInt(bpsStr);
+            int bpd = Integer.parseInt(bpdStr);
+            int spo = Integer.parseInt(spoStr);
+            String newDefaultVital = request.getParameter("newDefaultVital");
+            
+            out.println(temperature + " " + rr + " " + hr + " " + bps + " " + bpd + " " + spo + " ");
+            
             AllergyPatientDAO.update(patientNRIC, allergy, retrieveNRIC);
             StateDAO.updateNRIC(patientNRIC, retrieveNRIC);
             PatientDAO.update(patientNRIC, firstName, lastName, gender, dob, retrieveNRIC);
-
-            VitalDAO.update(temperature, rr, hr, bps, bpd, spo, scenarioID);
+            
+            if(newDefaultVital.equals("yes")) {
+                VitalDAO.add(scenarioID, temperature, rr, bps, bpd, hr, spo, "-", "-", "-", "-", "-", 1);
+            } else {
+                
+                VitalDAO.update(temperature, rr, hr, bps, bpd, spo, scenarioID);
+            }
+           
             ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, admissionInfo);
 
             HttpSession session = request.getSession(false);
@@ -75,7 +109,7 @@ public class ProcessEditScenario extends HttpServlet {
 //            
 //            rd.forward(request, response);
 
-            response.sendRedirect("editState.jsp");
+            //response.sendRedirect("editState.jsp");
         } catch (Exception e) {
             e.printStackTrace();
 

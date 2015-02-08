@@ -1,4 +1,4 @@
-table<%-- 
+<%-- 
     Document   : editReportDocument
     Created on : Feb 1, 2015, 1:02:33 PM
     Author     : gladyskhong.2012

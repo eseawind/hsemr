@@ -52,7 +52,8 @@
         </script>
 
 
-        <%            String success = "";
+        <%            
+            String success = "";
             String error = "";
 
             if (session.getAttribute("success") != null && !session.getAttribute("success").equals("")) {
@@ -95,7 +96,7 @@
 
 
             <%                
-            String scenarioID = "";
+                String scenarioID = "";
                 String sessionScenario = (String) session.getAttribute("scenarioID");
                 if (request.getParameter("scenarioID") != null) {
                     scenarioID = request.getParameter("scenarioID");
@@ -146,6 +147,10 @@
                             BPD = String.valueOf(initialVital.getBpDiastolic());
                             SPO0 = String.valueOf(initialVital.getSpo());
                         }
+                    }
+                    String newDefaultVital = "no";
+                    if(vitalList.size() <= 0) {
+                        newDefaultVital = "yes";
                     }
                     if (temperature0.equals("0.00") || temperature0.equals("0.0")) {
                         temperature0 = "";
@@ -275,9 +280,10 @@
                 <!--<a href="#panel3">Default Vital Signs for State 0</a>-->
                 <!--State 0-->
                 <div id="panel3" class="content">
-                    <div style="margin-left:100px;"> Leave empty if not applicable.</div><br/>
+                    <div style="margin-left:100px;">Leave the following fields empty if not applicable.</div><br/>
                     <div class="row">
                         <div class="large-4 columns">
+                            <input type="hidden" name="newDefaultVital" value="<%=newDefaultVital%>">
                             <label>Temperature</label>
                             <input type="text" name="temperature0" value="<%=temperature0%>" maxlength="4" pattern ="\b(3[4-9](\.[0-9]{1,2})?|4[0-2])(\.[0-9]{1,2})?$\b">
                             <small class="error">Temperature must be between 34 - 42.</small>
@@ -343,7 +349,7 @@
             });
 
     </script>
-
-</body>
 <script type="text/javascript" src="js/humane.js"></script>
+</body>
+
 </html>
