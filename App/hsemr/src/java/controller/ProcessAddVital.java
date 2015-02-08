@@ -51,19 +51,19 @@ public class ProcessAddVital extends HttpServlet {
             dateFormatter = new SimpleDateFormat("yyyy-M-dd H:m:s");
             dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
 
-            if (oralType == null || oralType.equals(" ")) {
+            if (oralType == null || oralType.equals(" ") || oralType.equals("") ) {
                 oralType = "-";
             }
-            if (oralAmount == null || oralAmount.equals(" ")) {
+            if (oralAmount == null || oralAmount.equals(" ") || oralAmount.equals("")) {
                 oralAmount = "-";
             }
-            if (intravenousType == null || intravenousType.equals(" ")) {
+            if (intravenousType == null || intravenousType.equals(" ") || intravenousType.equals("")) {
                 intravenousType = "-";
             }
-            if (intravenousAmount == null || intravenousAmount.equals(" ")) {
+            if (intravenousAmount == null || intravenousAmount.equals(" ") || intravenousAmount.equals("")) {
                 intravenousAmount = "-";
             }
-            if (output == null || output.equals(" ")) {
+            if (output == null || output.equals(" ") || output.equals("")) {
                 output = "-";
             }
 
