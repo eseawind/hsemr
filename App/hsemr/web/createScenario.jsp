@@ -224,8 +224,8 @@
                             </div>
                             <div class="large-4 columns">
                                 <label>Gender</label>
-                                <input type="radio" name="male" value="Male" id="male" checked="true"><label for="male" class="right inline">Male</label>
-                                <input type="radio" name="female" value="Female" id="female"><label for="female">Female</label>
+                                <input type="radio" name="gender" value="Male" id="male" checked="true"><label for="male" class="right inline">Male</label>
+                                <input type="radio" name="gender" value="Female" id="female"><label for="female">Female</label>
                             </div>
                         </div>
                     </div>
