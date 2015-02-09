@@ -23,7 +23,7 @@
     <body>
         <div class="large-centered large-12 columns">
             <!--HS EMR LOGO-->
-            <center><br/>
+            <center>
                 <div class="large-centered large-5 columns">
                     <!--To insert icon if needed-->
                     <!--<table style="border-color: white ">
@@ -38,7 +38,7 @@
                     <h1><font color="#009a4d">Passion to Touch Lives</font></h1>
                 </div>
             </center>
-            <div class="row" style="width:460px; padding-top: 15px">
+            <div class="row" style="width:480px; padding-top: 10px">
                 <!--Error Validation-->
                 <%
                     String userid = "";
@@ -109,14 +109,11 @@
                     </div>
                 </form>
                 <br/>
-                
-                <!--Footer-->
-                <div class="zurb-footer-bottom">
-                    <center><font size="1" color="#666666">&copy; Ngee Ann Polytechnic. School of Health Sciences. Electronic Medical Records. All rights reserved.</font></center>
-                </div>             
-            </div>
+            </div>  
+                                    
+            <!--Footer-->
+            <center><font size="1" color="#666666">&copy; Ngee Ann Polytechnic. School of Health Sciences. Electronic Medical Records. All rights reserved.</font></center>
         </div>
-
         <!--Scripts-->
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
