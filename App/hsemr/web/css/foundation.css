@@ -1950,6 +1950,7 @@ meta.foundation-mq-topbar {
 .breadcrumbs > * {
     margin: 0;
     float: left;
+    font-weight: 400;
     font-size: 1.45rem;
     line-height: 0.6875rem;
     text-transform: uppercase;
@@ -1967,13 +1968,13 @@ meta.foundation-mq-topbar {
 .breadcrumbs > *.current:hover, .breadcrumbs > *.current:hover a, .breadcrumbs > *.current:focus, .breadcrumbs > *.current:focus a {
     text-decoration: none; }
 .breadcrumbs > *.unavailable {
-    color: #999999; }
+    color: #cccccc; }
 .breadcrumbs > *.unavailable a {
-    color: #999999; }
+    color: #cccccc; }
 .breadcrumbs > *.unavailable:hover, .breadcrumbs > *.unavailable:hover a, .breadcrumbs > *.unavailable:focus,
 .breadcrumbs > *.unavailable a:focus {
     text-decoration: none;
-    color: #999999;
+    color: #cccccc;
     cursor: default; }
 .breadcrumbs > *:before {
     content: "/";
@@ -2193,6 +2194,13 @@ meta.foundation-mq-topbar {
     margin-top: 0; }
 .panelHome > :last-child {
     margin-bottom: 0; }
+
+.panelCase {
+    margin-bottom: 1.25rem;
+    padding: 1.25rem; 
+    background: white;
+    border: 1px solid #DBDBDB;
+}
 
 .panel {
     border-color: #d8d8d8;
