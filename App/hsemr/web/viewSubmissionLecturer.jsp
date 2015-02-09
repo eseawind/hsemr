@@ -42,24 +42,21 @@
         <br/>
         <script src="js/foundation.min.js"></script>
         <div class="row" style="padding-top: 30px;">
-            <center>
-                <h1>View Submissions</h1></center>
-            <br/>
-            <div class="large-12 columns" style="padding-top: 20px;">
+            <center><h1>View Submissions</h1></center>
+            <div class="large-centered large-6 columns" style="padding-top: 10px;">
 
-                <%
-                String success = "" ; 
-                String error = "";
-                if (session.getAttribute("success") != null) {
-                    success = (String) session.getAttribute("success");
-                    session.setAttribute("success", "");
-                 }
-                
-                if (session.getAttribute("error") != null) {
-                    error = (String) session.getAttribute("error");
-                    session.setAttribute("error", "");
-                }
-                //retrieve note's information
+                <%                    String success = "";
+                    String error = "";
+                    if (session.getAttribute("success") != null) {
+                        success = (String) session.getAttribute("success");
+                        session.setAttribute("success", "");
+                    }
+
+                    if (session.getAttribute("error") != null) {
+                        error = (String) session.getAttribute("error");
+                        session.setAttribute("error", "");
+                    }
+                    //retrieve note's information
                     List<Note> notesList = NoteDAO.retrieveAll();
                     String userLoggedIn = (String) session.getAttribute("lecturer");
                     String practicalGroupID = "";
@@ -68,103 +65,88 @@
                     String dateTime = "";
                     if (notesList == null || notesList.size() == 0) {%>
 
-                    <center>No groups have entered their notes yet.</center>
+                <center>No groups have entered their notes yet.</center>
 
                 <% } else { %>
                 <form action ="ProcessRetrieveNotesByPracticalGroup" method ="POST">
                     <div class="row">
-                      <div class="small-8">
-                        <div class="row">
-                          <div class="small-3 columns">
-                            <label for="right-label" class="right">Practical Group</label>
-                          </div>
-                          <div class="small-9 columns">
-                            <select name = "practicalGroup" required>
-                                <option disabled="disabled" selected="selected" value = "">--Please select the practical group to view--</option>
-                                <% 
-                                String loggedInLecturer = (String)session.getAttribute("lecturer");
+                        <label>Practical Group</label>
+                        <select name = "practicalGroup" required>
+                            <option disabled="disabled" selected="selected" value = "">--Please select the practical group to view--</option>
+                            <%
+                                String loggedInLecturer = (String) session.getAttribute("lecturer");
                                 out.println(loggedInLecturer);
                                 List<PracticalGroup> practicalGroupList = PracticalGroupDAO.retrieveByLecturerID(loggedInLecturer);
-                                for (PracticalGroup practicalGroup : practicalGroupList) {%>
-                                <option><%=practicalGroup.getPracticalGroupID()%></option>
-                                <% }
-                                %>
-                            </select>
-                          </div>   
-                        </div>
-                      </div>
+                                    for (PracticalGroup practicalGroup : practicalGroupList) {%>
+                            <option><%=practicalGroup.getPracticalGroupID()%></option>
+                            <% }
+                            %>
+                        </select>
                     </div>
 
                     <div class="row">
-                      <div class="small-8">
-                        <div class="row">
-                          <div class="small-3 columns">
-                            <label for="right-label" class="right">Scenario Name</label>
-                          </div>
-                          <div class="small-9 columns">
-                            <select name = "scenarioName" required>
-                                <option disabled="disabled" selected="selected" value = "">--Please select the scenario to view--</option>
-                                <% 
-                                List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
-                                for (Scenario scenario : scenarioList) {%>
-                                <option><%=scenario.getScenarioName()%></option>
-                                <% }
-                                %>
-                            </select>
-                          </div>   
-                        </div>
-                      </div>
-                    </div>
-                            <center><input type ="submit" value ="View Notes" class = "button tiny"/></center>
+                        <label>Scenario Name</label>
+                        <select name = "scenarioName" required>
+                            <option disabled="disabled" selected="selected" value = "">--Please select the scenario to view--</option>
+                            <%
+                                    List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
+                                    for (Scenario scenario : scenarioList) {%>
+                            <option><%=scenario.getScenarioName()%></option>
+                            <% }
+                            %>
+                        </select>
+                    </div><br/>
+                    <center><input type ="submit" value ="View Notes" class = "button small"/></center>
                 </form>
+            </div>
 
-            
-            
-                    <%
+                <%
+                    DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
 
-                        DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-                        
-                        List<Note> retrievedNoteList = (List<Note>)request.getAttribute("retrievedNoteList");
-                        
-                        if(retrievedNoteList != null){%>
-                        <%
-                            //retrieve 1st note to get the practical group
-                            Note retrieved1Note = retrievedNoteList.get(1); 
-                            String practicalGroup = retrieved1Note.getPracticalGroupID();
-                            String scenarioName = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
-                        
-                        %>
-                            <center><h2>Submissions for <%=practicalGroup%> for <%=scenarioName%> </h2></center>
-                            <!--TABLE-->
-                            <table class="responsive" id="cssTable">
-                                <col width="15%">
-                                <col width="20%">
-                                <col width="30%">
-                                <col width="15%">
-                                <thead>
-                                    <tr>
-                                        <th>Practical Group ID</th> 
-                                        <th>Nurses In-Charge</th>
-                                        <th>Multidisciplinary Notes</th>
-                                        <th>Time Submitted</th>
-                                    </tr>
-                                </thead>
-                            <%for (Note note: retrievedNoteList) {
+                    List<Note> retrievedNoteList = (List<Note>) request.getAttribute("retrievedNoteList");
+
+                    if (retrievedNoteList != null) {%>
+                <%
+                    //retrieve 1st note to get the practical group
+                    Note retrieved1Note = retrievedNoteList.get(1);
+                    String practicalGroup = retrieved1Note.getPracticalGroupID();
+                    String scenarioName = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
+
+                %>
+                
+                 <hr>
+                <div class="large-centered large-12 columns" style="padding-top: 10px;">
+                <center><h2>Submissions for <%=practicalGroup%> for <%=scenarioName%> </h2></center>
+                <!--TABLE-->
+                <table class="responsive" id="cssTable">
+                    <col width="15%">
+                    <col width="20%">
+                    <col width="30%">
+                    <col width="15%">
+                    <thead>
+                        <tr>
+                            <th>Practical Group ID</th> 
+                            <th>Nurses In-Charge</th>
+                            <th>Multidisciplinary Notes</th>
+                            <th>Time Submitted</th>
+                        </tr>
+                    </thead>
+                    <%for (Note note : retrievedNoteList) {
 
                     %>
-                    
+
                     <tr>
-                        <td><%=note.getPracticalGroupID() %></td>
-                        <td><%=note.getGrpMemberNames() %></td>
+                        <td><%=note.getPracticalGroupID()%></td>
+                        <td><%=note.getGrpMemberNames()%></td>
                         <td><%=note.getMultidisciplinaryNote()%></td>
                         <td><%=df.format(note.getNoteDatetime())%></td>
                     </tr>
                     <%
 
+                                }
+                            }
+
                         }
-                        }
-                        
-                    }
 
 
                     %> 
@@ -176,25 +158,25 @@
                 </form>-->
             </div>
         </div>
-                    <script>
-                                    $(document).ready(function() {
-                $(document).foundation();
-                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
-                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+        <script>
+$(document).ready(function() {
+    $(document).foundation();
+    var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+    var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
-                var success1 = "<%=success%>";
-                var error1 = "<%=error%>";
-                if (success1 !== "") {
-                    humaneSuccess.log(success1);
-                } else if (error1 !== "") {
-                    humaneError.log(error1);
-                }
+    var success1 = "<%=success%>";
+    var error1 = "<%=error%>";
+    if (success1 !== "") {
+        humaneSuccess.log(success1);
+    } else if (error1 !== "") {
+        humaneError.log(error1);
+    }
 
-            });
+});
 
-                        </script>
+        </script>
         <script type="text/javascript" src="js/humane.js"></script>
     </body>
-    
+
 
 </html>
