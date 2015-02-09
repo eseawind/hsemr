@@ -59,30 +59,35 @@
                             error = "";
                         }
                     %>
+
                 <form action = "ProcessEditAccount" method = "post">
                     <br/>
-                    <!--User ID-->
-                    <label><strong>User ID</strong>
-                        <input type="text" id="userID" name="userID" value="<%=userID%>" readonly>
-                    </label>
-                    <br/>
+                    <div class="panelCase">
+                        <!--User ID-->
+                        <label><strong>User ID</strong>
+                            <input type="text" id="userID" name="userID" value="<%=userID%>" readonly>
+                        </label>
+                        <br/>
 
-                    <!--Password-->
-                    <label><strong>New Password</strong>
-                        <input type="password" id="password" name="password" required autofocus>
-                    </label>  
-                    <br/>
+                        <!--Password-->
+                        <label><strong>New Password</strong>
+                            <input type="password" id="password" name="password" required autofocus>
+                        </label>  
+                        <br/>
 
-                    <!--Confirm Password-->
-                    <label><strong>Confirm Password</strong>
-                        <input type="password" id="confirmPassword" name="confirmPassword" required>
-                    </label> 
+                        <!--Confirm Password-->
+                        <label><strong>Confirm Password</strong>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        </label>  
+                    </div>
                     <br/>
                     <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
                     <br/>
-                    <center><input type="submit" class="button tiny" value="Save"> 
-                        <input type="button" value="Cancel" class="button tiny" onClick="window.location = '<%=location%>'"/>
-                    </center>
+
+                    <center> 
+                        <input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/>
+                        <input type="submit" class="button small" value="Save"></center>
+
                 </form>
             </div>
         </div>

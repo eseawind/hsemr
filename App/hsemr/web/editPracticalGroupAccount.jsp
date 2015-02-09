@@ -64,47 +64,48 @@
                 %>
 
                 <form action = "ProcessEditAccount" method = "post">
-                    <br/>
-                    <!--User ID-->
-                    <label><strong>User ID</strong>
-                        <input type="text" id="userID" name="userID" value="<%=userID%>" readonly>
-                    </label>
-                    <br/>
+                    <div class="panelCase">
+                        <br/>
+                        <!--User ID-->
+                        <label><strong>User ID</strong>
+                            <input type="text" id="userID" name="userID" value="<%=userID%>" readonly>
+                        </label>
+                        <br/>
 
-                    <!--Password-->
-                    <label><strong>New Password</strong>
-                        <input type="password" id="password" name="password" autofocus>
-                    </label>  
-                    <br/>
-                    <!--Confirm Password-->
-                    <label><strong>Confirm Password</strong>
-                        <input type="password" id="confirmPassword" name="confirmPassword" >
-                    </label>  
-                    <br/>
-                    <!--Lecturer In-charge-->
-                    <label><strong>Lecturer-in-charge</strong>
-                        <select name="lecturerID">
-                            <%
-                                List<Lecturer> lecturerList = LecturerDAO.retrieveAll();
-                                PracticalGroup pg = PracticalGroupDAO.retrieve(userID);
-                                String lecturerID = pg.getLecturerID();
-                                for (Lecturer lecturer : lecturerList) {
+                        <!--Password-->
+                        <label><strong>New Password</strong>
+                            <input type="password" id="password" name="password" autofocus>
+                        </label>  
+                        <br/>
+                        <!--Confirm Password-->
+                        <label><strong>Confirm Password</strong>
+                            <input type="password" id="confirmPassword" name="confirmPassword" >
+                        </label>  
+                        <br/>
+                        <!--Lecturer In-charge-->
+                        <label><strong>Lecturer-in-charge</strong>
+                            <select name="lecturerID">
+                                <%
+                                    List<Lecturer> lecturerList = LecturerDAO.retrieveAll();
+                                    PracticalGroup pg = PracticalGroupDAO.retrieve(userID);
+                                    String lecturerID = pg.getLecturerID();
+                                    for (Lecturer lecturer : lecturerList) {
 
-                                    if (lecturer.getLecturerID().equals(lecturerID)) {%>
-                            <option value="<%=lecturer.getLecturerID()%>" selected><%=lecturer.getLecturerID()%></option>
-                            <% } else {%>
-                            <option value="<%=lecturer.getLecturerID()%>"><%=lecturer.getLecturerID()%></option>
-                            <%
+                                        if (lecturer.getLecturerID().equals(lecturerID)) {%>
+                                <option value="<%=lecturer.getLecturerID()%>" selected><%=lecturer.getLecturerID()%></option>
+                                <% } else {%>
+                                <option value="<%=lecturer.getLecturerID()%>"><%=lecturer.getLecturerID()%></option>
+                                <%
+                                        }
                                     }
-                                }
-                            %>
-                        </select>
-                    </label>  
-                    <br/><br/>
-
+                                %>
+                            </select>
+                        </label>  
+                    </div>
+                    <br/>
                     <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
-                    <center><input type="submit" class="button tiny" value="Save"> 
-                        <input type="button" value="Cancel" class="button tiny" onClick="window.location = '<%=location%>'"/>
+                    <center><input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/>
+                        <input type="submit" class="button small" value="Save"> 
                     </center>
                 </form>
             </div>
