@@ -2895,7 +2895,11 @@ a {
 a:hover, a:focus {
     color: #0078a0; 
     text-decoration: none;}
-a:hover2, a:focus {
+aa {
+    color: #008cba;
+    text-decoration: none;
+    line-height: inherit; }
+aa:hover, aa:focus {
     color: #0078a0; 
     text-decoration: underline;}
 a img {
