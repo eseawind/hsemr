@@ -39,8 +39,6 @@
             <li><a href="editReportDocument.jsp">Edit Report and Document </a></li>
         </ul><br/>
 
-    <center><h1>Edit Medication</h1></center>
-
     <%             //for printing of error/success messages
         String success = "";
         String error = "";
@@ -404,7 +402,7 @@
             <br>
             <br>
             <center>
-                <input type = "submit" Value ="Save and Proceed" class="button tiny"></center>
+                <input type = "submit" Value ="Save and Proceed  >>" class="button small"></center>
         </form>
     </div>
     <script src="js/vendor/jquery.js"></script>
