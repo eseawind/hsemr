@@ -66,7 +66,7 @@
                     if (notesList == null || notesList.size() == 0) {%>
 
                 <center>No groups have entered their notes yet.</center>
-
+                  <form action="ProcessExportPDF" method="POST">
                 <% } else { %>
                 <form action ="ProcessRetrieveNotesByPracticalGroup" method ="POST">
                     <div class="row">
@@ -144,18 +144,17 @@
                     <%
 
                                 }
-                            }
-
-                        }
-
-
+                            }%>
+                <br>
+                    <input type="submit" class="report-despatch button tinytable" value="Export to PDF">
+                </form>
+                    <%   
+                        }//end of else
                     %> 
 
                 </table>
-                <!--<form action="ProcessExportPDF" method="POST">
-                    <br>
-                    <input type="submit" class="report-despatch button tinytable" value="Export to PDF">
-                </form>-->
+             
+                    
             </div>
         </div>
         <script>
