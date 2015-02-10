@@ -6,14 +6,6 @@
 
 package controller;
 
-import java.io.*;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.util.Date;
 
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BadElementException;
@@ -31,6 +23,18 @@ import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.ScenarioDAO;
+import entity.Note;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -55,20 +59,70 @@ public class ProcessExportPDF extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             
-            Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("c:/NPHSEMR/StudentSubmission.pdf"));
-            document.open();
-            document.add(new Paragraph("Hello world this is my first PDF"));
-            document.close();
-
             HttpSession session = request.getSession(false);
-                // to be used to determine whether to retrieve form for the first time
+            ArrayList<Note> retrievedNote= (ArrayList<Note>) session.getAttribute("notesExport");
+            
+            //retrieve 1st note to get the practical group
+            Note retrieved1Note = retrievedNote.get(0);
+            String practicalGroup = retrieved1Note.getPracticalGroupID();
+            String scenarioID = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioID();
+            String scenarioName= ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
+ 
+            Document document = new Document();
+            String fileLocation= "c:/NPHSEMR/" + practicalGroup + "for" + scenarioID + "Submission.pdf";
+            PdfWriter.getInstance(document, new FileOutputStream(fileLocation));
+            document.open();
+            
+            //Header
+            document.add(new Paragraph(practicalGroup + " Multidisciplinary Notes for " + scenarioName));
+            document.add(new Paragraph(" "));
+            
+            //Table
+            PdfPTable tableOfNotes = new PdfPTable(4);
+            PdfPCell c1 = new PdfPCell(new Phrase("Practical Group ID"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfNotes.addCell(c1);
 
+            c1 = new PdfPCell(new Phrase("Nurse In-Charge"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfNotes.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Multidisciplinary Notes"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfNotes.addCell(c1);
+            
+            c1 = new PdfPCell(new Phrase("Time submited"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfNotes.addCell(c1);
+            
+            tableOfNotes.setHeaderRows(1);
+            
+            DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+            
+            //for the content in table
+            for (Note note : retrievedNote){ 
+                tableOfNotes.addCell(note.getPracticalGroupID());
+                tableOfNotes.addCell(note.getGrpMemberNames());
+                tableOfNotes.addCell(note.getMultidisciplinaryNote());
+                tableOfNotes.addCell(df.format(note.getNoteDatetime()));
+            }
+
+            document.add(tableOfNotes);
+   
+            //close document
+            document.close();
+            
+            // to be used to determine whether to retrieve form for the first time
             response.sendRedirect("viewSubmissionLecturer.jsp");
             session.setAttribute("success", "PDF Successfully Exported");
+            
         } catch(Exception ex){
-                ex.printStackTrace();
-                out.println("An error occur when exporting"); 
+               
+            HttpSession session = request.getSession(false);
+            // to be used to determine whether to retrieve form for the first time
+            session.setAttribute("error", "PDF Exported Failed");
+            response.sendRedirect("viewSubmissionLecturer.jsp");
+            
         } finally {
             out.close();
         }

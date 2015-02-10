@@ -66,7 +66,7 @@
                     if (notesList == null || notesList.size() == 0) {%>
 
                 <center>No groups have entered their notes yet.</center>
-                  <form action="ProcessExportPDF" method="POST">
+                
                 <% } else { %>
                 <form action ="ProcessRetrieveNotesByPracticalGroup" method ="POST">
                     <div class="row">
@@ -104,11 +104,12 @@
                     DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
 
                     List<Note> retrievedNoteList = (List<Note>) request.getAttribute("retrievedNoteList");
-
-                    if (retrievedNoteList != null) {%>
+                    
+                    if (retrievedNoteList != null) {
+                %>
                 <%
                     //retrieve 1st note to get the practical group
-                    Note retrieved1Note = retrievedNoteList.get(1);
+                    Note retrieved1Note = retrievedNoteList.get(0);
                     String practicalGroup = retrieved1Note.getPracticalGroupID();
                     String scenarioName = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
 
@@ -144,17 +145,32 @@
                     <%
 
                                 }
-                            }%>
-                <br>
-                    <input type="submit" class="report-despatch button tinytable" value="Export to PDF">
-                </form>
-                    <%   
+                            }//end of if
+             
+                
                         }//end of else
                     %> 
 
                 </table>
              
+                <form action="ProcessExportPDF" method="POST">
                     
+                     <%
+                    
+                       
+                         List<Note> retrievedNoteList = (List<Note>) request.getAttribute("retrievedNoteList");
+                    
+                        //For export purpose
+                       
+                         if (retrievedNoteList != null) {
+                            //request.setAttribute("notesExport", retrievedList);
+                            session.setAttribute("notesExport", retrievedNoteList);%>
+                             <center> <input type="submit" class="report-despatch button tinytable" value="Export to PDF"> </center>
+                      <%   }%>
+                   
+                
+                   <!-- <center> <input type="submit" class="report-despatch button tinytable" value="Export to PDF"> </center> -->
+                </form>
             </div>
         </div>
         <script>
