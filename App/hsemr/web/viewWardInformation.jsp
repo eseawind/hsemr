@@ -17,7 +17,12 @@
         <link rel="stylesheet" href="css/original.css" />
         <script src="js/vendor/modernizr.js"></script>
         <%@include file="/topbar/topbar.jsp" %> 
-
+        <style type="text/css">
+            tbody tr:nth-child(even)
+            {
+                background: white;
+            }
+        </style>
         <title>View Ward Information</title>
 
     </head>
@@ -35,32 +40,31 @@
                                 out.println("<h1>No Case Activated</h1>");
                                 out.println("Please contact lecturer/ administrator.");
                             } else {%>
-                                <h1>Please select a ward:</h1>
-                                <%
-                                //String[] wards = {"Ward A", "Ward B", "Ward C"};
-                            String[] wardList = new String[]{"Simulation Lab 1", "Simulation Lab 2", "Simulation Lab 3", "Simulation Lab 4"};
-                            //String[] wardList = 
-                            for (String ward : wardList) {
-                                if (ward.equals("Simulation Lab 1")) {%>
-                        <td> <form method="POST" action="viewWard1.jsp"><input type="submit"  class="ward" value="Ward 1"/></form></td>
-                                <%} else if (ward.equals("Simulation Lab 2")) {%>
-                        <td> <form method="POST" action="viewWard2.jsp"><input type="submit"  class="ward" value="Ward 2"/></form></td>
-                                <%} else if (ward.equals("Simulation Lab 3")) {%>
-                        <td> <form method="POST" action="viewWard3.jsp"><input type="submit"  class="ward" value="Ward 3"/></form></td>
-                                <%} else {%>
-                        <td> <form method="POST" action="viewWard4.jsp"><input type="submit"  class="ward" value="Ward 4"/></form></td>
-                                <%}%>
-
-                        <%}
-
-
-                        %>
-                    </tr>
-                </table>
-                                
+                    <h1>Please select a ward:</h1>
+                    <%
+                        //String[] wards = {"Ward A", "Ward B", "Ward C"};
+                        String[] wardList = new String[]{"Simulation Lab 1", "Simulation Lab 2", "Simulation Lab 3", "Simulation Lab 4"};
+                        //String[] wardList = 
+                                    for (String ward : wardList) {
+                                        if (ward.equals("Simulation Lab 1")) {%>
+                    <td> <form method="POST" action="viewWard1.jsp"><input type="submit"  class="ward" value="Ward 1"/></form></td>
+                            <%} else if (ward.equals("Simulation Lab 2")) {%>
+                    <td> <form method="POST" action="viewWard2.jsp"><input type="submit"  class="ward" value="Ward 2"/></form></td>
+                            <%} else if (ward.equals("Simulation Lab 3")) {%>
+                    <td> <form method="POST" action="viewWard3.jsp"><input type="submit"  class="ward" value="Ward 3"/></form></td>
+                            <%} else {%>
+                    <td> <form method="POST" action="viewWard4.jsp"><input type="submit"  class="ward" value="Ward 4"/></form></td>
                             <%}%>
 
-                            
+                    <%}
+
+                    %>
+                    </tr>
+                </table>
+
+                <%}%>
+
+
             </div>
         </div>
     </center>

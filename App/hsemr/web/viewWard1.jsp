@@ -20,7 +20,12 @@
         <link rel="stylesheet" href="css/original.css" />
         <script src="js/vendor/modernizr.js"></script>
         <%@include file="/topbar/topbar.jsp" %> 
-
+        <style type="text/css">
+            tbody tr:nth-child(even)
+            {
+                background: white;
+            }
+        </style>
     </head>
     <body>
     <center>
@@ -28,7 +33,7 @@
 
             <h1>Please select a bed in <font style="font-weight:300">Ward 1</font>:</h1>
             <div class="large-12 columns" style="padding-top: 20px;"> 
-                <table style ="border-spacing:5px; border:none">    
+                <table style ="border-spacing:5px; border:none;"> 
                     <%
                         List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
 

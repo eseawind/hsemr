@@ -20,7 +20,12 @@
         <link rel="stylesheet" href="css/original.css" />
         <script src="js/vendor/modernizr.js"></script>
         <%@include file="/topbar/topbar.jsp" %> 
-
+        <style type="text/css">
+            tbody tr:nth-child(even)
+            {
+                background: white;
+            }
+        </style>
     </head>
     <body>
     <center>
