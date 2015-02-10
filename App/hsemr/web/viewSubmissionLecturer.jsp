@@ -66,58 +66,60 @@
                     if (notesList == null || notesList.size() == 0) {%>
 
                 <center>No groups have entered their notes yet.</center>
-                
+
                 <% } else { %>
                 <form action ="ProcessRetrieveNotesByPracticalGroup" method ="POST">
                     <div class="row">
-                        <label>Practical Group</label>
-                        <select name = "practicalGroup" required>
-                            <option disabled="disabled" selected="selected" value = "">--Please select the practical group to view--</option>
-                            <%
-                                String loggedInLecturer = (String) session.getAttribute("lecturer");
-                                out.println(loggedInLecturer);
-                                List<PracticalGroup> practicalGroupList = PracticalGroupDAO.retrieveByLecturerID(loggedInLecturer);
+                        <label>Practical Group
+                            <select name = "practicalGroup" required>
+                                <option disabled="disabled" selected="selected" value = "">--Please select the practical group to view--</option>
+                                <%
+                                    String loggedInLecturer = (String) session.getAttribute("lecturer");
+                                    out.println(loggedInLecturer);
+                                    List<PracticalGroup> practicalGroupList = PracticalGroupDAO.retrieveByLecturerID(loggedInLecturer);
                                     for (PracticalGroup practicalGroup : practicalGroupList) {%>
-                            <option><%=practicalGroup.getPracticalGroupID()%></option>
-                            <% }
-                            %>
-                        </select>
+                                <option><%=practicalGroup.getPracticalGroupID()%></option>
+                                <% }
+                                %>
+                            </select>
+                        </label>
                     </div>
 
                     <div class="row">
-                        <label>Scenario Name</label>
-                        <select name = "scenarioName" required>
-                            <option disabled="disabled" selected="selected" value = "">--Please select the scenario to view--</option>
-                            <%
+                        <label>Scenario Name
+                            <select name = "scenarioName" required>
+                                <option disabled="disabled" selected="selected" value = "">--Please select the scenario to view--</option>
+                                <%
                                     List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
                                     for (Scenario scenario : scenarioList) {%>
-                            <option><%=scenario.getScenarioName()%></option>
-                            <% }
-                            %>
-                        </select>
+                                <option><%=scenario.getScenarioName()%></option>
+                                <% }
+                                %>
+                            </select>
+                        </label>
                     </div><br/>
                     <center><input type ="submit" value ="View Notes" class = "button small"/></center>
                 </form>
             </div>
 
-                <%
-                    DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+            <%
+                DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
 
-                    List<Note> retrievedNoteList = (List<Note>) request.getAttribute("retrievedNoteList");
-                    
-                    if (retrievedNoteList != null) {
-                %>
-                <%
-                    //retrieve 1st note to get the practical group
-                    Note retrieved1Note = retrievedNoteList.get(0);
-                    String practicalGroup = retrieved1Note.getPracticalGroupID();
-                    String scenarioName = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
+                List<Note> retrievedNoteList = (List<Note>) request.getAttribute("retrievedNoteList");
 
-                %>
-                
-                 <hr>
-                <div class="large-centered large-12 columns" style="padding-top: 10px;">
-                <center><h2>Submissions for <%=practicalGroup%> for <%=scenarioName%> </h2></center>
+                if (retrievedNoteList != null) {
+            %>
+            <%
+                //retrieve 1st note to get the practical group
+                Note retrieved1Note = retrievedNoteList.get(0);
+                String practicalGroup = retrieved1Note.getPracticalGroupID();
+                String scenarioName = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
+
+            %>
+
+            <hr>
+            <div class="large-centered large-12 columns" style="padding-top: 10px;">
+                <center><h3>Submissions for <%=practicalGroup%> for <%=scenarioName%> </h3></center><br/>
                 <!--TABLE-->
                 <table class="responsive" id="cssTable">
                     <col width="15%">
@@ -143,51 +145,44 @@
                         <td><%=df.format(note.getNoteDatetime())%></td>
                     </tr>
                     <%
-
                                 }
                             }//end of if
-             
-                
+
                         }//end of else
                     %> 
 
                 </table>
-             
+                <br/><br/>
                 <form action="ProcessExportPDF" method="POST">
-                    
-                     <%
-                    
-                       
-                         List<Note> retrievedNoteList = (List<Note>) request.getAttribute("retrievedNoteList");
-                    
+                    <%
+                        List<Note> retrievedNoteList = (List<Note>) request.getAttribute("retrievedNoteList");
+
                         //For export purpose
-                       
-                         if (retrievedNoteList != null) {
+                        if (retrievedNoteList != null) {
                             //request.setAttribute("notesExport", retrievedList);
                             session.setAttribute("notesExport", retrievedNoteList);%>
-                             <center> <input type="submit" class="report-despatch button tinytable" value="Export to PDF"> </center>
-                      <%   }%>
-                   
-                
-                   <!-- <center> <input type="submit" class="report-despatch button tinytable" value="Export to PDF"> </center> -->
+                    <center> <input type="submit" class="button small" value="Export to PDF"> </center>
+                        <%   }%>
+                    <!-- <center> <input type="submit" class="report-despatch button tinytable" value="Export to PDF"> </center> -->
                 </form>
             </div>
         </div>
+
         <script>
-$(document).ready(function() {
-    $(document).foundation();
-    var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
-    var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+            $(document).ready(function() {
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
-    var success1 = "<%=success%>";
-    var error1 = "<%=error%>";
-    if (success1 !== "") {
-        humaneSuccess.log(success1);
-    } else if (error1 !== "") {
-        humaneError.log(error1);
-    }
+                var success1 = "<%=success%>";
+                var error1 = "<%=error%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                } else if (error1 !== "") {
+                    humaneError.log(error1);
+                }
 
-});
+            });
 
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
