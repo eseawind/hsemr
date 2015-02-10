@@ -56,7 +56,7 @@
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center>
-                    <h1>Select case to reset:</h1>
+                    <h1>Select case to reset</h1>
                     <br/>
                     <%  //Retrieve all the successful messages 
                         String success = "";
