@@ -57,10 +57,13 @@
             <form action = "ProcessAddState" method = "POST">
                 <div class="panelCase">
                     <div class="row">
-                        <label>State Description</label>
-                        <input type="text" name="stateDescription" value = "" required>
-                        <label>Healthcare Provider's Order</label>
-                        <textarea style = "resize:vertical"  name="doctorOrderForState" rows="5" cols="10" placeholder ="" required></textarea>
+                        <label>State Description
+                            <input type="text" name="stateDescription" value = "" required>
+                        </label>
+
+                        <label>Healthcare Provider's Order
+                            <textarea style = "resize:vertical"  name="doctorOrderForState" rows="5" cols="10" placeholder ="" required></textarea>
+                        </label>
                     </div>
 
                     <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>">
@@ -68,8 +71,7 @@
                 </div>
                 <center><input type="submit" value="Create State" class="button small"></center>
             </form>
-
-
+                
             <div class="panelCase">
                 <!--Display states that are in the database-->
                 <% if (stateList == null || stateList.size() - 1 == 0 || stateList.size() - 1 == -1) {

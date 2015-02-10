@@ -84,25 +84,29 @@
 
                     <form action = "ProcessReportUpload" method = "POST" enctype = "multipart/form-data"> 
                         <div class="panelCase">
-                            <label>State</label>
-                            <select name = "stateID" required>
-                                <option disabled="disabled" selected="selected" value = "">--Please select the state that this report will be tag to--</option>
-                                <%                             for (State state : stateList) {%>
-                                <option><%=state.getStateID()%></option>
-                                <% }
-                                %>
-                            </select>
+                            <label>State
+                                <select name = "stateID" required>
+                                    <option disabled="disabled" selected="selected" value = "">--Please select the state that this report will be tag to--</option>
+                                    <%                             for (State state : stateList) {%>
+                                    <option><%=state.getStateID()%></option>
+                                    <% }
+                                    %>
+                                </select>
+                            </label>
 
-                            <label>Report Name</label>
-                            <input type="text" name="reportName" required/>
+                            <label>Report Name
+                                <input type="text" name="reportName" required/>
+                            </label>
 
-                            <label>Please ensure that your file is named to what you want it to be shown.</label><br>
-                            <input type ="file" name = "file" required /><br>
-                            <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>"/>
+                            <label>Please ensure that your file is named to what you want it to be shown.<br/>
+                                <input type ="file" name = "file" required /><br>
+                                <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>"/>
+                            </label>
                         </div>
                         <center><input type ="submit" class ="button small" value ="Upload Report"></center>
                     </form> 
                 </div>
+
                 <a class="close-reveal-modal">&#215;</a>
             </div>
 
@@ -144,14 +148,16 @@
 
                     <form action = "ProcessDocumentUpload" method = "POST" enctype = "multipart/form-data"> 
                         <div class="panelCase">
-                            <label>Document Name</label>
-                            <input type="text" name="documentName" required/>
-
-                            <label>Please ensure that your file is named to what you want it to be shown.</label><br>
-                            <input type ="file" name = "file" required /><br>
-                            <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>"/>
+                            <label>Document Name
+                                <input type="text" name="documentName" required/>
+                            </label>
+                            <label>Please ensure that your file is named to what you want it to be shown.<br/>
+                                <input type ="file" name = "file" required /><br>
+                                <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>"/>
+                            </label>
                         </div>
                         <center><input type ="submit" class ="button small" value ="Upload Document"></center>
+
                     </form>  
                 </div> 
                 <a class="close-reveal-modal">&#215;</a>

@@ -93,82 +93,90 @@
                     <div class="panelCase">
                         <div class="row">
                             <div class="large-6 columns">
-                                <label>State</label>
-                                <select name = "stateID" required>
-                                    <option disabled="disabled" selected="selected" value = "">--Please select--</option>
-                                    <%
+                                <label>State
+                                    <select name = "stateID" required>
+                                        <option disabled="disabled" selected="selected" value = "">--Please select--</option>
+                                        <%
                                         for (State state : stateList) {%>
-                                    <option><%=state.getStateID()%></option>
-                                    <% }
-                                    %>
-                                </select>
+                                        <option><%=state.getStateID()%></option>
+                                        <% }
+                                        %>
+                                    </select>
+                                </label>
                             </div>
 
                             <div class="large-6 columns">
-                                <label>Discontinue State</label>
-                                <select name = "discontinueStateID" required>
-                                    <option disabled="disabled" selected="selected" value = "">--Please select--</option>
-                                    <%
+                                <label>Discontinue State
+                                    <select name = "discontinueStateID" required>
+                                        <option disabled="disabled" selected="selected" value = "">--Please select--</option>
+                                        <%
                                         for (State state : stateList) {%>
-                                    <option><%=state.getStateID()%></option>
-                                    <% }
-                                    %>
-                                </select>
+                                        <option><%=state.getStateID()%></option>
+                                        <% }
+                                        %>
+                                    </select>
+                                </label>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="large-4 columns">
-                                <label>Medicine Name</label>
-                                <select name="medicineName" required>
-                                    <option disabled="disabled" selected="selected" value = "">--Please select--</option>
-                                    <%
+                                <label>Medicine Name
+                                    <select name="medicineName" required>
+                                        <option disabled="disabled" selected="selected" value = "">--Please select--</option>
+                                        <%
                                         for (Medicine medicine : medicineList) {%>
-                                    <option><%=medicine.getMedicineName()%></option>
-                                    <%}
-                                    %>
-                                </select>
+                                        <option><%=medicine.getMedicineName()%></option>
+                                        <%}
+                                        %>
+                                    </select>
+                                </label>
                             </div>
 
 
                             <div class="large-4 columns">  
-                                <label>Route</label>
-                                <select name="route" required>
-                                    <option disabled="disabled" selected="selected" value = "">--Please select--</option>
-                                    <%
-                                        List<Route> routeList = RouteDAO.retrieveAll();
-                                        for (Route route : routeList) {
-                                    %>
-                                    <option><%=route.getRouteAbbr()%></option>
-                                    <%}%>
-                                </select>
+                                <label>Route
+                                    <select name="route" required>
+                                        <option disabled="disabled" selected="selected" value = "">--Please select--</option>
+                                        <%
+                                            List<Route> routeList = RouteDAO.retrieveAll();
+                                            for (Route route : routeList) {
+                                        %>
+                                        <option><%=route.getRouteAbbr()%></option>
+                                        <%}%>
+                                    </select>
+                                </label>
                             </div>
 
                             <div class="large-4 columns"> 
-                                <label>Frequency</label>
-                                <select name="frequency" required>
-                                    <option disabled="disabled" selected="selected" value = "">--Please select--</option>
-                                    <%
-                                        for (Frequency freq : freqList) {
-                                            //out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
-%>
-                                    <option><%=freq.getFreqAbbr()%></option>
-                                    <%}
-                                    %>
-                                </select>
+                                <label>Frequency
+                                    <select name="frequency" required>
+                                        <option disabled="disabled" selected="selected" value = "">--Please select--</option>
+                                        <%
+                                            for (Frequency freq : freqList) {
+                                                //out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
+                                        %>
+                                        <option><%=freq.getFreqAbbr()%></option>
+                                        <%}
+                                        %>
+                                    </select>
+                                </label>
                             </div>
                         </div>
                     </div>
 
                     <div class="panelCase">
-                        <label>Doctor's Name/MCR No.</label>
-                        <input type="text" name="doctorName" value="Dr.Tan/01234Z" required>
-
-                        <label> Doctor's Order </label>
-                        <input type="text" name="doctorOrder" required>
-
-                        <label>Dosage</label>
-                        <input type="text" name="dosage" required>
+                        <label>Doctor's Name/MCR No.
+                            <input type="text" name="doctorName" value="Dr.Tan/01234Z" required>
+                        </label>
+                        
+                        <label> Doctor's Order 
+                            <input type="text" name="doctorOrder" required>
+                        </label>
+                        
+                        <label>Dosage
+                            <input type="text" name="dosage" required>
+                        </label>
                     </div>
                     <center><input type="submit" value="Create Medication" class="button small"></center> 
             </form>
@@ -178,7 +186,7 @@
                 <center>
                     <%  List<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID);
                         if (prescriptionList == null || prescriptionList.size() == 0) {
-                            out.println("<h3>" + "There are no medication created yet." + "</h3>");
+                            out.println("There are no medication created yet.");
 
                         } else {
                             out.print("<h3>Medication(s) Created</h3>");
