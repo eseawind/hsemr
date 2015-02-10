@@ -207,6 +207,11 @@ public class VitalDAO {
         }
         return vitalsList;
     }
+    
+ 
+    
+    
+    
 
     public static List<Date> retrieveLatestDateTime(String scenarioID) {
         Connection conn = null;

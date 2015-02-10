@@ -54,10 +54,16 @@
         <script src="js/foundation.min.js"></script>
 
         <!--RESPONSIVE. WEB VERSION HERE-->
+        
+        
         <div class="hide-for-small-only">
             <div align ="center">
                 <div class="large-centered large-11 columns">
+                    
+                    
                     <%
+                    
+                 
                         String active = active = (String) session.getAttribute("active");
                         String success = "";
                         String error = "";
@@ -87,6 +93,9 @@
 
                         String stateID = retrieveScenarioState.getStateID();
                         String scenarioID = scenarioActivated.getScenarioID();
+                        
+                       
+                        
                         session.setAttribute("scenarioID", scenarioID);
 
                         //retrieve case's information
@@ -442,7 +451,7 @@
                                         <td><div class="row">
                                                 <div class="small-4 columns" style="width:200px">
                                                     <!--validates between 0 - 200-->
-                                                    <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]|[1-9][0-9]|[1][0-9][0-9]|30[0-0])$" value="<%=HR1%>"/>
+                                                    <input type="text" name ="HR" maxlength ="3" pattern ="^([0-9]{1,2}|1[0-9]{2}|200)$" value="<%=HR1%>"/>
                                                     <small class="error">Heart Rate must be between 0 - 200.</small>
                                                 </div>
                                                 <label for="right-label" class="left inline">beats/min</label>
@@ -1103,16 +1112,15 @@
                                                 <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
 
                                                 <div class ="show-for-small-only">
+                                            
                                                     <%
-                                                        if (scenarioActivated == null) {
-
-                                                    %> 
-
-                                                    <h1>No Case Activated</h1>
-                                                    Please contact administrator/lecturer for case activation.
-
-                                                    <%                } else {
-
+                                                        if (scenarioActivated == null) {%>
+                                                            
+                                                          <h1>No Case Activated</h1>
+                                                          Please contact lecturer/administrator.
+                                                        
+                                                        <%} else {
+                                                         
                                                         //get the most recently activated scenario's state
                                                         retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
 
@@ -1149,7 +1157,7 @@
 
                                                     <dl class="accordion" data-accordion>
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panel1">Patient Information</a>
+                                                            <a href="#panel1">Patient's Information</a>
                                                             <div id="panel1" class="content active">
                                                                 <ul class="pricing-table">
                                                                     <li class="price"><%=fullName%></li>
@@ -1160,15 +1168,21 @@
                                                                 </ul>
                                                             </div>
                                                         </dd>
-
+                                                        <dd class="accordion-navigation">
+                                                            <a href="#panel2">Admission Notes</a>
+                                                            <div id="panel2" class="content">
+                                                                <%=scenarioActivated.getAdmissionNote()%>
+                                                            </div>
+                                                        </dd>
+                                                        
                                                         <dd class="accordion-navigation">
                                                             <a href="#panel7">Investigations</a>
                                                             <div id="panel7" class="content">
                                                                 <ul class="pricing-table">
                                                                     <li class="price">Despatched Reports</li>
                                                                         <%
-                                                                            List<Report> reportList = ReportDAO.retrieveDespatchedReportsByState(scenarioID, stateID);
-                                                                            DateFormat dateFormatterForReport = new SimpleDateFormat("DD MMMM hh:mm a");
+                                                                            List<Report> reportList = ReportDAO.retrieveDespatchedReportsByScenario(scenarioID);
+                                                                            DateFormat dateFormatterForReport = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                                                                             if (reportList == null || reportList.size() == 0) {
                                                                                 out.println("<center>There are no records at the moment</center>");
@@ -1191,17 +1205,32 @@
                                                             </div>
                                                         </dd>
 
-                                                        <dd class="accordion-navigation">
-                                                            <a href="#panel2">Admission Information</a>
-                                                            <div id="panel2" class="content">
-                                                                <%=scenarioActivated.getAdmissionNote()%>
-                                                            </div>
-                                                        </dd>
+                                                        
 
                                                         <dd class="accordion-navigation">
                                                             <a href="#panel3">Clinical Charts</a>
                                                             <div id="panel3" class="content">
+                                                                
+                                                                <ul class="pricing-table">
+                                                                    <li class="price">Last Updated Vitals</li>        
+                                                                    Historical vital signs are only available in web version.   
+                                                                    <%
+                                                                                                   
+                                                                            List<Vital> vitalList = VitalDAO.retrieveAllVitalByScenarioID(scenarioID);
+                                                                            if(vitalList != null){
+                
+                                                                            %>
+                                                                            <li class="bullet-item">Temperature - <%=vitalList.get(vitalList.size()-1).getTemperature() %></li>  
+                                                                            <li class="bullet-item">Respiratory Rate - <%=vitalList.get(vitalList.size()-1).getRr()%></li>  
+                                                                            <li class="bullet-item">Heart Rate - <%=vitalList.get(vitalList.size()-1).getHr()%></li>  
+                                                                            <li class="bullet-item">BP(Systolic) - <%=vitalList.get(vitalList.size()-1).getBpSystolic()%></li>  
+                                                                            <li class="bullet-item">BP(Diastolic) - <%=vitalList.get(vitalList.size()-1).getBpDiastolic()%></li>  
+                                                                            <li class="bullet-item">SpO<sub>2</sub> - <%=vitalList.get(vitalList.size()-1).getSpo()%></li>  
+                                                                            <%}%>
+                                                                    
 
+                                                                </ul>  
+                                                                
                                                                 <ul class="pricing-table">
                                                                     <li class="price">Intake - Oral</li>        
                                                                         <%
@@ -1209,14 +1238,14 @@
                                                                             if (intakeOralList == null || intakeOralList.size() == 0) {
                                                                                 out.println("<center>There are no records at the moment</center>");
                                                                             } else {
-                                                                                DateFormat dateFormatterForIntake = new SimpleDateFormat("DD MMMM hh:mm a");
+                                                                                DateFormat dateFormatterForIntake = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                                                                                 for (Vital intakeOutput : intakeOralList) {
-                                                                                    String medicationHistoryInformation = dateFormatterForIntake.format(intakeOutput.getVitalDatetime()) + " | " + intakeOutput.getOralType() + " | " + intakeOutput.getOralAmount();
+                                                                                    String medicationHistoryInformation =  intakeOutput.getOralType() + " | " + intakeOutput.getOralAmount();
 
                                                                         %>
 
-                                                                    <li class="bullet-item"><%=medicationHistoryInformation%></li>
+                                                                    <li class="bullet-item"><b><%=dateFormatterForIntake.format(intakeOutput.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
                                                                         <% }
                                                                             } %>
 
@@ -1230,14 +1259,14 @@
                                                                             if (intakeIntravenousList == null || intakeIntravenousList.size() == 0) {
                                                                                 out.println("<center>There are no records at the moment</center>");
                                                                             } else {
-                                                                                DateFormat dateFormatterForIntakeIntra = new SimpleDateFormat("DD MMMM hh:mm a");
+                                                                                DateFormat dateFormatterForIntakeIntra = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                                                                                 for (Vital intakeIntravenous : intakeIntravenousList) {
-                                                                                    String medicationHistoryInformation = dateFormatterForIntakeIntra.format(intakeIntravenous.getVitalDatetime()) + " | " + intakeIntravenous.getIntravenousType() + " | " + intakeIntravenous.getIntravenousAmount();
+                                                                                    String medicationHistoryInformation =  intakeIntravenous.getIntravenousType() + " | " + intakeIntravenous.getIntravenousAmount();
 
                                                                         %>
 
-                                                                    <li class="bullet-item"><%=medicationHistoryInformation%></li>
+                                                                    <li class="bullet-item"><b><%=dateFormatterForIntakeIntra.format(intakeIntravenous.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
                                                                         <% }
                                                                             } %>
 
@@ -1250,39 +1279,41 @@
                                                                             if (outputList == null || outputList.size() == 0) {
                                                                                 out.println("<center>There are no records at the moment</center>");
                                                                             } else {
-                                                                                DateFormat dateFormatterForOutput = new SimpleDateFormat("DD MMMM hh:mm a");
+                                                                                DateFormat dateFormatterForOutput = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                                                                                 for (Vital output : outputList) {
-                                                                                    String medicationHistoryInformation = dateFormatterForOutput.format(output.getVitalDatetime()) + " | " + output.getOutput();
+                                                                                    String medicationHistoryInformation =  output.getOutput();
 
                                                                         %>
 
-                                                                    <li class="bullet-item"><%=medicationHistoryInformation%></li>
+                                                                    <li class="bullet-item"><b><%=dateFormatterForOutput.format(output.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
                                                                         <% }
                                                                             } %>
 
                                                                 </ul>  
                                                             </div>
                                                         </dd>
-
+                                                      
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panel4">Medication</a>
+                                                            <a href="#panel4">Medication History</a>
                                                             <div id="panel4" class="content">
+                                                                Sorry, you have no access to medication. Medication is only available in the web. 
                                                                 <ul class="pricing-table">
+                                                                    
                                                                     <li class="price">Medication History</li>           
                                                                         <%
                                                                             List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAll(scenarioID);
                                                                             if (medicationHistoryList == null || medicationHistoryList.size() == 0) {
                                                                                 out.println("<center>There are no records at the moment</center>");
                                                                             } else {
-                                                                                DateFormat dateFormatterForMedicationHistory = new SimpleDateFormat("DD MMMM hh:mm a");
+                                                                                DateFormat dateFormatterForMedicationHistory = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                                                                                 for (MedicationHistory medicationHistory : medicationHistoryList) {
-                                                                                    String medicationHistoryInformation = dateFormatterForMedicationHistory.format(medicationHistory.getMedicineDatetime()) + " | " + medicationHistory.getMedicineBarcode() + " | " + session.getAttribute("nurse");
+                                                                                    String medicationHistoryInformation = medicationHistory.getMedicineBarcode() + " | " + session.getAttribute("nurse");
 
                                                                         %>
 
-                                                                    <li class="bullet-item"><%=medicationHistoryInformation%></li>
+                                                                    <li class="bullet-item"><b><%=dateFormatterForMedicationHistory.format(medicationHistory.getMedicineDatetime())%></b><br><%=medicationHistoryInformation%></li>
                                                                         <% }
                                                                             } %>
 
@@ -1290,23 +1321,75 @@
 
                                                                 <ul class="pricing-table">
                                                                     <li class="price">Doctor's Order</li>
-
-                                                                    <%
-                                                                        ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
-
-                                                                        if (medicinePrescriptionList != null || medicinePrescriptionList.size() != 0) {
-                                                                            out.println("<center>There are no records at the moment</center>");
+                                                                    
+                                                                    <%if (StateHistoryDAO.retrieveAll().isEmpty()) {
+                                                                        StateHistoryDAO.addStateHistory(scenarioID, stateID);
+                                                                    }
+                                                                    HashMap<String, String> activatedStates = StateHistoryDAO.retrieveAll();
+                                                                    // to store reports of all activated states
+                                                                    HashMap<List<Report>, String> stateReportsHM = new HashMap<List<Report>, String>();
+                                                                    // remove duplicates
+                                                                    List<String> tempList = new ArrayList<String>();
+                                                                    // remove duplicates and add reports of that state into array reports
+                                                                    for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
+                                                                        String state = entry.getKey();
+                                                                        if (tempList.size() == 0) {
+                                                                            tempList = new ArrayList<String>();
+                                                                        }
+                                                                        if (tempList.contains(state)) {
+                                                                            activatedStates.remove(state);
                                                                         } else {
-                                                                            for (MedicinePrescription medicinePrescription : medicinePrescriptionList) {
+                                                                            tempList.add(state);
+                                                                            List<Report> reports = ReportDAO.retrieveReportsByState(scenarioID, state);
+                                                                            String doctorOrderTime = entry.getValue();
+                                                                            if (reports != null && reports.size() != 0) {
+                                                                                stateReportsHM.put(reports, doctorOrderTime);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    
+                                                                    
+                                                                        LinkedHashMap<List<Prescription>, String> stateDoctorOrderHM = new LinkedHashMap<List<Prescription>, String>();
+                                                                        for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
 
-                                                                                String medicineBarcodeToRetrieve = medicinePrescription.getMedicineBarcode();
+                                                                            String state = entry.getKey();
+                                                                            List<Prescription> prescriptions = PrescriptionDAO.retrieveOnlyNA(scenarioID, state);
+                                                                            String doctorOrderTime = entry.getValue();
+                                                                            if (prescriptions != null && prescriptions.size() != 0) {
+                                                                                stateDoctorOrderHM.put(prescriptions, doctorOrderTime);
+                                                                            }
+                                                                        }
+                                                                        if (stateDoctorOrderHM != null && stateDoctorOrderHM.size() != 0) {
+                                                                 
+                                                                            for (Map.Entry<List<Prescription>, String> entry : stateDoctorOrderHM.entrySet()) {
+                                                                                List<Prescription> prescriptions = entry.getKey();
 
-                                                                                Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateID, medicineBarcodeToRetrieve);
-                                                                                String doctorOrder = prescription.getDoctorOrder();%>
-                                                                    <li class="bullet-item"><%=doctorOrder%></li>
-                                                                        <%}
+                                                                                // if needed to display:
+                                                                                String doctorOrderTime = entry.getValue();
+
+                                                                                for (Prescription prescription : prescriptions) {
+                                                                                    String doctorName = prescription.getDoctorName();
+                                                                                    String doctorOrder = prescription.getDoctorOrder();
+                                                                        %>
+                                                                       
+                                                                        
+                                                                        <li class="bullet-item"><b><%=doctorOrderTime%></b><br> <%=doctorOrder%></li>
+                                                                        <%
+                                                                                }
                                                                             }
                                                                         %>
+
+                                                                  
+
+                                                                    <%
+                                                                        }else{%>
+                                                                            <li class="bullet-item">There are no records at the moment</li>
+                                                                        <%   
+                                                                        }
+                                                                    %>    
+                                                                    
+                                                                    
+
 
 
                                                                 </ul>
@@ -1325,13 +1408,13 @@
                                                                         if (notesRetrieved == null || notesRetrieved.size() == 0) {
                                                                             out.println("<center>There are no records at the moment</center>");
                                                                         } else {
-                                                                            DateFormat df = new SimpleDateFormat("DD MMMM hh:mm a");
+                                                                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                                                                             for (Note note : notesRetrieved) {
                                                                                 String multidisciplinaryNotes = note.getMultidisciplinaryNote();
-                                                                                String multidisciplinaryNotesToPrint = df.format(note.getNoteDatetime()) + " - " + multidisciplinaryNotes;
+                                                                                
                                                                     %>
-                                                                    <li class="bullet-item"><%=multidisciplinaryNotesToPrint%></li>  
+                                                                    <li class="bullet-item"><b><%=df.format(note.getNoteDatetime())%></b><br> | <%=multidisciplinaryNotes%></li>  
 
                                                                     <%}
 
@@ -1374,7 +1457,7 @@
                                                         <%}%>   
                                                 </div>
 
-                                                <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
+                                                <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
 
 
                                                 <script>
