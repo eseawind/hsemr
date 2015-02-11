@@ -91,7 +91,7 @@
                             stateNumber.replace("ST", "State ");
                             String stateDesc = stateNumber.replace("ST", "State ") + " - " + stateName;%>
 
-                <a href="#" class="button casecreationbutton tiny"><%=stateDesc%></a>
+                 <input type = "submit" class="casecreationbutton tiny" value="<%=stateDesc%>" disabled>
                 <%}
 
                         }

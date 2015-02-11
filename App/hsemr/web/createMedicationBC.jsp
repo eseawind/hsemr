@@ -13,10 +13,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+
         <!--Web Title-->
         <title>EMR | Case Management | Create Case | Manual | Medication Creation</title>
-        
+
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
         <link rel="stylesheet" href="css/original.css" />
@@ -99,7 +99,7 @@
                                     <select name = "stateID" required>
                                         <option disabled="disabled" selected="selected" value = "">--Please select--</option>
                                         <%
-                                        for (State state : stateList) {%>
+                                            for (State state : stateList) {%>
                                         <option><%=state.getStateID()%></option>
                                         <% }
                                         %>
@@ -112,7 +112,7 @@
                                     <select name = "discontinueStateID" required>
                                         <option disabled="disabled" selected="selected" value = "">--Please select--</option>
                                         <%
-                                        for (State state : stateList) {%>
+                                            for (State state : stateList) {%>
                                         <option><%=state.getStateID()%></option>
                                         <% }
                                         %>
@@ -127,7 +127,7 @@
                                     <select name="medicineName" required>
                                         <option disabled="disabled" selected="selected" value = "">--Please select--</option>
                                         <%
-                                        for (Medicine medicine : medicineList) {%>
+                                            for (Medicine medicine : medicineList) {%>
                                         <option><%=medicine.getMedicineName()%></option>
                                         <%}
                                         %>
@@ -157,7 +157,7 @@
                                         <%
                                             for (Frequency freq : freqList) {
                                                 //out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
-                                        %>
+%>
                                         <option><%=freq.getFreqAbbr()%></option>
                                         <%}
                                         %>
@@ -171,11 +171,11 @@
                         <label>Doctor's Name/MCR No.
                             <input type="text" name="doctorName" value="Dr.Tan/01234Z" required>
                         </label>
-                        
+
                         <label> Doctor's Order 
                             <input type="text" name="doctorOrder" required>
                         </label>
-                        
+
                         <label>Dosage
                             <input type="text" name="dosage" required>
                         </label>
@@ -185,28 +185,27 @@
 
             <div class="panelCase">              
                 <!--Display medication that are in the database-->
-                <center>
-                    <%  List<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID);
-                        if (prescriptionList == null || prescriptionList.size() == 0) {
-                            out.println("There are no medication created yet.");
+                <%  List<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID);
+                    if (prescriptionList == null || prescriptionList.size() == 0) {
+                        out.println("There are no medication created yet.");
 
-                        } else {
-                            out.print("<h3>Medication(s) Created</h3>");
-                    %>
+                    } else {
+                        out.print("<center><h3>Medication(s) Created</h3></center>");
+                %>
 
-                    <%for (Prescription prescription : prescriptionList) {
-                            String stateNumber = prescription.getStateID();
-                            String doctorOrder = prescription.getDoctorOrder();
+                <%for (Prescription prescription : prescriptionList) {
+                        String stateNumber = prescription.getStateID();
+                        String doctorOrder = prescription.getDoctorOrder();
 
-                            stateNumber.replace("ST", "State ");
-                            String stateDesc = stateNumber.replace("ST", "State ") + " - " + doctorOrder;%>
+                        stateNumber.replace("ST", "State ");
+                        String stateDesc = stateNumber.replace("ST", "State ") + " - " + doctorOrder;%>
 
-                    <a href="#" class="button casecreationbutton tiny"><%=stateDesc%></a>
-                    <%
+                <input type = "submit" class="casecreationbutton tiny" value="<%=stateDesc%>" disabled>
 
-                            }
-                        }%>
-                </center>
+                <%
+
+                        }
+                    }%>
             </div>
             <!--End of display medication in the database-->
             <center><a href="createReportDocumentBC.jsp" class="button small">Proceed to Step 4  >></a></center>
