@@ -23,44 +23,46 @@
 
     </head>
     <body>
-        <nav class="top-bar" data-topbar>
-            <ul class="title-area">
-                <li class="name">
-                    <h1><a href="viewPatientInformation.jsp"><img src="./img/DefaultLogo.png" width="30" height="30"/> EMR</a></h1>
+        <div class="sticky">
+            <nav class="top-bar" data-topbar data-options="sticky_on: large">
+                <ul class="title-area">
+                    <li class="name">
+                        <h1><a href="viewPatientInformation.jsp"><img src="./img/DefaultLogo.png" width="30" height="30"/> EMR</a></h1>
 
-                </li>
-                <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-                <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-            </ul>
-
-            <%
-                String nurseId = (String) session.getAttribute("nurse");
-            %>
-            <secion class="top-bar-section">
-                <!-- Right Nav Section -->
-
-                <ul class="left">
-                    <li><a href="viewWardInformation.jsp">Ward Management</a></li>
-                        <% Scenario scenarioActivated1 = ScenarioDAO.retrieveActivatedScenario();
-                            if (scenarioActivated1 != null) {
-                                String scenarioName = ScenarioDAO.retrieveActivatedScenario().getScenarioName();
-                                String scenarioDescription = ScenarioDAO.retrieveActivatedScenario().getScenarioDescription();
-                        %>
-                    <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="<b>Scenario Name:</b> <%=scenarioName%><br><br>
-                                                                <b>Scenario Description: </b> <%=scenarioDescription%>
-                                                                ">Case Information</span></a></li>
-                            <% } else { %> 
-                    <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="No activated case yet">Case Information</span></a></li>  
-                        <%}%> 
-
+                    </li>
+                    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
                 </ul>
 
-                <ul class="right"> 
-                    <li><a href="#">Welcome, <%= nurseId%>!</a></li>
-                    <li><a href="ProcessLogoutNurse">Log Out</a></li>
-                </ul>
-            </secion>
-        </nav>
+                <%
+                    String nurseId = (String) session.getAttribute("nurse");
+                %>
+                <secion class="top-bar-section">
+                    <!-- Right Nav Section -->
+
+                    <ul class="left">
+                        <li><a href="viewWardInformation.jsp">Ward Management</a></li>
+                            <% Scenario scenarioActivated1 = ScenarioDAO.retrieveActivatedScenario();
+                                if (scenarioActivated1 != null) {
+                                    String scenarioName = ScenarioDAO.retrieveActivatedScenario().getScenarioName();
+                                    String scenarioDescription = ScenarioDAO.retrieveActivatedScenario().getScenarioDescription();
+                            %>
+                        <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="<b>Scenario Name:</b> <%=scenarioName%><br><br>
+                                              <b>Scenario Description: </b> <%=scenarioDescription%>
+                                              ">Case Information</span></a></li>
+                                <% } else { %> 
+                        <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="No activated case yet">Case Information</span></a></li>  
+                            <%}%> 
+
+                    </ul>
+
+                    <ul class="right"> 
+                        <li><a href="#">Welcome, <%= nurseId%>!</a></li>
+                        <li><a href="ProcessLogoutNurse">Log Out</a></li>
+                    </ul>
+                </secion>
+            </nav>
+        </div>
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation/foundation.js"></script>
         <script src="js/foundation/foundation.tooltip.js"></script> 

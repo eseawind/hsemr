@@ -20,40 +20,41 @@
 
     </head>
     <body>
-        <nav class="top-bar" data-topbar>
-            <ul class="title-area">
-                <li class="name">
-                    <h1><a href="viewScenarioLecturer.jsp"><img src="./img/DefaultLogo.png" width="30" height="30"/> EMR</a></h1>
+        <div class="sticky">
+            <nav class="top-bar" data-topbar data-options="sticky_on: large">
+                <ul class="title-area">
+                    <li class="name">
+                        <h1><a href="viewScenarioLecturer.jsp"><img src="./img/DefaultLogo.png" width="30" height="30"/> EMR</a></h1>
 
-                </li>
-                <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-                <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-            </ul>
-
-            <%
-                String lecturerId = (String) session.getAttribute("lecturer");
-            %>
-            <secion class="top-bar-section">
-                <!-- Right Nav Section -->
-
-                <ul class="left">
-                    <li class="has-dropdown">
-                        <a href="#">Case Management</a>
-                        <ul class="dropdown">
-                            <li><a href="./viewScenarioLecturer.jsp">Activate Case</a></li>
-                            <li><a href="./resetCaseLecturer.jsp">Reset Case</a></li>
-                            <li><a href="./editStateLecturer.jsp">Activate State</a></li>
-                        </ul>   
                     </li>
-                    <li><a href="./viewSubmissionLecturer.jsp">View Submissions</a></li>
+                    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
                 </ul>
 
-                <ul class="right"> 
-                    <li><a href="#">Welcome, <%= lecturerId%>!</a></li>
-                    <li><a href="ProcessLogoutLecturer">Log Out</a></li>
-                </ul>
-            </secion>
-        </nav>
+                <%
+                    String lecturerId = (String) session.getAttribute("lecturer");
+                %>
+                <secion class="top-bar-section">
+                    <!-- Right Nav Section -->
 
+                    <ul class="left">
+                        <li class="has-dropdown">
+                            <a href="#">Case Management</a>
+                            <ul class="dropdown">
+                                <li><a href="./viewScenarioLecturer.jsp">Activate Case</a></li>
+                                <li><a href="./resetCaseLecturer.jsp">Reset Case</a></li>
+                                <li><a href="./editStateLecturer.jsp">Activate State</a></li>
+                            </ul>   
+                        </li>
+                        <li><a href="./viewSubmissionLecturer.jsp">View Submissions</a></li>
+                    </ul>
+
+                    <ul class="right"> 
+                        <li><a href="#">Welcome, <%= lecturerId%>!</a></li>
+                        <li><a href="ProcessLogoutLecturer">Log Out</a></li>
+                    </ul>
+                </secion>
+            </nav>
+        </div>
     </body>
 </html>
