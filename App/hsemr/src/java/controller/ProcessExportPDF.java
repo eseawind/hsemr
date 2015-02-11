@@ -59,8 +59,8 @@ public class ProcessExportPDF extends HttpServlet {
  
             Document document = new Document();
            
-            //String fileLocation= "C:\\NPHSEMR\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
-            String fileLocation= System.getProperty("user.home") + "\\desktop\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
+            String fileLocation= "C:\\NPHSEMR\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
+           // String fileLocation= System.getProperty("user.home") + "\\desktop\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
             out.println(fileLocation);
             PdfWriter.getInstance(document, new FileOutputStream(fileLocation));
             document.open();
