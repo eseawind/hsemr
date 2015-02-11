@@ -10,7 +10,6 @@ import dao.PatientDAO;
 import dao.ScenarioDAO;
 import dao.StateDAO;
 import dao.VitalDAO;
-import entity.Scenario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;

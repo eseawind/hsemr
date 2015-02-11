@@ -7,14 +7,8 @@
 package controller;
 
 import dao.ReportDAO;
-import dao.ScenarioDAO;
-import entity.Scenario;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
