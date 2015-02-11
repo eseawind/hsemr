@@ -14,8 +14,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/foundation.css" />
-        <title>NP Health Sciences | Case Information</title>
         <%@include file="/topbar/topbar.jsp" %> 
+        
+        <!--Web Title-->
+        <title>EMR | Case Information</title>
     </head>
     <body>
     <center>
@@ -58,7 +60,7 @@
                     </tr>
 
                 </table><br/><br/><br/><br/>
-                <input type="submit" class="button" value="Proceed">
+                <input type="submit" class="button small" value="Proceed">
             </form>
             <%
                     } else { %>

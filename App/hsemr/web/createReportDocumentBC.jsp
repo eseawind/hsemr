@@ -13,8 +13,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <!--Web Title-->
+        <title>EMR | Case Management | Create Case | Manual | Report and Document Creation</title>
+        
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
         <link rel="stylesheet" href="css/original.css" />
@@ -27,7 +29,6 @@
         <script type="text/javascript" src="js/humane.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <link rel="stylesheet" href="/resources/demos/style.css">
-        <title>Case Setup - Upload Report and Document</title>
     </head>
     <body>
         <br>
@@ -35,7 +36,7 @@
         <ul class="breadcrumbs">
             <li class="unavailable">Step 1: Case Creation</li>
             <li><a href="createStateBC.jsp">Step 2: State Creation</a></li>
-            <li><a href="createMedicationBC.jsp">Step 3: State Creation</a></li>
+            <li><a href="createMedicationBC.jsp">Step 3: Medication Creation</a></li>
             <li class="current"><a href="#">Step 4: Report and Document Creation</a></li>
         </ul><br/>
 

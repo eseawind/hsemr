@@ -12,7 +12,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>NP Health Sciences | View Scenario</title>
+        <!--Web Title-->
+        <title>EMR | Case Management | Activate Case</title>
+        
          <!-- LECTURER TOP BAR-->
         <%@include file="/topbar/topbarLecturer.jsp" %>
         <link rel="stylesheet" href="css/foundation.css" />

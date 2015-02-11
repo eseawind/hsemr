@@ -19,7 +19,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+        
+        <!--Web Title-->
+        <title>EMR | Ward Management | Ward View</title>
+        
         <link rel="shortcut icon" href="img/DefaultLogo-favicon.ico">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/foundation.css" />
@@ -32,8 +36,6 @@
                 background: white;
             }
         </style>
-        <title>View Ward Information</title>
-
     </head>
     <body>  
     <center>
@@ -55,8 +57,8 @@
                             //String[] wards = {"Ward A", "Ward B", "Ward C"};
                             String[] wardList = new String[]{"Simulation Lab 1", "Simulation Lab 2", "Simulation Lab 3", "Simulation Lab 4"};
                             //String[] wardList = 
-                                        for (String ward : wardList) {
-                                            if (ward.equals("Simulation Lab 1")) {%>
+                            for (String ward : wardList) {
+                                if (ward.equals("Simulation Lab 1")) {%>
                         <td> <form method="POST" action="viewWard1.jsp"><input type="submit"  class="ward" value="Ward 1"/></form></td>
                                 <%} else if (ward.equals("Simulation Lab 2")) {%>
                         <td> <form method="POST" action="viewWard2.jsp"><input type="submit"  class="ward" value="Ward 2"/></form></td>
@@ -79,7 +81,7 @@
             </div>
         </div>
         <!--RESPONSIVE. END OF WEB VERSION HERE-->        
-                
+
         <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
 
         <div class ="show-for-small-only">
@@ -89,7 +91,7 @@
             </form>
         </div>
 
-            <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
+        <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
     </center>
 </body>
 </html>

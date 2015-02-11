@@ -25,7 +25,8 @@
         <%@include file="/topbar/topbarAdmin.jsp" %>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>NP Health Sciences | Administrator Accounts Management | Edit Practical Group Accounts</title>
+        <!--Web Title-->
+        <title>EMR | User Management | Edit Account</title>
     </head>
     <body>
         <%                String userID = "";

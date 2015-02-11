@@ -16,7 +16,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>NP Health Sciences | Reset Case</title>
+        <!--Web Title-->
+        <title>EMR | Case Management | Reset Case</title>
 
         <!-- LECTURER TOP BAR-->
         <%@include file="/topbar/topbarLecturer.jsp" %>
@@ -69,7 +70,7 @@
                         String scenarioID = "";
 
                         List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
-                        
+
                         for (int i = 0; i < scenarioList.size(); i++) {
                             Scenario scenario = scenarioList.get(i);
                     %>
@@ -138,8 +139,8 @@
             </div>    
         </div>
 
-        <%                   
-        for (int i = 0; i < scenarioList.size(); i++) {
+        <%
+            for (int i = 0; i < scenarioList.size(); i++) {
                 Scenario scenario = scenarioList.get(i);
         %>
 
@@ -147,17 +148,17 @@
 
             <form action = "ProcessResetScenario" method = "POST">   
                 <h2>Case Information</h2> 
-                
+
                 <input type ="hidden" id= "status" name = "status" value = "reset">
                 <input type ="hidden" id= "scenarioID" name = "scenarioID" value = "<%=scenario.getScenarioID()%>">
                 <input type ="submit" class="button tiny" value = "Reset Case">
-                
+
                 <p class="lead"><b>Case Number:</b> <%=scenario.getScenarioID()%> </p>
                 <p class="lead"><b>Case Name:</b> <%=scenario.getScenarioName()%> </p>
                 <p class="lead"><b>Case Description:</b> <%=scenario.getScenarioDescription()%> </p>
                 <p class="lead"><b>Admission Info:</b> <%=scenario.getAdmissionNote()%> </p>
 
-                
+
 
 
             </form>

@@ -14,7 +14,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <!--Web Title-->
+        <title>EMR | Case Management | Manage Case | Edit State Information</title>
+        
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
         <link rel="stylesheet" href="css/original.css" />
@@ -27,7 +30,6 @@
         <script type="text/javascript" src="js/humane.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <link rel="stylesheet" href="/resources/demos/style.css">
-        <title>Case Setup - State Creation</title>
     </head>
     <body>
         <br>

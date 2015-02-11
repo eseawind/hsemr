@@ -20,7 +20,10 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+        
+        <!--Web Title-->
+        <title>EMR | Case Management | Manage Case</title>
+        
         <!--CSS-->
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="css/original.css" />
@@ -30,9 +33,6 @@
         <!-- ADMIN TOP BAR-->
         <%@include file="/topbar/topbarAdmin.jsp" %>
 
-        <!--POP UP BOX-->
-
-        <title>NP Health Sciences | Case Management</title>
     </head>
 
     <body style="font-size:14px; background-color: #ffffff">
@@ -111,7 +111,7 @@
                     <%} else { %>
                     <input type ="submit" class="button tiny" value="activate">
                     <% }
-                            }%>
+                        }%>
                     <input type="hidden" name="status" value="activated">
                 </form>
 

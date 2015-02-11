@@ -22,6 +22,10 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <!--Web Title-->
+        <title>EMR | View Submissions</title>
+        
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="css/original.css" />
         <script src="js/vendor/modernizr.js"></script>
@@ -35,7 +39,6 @@
                 $(document).foundation();
             });
         </script>
-        <title>NP Health Sciences | View Submissions</title>
         <%@include file="/topbar/topbarLecturer.jsp" %>
     </head>
     <body>

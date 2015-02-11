@@ -15,13 +15,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <!--Web Title-->
+        <title>EMR | User Management | Create Account</title>
+        
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
         <link rel="stylesheet" href="css/original.css" />
         <script type="text/javascript" src="js/humane.js"></script>
         <script src="responsive-tables.js"></script>
         <%@include file="/topbar/topbarAdmin.jsp" %>
-        <title>Create Account</title>
     </head>
     <body>     
         <div class="large-10 large-centered columns">  

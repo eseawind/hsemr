@@ -13,7 +13,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>NP Health Sciences | View State</title>
+        <!--Web Title-->
+        <title>EMR | Case Management | Activate State</title>
+        
          <!-- LECTURER TOP BAR-->
         <%@include file="/topbar/topbarLecturer.jsp" %>
         <link rel="stylesheet" href="css/foundation.css" />
