@@ -58,7 +58,10 @@ public class ProcessExportPDF extends HttpServlet {
             String scenarioName= ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
  
             Document document = new Document();
-            String fileLocation= "c:/NPHSEMR/" + practicalGroup + "for" + scenarioID + "Submission.pdf";
+           
+            //String fileLocation= "C:\\NPHSEMR\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
+            String fileLocation= System.getProperty("user.home") + "\\desktop\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
+            out.println(fileLocation);
             PdfWriter.getInstance(document, new FileOutputStream(fileLocation));
             document.open();
             
@@ -101,8 +104,8 @@ public class ProcessExportPDF extends HttpServlet {
             //close document
             document.close();
             
-            // to be used to determine whether to retrieve form for the first time
-            response.sendRedirect("viewSubmissionLecturer.jsp");
+        // to be used to determine whether to retrieve form for the first time
+           response.sendRedirect("viewSubmissionLecturer.jsp");
             session.setAttribute("success", "PDF Successfully Exported");
             
         } catch(Exception ex){
@@ -110,6 +113,7 @@ public class ProcessExportPDF extends HttpServlet {
             HttpSession session = request.getSession(false);
             // to be used to determine whether to retrieve form for the first time
             session.setAttribute("error", "PDF Exported Failed");
+            out.println(ex);
             response.sendRedirect("viewSubmissionLecturer.jsp");
             
         } finally {
