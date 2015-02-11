@@ -3242,7 +3242,7 @@ blockquote p {
     top: auto; }
 
 .tabs-content {
-    margin-bottom: 0rem;
+    margin-bottom: 5rem;
     width: 100%; 
     background-color: white;
     border-bottom: solid 1px #368a55;
