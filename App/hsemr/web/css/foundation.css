@@ -1938,7 +1938,7 @@ meta.foundation-mq-topbar {
 
 .breadcrumbs {
     display: block;
-    padding: 0.8625rem 1.175rem 0.8625rem;
+    padding: 0.0625rem 1.075rem 0.0625rem;
     overflow: hidden;
     margin-left: 0;
     list-style: none;
@@ -1952,7 +1952,7 @@ meta.foundation-mq-topbar {
     float: left;
     font-weight: 400;
     font-size: 1.75rem;
-    line-height: 1.8875rem;
+    line-height: 2.6875rem;
     text-transform: uppercase;
     color: #008cba; }
 .breadcrumbs > *:hover a, .breadcrumbs > *:focus a {
