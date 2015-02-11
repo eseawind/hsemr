@@ -1,11 +1,7 @@
 package utility;
 
-
-import dao.AdminDAO;
 import dao.AdminDAO;
 import dao.LecturerDAO;
-import dao.LecturerDAO;
-import dao.PracticalGroupDAO;
 import dao.PracticalGroupDAO;
 import entity.Admin;
 import entity.Lecturer;
