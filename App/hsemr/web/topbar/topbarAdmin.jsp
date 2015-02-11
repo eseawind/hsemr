@@ -42,7 +42,7 @@
                                     <ul class="dropdown">
                                         <li><label>Set-up</label></li>
                                         <li><a href="./createScenario.jsp">Manual</a></li>
-                                        <li><a href="#">PDF Text Recognition</a></li>
+                                        <li><a href="./createPDFUpload.jsp">PDF Text Recognition</a></li>
                                     </ul>   
                                 </li>
                             </ul>
