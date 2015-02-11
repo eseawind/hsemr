@@ -35,10 +35,10 @@
         <script type="text/javascript" src="js/humane.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <script src="js/vendor/jquery.js"></script>
-        
+
         <!--Web Title-->
         <title>EMR | Patient Information</title>
-        
+
         <script>
 
             $(document).ready(function() {
@@ -47,17 +47,11 @@
 
         </script>
         <%@include file="/topbar/topbar.jsp" %> 
-
-
     </head>
     <body>
-
-
         <script src="js/foundation.min.js"></script>
 
         <!--RESPONSIVE. WEB VERSION HERE-->
-
-
         <div class="hide-for-small-only">
             <div align ="center">
                 <div class="large-centered large-11 columns">
@@ -117,19 +111,30 @@
                             allergy = "none";
                         }
 
-
                     %>
                     <br>   
                     <!--Patient's Information-->
-                    <div class="panel" style="background-color: #FFFFFF">
-                        <h2>Patient's Information</h2><br/>
-                        <font size='4'><b>Name: <font color="#666666"><%=fullName%></font></b>&nbsp;&nbsp;
-                        <b>NRIC: <font color="#666666"><%=patientNRIC%></font></b>&nbsp;&nbsp;
-                        <b>DOB: <font color="#666666"><%=dob%></font></b>&nbsp;&nbsp;
-                        <b>Gender: <font color="#666666"><%=gender%></font></b>&nbsp;&nbsp;
-                        <b>Allergy: <font color="red"><%=allergy%></font></b>&nbsp;</font>
-                    </div>
-
+                    <!--To insert icon if needed-->
+                    <table style="border-color: #368a55 ">
+                        <col width="5%">
+                        <col width="95%">
+                        <tr>
+                            <td>
+                                <%if (gender.equals("Female")) { %>
+                                <img src="img/Female.png" width="100" height="100" alt="Female"/>
+                                <% } else { %>
+                                <img src="img/Male.png" width="100" height="100" alt="Male"/>
+                                <%  }%>
+                            </td>
+                            <td><h2>Patient's Information</h2>
+                                <font size='4'><b>Name: <font color="#666666"><%=fullName%></font></b>&nbsp;&nbsp;
+                                <b>NRIC: <font color="#666666"><%=patientNRIC%></font></b>&nbsp;&nbsp;
+                                <b>DOB: <font color="#666666"><%=dob%></font></b>&nbsp;&nbsp;
+                                <b>Gender: <font color="#666666"><%=gender%></font></b>&nbsp;&nbsp;
+                                <b>Allergy: <font color="red"><%=allergy%></font></b>&nbsp;</font>
+                            </td><br/>
+                        </tr>
+                    </table> <br/><br/>
 
                     <%
                         if (session.getAttribute("success") != null) {
