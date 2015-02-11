@@ -65,13 +65,19 @@
                         //retrieve patient's information
                         String patientNRIC = "";
                         Patient retrievePatient = PatientDAO.retrieve(patientNRIC);
+                        
+    
 
                         State retrieveScenarioState = null;
 
                         //retrieve current scenario
                         Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
+       
+                        
                         //get the most recently activated scenario's state
                         retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
+                        
+                    
 
                         if (scenarioActivated == null || retrieveScenarioState == null) {
                     %> 
@@ -1436,7 +1442,7 @@
 
                                                                         if (documentsList == null || documentsList.size() == 0) {
                                                                             out.println("<center>There are no documents at the moment</center>");
-                                                                            out.println(reportList.size());
+                                                                        
                                                                         } else {
 
                                                                             for (Document document : documentsList) {

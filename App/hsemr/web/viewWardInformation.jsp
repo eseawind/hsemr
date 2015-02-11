@@ -85,12 +85,41 @@
         <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
 
         <div class ="show-for-small-only">
+            <%
+                List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
+
+                int sizeOfList = scenarioList.size();
+                int numPerRow = 5;
+                int numOfRows = (sizeOfList / numPerRow);
+                int counter = 1;
+                int counterScenario = 0;
+                int bedCounter = 1;
+                Scenario scen = ScenarioDAO.retrieveActivatedScenario();
+                String scID = "";
+                if (scen == null) {
+                    out.println("No scenario activated, please contact lecturer/ administrator");
+                } else {
+                    scID = scen.getScenarioID();
+                }
+
+            %>
+                   
+ 
+                    
+                    <%
+             //create an arraylist to be passed to check validity of medicine
+                    ArrayList<String> medicineVerifiedList = new ArrayList<String>();
+                    medicineVerifiedList.add("TESTING");
+                    session.setAttribute("medicineVerifiedList",medicineVerifiedList);
+        
+        
+        %>
+        
             <form action ='viewPatientInformation.jsp' method ='POST'>
                 <br><br><br><br><br><br><br><br><br><br>
                 <input type="submit" value="View Patient Management" class="button large"> 
             </form>
-        </div>
-
+      
         <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
     </center>
 </body>
