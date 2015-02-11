@@ -61,7 +61,7 @@ public class ProcessExportPDF extends HttpServlet {
            
             String fileLocation= "C:\\NPHSEMR\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
            // String fileLocation= System.getProperty("user.home") + "\\desktop\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
-            out.println(fileLocation);
+           // out.println(fileLocation);
             PdfWriter.getInstance(document, new FileOutputStream(fileLocation));
             document.open();
             
@@ -113,7 +113,7 @@ public class ProcessExportPDF extends HttpServlet {
             HttpSession session = request.getSession(false);
             // to be used to determine whether to retrieve form for the first time
             session.setAttribute("error", "PDF Exported Failed");
-            out.println(ex);
+            //out.println(ex);
             response.sendRedirect("viewSubmissionLecturer.jsp");
             
         } finally {
