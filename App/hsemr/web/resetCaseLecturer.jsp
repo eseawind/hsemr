@@ -17,7 +17,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--Web Title-->
-        <title>EMR | Case Management | Reset Case</title>
+        <title>EMR | Case Management | Manage Case | Reset Case</title>
 
         <!-- LECTURER TOP BAR-->
         <%@include file="/topbar/topbarLecturer.jsp" %>

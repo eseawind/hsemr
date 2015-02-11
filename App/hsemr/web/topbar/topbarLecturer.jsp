@@ -41,14 +41,19 @@
                         <li class="has-dropdown">
                             <a href="#">Case Management</a>
                             <ul class="dropdown">
-                                <li><a href="./viewScenarioLecturer.jsp">Activate Case</a></li>
-                                <li><a href="./resetCaseLecturer.jsp">Reset Case</a></li>
-                                <li><a href="./editStateLecturer.jsp">Activate State</a></li>
-                            </ul>   
-                        </li>
+                                <li class="has-dropdown"><a href="#">Manage Case</a>
+
+                                    <ul class="dropdown">
+                                        <li><label>Case</label></li>
+                                        <li><a href="./viewScenarioLecturer.jsp">Activate</a></li>
+                                        <li><a href="./resetCaseLecturer.jsp"><font color="red">Reset</font></a></li>
+                                    </ul> 
+
+                                </li>
+                                <li><a href="./editStateLecturer.jsp">Activate State</a></li> 
+                            </ul> 
                         <li><a href="./viewSubmissionLecturer.jsp">View Submissions</a></li>
                     </ul>
-
                     <ul class="right"> 
                         <li><a href="#">Welcome, <%= lecturerId%>!</a></li>
                         <li><a href="ProcessLogoutLecturer">Log Out</a></li>
