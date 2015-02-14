@@ -692,11 +692,14 @@
                                                     <%
                                                         //taken from processMedicineBarcode
                                                         ArrayList<String> medicineVerifiedList = (ArrayList<String>) session.getAttribute("medicineVerifiedList");
-
-                                                        if (medicineVerifiedList.size() != 1) { //then take the values from ProcessMedicineBarcode
+                                                        
+                                                        if(medicineVerifiedList != null){
+                                                             if (medicineVerifiedList.size() != 1) { //then take the values from ProcessMedicineBarcode
                                                             medicineVerifiedList = (ArrayList<String>) session.getAttribute("medicineVerifiedListReturned");
+                                                            }  
                                                         }
-
+                                                        
+                                                       
                                                         ArrayList<StateHistory> stateHistoryList = StateHistoryDAO.retrieveStateHistory();
 
                                                         //Check if medicine has been discontinued
@@ -767,13 +770,16 @@
                                                     <td><%=prescription.getDoctorOrder()%></td>
                                                     <td>
                                                         <%
-                                                            if (medicineVerifiedList.contains(medicineBarcode)) {
-                                                        %>
-                                                        <b><font color="#368a55"> YES</font></b>
-                                                        <img src="img/verified.gif" width = "15" height = "15"/>
+                                                            if(medicineVerifiedList != null){
+                                                              if (medicineVerifiedList.contains(medicineBarcode)) {
+                                                                %>
+                                                                <b><font color="#368a55"> YES</font></b>
+                                                                <img src="img/verified.gif" width = "15" height = "15"/>
 
-                                                        <%}
-                                                        %>   
+                                                        <%} }
+                                                        %>  
+                                                         
+                                                           
                                                     </td>
                                                     <td>
                                                         <%
