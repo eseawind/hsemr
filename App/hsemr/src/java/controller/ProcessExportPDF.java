@@ -70,7 +70,7 @@ public class ProcessExportPDF extends HttpServlet {
             document.add(new Paragraph(" "));
             
             //Table
-            PdfPTable tableOfNotes = new PdfPTable(4);
+            PdfPTable tableOfNotes = new PdfPTable(3);
             PdfPCell c1 = new PdfPCell(new Phrase("Practical Group ID"));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             tableOfNotes.addCell(c1);
@@ -83,10 +83,10 @@ public class ProcessExportPDF extends HttpServlet {
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             tableOfNotes.addCell(c1);
             
-            c1 = new PdfPCell(new Phrase("Time submited"));
-            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tableOfNotes.addCell(c1);
-            
+//            c1 = new PdfPCell(new Phrase("Time submited"));
+//            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+//            tableOfNotes.addCell(c1);
+//            
             tableOfNotes.setHeaderRows(1);
             
             DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
@@ -96,7 +96,7 @@ public class ProcessExportPDF extends HttpServlet {
                 tableOfNotes.addCell(note.getPracticalGroupID());
                 tableOfNotes.addCell(note.getGrpMemberNames());
                 tableOfNotes.addCell(note.getMultidisciplinaryNote());
-                tableOfNotes.addCell(df.format(note.getNoteDatetime()));
+//                tableOfNotes.addCell(df.format(note.getNoteDatetime()));
             }
 
             document.add(tableOfNotes);
