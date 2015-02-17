@@ -61,7 +61,7 @@ public class ProcessMedicineBarcode extends HttpServlet {
                 session.setAttribute("isMedicationVerified", "true");
                 session.setAttribute("isPatientVerified", "true");
                 session.setAttribute("active", "medication");
-
+                session.setAttribute("success", "Medication verified successfully!");
                 String patientBarcodeInput = (String)session.getAttribute("patientBarcodeInput");
                 session.setAttribute("patientBarcodeInput", patientBarcodeInput);
 

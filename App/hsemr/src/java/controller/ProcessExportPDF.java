@@ -106,13 +106,13 @@ public class ProcessExportPDF extends HttpServlet {
             
         // to be used to determine whether to retrieve form for the first time
            response.sendRedirect("viewSubmissionLecturer.jsp");
-            session.setAttribute("success", "PDF Successfully Exported");
+            session.setAttribute("success", "PDF Successfully Exported. Please find PDF at C:/NPHSEMR/.");
             
         } catch(Exception ex){
                
             HttpSession session = request.getSession(false);
             // to be used to determine whether to retrieve form for the first time
-            session.setAttribute("error", "PDF Exported Failed");
+            session.setAttribute("error", "PDF Exported Failed. Please try again.");
             //out.println(ex);
             response.sendRedirect("viewSubmissionLecturer.jsp");
             

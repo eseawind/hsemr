@@ -1129,10 +1129,10 @@
                                                 <div class ="show-for-small-only">
 
                                                     <%
-                                                        if (scenarioActivated == null) {%>
-
-                                                    <h1>No Case Activated</h1>
-                                                    Please contact lecturer/administrator.
+                                                        String stateID = retrieveScenarioState.getStateID();
+                                                        if (scenarioActivated == null || stateID == null) { %>
+                                                            <h1>No Case/States Activated</h1>
+                                                            Please contact administrator/lecturer for case activation.
 
                                                     <%} else {
 
@@ -1142,7 +1142,7 @@
                                                         patientNRIC = retrieveScenarioState.getPatientNRIC();
                                                         retrievePatient = PatientDAO.retrieve(patientNRIC);
 
-                                                        String stateID = retrieveScenarioState.getStateID();
+                                                        
                                                         String scenarioID = scenarioActivated.getScenarioID();
 
                                                         //retrieve case's information

@@ -50,7 +50,7 @@
 
                                 if (scenario == null) {
                                     out.println("<h1>No Case Activated</h1>");
-                                    out.println("Please contact lecturer/ administrator.");
+                                    out.println("Please contact lecturer/administrator.");
                                 } else {%>
                         <h1>Please select a ward:</h1>
                         <%
@@ -83,44 +83,52 @@
         <!--RESPONSIVE. END OF WEB VERSION HERE-->        
 
         <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
-
         <div class ="show-for-small-only">
             <%
-                List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
-
-                int sizeOfList = scenarioList.size();
-                int numPerRow = 5;
-                int numOfRows = (sizeOfList / numPerRow);
-                int counter = 1;
-                int counterScenario = 0;
-                int bedCounter = 1;
+                
                 Scenario scen = ScenarioDAO.retrieveActivatedScenario();
-                String scID = "";
+                //String scID = "";
                 if (scen == null) {
-                    out.println("No scenario activated, please contact lecturer/ administrator");
+                    out.println("<h1>No Case Activated</h1>");
+                    out.println("Please contact lecturer/administrator.");
                 } else {
-                    scID = scen.getScenarioID();
+                    //scID = scen.getScenarioID();
+                    //get the most recently activated scenario's state
+                    State retrieveScenarioState = StateDAO.retrieveActivateState(scen.getScenarioID());
+                //    String stateID = retrieveScenarioState.getStateID();
+                
+                    if (retrieveScenarioState == null) {
+                        out.println("<h1>No State Activated</h1>");
+                        out.println("Please contact lecturer/administrator.");
+                    } else { 
+                        List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
+
+                        int sizeOfList = scenarioList.size();
+                        int numPerRow = 5;
+                        int numOfRows = (sizeOfList / numPerRow);
+                        int counter = 1;
+                        int counterScenario = 0;
+                        int bedCounter = 1;
+                       
+            %>
+                     
+                    <form action ='viewPatientInformation.jsp' method ='POST'>
+                        <br><br><br><br><br><br><br><br><br><br>
+                        <input type="submit" value="View Patient Management" class="button large"> 
+                    </form>  
+                    <%
+                    }
                 }
 
-            %>
-                   
- 
-                    
-                    <%
-             //create an arraylist to be passed to check validity of medicine
-                    ArrayList<String> medicineVerifiedList = new ArrayList<String>();
-                    medicineVerifiedList.add("TESTING");
-                    session.setAttribute("medicineVerifiedList",medicineVerifiedList);
-        
-        
+                    //create an arraylist to be passed to check validity of medicine
+//                    ArrayList<String> medicineVerifiedList = new ArrayList<String>();
+//                    medicineVerifiedList.add("TESTING");
+//                    session.setAttribute("medicineVerifiedList",medicineVerifiedList);
         %>
-        
-            <form action ='viewPatientInformation.jsp' method ='POST'>
-                <br><br><br><br><br><br><br><br><br><br>
-                <input type="submit" value="View Patient Management" class="button large"> 
-            </form>
       
         <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
+        </div>
+
     </center>
 </body>
 </html>
