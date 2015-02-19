@@ -93,7 +93,7 @@
                     <input type="hidden" name ="stateNumber" value="<%=stateNumber%>">
                     <input type="hidden" name ="stateListSize" value="<%=stateList.size()%>">
                     <label>Description
-                        <input type ="text" name ="<%=stateDescriptionNumber%>" value ="<%=stateDescription%>">
+                        <input type ="text" name ="<%=stateDescriptionNumber%>" value ="<%=stateDescription%>" required>
                     </label>
                     <label>Healthcare Provider's Order
                         <!--<i>Please include "&lt;br&gt;" to separate doctor order to next line.</i>-->
@@ -132,7 +132,7 @@
                             <input type="text" name="stateDescription" value = "" required></label>
 
                         <label>Healthcare Provider's Order
-                            <textarea style = "resize:vertical"  name="doctorOrderForState" rows="5" cols="10" placeholder ="" required></textarea>
+                            <textarea style = "resize:vertical"  name="doctorOrderForState" rows="5" cols="10" placeholder =""></textarea>
                         </label>
 
                         <br/><br/>

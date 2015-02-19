@@ -111,6 +111,7 @@
                                 <label>Discontinue State
                                     <select name = "discontinueStateID" required>
                                         <option disabled="disabled" selected="selected" value = "">--Please select--</option>
+                                        <option>NONE</option>
                                         <%
                                             for (State state : stateList) {%>
                                         <option><%=state.getStateID()%></option>

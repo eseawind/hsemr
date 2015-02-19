@@ -32,20 +32,7 @@
             $(function() {
                 $("#datepicker").datepicker();
             });
-//            function ValidateForm()
-//            {
-//                $('span.error_msg').html('');
-//               var success = true;
-//                $("#personID input").each(function()
-//                    {
-//                        if($(this).val()=="")
-//                        {
-//                            $(this).next().html("Field needs filling");
-//                            success = false;
-//                        }
-//                });
-//                return success;
-//            }
+
         </script>
         <%            String success = "";
             String error = "";
@@ -164,6 +151,8 @@
             <form data-abide action ="ProcessAddScenario" method ="POST">
                 <!--Case Details-->
                 <div class="panelCase">
+
+                    <div>
                     <label>Case Name
                         <input type="text" name="scenarioName" value = "<%=scenarioName%>" required pattern ="^[a-zA-Z0-9 ]+$">
                         <small class="error">Please enter a case name.</small>
@@ -171,7 +160,8 @@
                     <!--<dl class="accordion" data-accordion>-->
                     <!--<dd class="accordion-navigation">-->
                     <!--<a href="#panel1">Case Information</a>-->
-
+                    </div>
+                        
                     <label>Case Description
                         <textarea style = "resize:vertical"  name="scenarioDescription" rows="10" cols="10" placeholder ="<%=scenarioDescription%>" required></textarea>
                     </label>

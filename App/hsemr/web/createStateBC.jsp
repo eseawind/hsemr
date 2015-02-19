@@ -64,7 +64,7 @@
                         </label>
 
                         <label>Healthcare Provider's Order
-                            <textarea style = "resize:vertical"  name="doctorOrderForState" rows="5" cols="10" placeholder ="" required></textarea>
+                            <textarea style = "resize:vertical"  name="doctorOrderForState" rows="5" cols="10" placeholder =""></textarea>
                         </label>
                     </div>
 

@@ -39,50 +39,7 @@
     </head>
     <body>  
     <center>
-        <div class ="hide-for-small-only">
-            <div class="row" style="padding-top: 60px;">
-                <div class="large-12 columns" style="padding-top: 20px;">
-
-                    <table style ="border-spacing:20px; border:none">
-                        <tr>
-                            <%
-                                Scenario scenario = ScenarioDAO.retrieveActivatedScenario();
-
-                                if (scenario == null) {
-                                    out.println("<h1>No Case Activated</h1>");
-                                    out.println("Please contact lecturer/administrator.");
-                                } else {%>
-                        <h1>Please select a ward:</h1>
-                        <%
-                            //String[] wards = {"Ward A", "Ward B", "Ward C"};
-                            String[] wardList = new String[]{"Simulation Lab 1", "Simulation Lab 2", "Simulation Lab 3", "Simulation Lab 4"};
-                            //String[] wardList = 
-                            for (String ward : wardList) {
-                                if (ward.equals("Simulation Lab 1")) {%>
-                        <td> <form method="POST" action="viewWard1.jsp"><input type="submit"  class="ward" value="Ward 1"/></form></td>
-                                <%} else if (ward.equals("Simulation Lab 2")) {%>
-                        <td> <form method="POST" action="viewWard2.jsp"><input type="submit"  class="ward" value="Ward 2"/></form></td>
-                                <%} else if (ward.equals("Simulation Lab 3")) {%>
-                        <td> <form method="POST" action="viewWard3.jsp"><input type="submit"  class="ward" value="Ward 3"/></form></td>
-                                <%} else {%>
-                        <td> <form method="POST" action="viewWard4.jsp"><input type="submit"  class="ward" value="Ward 4"/></form></td>
-                                <%}%>
-
-                        <%}
-
-                        %>
-                        </tr>
-                    </table>
-
-                    <%}%>
-
-
-                </div>
-            </div>
-        </div>
-        <!--RESPONSIVE. END OF WEB VERSION HERE-->        
-
-        <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
+             <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
         <div class ="show-for-small-only">
             <%
                 
@@ -128,6 +85,51 @@
       
         <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
         </div>
+        
+        <div class ="hide-for-small-only">
+            <div class="row" style="padding-top: 60px;">
+                <div class="large-12 columns" style="padding-top: 20px;">
+
+                    <table style ="border-spacing:20px; border:none">
+                        <tr>
+                            <%
+                                Scenario scenario = ScenarioDAO.retrieveActivatedScenario();
+
+                                if (scenario == null) {
+                                    out.println("<h1>No Case Activated</h1>");
+                                    out.println("Please contact lecturer/administrator.");
+                                } else {%>
+                        <h1>Please select a ward:</h1>
+                        <%
+                            //String[] wards = {"Ward A", "Ward B", "Ward C"};
+                            String[] wardList = new String[]{"Simulation Lab 1", "Simulation Lab 2", "Simulation Lab 3", "Simulation Lab 4"};
+                            //String[] wardList = 
+                            for (String ward : wardList) {
+                                if (ward.equals("Simulation Lab 1")) {%>
+                        <td> <form method="POST" action="viewWard1.jsp"><input type="submit"  class="ward" value="Ward 1"/></form></td>
+                                <%} else if (ward.equals("Simulation Lab 2")) {%>
+                        <td> <form method="POST" action="viewWard2.jsp"><input type="submit"  class="ward" value="Ward 2"/></form></td>
+                                <%} else if (ward.equals("Simulation Lab 3")) {%>
+                        <td> <form method="POST" action="viewWard3.jsp"><input type="submit"  class="ward" value="Ward 3"/></form></td>
+                                <%} else {%>
+                        <td> <form method="POST" action="viewWard4.jsp"><input type="submit"  class="ward" value="Ward 4"/></form></td>
+                                <%}%>
+
+                        <%}
+
+                        %>
+                        </tr>
+                    </table>
+
+                    <%}%>
+
+
+                </div>
+            </div>
+        </div>
+        <!--RESPONSIVE. END OF WEB VERSION HERE-->        
+
+   
 
     </center>
 </body>
