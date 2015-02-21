@@ -19,18 +19,17 @@ import java.util.List;
  */
 public class MedicineDAO {
 
-    public static void insertMedicine(String medicineBarcode, String medicineName, String routeAbbr) {
+    public static void insertMedicine(String medicineBarcode, String medicineName) {
         Connection conn = null;
         PreparedStatement stmt = null;
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO medicine(medicineBarcode,medicineName,routeAbbr) VALUES (?,?,?)");
+            stmt = conn.prepareStatement("INSERT INTO medicine(medicineBarcode,medicineName) VALUES (?,?)");
 
             stmt.setString(1, medicineBarcode);
             stmt.setString(2, medicineName);
-            stmt.setString(3, routeAbbr);
-
+         
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,7 +51,7 @@ public class MedicineDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                medicine = new Medicine(rs.getString(1), rs.getString(2), rs.getString(3));
+                medicine = new Medicine(rs.getString(1), rs.getString(2));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,7 +74,7 @@ public class MedicineDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                medicine = new Medicine(rs.getString(1), rs.getString(2), rs.getString(3));
+                medicine = new Medicine(rs.getString(1), rs.getString(2));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,7 +96,7 @@ public class MedicineDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Medicine medicine = new Medicine(rs.getString(1), rs.getString(2), rs.getString(3));
+                Medicine medicine = new Medicine(rs.getString(1), rs.getString(2));
                 medicineList.add(medicine);
             }
         } catch (SQLException e) {
@@ -107,7 +106,7 @@ public class MedicineDAO {
         }
         return medicineList;
     }
-
+/*
     public static void updateMed(String medicineBarcode, String medicineName, String route, String initialRoute) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -129,4 +128,5 @@ public class MedicineDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+    */
 }

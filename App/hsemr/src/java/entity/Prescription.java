@@ -18,9 +18,11 @@ public class Prescription {
    private String freqAbbr;
    private String medicineBarcode;
    private String discontinueState; 
-   private int discontinueStatus;
+   private String dosage;
+   private String routeAbbr;
+   
 
-    public Prescription(String scenarioID, String stateID, String doctorName, String doctorOrder, String freqAbbr, String medicineBarcode, String discontinueState, int discontinueStatus) {
+    public Prescription(String scenarioID, String stateID, String doctorName, String doctorOrder, String freqAbbr, String medicineBarcode, String discontinueState, String dosage, String routeAbbr) {
         this.scenarioID = scenarioID;
         this.stateID = stateID;
         this.doctorName = doctorName;
@@ -28,7 +30,25 @@ public class Prescription {
         this.freqAbbr = freqAbbr;
         this.medicineBarcode = medicineBarcode;
         this.discontinueState = discontinueState;
-        this.discontinueStatus = discontinueStatus;
+        this.dosage= dosage;
+        this.routeAbbr= routeAbbr;
+              
+    }
+    
+    public String getRouteAbbr() {
+        return routeAbbr;
+    }
+
+    public void setRouteAbbr(String routeAbbr) {
+       this.routeAbbr= routeAbbr;
+    }
+    
+    public String getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(String dosage) {
+       this.dosage= dosage;
     }
 
     public String getDiscontinueState() {
@@ -37,14 +57,6 @@ public class Prescription {
 
     public void setDiscontinueState(String discontinueState) {
         this.discontinueState = discontinueState;
-    }
-
-    public void setDiscontinueStatus(int discontinueStatus) {
-        this.discontinueStatus = discontinueStatus;
-    }
-
-    public int getDiscontinueStatus() {
-        return discontinueStatus;
     }
 
     public String getScenarioID() {

@@ -715,7 +715,9 @@
 
                                                             //Display Prescriptions
                                                             for (Prescription prescription : statePrescription) {
+                                                               
                                                                 if (!prescription.getMedicineBarcode().equals("NA")) {
+                                                                    String doctorOrder = prescription.getDoctorOrder();
                                                                     String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
                                                                     if (medicineBarcodeInput == null) {
                                                                         medicineBarcodeInput = "";
@@ -726,7 +728,8 @@
                                                     %>
 
 
-                                                    <%                                            if (discontinueState != null) {
+                                                    <%      
+                                                            if (discontinueState != null) {
                                                             //has been activated, disable the textbox
                                                             if (activatedStateList.contains(discontinueState)) {
                                                                 medicineBarcodeDisabled = "disabled";
@@ -755,14 +758,26 @@
                                                         <%
                                                             String medicineBarcode = prescription.getMedicineBarcode();
                                                             if (medicineBarcode != null) {
-                                                                Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
-                                                                out.println(medicine.getRouteAbbr());
+                                                               // Prescription presc= PrescriptionDAO.retrieve(scenarioID, stateID, medicineBarcode, doctorOrder);
+                                                               // out.println(presc.getRouteAbbr());
+                                                                
+                                                                out.println(prescription.getRouteAbbr());
+                                                                //Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
+                                                                //out.println(medicine.getRouteAbbr());
                                                             }
 
                                                         %> 
 
                                                     </td>
-                                                    <td><%=MedicinePrescriptionDAO.retrieve(prescription.getMedicineBarcode()).getDosage()%></td>
+                                                    <td><%
+                                                            //MedicinePrescriptionDAO.retrieve(prescription.getMedicineBarcode()).getDosage();
+                                                            
+                                                           // Prescription presc= PrescriptionDAO.retrieve(scenarioID, stateID, medicineBarcode, doctorOrder);
+                                                           // out.println(presc.getDosage());
+                                                            
+                                                            out.println(prescription.getDosage());
+                                                        %>
+                                                    </td>
 
 
                                                     <td><%=prescription.getFreqAbbr()%></td>                                          
@@ -799,9 +814,10 @@
                                                     session.removeAttribute("isMedicationVerified");
                                                 %>
                                                 </table>
-                                                <%} //end of else statement
+                                                <%
+                                                    } //end of else statement
 
-                                                    ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
+                                                   // ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
                                                 %>
 
 

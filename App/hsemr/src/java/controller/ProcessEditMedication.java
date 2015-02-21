@@ -6,7 +6,6 @@
 package controller;
 
 import dao.MedicineDAO;
-import dao.MedicinePrescriptionDAO;
 import dao.PrescriptionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -56,6 +55,7 @@ public class ProcessEditMedication extends HttpServlet {
                 String routeDefault = "routeDefault" + i;
                 String frequencyDefault = "frequencyDefault" + i;
                 String stateIDNumber = "stateID" + i;
+                //String docOrderDefault= "docOrderDefault" + i;
 
                 String stateID = request.getParameter(stateIDNumber);
                 
@@ -68,17 +68,24 @@ public class ProcessEditMedication extends HttpServlet {
                 if (frequency == null) {
                     frequency = request.getParameter(frequencyDefault);
                 }
+                
+                //String doctorOrder = request.getParameter(doctorOrderNumber);
+               /* if(doctorOrder == null ){
+                    doctorOrder= request.getParameter(docOrderDefault);
+                }*/
                 String doctorName = request.getParameter(doctorNameNumber);
                 String doctorOrder = request.getParameter(doctorOrderNumber);
                 String dosage = request.getParameter(dosageNumber);
                 String medBarcode = request.getParameter(medBarcodeNumber);
 
                 String initialRoute = request.getParameter(routeDefault);
+              //  String initalOrder= request.getParameter(docOrderDefault);
+                String initialFreq= request.getParameter(frequencyDefault);
 
-                MedicinePrescriptionDAO.updateMedPres(frequency, dosage, medBarcode, scenarioID, stateID);
-                MedicineDAO.updateMed(medBarcode, medicineName, route, initialRoute); // route can change
-                
-                PrescriptionDAO.updatePres(doctorName, doctorOrder, frequency, scenarioID, stateID, medBarcode);
+              //  MedicinePrescriptionDAO.updateMedPres(frequency, dosage, medBarcode, scenarioID, stateID);
+              //  MedicineDAO.updateMed(medBarcode, medicineName, route, initialRoute); // route can change
+               
+                PrescriptionDAO.updatePres(doctorName, doctorOrder, frequency, scenarioID, stateID, medBarcode, route, dosage, initialRoute, initialFreq);
                 
                 out.println(doctorName + "<BR>");
                 out.println(doctorOrder + "<BR>");

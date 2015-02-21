@@ -274,7 +274,9 @@
                     String medicineID = "";
                     String discontinueStateID = "";
                     String medicineName = "";
-                    Medicine m = null;
+                    
+                    Medicine m = null; 
+                    Prescription p= null;
                     String route = "";
                     int counter = 0;
                     //int counter2 = 0;
@@ -301,7 +303,8 @@
                         String doctorOrderNumber = "";
                         String dosageNumber = "";
                         String medicineNameNumber = "";
-                                
+                        
+                        String docOrderDefault= "";
                         
                         
                         if(!medBarcode.equals("NA")){
@@ -321,12 +324,18 @@
                             stateIDNumber = "stateID" + counter;
                             medicineNameNumber = "medicineName" + counter;
                             counterNumber = "counter" + counter;
+                            
+                            //docOrderDefault= "doctorOrder" + counter;
                             //barcodeList.add(medBarcode);
+                            
+                            p = PrescriptionDAO.retrieve(scenarioID, stateID, medBarcode,doctorOrder);
+                            route = p.getRouteAbbr();
+                            dosage= p.getDosage();
+                            
                             m = MedicineDAO.retrieve(medBarcode);
-                            route = m.getRouteAbbr();
                             medicineName = m.getMedicineName();
 
-                            dosage = MedicinePrescriptionDAO.retrieveDosage(scenarioID, stateID, medBarcode, freqAbbr);
+                            //dosage = MedicinePrescriptionDAO.retrieveDosage(scenarioID, stateID, medBarcode, freqAbbr);
                         
 
                         
@@ -385,6 +394,7 @@
 
                     </td>
                     <td>
+                        <!-- <input type="hidden" name="<%=docOrderDefault%>" value="<%=doctorOrder%>"> -->
                         <input type="text" name="<%=doctorNameNumber%>" value="<%=doctorName%>" required></td>
                     <td><input type="text" name="<%=doctorOrderNumber%>" value="<%=doctorOrder%>" required></td>
                     <td><input type="text" name="<%=dosageNumber%>" value="<%=dosage%>" required></td>

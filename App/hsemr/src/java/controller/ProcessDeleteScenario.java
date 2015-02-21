@@ -46,7 +46,7 @@ public class ProcessDeleteScenario extends HttpServlet {
         AllergyPatientDAO.delete(patientNRIC);
         DocumentDAO.delete(scenarioID);
         ReportDAO.delete(scenarioID);
-        MedicinePrescriptionDAO.delete(scenarioID);
+      //MedicinePrescriptionDAO.delete(scenarioID); after refractoring of db no longer available
         MedicationHistoryDAO.delete(scenarioID);
         
         PrescriptionDAO.delete(scenarioID); 

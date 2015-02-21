@@ -6,7 +6,6 @@
 package controller;
 
 import dao.MedicineDAO;
-import dao.MedicinePrescriptionDAO;
 import dao.PrescriptionDAO;
 import entity.Medicine;
 import java.io.IOException;
@@ -52,14 +51,14 @@ public class ProcessAddMedication extends HttpServlet {
             Medicine medicineRetrieved = MedicineDAO.retrieveByMedicineName(medicineName);
             String medicineBarcode = medicineRetrieved.getMedicineBarcode();
 
-            String routeRetrieved = medicineRetrieved.getRouteAbbr();
+           // String routeRetrieved = medicineRetrieved.getRouteAbbr(); //commented out after db refactor
 
-            String route = request.getParameter("route");
-
+            
             //retrieve values for Prescription table
             String doctorName = request.getParameter("doctorName");
             String doctorOrder = request.getParameter("doctorOrder");
             String freq = request.getParameter("frequency");
+            String route = request.getParameter("route");
 
             //retrieve values for Frequency table
             String dosage = request.getParameter("dosage");
@@ -71,22 +70,23 @@ public class ProcessAddMedication extends HttpServlet {
             out.println("medicineBarcode" + medicineBarcode);
 
             out.println("route" + route);
-            out.println("routeRetrieved" + routeRetrieved);
+           // out.println("routeRetrieved" + routeRetrieved);
             out.println("doctorName" + doctorName);
             out.println("order" + doctorOrder);
             out.println("freq" + freq);
             out.println("editMedicine" + editMedicine);
 
-            if (!route.equals(routeRetrieved)) { //create new medicine with a different route
+         /*   if (!route.equals(routeRetrieved)) { //create new medicine with a different route
                 
-                MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
-                PrescriptionDAO.add(scenarioID, stateID, doctorName, doctorOrder, freq, medicineBarcode, discontinueStateID);
-                MedicinePrescriptionDAO.add(medicineBarcode, scenarioID, stateID, freq, dosage);
-            } else if (medicineName != null) {
+                //MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
+                PrescriptionDAO.add(scenarioID, stateID, doctorName, doctorOrder, freq, medicineBarcode, discontinueStateID, dosage, route);
+                //MedicinePrescriptionDAO.add(medicineBarcode, scenarioID, stateID, freq, dosage);
+            } */
+           if (medicineName != null) {
 
-                MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
-                PrescriptionDAO.add(scenarioID, stateID, doctorName, doctorOrder, freq, medicineBarcode, discontinueStateID);
-                MedicinePrescriptionDAO.add(medicineBarcode, scenarioID, stateID, freq, dosage);
+               // MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
+                PrescriptionDAO.add(scenarioID, stateID, doctorName, doctorOrder, freq, medicineBarcode, discontinueStateID, dosage, route);
+               // MedicinePrescriptionDAO.add(medicineBarcode, scenarioID, stateID, freq, dosage);
 
             }
             

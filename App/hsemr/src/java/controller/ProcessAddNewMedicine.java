@@ -35,7 +35,7 @@ public class ProcessAddNewMedicine extends HttpServlet {
         
             String newMedicineName = request.getParameter("newMedicineName");
             String newMedicineBarcode = request.getParameter("newMedicineBarcode").trim().toUpperCase();
-            MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName, "N.A");
+            MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName);
             
             String editMedicine = request.getParameter("editMedicine");
             

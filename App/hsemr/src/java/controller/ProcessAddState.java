@@ -51,7 +51,7 @@ public class ProcessAddState extends HttpServlet {
         //StateDAO.add(stateID, scenarioID, RR, BP, HR, SPO, intake, output, temperature, stateDescription, patientNRIC);
         StateDAO.add(stateID, scenarioID, stateDescription, 0, patientNRIC);
         //add  doctor's order for this state, which is stored in prescription
-        PrescriptionDAO.add(scenarioID, stateID, "Dr. Tan/01234Z", doctorOrderForState, "NA", "NA", "-");
+        PrescriptionDAO.add(scenarioID, stateID, "Dr. Tan/01234Z", doctorOrderForState, "NA", "NA", "-", "-","N.A");
 
         if (edit== null || edit.equals(" ")) {
             response.sendRedirect("createStateBC.jsp");
