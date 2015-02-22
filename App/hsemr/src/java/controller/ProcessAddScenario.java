@@ -9,6 +9,7 @@ package controller;
 import dao.*;
 import entity.*;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -53,6 +54,14 @@ public class ProcessAddScenario extends HttpServlet {
             String dobString = request.getParameter("DOB");
             String allergy = request.getParameter("allergy");
            // String wardID= (String) request.getParameter("ward");
+            List<Scenario> allScenario = ScenarioDAO.retrieveAll();
+            
+            Boolean scenarioExist = false;
+            for (Scenario scenario: allScenario) {
+                if (scenario.getScenarioName().equals(scenarioName)) {
+                    scenarioExist = true;
+                }
+            }
 
             //Retrieve patient's default state
             String stateID0 = "ST0";
@@ -62,6 +71,12 @@ public class ProcessAddScenario extends HttpServlet {
             String BPSString0 = request.getParameter("BPS");
             String BPDString0 = request.getParameter("BPD");
             String SPOString0 = request.getParameter("SPO0");
+            String intragastricType = request.getParameter("intragastricType");
+            String intragastricAmount = request.getParameter("intragastricAmount");
+            String intravenousType = request.getParameter("intravenousType");
+            String intravenousAmount = request.getParameter("intravenousAmount");
+            String output = request.getParameter("output");
+            
             
             double temperature0 = 0;
             int RR0 = 0; 
@@ -89,6 +104,22 @@ public class ProcessAddScenario extends HttpServlet {
             
             Patient retrievedPatient = PatientDAO.retrieve(patientNRIC);
             
+            if (intragastricType.equals("")) {
+                intragastricType = "-";
+            }
+            if (intragastricAmount.equals("")) {
+                intragastricAmount = "-";
+            }
+            if (intravenousType.equals("")) {
+                intravenousType = "-";
+            }
+            if (intravenousAmount.equals("")) {
+                intravenousAmount = "-";
+            }
+            if (output.equals("")) {
+                output = "-";
+            }
+                    
             if(retrievedPatient != null){ // patientNRIC exists
                 session.setAttribute("error", "Patient NRIC: " + retrievedPatient.getPatientNRIC() +  " exists. Patient NRIC needs to be unique.");
                 
@@ -108,6 +139,38 @@ public class ProcessAddScenario extends HttpServlet {
                 request.setAttribute("BPS",BPSString0);
                 request.setAttribute("BPD",BPDString0);
                 request.setAttribute("SPO0",SPOString0);
+                request.setAttribute("intragastricType",intragastricType);
+                request.setAttribute("intragastricAmount",intragastricAmount);
+                request.setAttribute("intravenousType",intravenousType);
+                request.setAttribute("intravenousAmount",intravenousAmount);
+                request.setAttribute("output",output);
+                
+                RequestDispatcher rd = request.getRequestDispatcher("createScenario.jsp");
+                rd.forward(request, response);
+            } else if(scenarioExist == true) {
+                session.setAttribute("error", "Scenario: " + scenarioName +  " exists. Please ensure there is no duplication of case.");
+                
+                //for repopulating the fields in createScenario.jsp 
+                request.setAttribute("scenarioName",scenarioName);
+                request.setAttribute("scenarioDescription", scenarioDescription);
+                request.setAttribute("admissionInfo", admissionInfo);
+                request.setAttribute("patientNRIC", patientNRIC);
+                request.setAttribute("firstName", firstName);
+                request.setAttribute("lastName", lastName);
+                request.setAttribute("gender", gender);
+                request.setAttribute("dobString",dobString);
+                request.setAttribute("allergy",allergy);
+                request.setAttribute("temperature0",temperature0);
+                request.setAttribute("RR0",RRString0);
+                request.setAttribute("HR0",HR0);
+                request.setAttribute("BPS",BPSString0);
+                request.setAttribute("BPD",BPDString0);
+                request.setAttribute("SPO0",SPOString0);
+                request.setAttribute("intragastricType",intragastricType);
+                request.setAttribute("intragastricAmount",intragastricAmount);
+                request.setAttribute("intravenousType",intravenousType);
+                request.setAttribute("intravenousAmount",intravenousAmount);
+                request.setAttribute("output",output);
                 
                 RequestDispatcher rd = request.getRequestDispatcher("createScenario.jsp");
                 rd.forward(request, response);
@@ -118,7 +181,7 @@ public class ProcessAddScenario extends HttpServlet {
                 AllergyPatientDAO.add(patientNRIC, allergy);
                 ScenarioDAO.add(scenarioID, scenarioName, scenarioDescription, 0, admissionInfo, newBed);
                 StateDAO.add(stateID0, scenarioID, stateDescription0, 0, patientNRIC); //1 because default state status will be activate
-                VitalDAO.add(scenarioID, temperature0, RR0, BPS0, BPD0, HR0, SPO0, "", "", "", "", "", 1);
+                VitalDAO.add(scenarioID, temperature0, RR0, BPS0, BPD0, HR0, SPO0, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1);
                 
                 session.setAttribute("scenarioID", scenarioID);
                 session.setAttribute("patientNRIC", patientNRIC);

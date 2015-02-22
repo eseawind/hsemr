@@ -128,6 +128,11 @@
                     String BPS = "";
                     String BPD = "";
                     String SPO0 = "";
+                    String intragastricType = "";
+                    String intragastricAmount = "";
+                    String intravenousType = "";
+                    String intravenousAmount = "";
+                    String output = "";
 
                     for (int i = 0; i < vitalList.size(); i++) {
                         Vital v = vitalList.get(i);
@@ -140,6 +145,11 @@
                             BPS = String.valueOf(initialVital.getBpSystolic());
                             BPD = String.valueOf(initialVital.getBpDiastolic());
                             SPO0 = String.valueOf(initialVital.getSpo());
+                            intragastricType = initialVital.getOralType();
+                            intragastricAmount = initialVital.getOralAmount();
+                            intravenousType = initialVital.getIntravenousType();
+                            intravenousAmount = initialVital.getIntravenousAmount();
+                            output = initialVital.getOutput();
                         }
                     }
                     String newDefaultVital = "no";
@@ -164,8 +174,26 @@
                     if (SPO0.equals("0")) {
                         SPO0 = "";
                     }
-
-
+                    
+                    if (intragastricType.equals("-")) {
+                        intragastricType = "";
+                    }
+                    
+                    if (intragastricAmount.equals("-")) {
+                        intragastricAmount = "";
+                    }
+                    
+                    if (intravenousType.equals("-")) {
+                        intravenousType = "";
+                    }
+                    
+                    if (intravenousAmount.equals("-")) {
+                        intravenousAmount = "";
+                    }
+                    
+                    if (output.equals("-")) {
+                        output = "";
+                    }
             %>
 
             <form data-abide action ="ProcessEditScenario" method ="POST">
@@ -296,6 +324,32 @@
                                 <label>SpO<sub>2</sub>
                                     <input type="text" name="SPO0" value="<%=SPO0%>" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$">
                                     <small class="error">SPO must be numeric and between 0 - 100%.</small>
+                                </label>
+                            </div>
+                                    
+                            <div class="large-4 columns">
+                                <label>Intake - Oral/Intragastric (Type)
+                                    <input type="text" name="intragastricType" value="<%=intragastricType%>">
+                                </label>
+                            </div>
+                            <div class="large-4 columns">
+                                <label>Intake - Oral/Intragastric (Amount)
+                                    <input type="text" name="intragastricAmount" value="<%=intragastricAmount%>">
+                                </label>
+                            </div>  
+                            <div class="large-4 columns">
+                                <label>Intake - Intravenous (Type)
+                                    <input type="text" name="intravenousType" value="<%=intravenousType%>">
+                                </label>
+                            </div>  
+                            <div class="large-4 columns">
+                                <label>Intake - Intravenous (Amount)
+                                    <input type="text" name="intravenousAmount" value="<%=intravenousAmount%>">
+                                </label>
+                            </div>
+                            <div class="large-4 columns">
+                                <label>Output
+                                    <input type="text" name="output" value="<%=output%>">
                                 </label>
                             </div>
                         </div>

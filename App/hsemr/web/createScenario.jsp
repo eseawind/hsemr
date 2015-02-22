@@ -88,7 +88,13 @@
                 String BPS = "";
                 String BPD = "";
                 String SPO0 = "";
-
+                String intragastricType = "";
+                String intragastricAmount = "";
+                String intravenousType = "";
+                String intravenousAmount = "";
+                String output = "";
+                
+                
                 if (request.getAttribute("scenarioName") != null) {
                     scenarioName = (String) request.getAttribute("scenarioName");
                 }
@@ -144,14 +150,32 @@
                 if (request.getAttribute("SPO0") != null) {
                     SPO0 = String.valueOf(request.getAttribute("SPO0"));
                 }
-
-
+                
+                if (request.getAttribute("intragastricType") != null && !request.getAttribute("intragastricType").equals("-")) {
+                    intragastricType = (String) request.getAttribute("intragastricType");
+                }
+                
+                if (request.getAttribute("intragastricAmount") != null && !request.getAttribute("intragastricAmount").equals("-")) {
+                    intragastricAmount = (String) request.getAttribute("intragastricAmount");
+                }
+                
+                if (request.getAttribute("intravenousType") != null && !request.getAttribute("intravenousType").equals("-")) {
+                    intravenousType = (String) request.getAttribute("intravenousType");
+                }
+                
+                if (request.getAttribute("intravenousAmount") != null && !request.getAttribute("intravenousAmount").equals("-")) {
+                    intravenousType = (String) request.getAttribute("intravenousAmount");
+                }
+                
+                if (request.getAttribute("output") != null && !request.getAttribute("output").equals("-")) {
+                    intravenousType = (String) request.getAttribute("output");
+                }
+                
             %>
 
             <form data-abide action ="ProcessAddScenario" method ="POST">
                 <!--Case Details-->
                 <div class="panelCase">
-
                     <div>
                     <label>Case Name
                         <input type="text" name="scenarioName" value = "<%=scenarioName%>" required pattern ="^[a-zA-Z0-9 ]+$">
@@ -161,14 +185,17 @@
                     <!--<dd class="accordion-navigation">-->
                     <!--<a href="#panel1">Case Information</a>-->
                     </div>
-                        
+                        <div>
+                            
                     <label>Case Description
                         <textarea style = "resize:vertical"  name="scenarioDescription" rows="10" cols="10" placeholder ="<%=scenarioDescription%>" required></textarea>
                     </label>
-
+                        </div>
+                    <div>
                     <label>Admission Information
                         <textarea style = "resize:vertical"  name="admissionInfo" rows="10" cols="10" placeholder = "<%=admissionInfo%>" required></textarea>
                     </label>
+                    </div>
                 </div>
                 <!--</dd>-->
 
@@ -184,7 +211,7 @@
                         <div class="row">
                             <div class="large-4 columns">
                                 <label>Patient's NRIC
-                                    <input type="text" maxlength="9" name ="patientNRIC" value="<%=patientNRIC%>" required pattern ="^[SFTG]\d{7}[A-Z]$"/>
+                                    <input type="text" maxlength="9" name ="patientNRIC" value="<%=patientNRIC%>" placeholder="e.g. S9472733Z" required pattern ="^[SFTG]\d{7}[A-Z]$"/>
                                     <small class="error">Please enter a valid NRIC according to Singapore's standard. <i>E.g. S9472733Z</i></small>
                                 </label>
 
@@ -207,7 +234,7 @@
                         <div class="row">
                             <div class="large-4 columns">
                                 <label>Date of Birth
-                                    <input type="text" id="datepicker" name = "DOB" value="<%=dobString%>" required pattern = "^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$">
+                                    <input type="text" id="datepicker" name = "DOB" value="<%=dobString%>" placeholder="e.g. 21/09/1988" required pattern = "^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$">
                                     <small class="error">Please enter in DD/MM/YYYY.</small>
                                 </label>
                             </div>
@@ -270,6 +297,32 @@
                                     <small class="error">SPO must be numeric and between 0 - 100%.</small>
                                 </label>
                             </div>
+                            <div class="large-4 columns">
+                                <label>Intake - Oral/Intragastric (Type)
+                                    <input type="text" name="intragastricType" value="<%=intragastricType%>">
+                                </label>
+                            </div>
+                            <div class="large-4 columns">
+                                <label>Intake - Oral/Intragastric (Amount)
+                                    <input type="text" name="intragastricAmount" value="<%=intragastricAmount%>">
+                                </label>
+                            </div>  
+                            <div class="large-4 columns">
+                                <label>Intake - Intravenous (Type)
+                                    <input type="text" name="intravenousType" value="<%=intravenousType%>">
+                                </label>
+                            </div>  
+                            <div class="large-4 columns">
+                                <label>Intake - Intravenous (Amount)
+                                    <input type="text" name="intravenousAmount" value="<%=intravenousAmount%>">
+                                </label>
+                            </div>
+                            <div class="large-4 columns">
+                                <label>Output
+                                    <input type="text" name="output" value="<%=output%>">
+                                </label>
+                            </div>
+                                    
                         </div>
                     </div>
                 </div>

@@ -612,10 +612,10 @@ public class VitalDAO {
         }
         
     }
-    public static void update(double temp, int rr, int hr, int bps, int bpd, int spo, String scenarioID) {
+    public static void update(double temp, int rr, int hr, int bps, int bpd, int spo, String output, String intragastricType, String intragastricAmount, String intravenousType, String intravenousAmount, String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "UPDATE vital SET temperature =?, RR = ?, HR=?, BPsystolic=?, BPdiastolic=?, SPO=? WHERE scenarioID =? AND initialVital=?";
+        String query = "UPDATE vital SET temperature =?, RR = ?, HR=?, BPsystolic=?, BPdiastolic=?, SPO=?, output, oralType, oralAmount, intravenousType, intravenousAmount WHERE scenarioID =? AND initialVital=?";
 
         try {
             conn = ConnectionManager.getConnection();
@@ -627,8 +627,13 @@ public class VitalDAO {
             preparedStatement.setInt(4, bps);
             preparedStatement.setInt(5, bpd);
             preparedStatement.setInt(6, spo);
-            preparedStatement.setString(7, scenarioID);
-            preparedStatement.setInt(8, 1);
+            preparedStatement.setString(7, output);
+            preparedStatement.setString(8, intragastricType);
+            preparedStatement.setString(9, intragastricAmount);
+            preparedStatement.setString(10, intravenousType);
+            preparedStatement.setString(11, intravenousAmount);
+            preparedStatement.setString(12, scenarioID);
+            preparedStatement.setInt(13, 1);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

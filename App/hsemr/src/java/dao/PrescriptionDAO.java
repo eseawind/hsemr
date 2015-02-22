@@ -162,7 +162,7 @@ public class PrescriptionDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from prescription WHERE scenarioID = ?");
+            stmt = conn.prepareStatement("select * from prescription WHERE scenarioID = ? and dosage <> '-'");
             stmt.setString(1, scenarioID);
 
             rs = stmt.executeQuery();

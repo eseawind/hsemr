@@ -281,6 +281,8 @@
 
             <!-- End Report table -->
             <form action="viewScenarioAdmin.jsp" method="POST">
+                <br>
+                <br>
                 <center><input type ="submit" class ="button small" value ="Proceed to Admin Homepage"></center>
             </form>
         </div>

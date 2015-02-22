@@ -60,6 +60,12 @@ public class ProcessEditScenario extends HttpServlet {
             String bpsStr = request.getParameter("BPS");
             String bpdStr = request.getParameter("BPD");
             String spoStr = request.getParameter("SPO0");
+            String intragastricType = request.getParameter("intragastricType");
+            String intragastricAmount = request.getParameter("intragastricAmount");
+            String intravenousType = request.getParameter("intravenousType");
+            String intravenousAmount = request.getParameter("intravenousAmount");
+            String output = request.getParameter("output");
+            
             if (temperatureStr.equals("")) {
                 temperatureStr = "0";
             }
@@ -79,6 +85,21 @@ public class ProcessEditScenario extends HttpServlet {
                 spoStr = "0";
             }
             
+ if (intragastricType.equals("")) {
+                intragastricType = "-";
+            }
+            if (intragastricAmount.equals("")) {
+                intragastricAmount = "-";
+            }
+            if (intravenousType.equals("")) {
+                intravenousType = "-";
+            }
+            if (intravenousAmount.equals("")) {
+                intravenousAmount = "-";
+            }
+            if (output.equals("")) {
+                output = "-";
+            }            
             double temperature = Double.parseDouble(temperatureStr);
             int rr = Integer.parseInt(rrStr);
             int hr = Integer.parseInt(hrStr);
@@ -86,17 +107,15 @@ public class ProcessEditScenario extends HttpServlet {
             int bpd = Integer.parseInt(bpdStr);
             int spo = Integer.parseInt(spoStr);
             String newDefaultVital = request.getParameter("newDefaultVital");
-            
-            out.println(temperature + " " + rr + " " + hr + " " + bps + " " + bpd + " " + spo + " ");
-            
+                        
             AllergyPatientDAO.update(patientNRIC, allergy, retrieveNRIC);
             StateDAO.updateNRIC(patientNRIC, retrieveNRIC);
             PatientDAO.update(patientNRIC, firstName, lastName, gender, dob, retrieveNRIC);
             
             if(newDefaultVital.equals("yes")) {
-                VitalDAO.add(scenarioID, temperature, rr, bps, bpd, hr, spo, "-", "-", "-", "-", "-", 1);
+                VitalDAO.add(scenarioID, temperature, rr, bps, bpd, hr, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1);
             } else {
-                VitalDAO.update(temperature, rr, hr, bps, bpd, spo, scenarioID);
+                VitalDAO.update(temperature, rr, hr, bps, bpd, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, scenarioID);
             }
            
             ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, admissionInfo);
