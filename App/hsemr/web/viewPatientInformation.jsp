@@ -75,7 +75,10 @@
        
                         
                         //get the most recently activated scenario's state
-                        retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
+                        if (scenarioActivated == null) {
+                            out.println("<h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.");
+                        } else {
+                            retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
                         
                     
 
@@ -1130,9 +1133,14 @@
                                                 </div>
 
                                                 <% }
+                                                
                                                 %>
                                                 </div>
                                                 </div>
+                                                <% }
+                                                
+                                                %>
+
                                                 </div>
 
 
@@ -1145,6 +1153,12 @@
                                                 <div class ="show-for-small-only">
 
                                                     <%
+                                                        //get the most recently activated scenario's state
+                                                if (scenarioActivated == null) {
+                                                    out.println("No Case/States Activated<br>Please contact administrator/lecturer for case activation.");
+                                                } else {
+                                                    retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
+
                                                         String stateID = retrieveScenarioState.getStateID();
                                                         if (scenarioActivated == null || stateID == null) { %>
                                                             <h1>No Case/States Activated</h1>
@@ -1482,7 +1496,8 @@
                                                                 </ul>
                                                             </div>
                                                         </dd>
-                                                        <%}%>   
+                                                        <%}
+                                                }%>   
                                                 </div>
 
                                                 <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
