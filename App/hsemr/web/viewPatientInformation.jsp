@@ -76,7 +76,7 @@
                         
                         //get the most recently activated scenario's state
                         if (scenarioActivated == null) {
-                            out.println("<h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.");
+                            out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
                         } else {
                             retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
                         
@@ -1155,17 +1155,17 @@
                                                     <%
                                                         //get the most recently activated scenario's state
                                                 if (scenarioActivated == null) {
-                                                    out.println("No Case/States Activated<br>Please contact administrator/lecturer for case activation.");
+                                                    out.println("<center>No Case/States Activated<br>Please contact administrator/lecturer for case activation.</center>");
                                                 } else {
                                                     retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
                                                         if (scenarioActivated == null || retrieveScenarioState == null) {
-                                                        String stateID = retrieveScenarioState.getStateID();
+                                                        
                                                          %>
-                                                            <h1>No Case/States Activated</h1>
-                                                            Please contact administrator/lecturer for case activation.
+                                                         <center><h1>No Case/States Activated</h1>
+                                                             Please contact administrator/lecturer for case activation.</center>
 
-                                                    <%} else {
-
+                                                    <%} else {  
+                                                        String stateID = retrieveScenarioState.getStateID();
                                                         //get the most recently activated scenario's state
                                                         retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
 
