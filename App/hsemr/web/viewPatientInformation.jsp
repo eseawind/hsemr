@@ -1158,9 +1158,9 @@
                                                     out.println("No Case/States Activated<br>Please contact administrator/lecturer for case activation.");
                                                 } else {
                                                     retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
-
+                                                        if (scenarioActivated == null || retrieveScenarioState == null) {
                                                         String stateID = retrieveScenarioState.getStateID();
-                                                        if (scenarioActivated == null || stateID == null) { %>
+                                                         %>
                                                             <h1>No Case/States Activated</h1>
                                                             Please contact administrator/lecturer for case activation.
 
