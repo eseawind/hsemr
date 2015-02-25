@@ -55,8 +55,7 @@
                 //    String stateID = retrieveScenarioState.getStateID();
                 
                     if (retrieveScenarioState == null) {
-                        out.println("<h1>No State Activated</h1>");
-                        out.println("Please contact lecturer/administrator.");
+                         out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
                     } else { 
                         List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
 
@@ -95,9 +94,8 @@
                             <%
                                 Scenario scenario = ScenarioDAO.retrieveActivatedScenario();
 
-                                if (scenario == null) {
-                                    out.println("<h1>No Case Activated</h1>");
-                                    out.println("Please contact lecturer/administrator.");
+                                if (scenario == null || StateDAO.retrieveActivateState(scenario.getScenarioID()) == null) {
+                                    out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
                                 } else {%>
                         <h1>Please select a ward:</h1>
                         <%
