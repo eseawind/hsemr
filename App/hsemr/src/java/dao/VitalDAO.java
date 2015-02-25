@@ -615,7 +615,7 @@ public class VitalDAO {
     public static void update(double temp, int rr, int hr, int bps, int bpd, int spo, String output, String intragastricType, String intragastricAmount, String intravenousType, String intravenousAmount, String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "UPDATE vital SET temperature =?, RR = ?, HR=?, BPsystolic=?, BPdiastolic=?, SPO=?, output, oralType, oralAmount, intravenousType, intravenousAmount WHERE scenarioID =? AND initialVital=?";
+        String query = "UPDATE vital SET temperature =?, RR = ?, HR=?, BPsystolic=?, BPdiastolic=?, SPO=?, output=?, oralType=?, oralAmount=?, intravenousType=?, intravenousAmount=? WHERE scenarioID =? AND initialVital=?";
 
         try {
             conn = ConnectionManager.getConnection();

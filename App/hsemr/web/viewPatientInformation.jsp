@@ -1496,8 +1496,10 @@
                                                                 </ul>
                                                             </div>
                                                         </dd>
-                                                        <%}
-                                                }%>   
+                                                        <%
+                                                        }
+                                                    }
+                                                        %>   
                                                 </div>
 
                                                 <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->

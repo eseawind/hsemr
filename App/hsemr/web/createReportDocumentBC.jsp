@@ -41,7 +41,8 @@
         </ul><br/>
 
         <div class="large-centered large-6 columns">
-            <%              String success = "";
+            <%              
+                String success = "";
                 String error = "";
 
                 String scenarioID = (String) session.getAttribute("scenarioID");

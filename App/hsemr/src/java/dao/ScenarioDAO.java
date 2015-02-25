@@ -147,7 +147,7 @@ public class ScenarioDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM scenario");
+            stmt = conn.prepareStatement("SELECT * FROM scenario order by bedNumber asc");
             rs = stmt.executeQuery();
 
             while (rs.next()) {

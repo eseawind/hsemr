@@ -4,6 +4,9 @@
     Author     : weiyi.ngow.2012
 --%>
 
+<%@page import="entity.Scenario"%>
+<%@page import="dao.ScenarioDAO"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,12 +25,18 @@
         <h1>PDF Text Recognition Case Setup</h1>
         <br><br>
         <div class="large-centered large-2 columns">
-        <center><form action = "createScenario.jsp" method = "POST" enctype = "multipart/form-data"> 
-                
+        <center><form action = "ProcessPDFCreation" method = "POST" enctype = "multipart/form-data"> 
+                <%
+                    List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
+                    int max = scenarioList.size() - 1; 
+                    Scenario lastScenario = scenarioList.get(max);
+                    int nextScenarioID = lastScenario.getBedNumber() + 1; 
+                    String nextScenarioIDStr = "SC" + nextScenarioID;  
+                    
+                %>
                 
                     <input type ="file" name = "file" required /><br>
-<!--                            <input type ="hidden" name ="scenarioID" value =""/>
-<input type ="hidden" name ="editReport" value =""/>--><br>
+                    <input type ="hidden" name ="scenarioID" value ="<%=nextScenarioIDStr%>"/>
                     <input type ="submit" class ="button tiny" value ="Upload Case">
                 
             </form><br>   </center>

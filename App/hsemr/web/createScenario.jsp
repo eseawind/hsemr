@@ -46,6 +46,11 @@
                 error = (String) session.getAttribute("error");
                 session.setAttribute("error", "");
             }
+            if (session.getAttribute("s") != null && !session.getAttribute("s").equals("")) {
+                   String s = (String) session.getAttribute("s");
+                   out.println(s);
+
+            }
         %>
     </head>
     <body>
@@ -278,7 +283,7 @@
                                     <small class="error">Heart Rate must be between 0 - 200.</small>
                                 </label>
                             </div>
-                                    
+                            <div class="row">        
                             <div class="large-4 columns">
                                 <label>Blood Pressure Systolic
                                     <input type="text" name="BPS" value="<%=BPS%>" maxlength ="3" pattern = "^([0-9]{1,2}|[12][0-9]{2}|300)$">
@@ -297,30 +302,37 @@
                                     <small class="error">SPO must be numeric and between 0 - 100%.</small>
                                 </label>
                             </div>
+                            </div>
+                            <div class="row">
                             <div class="large-4 columns">
-                                <label>Intake - Oral/Intragastric (Type)
+                                <label>Intake - Oral/Intragastric<br>(Type)
                                     <input type="text" name="intragastricType" value="<%=intragastricType%>">
                                 </label>
                             </div>
                             <div class="large-4 columns">
-                                <label>Intake - Oral/Intragastric (Amount)
+                                <label>Intake - Oral/Intragastric <br>(Amount)
                                     <input type="text" name="intragastricAmount" value="<%=intragastricAmount%>">
                                 </label>
                             </div>  
                             <div class="large-4 columns">
-                                <label>Intake - Intravenous (Type)
+                                <label>Intake - Intravenous <br>(Type)
                                     <input type="text" name="intravenousType" value="<%=intravenousType%>">
                                 </label>
                             </div>  
+                            </div>
+                            <div class="row">
                             <div class="large-4 columns">
-                                <label>Intake - Intravenous (Amount)
+                                <label>Intake - Intravenous <br>(Amount)
                                     <input type="text" name="intravenousAmount" value="<%=intravenousAmount%>">
                                 </label>
                             </div>
                             <div class="large-4 columns">
-                                <label>Output
+                                <label><br>Output
                                     <input type="text" name="output" value="<%=output%>">
                                 </label>
+                            </div>
+                                <div class="large-4 columns">
+                                
                             </div>
                                     
                         </div>

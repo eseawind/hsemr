@@ -328,29 +328,32 @@
                             </div>
                                     
                             <div class="large-4 columns">
-                                <label>Intake - Oral/Intragastric (Type)
+                                <label>Intake - Oral/Intragastric <br>(Type)
                                     <input type="text" name="intragastricType" value="<%=intragastricType%>">
                                 </label>
                             </div>
                             <div class="large-4 columns">
-                                <label>Intake - Oral/Intragastric (Amount)
+                                <label>Intake - Oral/Intragastric <br>(Amount)
                                     <input type="text" name="intragastricAmount" value="<%=intragastricAmount%>">
                                 </label>
                             </div>  
                             <div class="large-4 columns">
-                                <label>Intake - Intravenous (Type)
+                                <label>Intake - Intravenous <br>(Type)
                                     <input type="text" name="intravenousType" value="<%=intravenousType%>">
                                 </label>
                             </div>  
                             <div class="large-4 columns">
-                                <label>Intake - Intravenous (Amount)
+                                <label>Intake - Intravenous <br>(Amount)
                                     <input type="text" name="intravenousAmount" value="<%=intravenousAmount%>">
                                 </label>
                             </div>
                             <div class="large-4 columns">
-                                <label>Output
+                                <label><br>Output
                                     <input type="text" name="output" value="<%=output%>">
                                 </label>
+                            </div>
+                                <div class="large-4 columns">
+                                
                             </div>
                         </div>
                     </div>
