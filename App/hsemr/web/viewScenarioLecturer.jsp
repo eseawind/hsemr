@@ -3,8 +3,8 @@
     Created on : Oct 9, 2014, 8:41:17 AM
     Author     : gladyskhong.2012
 --%>
-<%@page import="entity.Scenario"%>
-<%@page import="dao.ScenarioDAO"%>
+<%@page import="entity.*"%>
+<%@page import="dao.*"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="protectPage/protectLecturer.jsp" %>
@@ -68,7 +68,8 @@
                 String scenarioID = "";
 
                 List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
-
+                List<String> activatedScenarioList = LecturerScenarioDAO.retrieveScenarioActivated();
+                
                 for (int i = 0; i < scenarioList.size(); i++) {
                     Scenario scenario = scenarioList.get(i);
             %>
@@ -89,7 +90,7 @@
                     int counter = 0;
 
                     for (int i = 0; i <= numOfRows; i++) {
-                        // out.println(numOfRows);
+                        
                     %>
                     
                     <col width ="20%">
@@ -98,21 +99,24 @@
                       <col width ="20%">
                        <col width ="20%">
                 <tr valign="top">
-                    <%                            Scenario scenario = null;
-                        //out.println(counter + "counter");
+                    <%                            
+                        Scenario scenario = null;
+                        
                         for (int j = 0; j < numPerRow; j++) {
 
                     %>
                         <%        if (sizeOfList > counter) {
-                                scenario = scenarioList.get(counter); //supposed to get Counter, but somehow arrayindexoutofbounds when i put counter.
+                                scenario = scenarioList.get(counter); 
 
                                 scenarioID = scenario.getScenarioID();
+                                
+                                LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerId, scenarioID);
                                 counter++;
                                 caseNo = counter; 
                         %>
                  <td><center><a href="#" data-reveal-id="<%=scenarioID%>">
                  
-                        <% if (scenario.getScenarioStatus() == 1) {%>
+                        <% if (lecScenario != null) { //activated, hence able to find in lectuereScenario table%> 
                         
                             <input type="submit" class="case" value="<%=counter%>"><br/>
                             
@@ -139,7 +143,7 @@
 
         <%            for (int i = 0; i < scenarioList.size(); i++) {
                 Scenario scenario = scenarioList.get(i);
-                int status = scenario.getScenarioStatus();
+                
         %>
 
         <div id="<%=scenario.getScenarioID()%>" class="reveal-modal" data-reveal>
@@ -147,7 +151,9 @@
             <form action = "ProcessActivateScenario" method = "POST">   
                 <h2>Case Information</h2> 
                 <%
-                    if (status == 1) {
+                    LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerId, scenario.getScenarioID());
+                    
+                    if (lecScenario != null) { //it is activated
                 %>
                 Case is currently activated. 
                 <input type ="hidden" id= "status" name = "status" value = "deactivated">
@@ -162,7 +168,8 @@
                    <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
                                        return false" value="Activate Case" >
                    <%} else { %>
-                       <input type ="submit" class="button tiny" value="Activate Case">
+                       <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
+                                       return false" value="Activate Case" >
                    <% }
                   }%>
 

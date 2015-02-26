@@ -32,7 +32,7 @@ public class ScenarioDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
+                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
             }
 
         } catch (SQLException e) {
@@ -56,7 +56,7 @@ public class ScenarioDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
+                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
             }
 
         } catch (SQLException e) {
@@ -80,7 +80,7 @@ public class ScenarioDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
+                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
             }
 
         } catch (SQLException e) {
@@ -151,7 +151,7 @@ public class ScenarioDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Scenario newScenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
+                Scenario newScenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
                 scenarioList.add(newScenario);
             }
 
@@ -162,26 +162,26 @@ public class ScenarioDAO {
         }
         return scenarioList;
     }
-
-    public static void updateScenarioStatus(String scenarioID, int scenarioStatus) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-
-        try {
-            conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("UPDATE scenario SET scenarioStatus = ? WHERE  scenarioID = ?");
-            stmt.setInt(1, scenarioStatus);
-            stmt.setString(2, scenarioID);
-
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionManager.close(conn, stmt);
-        }
-
-    }
+    //not in use now
+//    public static void updateScenarioStatus(String scenarioID, int scenarioStatus) {
+//        Connection conn = null;
+//        PreparedStatement stmt = null;
+//
+//        try {
+//            conn = ConnectionManager.getConnection();
+//            stmt = conn.prepareStatement("UPDATE scenario SET scenarioStatus = ? WHERE  scenarioID = ?");
+//            stmt.setInt(1, scenarioStatus);
+//            stmt.setString(2, scenarioID);
+//
+//            stmt.executeUpdate();
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            ConnectionManager.close(conn, stmt);
+//        }
+//
+//    }
 
     public static void update(String scenarioID, String scenarioName, String scenarioDescription, int scenarioStatus, String admissionNote) {
         Connection conn = null;
@@ -237,7 +237,7 @@ public class ScenarioDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Scenario newScenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6));
+                Scenario newScenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
                 scenarioList.add(newScenario);
             }
 
@@ -248,6 +248,7 @@ public class ScenarioDAO {
         }
         return scenarioList;
     }
+    
     public static void resetScenario() {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
