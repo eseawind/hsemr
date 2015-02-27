@@ -45,6 +45,8 @@ public class LecturerScenarioDAO {
         return lecturerScenario;
     }
     
+
+    
     public static List<String> retrieveScenarioActivated() {
         Connection conn = null;
         PreparedStatement stmt = null;

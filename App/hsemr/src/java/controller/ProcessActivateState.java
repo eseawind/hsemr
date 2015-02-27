@@ -40,21 +40,27 @@ public class ProcessActivateState extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-
+            
             //To retrieve the selected id to activate or deactive
             String status = (String) request.getParameter("status");
             String stateID = (String) request.getParameter("stateID");
             String scenarioID = (String) request.getParameter("scenarioID");
+            
+            HttpSession session = request.getSession(false);
+            String lecturerID = (String) session.getAttribute("lecturer");
             //to know which page it comes from then redirect to the correct page
 
             //call scenarioDAO to update the status of the scenario
             if (status.equals("deactivated")) {
-                StateDAO.updateState(stateID, scenarioID,0);
-                HttpSession session = request.getSession(false);
+               // StateDAO.updateState(stateID, scenarioID,0);
+                StateHistoryDAO.clearAllHistoryByLecturer(lecturerID);
                 session.setAttribute("success", "You have successfully deactivated the state: " + stateID + " !");
                 response.sendRedirect("editStateLecturer.jsp");
             } else {
-                Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
+                //Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
+                
+               StateHistoryDAO.addStateHistory(scenarioID, stateID, lecturerID);
+               /*
                 State activatedState = StateDAO.retrieveActivateState(activatedScenario.getScenarioID());
                 if (activatedState != null) {
                     if (!activatedState.getStateID().equals(stateID)) {
@@ -67,7 +73,7 @@ public class ProcessActivateState extends HttpServlet {
                     StateHistoryDAO.addStateHistory(scenarioID, "ST0");
                 }
                 StateHistoryDAO.addStateHistory(scenarioID, stateID);
-                HttpSession session = request.getSession(false);
+                */
                 session.setAttribute("success", "You have successfully activated the state: " + stateID + " !");
                 response.sendRedirect("editStateLecturer.jsp");
             }

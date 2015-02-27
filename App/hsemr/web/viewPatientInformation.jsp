@@ -68,14 +68,19 @@
 
                         State retrieveScenarioState = null;
 
+                        
                         //retrieve current scenario
-                        Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
+                        //Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
+                        Scenario scenarioActivated= ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+                        StateHistory stateActivatedLastest= StateHistoryDAO.retrieveLastestStateActivatedByLecturer(pg.getLecturerID());
 
                         //get the most recently activated scenario's state
-                        if (scenarioActivated == null || StateDAO.retrieveActivateState(scenarioActivated.getScenarioID()) == null) {
+                       // if (scenarioActivated == null || StateDAO.retrieveActivateState(scenarioActivated.getScenarioID()) == null) {
+                        if (scenarioActivated == null || stateActivatedLastest.getScenarioID() == null) {
                             out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
                         } else {
-                            retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
+                            //retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
+                            retrieveScenarioState = StateDAO.retrieveStateInScenario(stateActivatedLastest.getScenarioID());
                             patientNRIC = retrieveScenarioState.getPatientNRIC();
                             retrievePatient = PatientDAO.retrieve(patientNRIC);
 
@@ -197,8 +202,9 @@
                             <h4>Doctor's Order</h4><br/>
 
                             <%
+                               
                                 if (StateHistoryDAO.retrieveAll().isEmpty()) {
-                                    StateHistoryDAO.addStateHistory(scenarioID, stateID);
+                                    StateHistoryDAO.addStateHistory(scenarioID, stateID, pg.getLecturerID() );
                                 }
                                 HashMap<String, String> activatedStates = StateHistoryDAO.retrieveAll();
                                 // to store reports of all activated states
@@ -238,7 +244,9 @@
                                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                                     if (StateHistoryDAO.retrieveAll().isEmpty()) {
-                                        StateHistoryDAO.addStateHistory(scenarioID, stateID);
+                                       // StateHistoryDAO.addStateHistory(scenarioID, stateID);
+                                        
+                                        StateHistoryDAO.addStateHistory(scenarioID, stateID, pg.getLecturerID());
                                     }
 
                                     // loop through each report
@@ -1133,14 +1141,18 @@
                                                 <div class ="show-for-small-only">
 
 
-                                                    <%                                       if (scenarioActivated == null || StateDAO.retrieveActivateState(scenarioActivated.getScenarioID()) == null) {
+                                                    <%       
+                                                        //if (scenarioActivated == null || StateDAO.retrieveActivateState(scenarioActivated.getScenarioID()) == null) {
+                                                        if (scenarioActivated == null || stateActivatedLastest.getScenarioID() == null) {
+                                                           
                                                             out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
                                                         } else {
 
                                                             String stateID = retrieveScenarioState.getStateID();
                                                             //get the most recently activated scenario's state
-                                                            retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
-
+                                                            //retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
+                                                            retrieveScenarioState = StateDAO.retrieveStateInScenario(stateActivatedLastest.getScenarioID());
+                                                            
                                                             patientNRIC = retrieveScenarioState.getPatientNRIC();
                                                             retrievePatient = PatientDAO.retrieve(patientNRIC);
 
@@ -1349,7 +1361,8 @@
                                                                     <li class="price">Doctor's Order</li>
 
                                                                     <%if (StateHistoryDAO.retrieveAll().isEmpty()) {
-                                                                            StateHistoryDAO.addStateHistory(scenarioID, stateID);
+                                                                           
+                                                                            StateHistoryDAO.addStateHistory(scenarioID, stateID, pg.getLecturerID());
                                                                         }
                                                                         HashMap<String, String> activatedStates = StateHistoryDAO.retrieveAll();
                                                                         // to store reports of all activated states

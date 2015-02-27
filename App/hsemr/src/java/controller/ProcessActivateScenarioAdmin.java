@@ -38,33 +38,35 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
             throws ServletException, IOException {
         //To retrieve the selected id to activate or deactive
         HttpSession session = request.getSession(false);
-        String lecturerId = (String) session.getAttribute("lecturer");
+       // String lecturerID = (String) session.getAttribute("lecturer");
+        String lecturerID = (String) session.getAttribute("lecturer");
         String status = (String) request.getParameter("status");
         String scenarioID = (String) request.getParameter("scenarioID");
       //make sure no other case are activated before activating a new case
         //prevents having more than 1 case activated 
         if (status.equals("deactivated")) {
-            LecturerScenarioDAO.deactivateScenario(lecturerId, scenarioID);
+            LecturerScenarioDAO.deactivateScenario(lecturerID, scenarioID);
         
             session.setAttribute("success", "You have successfully deactivated the case: " + scenarioID + "!");
 //            RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioAdmin.jsp");
 //            rd.forward(request, response);
              response.sendRedirect("viewScenarioAdmin.jsp");
         } else {
-            Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
+            Scenario activatedScenario = ScenarioDAO.retrieveScenarioActivatedByLecturer(lecturerID);
             if (activatedScenario != null) {
                 if (!activatedScenario.getScenarioID().equals(scenarioID)) {
-                    LecturerScenarioDAO.deactivateScenario(lecturerId, scenarioID);
-                    StateDAO.resetState();
-                    StateDAO.updateState("ST0", scenarioID, 1);
+                    LecturerScenarioDAO.deactivateScenario(lecturerID, scenarioID);
+                   // StateDAO.resetState();
+                   // StateDAO.updateState("ST0", scenarioID, 1);
                  
                 }
             }
-            LecturerScenarioDAO.activateScenario(lecturerId, scenarioID);
-            StateDAO.updateState("ST0", scenarioID, 1);
+            LecturerScenarioDAO.activateScenario(lecturerID, scenarioID);
+            //StateDAO.updateState("ST0", scenarioID, 1);
             
-            StateHistoryDAO.clearAllHistory();
-            StateHistoryDAO.addStateHistory(scenarioID, "ST0");
+            
+            StateHistoryDAO.clearAllHistoryByLecturer(lecturerID);
+            StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerID);
             session.setAttribute("success", "You have successfully activated the case: " + scenarioID + "!");
             
             response.sendRedirect("viewScenarioAdmin.jsp");

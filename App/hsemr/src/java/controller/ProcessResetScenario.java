@@ -38,8 +38,10 @@ public class ProcessResetScenario extends HttpServlet {
             String scenarioID = (String) request.getParameter("scenarioID");
             //to know which page it comes from then redirect to the correct page
             
-            StateDAO.resetStateStatus(scenarioID);
-            StateDAO.updateState("ST0", scenarioID, 1);
+            //StateDAO.resetStateStatus(scenarioID);
+            //StateDAO.updateState("ST0", scenarioID, 1);
+            
+            StateHistoryDAO.clearAllHistoryByScenario(scenarioID);
             StateHistoryDAO.reset(scenarioID);
             ReportDAO.resetStatus(scenarioID);
             //NoteDAO.reset(scenarioID);

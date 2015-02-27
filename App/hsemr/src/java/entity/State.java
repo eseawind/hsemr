@@ -14,14 +14,13 @@ public class State {
     private String stateID; 
     private String scenarioID; 
     private String stateDescription;
-    private int stateStatus;
+    
     private String patientNRIC; 
 
-    public State(String stateID, String scenarioID, String stateDescription, int stateStatus, String patientNRIC) {
+    public State(String stateID, String scenarioID, String stateDescription, String patientNRIC) {
         this.stateID = stateID;
         this.scenarioID = scenarioID;
         this.stateDescription = stateDescription;
-        this.stateStatus = stateStatus;
         this.patientNRIC = patientNRIC;
     }
 
@@ -49,13 +48,6 @@ public class State {
         this.stateDescription = stateDescription;
     }
 
-    public int getStateStatus() {
-        return stateStatus;
-    }
-
-    public void setStateStatus(int stateStatus) {
-        this.stateStatus = stateStatus;
-    }
 
     public String getPatientNRIC() {
         return patientNRIC;

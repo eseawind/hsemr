@@ -163,7 +163,10 @@
 
                 Case is deactivated. 
                 <input type ="hidden" id= "status" name = "status" value = "activated">               
-               <% Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
+               <% 
+                        
+                     //Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
+                    Scenario activatedScenario = ScenarioDAO.retrieveScenarioActivatedByLecturer(lecturerId);    
                     if (activatedScenario != null) { %>
                    <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
                                        return false" value="Activate Case" >

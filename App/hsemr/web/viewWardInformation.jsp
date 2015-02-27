@@ -43,15 +43,18 @@
         <div class ="show-for-small-only">
             <%
                 
-                Scenario scen = ScenarioDAO.retrieveActivatedScenario();
+               // Scenario scen = ScenarioDAO.retrieveActivatedScenario();
                 //String scID = "";
-                if (scen == null) {
+                StateHistory retrieveScenarioState= null;
+                if (scenarioActivated1 == null) {
                     out.println("<h1>No Case Activated</h1>");
                     out.println("Please contact lecturer/administrator.");
                 } else {
                     //scID = scen.getScenarioID();
                     //get the most recently activated scenario's state
-                    State retrieveScenarioState = StateDAO.retrieveActivateState(scen.getScenarioID());
+                    
+                   // State retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated1.getScenarioID());
+                  retrieveScenarioState= StateHistoryDAO.retrieveLastestStateActivatedByLecturer(pg.getLecturerID());
                 //    String stateID = retrieveScenarioState.getStateID();
                 
                     if (retrieveScenarioState == null) {
@@ -91,10 +94,13 @@
 
                     <table style ="border-spacing:20px; border:none">
                         <tr>
-                            <%
-                                Scenario scenario = ScenarioDAO.retrieveActivatedScenario();
+                           
+                             <%
+                               Scenario scenario =  ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+                               // Scenario scenario = ScenarioDAO.retrieveActivatedScenario();
 
-                                if (scenario == null || StateDAO.retrieveActivateState(scenario.getScenarioID()) == null) {
+                               // if (scenario == null || StateDAO.retrieveActivateState(scenario.getScenarioID()) == null) {
+                               if (scenario == null || retrieveScenarioState == null) {
                                     out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
                                 } else {%>
                         <h1>Please select a ward:</h1>

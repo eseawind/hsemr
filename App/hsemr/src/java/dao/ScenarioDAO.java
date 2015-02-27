@@ -18,6 +18,32 @@ import java.util.List;
  * @author Administrator
  */
 public class ScenarioDAO {
+    
+      public static Scenario retrieveScenarioActivatedByLecturer(String lecturerID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Scenario scenarioByLecturer = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT * FROM scenario inner join lecturer_scenario "
+                    + "ON scenario.scenarioID=lecturer_scenario.scenarioID where lecturer_scenario.lecturerID=?");
+             stmt.setString(1, lecturerID);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+               scenarioByLecturer = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return scenarioByLecturer;
+    }
+    
 
     public static Scenario retrieve(String scenarioID) {
         Connection conn = null;
@@ -66,7 +92,9 @@ public class ScenarioDAO {
         }
         return scenario;
     }
+    
 
+/*
     public static Scenario retrieveActivatedScenario() {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -90,7 +118,7 @@ public class ScenarioDAO {
         }
         return scenario;
     }
-
+*/
     public static void add(String scenarioID, String scenarioName, String scenarioDescription, int scenarioStatus, String admissionNote, int bedNumber) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -248,7 +276,7 @@ public class ScenarioDAO {
         }
         return scenarioList;
     }
-    
+    /*
     public static void resetScenario() {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -265,7 +293,7 @@ public class ScenarioDAO {
         } finally {
             ConnectionManager.close(conn, preparedStatement, null);
         }
-    }
+    }*/
     public static void update(String scenarioID, String scenarioName, String scenarioDescription, String admissionNote) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;

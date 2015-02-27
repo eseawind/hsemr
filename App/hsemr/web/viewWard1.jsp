@@ -47,7 +47,9 @@
                         int counter = 1;
                         int counterScenario = 0;
                         int bedCounter = 1;
-                        Scenario scen = ScenarioDAO.retrieveActivatedScenario();
+                       
+                         //Scenario scen = ScenarioDAO.retrieveActivatedScenario();
+                        Scenario scen = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
                         String scID = "";
                         if (scen == null) {
                             out.println("No scenario activated, please contact lecturer/ administrator");
@@ -55,6 +57,7 @@
                             scID = scen.getScenarioID();
                         }
 
+                      
                     %>
                     <tr>
                         <%                    for (int row = 0; row <= numOfRows; row++) {

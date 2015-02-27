@@ -51,8 +51,8 @@ public class ProcessResetAll extends HttpServlet {
             NoteDAO.deleteAll();
             VitalHistoryDAO.deleteAll();
             StateHistoryDAO.clearAllHistory();
-            StateDAO.resetState();
-            ScenarioDAO.resetScenario();
+           // StateDAO.resetState();
+           // ScenarioDAO.resetScenario();
             
             
             HttpSession session = request.getSession(false);

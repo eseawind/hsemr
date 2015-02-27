@@ -4,6 +4,8 @@
     Author     : Jocelyn
 --%>
 
+<%@page import="entity.PracticalGroup"%>
+<%@page import="dao.PracticalGroupDAO"%>
 <%@page import="entity.Scenario"%>
 <%@page import="dao.ScenarioDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -42,10 +44,13 @@
 
                     <ul class="left">
                         <li><a href="viewWardInformation.jsp">Ward Management</a></li>
-                            <% Scenario scenarioActivated1 = ScenarioDAO.retrieveActivatedScenario();
+                            <% 
+                                PracticalGroup pg= PracticalGroupDAO.retrieveLecturer(nurseId);
+                               // Scenario scenarioActivated1 = ScenarioDAO.retrieveActivatedScenario();
+                                Scenario scenarioActivated1 = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
                                 if (scenarioActivated1 != null) {
-                                    String scenarioName = ScenarioDAO.retrieveActivatedScenario().getScenarioName();
-                                    String scenarioDescription = ScenarioDAO.retrieveActivatedScenario().getScenarioDescription();
+                                    String scenarioName = scenarioActivated1.getScenarioName();
+                                    String scenarioDescription = scenarioActivated1.getScenarioDescription();
                             %>
                         <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="<b>Scenario Name:</b> <%=scenarioName%><br><br>
                                               <b>Scenario Description: </b> <%=scenarioDescription%>

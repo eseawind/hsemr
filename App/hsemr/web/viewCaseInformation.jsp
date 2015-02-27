@@ -33,7 +33,10 @@
         
         %>
         <div class="large-centered large-6 columns">
-            <% Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
+            <% 
+                    Scenario scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+                       
+                  //Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
         if (scenarioActivated != null) {%>
             <form action ="viewPatientInformation.jsp" method="post">
                 <table>
@@ -46,7 +49,7 @@
                         </td>
 
                         <td> 
-                            <%=ScenarioDAO.retrieveActivatedScenario().getScenarioName()%>
+                            <%=scenarioActivated.getScenarioName()%>
                         </td>
                     </tr>
                     <tr>
@@ -55,7 +58,7 @@
                         </td>
 
                         <td>
-                            <%=ScenarioDAO.retrieveActivatedScenario().getScenarioDescription()%>
+                            <%=scenarioActivated.getScenarioDescription()%>
                         </td>
                     </tr>
 

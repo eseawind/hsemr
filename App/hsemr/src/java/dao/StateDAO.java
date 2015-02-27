@@ -19,7 +19,8 @@ import java.util.List;
  */
 public class StateDAO {
 
-    public static State retrieve(String stateID, String scenarioID) {
+  
+      public static State retrieve(String stateID, String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -33,7 +34,7 @@ public class StateDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                state = new State(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
+                state = new State(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
             }
 
         } catch (SQLException e) {
@@ -57,7 +58,7 @@ public class StateDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                state = new State(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
+                state = new State(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
             }
 
         } catch (SQLException e) {
@@ -68,10 +69,10 @@ public class StateDAO {
         return state;
     }
 
-    public static void add(String stateID, String scenarioID, String stateDescription, int stateStatus, String patientNRIC) {
+    public static void add(String stateID, String scenarioID, String stateDescription, String patientNRIC) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "INSERT INTO state (stateID, scenarioID, stateDescription, stateStatus, patientNRIC) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO state (stateID, scenarioID, stateDescription, patientNRIC) VALUES (?,?,?,?)";
 
         try {
             conn = ConnectionManager.getConnection();
@@ -80,8 +81,8 @@ public class StateDAO {
             preparedStatement.setString(1, stateID);
             preparedStatement.setString(2, scenarioID);
             preparedStatement.setString(3, stateDescription);
-            preparedStatement.setInt(4, stateStatus);
-            preparedStatement.setString(5, patientNRIC);
+           // preparedStatement.setInt(4, stateStatus);
+            preparedStatement.setString(4, patientNRIC);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -104,7 +105,7 @@ public class StateDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                State state = new State(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
+                State state = new State(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
                 stateList.add(state);
             }
 
@@ -115,7 +116,7 @@ public class StateDAO {
         }
         return stateList;
     }
-
+/*
     public static State retrieveActivateState(String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -140,7 +141,8 @@ public class StateDAO {
         }
         return state;
     }
-
+*/
+/*
     public static void resetState() {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -158,7 +160,8 @@ public class StateDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
-
+*/
+ /*
     public static void resetStateStatus(String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -177,8 +180,8 @@ public class StateDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
-    
-
+ */   
+/*
     public static void updateState(String stateID, String scenarioID, int stateStatus) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -199,7 +202,7 @@ public class StateDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
-
+*/
     public static void delete(String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;

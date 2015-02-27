@@ -19,6 +19,33 @@ import java.util.List;
  * @author weiyi.ngow.2012
  */
 public class PracticalGroupDAO {
+    
+        public static PracticalGroup retrieveLecturer(String practicalGrpID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        PracticalGroup practicalGroup = null;
+        
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from practicalgroup where practicalGroupID = ?");
+            stmt.setString(1, practicalGrpID);
+            
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                practicalGroup = new PracticalGroup(rs.getString(1), rs.getString(2), rs.getString(3));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        
+        return practicalGroup;
+    }
+    
+        
     public static PracticalGroup retrieve(String practicalGroupID) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -45,8 +72,7 @@ public class PracticalGroupDAO {
     }
 
     
-    
-    public static List<PracticalGroup> retrieveAll() {
+      public static List<PracticalGroup> retrieveAll() {
         List<PracticalGroup> list = new ArrayList<PracticalGroup>();
         Connection conn = null;
         PreparedStatement stmt = null;

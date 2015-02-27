@@ -4,6 +4,7 @@
     Author     : Administrator
 --%>
 
+<%@page import="dao.LecturerScenarioDAO"%>
 <%-- 
     Document   : viewCaseAdmin
     Created on : Sep 19, 2014, 3:56:39 PM
@@ -81,17 +82,25 @@
                     String scenarioID = scenario.getScenarioID();
                     String scenarioName = scenario.getScenarioName();
                     String scenarioDescription = scenario.getScenarioDescription();
-                    int status = scenario.getScenarioStatus();
+                   // int status = scenario.getScenarioStatus();
+                    List<String> scenarioActivatedList= LecturerScenarioDAO.retrieveScenarioActivated();
                     String admissionInfo = scenario.getAdmissionNote();%>
 
             <tr>
                 <td><%=scenarioID%></td>
                 <td><%=scenarioName%></td>
-                <td><% if (status == 1) {%>
+                <td><%
+                        //if (status == 1) {
+                        for(String scenarioActivatedID : scenarioActivatedList){
+                            if(scenarioActivatedID.equals(scenarioID)){
+                        
+                    %>
                     <font color= limegreen>Activated</font>
                     <%} else {%>
                     <font color= red>Deactivated</font>
-                    <%}%></td>
+                    <%}
+                    
+                        }//end of for loop%></td>
                 <td><%=scenarioDescription%></td>
                 <td><%=admissionInfo%></td>
 
@@ -100,42 +109,58 @@
                 <td><center>
                 <form action ="ProcessActivateScenarioAdmin" method ="POST">
                     <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                    <% if (status == 1) {%>
+                    <% 
+                    
+                    //if (status == 1) {
+                        for(String scenarioActivatedID : scenarioActivatedList){
+                            if(scenarioActivatedID.equals(scenarioID)){
+                    %>
                     <input type ="submit" class="button tiny" value = "deactivate">
                     <input type="hidden" name="status" value="deactivated">
                     <%} else {
-                        Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
-                        if (activatedScenario != null) { %>
-                    <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
-                                return false" value="activate" >
-                    <%} else { %>
+                       //Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
+                        if (scenarioActivatedList != null) { %>
+                     <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
+                                return false" value="activate" > 
+                    <% } else { %>
                     <input type ="submit" class="button tiny" value="activate">
                     <% }
-                        }%>
+                        }
+                        }//end of for loop%>
                     <input type="hidden" name="status" value="activated">
                 </form>
 
                 <!--EDIT-->
                 <form action ="editScenario.jsp" method ="POST">
                     <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                    <% if (status == 1) { %>
+                    <% 
+                    
+                    //if (status == 1) { 
+                        for(String scenarioActivatedID : scenarioActivatedList){
+                            if(scenarioActivatedID.equals(scenarioID)){
+                    %>
                     <input type = "submit" class="button tiny" value="edit" disabled>
                     <% } else { %>
                     <input type = "submit" class="button tiny" value="edit">
-                    <% }%>
+                    <% }
+                        }//end of for loop%>
                 </form>
 
                 <!--DELETE-->    
                 <form action ="ProcessDeleteScenario" method ="POST">
                     <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                    <% if (status == 1) {
+                    <% 
+                        //if (status == 1) {
+                        for(String scenarioActivatedID : scenarioActivatedList){
+                            if(scenarioActivatedID.equals(scenarioID)){
                     %>
                     <input type = "submit" class="deletebutton tiny" value="delete" disabled>
                     <% } else {
                     %>
                     <input type = "submit" class="deletebutton tiny" onclick="if (!deleteConfirmation())
                                 return false" value="delete" >
-                    <% } %>
+                    <% }
+                        }//end of forlop%>
                 </form>
             </center></td>  
             </tr>

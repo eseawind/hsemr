@@ -56,7 +56,9 @@
                 <center>
                     
                     <%
-                    Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
+                       //Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
+                       String lecturerID = (String) session.getAttribute("lecturer");
+                       Scenario activatedScenario= ScenarioDAO.retrieveScenarioActivatedByLecturer(lecturerID);
                     %>
                     <h1>Select state to change the state</h1>
                     
@@ -79,10 +81,17 @@
                 int caseNo = 0;
                 String scenarioID = "";
                 String stateID = "";
+                String stateIDCurrent="";
                 
                 List<State> stateList = StateDAO.retrieveAll(activatedScenario.getScenarioID());
                 List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
-
+                StateHistory latestActivatedState= StateHistoryDAO.retrieveLastestStateActivatedByLecturer(lecturerID);
+                
+                if(latestActivatedState!= null){
+                     stateIDCurrent= latestActivatedState.getStateID();
+                }else {
+                     out.println("Please ensure at least a scenario is activated first before proceeding to change state");
+                }
                 for (int i = 0; i < stateList.size(); i++) {
                     State state = stateList.get(i);
             %>
@@ -122,12 +131,16 @@
 
                                 stateID = state.getStateID();
                                
+                                
                                 caseNo = counter; 
                                 
                         %>
                  <td><center><a href="#" data-reveal-id="<%=stateID%>">
                  
-                        <% if (state.getStateStatus() == 1) {%>
+                        <% 
+                            //if (state.getStateID() == 1) {
+                            if(stateIDCurrent.equals(stateID)) {
+                        %>
                         
                             <input type="submit" class="case" value="<%=counter%>"><br/>
                             
@@ -155,7 +168,7 @@
 
         <%            for (int i = 0; i < stateList.size(); i++) {
                 State state = stateList.get(i);
-                int status = state.getStateStatus();
+                //int status = state.getStateStatus();
         %>
 
         <div id="<%=state.getStateID()%>" class="reveal-modal" data-reveal>
@@ -163,7 +176,8 @@
             <form action = "ProcessActivateState" method = "POST">   
                 <h2>State Information</h2> 
                 <%
-                    if (status == 1) {
+                   // if (status == 1) {
+                      if (stateIDCurrent.equals(state.getStateID())){
                 %>
                 State is currently activated. 
                 <input type ="hidden" id= "status" name = "status" value = "deactivated">

@@ -16,11 +16,21 @@ public class StateHistory {
     private String scenarioID; 
     private String stateID; 
     private Date timeActivated;
+    private String lecturerID;
 
-    public StateHistory(String scenarioID, String stateID, Date timeActivated) {
+    public StateHistory(String scenarioID, String stateID, Date timeActivated, String lecturerID) {
         this.scenarioID = scenarioID;
         this.stateID = stateID;
         this.timeActivated = timeActivated;
+        this.lecturerID= lecturerID;
+    }
+    
+    public String getLecturerID() {
+        return scenarioID;
+    }
+
+    public void setlecturerID(String lecturerID) {
+        this.lecturerID = lecturerID;
     }
 
     public String getScenarioID() {

@@ -49,7 +49,7 @@ public class ProcessAddState extends HttpServlet {
         String edit = request.getParameter("editState");
         
         //StateDAO.add(stateID, scenarioID, RR, BP, HR, SPO, intake, output, temperature, stateDescription, patientNRIC);
-        StateDAO.add(stateID, scenarioID, stateDescription, 0, patientNRIC);
+        StateDAO.add(stateID, scenarioID, stateDescription, patientNRIC);
         //add  doctor's order for this state, which is stored in prescription
         PrescriptionDAO.add(scenarioID, stateID, "Dr. Tan/01234Z", doctorOrderForState, "NA", "NA", "-", "-","N.A");
 
