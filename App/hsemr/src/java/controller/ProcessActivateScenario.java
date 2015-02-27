@@ -44,6 +44,9 @@ public class ProcessActivateScenario extends HttpServlet {
 
             //To retrieve the selected id to activate or deactive
             String status = (String) request.getParameter("status");
+            
+            
+           
             HttpSession session = request.getSession(false);
              
             String lecturerID = (String) session.getAttribute("lecturer");
@@ -54,6 +57,7 @@ public class ProcessActivateScenario extends HttpServlet {
             //call scenarioDAO to update the status of the scenario
             if (status.equals("deactivated")) {
                 LecturerScenarioDAO.deactivateScenario(lecturerID, scenarioID);
+                StateHistoryDAO.clearAllHistoryByLecturer(lecturerID);
                 session.setAttribute("success", "You have successfully deactivated the case: " + scenarioID + " !");
                 response.sendRedirect("viewScenarioLecturer.jsp");
             } else { 
@@ -62,6 +66,7 @@ public class ProcessActivateScenario extends HttpServlet {
                 if (activatedScenario != null) {
                     if (!activatedScenario.getScenarioID().equals(scenarioID)) {
                         LecturerScenarioDAO.deactivateScenario(lecturerID, scenarioID);
+                        StateHistoryDAO.clearAllHistoryByLecturer(lecturerID);
                        // StateDAO.resetState();
                        // StateDAO.updateState("ST0", scenarioID, 1);
                         
@@ -73,11 +78,12 @@ public class ProcessActivateScenario extends HttpServlet {
                 //StateDAO.resetState();
                // StateDAO.updateState("ST0", scenarioID, 1);
                // StateHistoryDAO.clearAllHistory();
+                
                 StateHistoryDAO.clearAllHistoryByLecturer(lecturerID);
                 StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerID);
                 session.setAttribute("success", "You have successfully activated the case: " + scenarioID + " !");
 
-                response.sendRedirect("viewScenarioLecturer.jsp");
+               // response.sendRedirect("viewScenarioLecturer.jsp");
             }
 
         } finally {

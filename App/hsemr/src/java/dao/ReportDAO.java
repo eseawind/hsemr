@@ -38,7 +38,7 @@ public class ReportDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Report report = new Report(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+                Report report = new Report(rs.getInt(1), rs.getTimestamp(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
                 reports.add(report);
                 
             }
@@ -59,13 +59,13 @@ public class ReportDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from report where scenarioID = ? and stateID = ? order by reportName");
+            stmt = conn.prepareStatement("select * from report where scenarioID = ? and stateID = ? order by reportID");
             stmt.setString(1, scenarioID);
             stmt.setString(2, stateID);
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Report report = new Report(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+                Report report = new Report(rs.getInt(1), rs.getTimestamp(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
                 reports.add(report);
                 
             }
@@ -92,7 +92,7 @@ public class ReportDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Report report = new Report(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+                Report report = new Report(rs.getInt(1), rs.getTimestamp(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
                 reports.add(report);
                 
             }
@@ -119,7 +119,7 @@ public class ReportDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Report report = new Report(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+                Report report = new Report(rs.getInt(1), rs.getTimestamp(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
                 reports.add(report);
                 
             }
@@ -199,7 +199,7 @@ public class ReportDAO {
     public static void add(String reportName, String reportFile, String scenarioID, String stateID, int initialReport) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "INSERT INTO report (reportDatetime, reportName, reportFile, dispatchStatus, scenarioID, stateID, initialReport) VALUES (?, ?, ?, ?, ? ,?,?)";
+        String query = "INSERT INTO report (reportID, reportDatetime, reportName, reportFile, scenarioID, stateID, initialReport) VALUES (?, ?, ?, ?, ? ,?,?)";
 
         try {
             conn = ConnectionManager.getConnection();

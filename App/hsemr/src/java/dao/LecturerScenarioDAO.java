@@ -45,7 +45,78 @@ public class LecturerScenarioDAO {
         return lecturerScenario;
     }
     
+    public static LecturerScenario retrieve(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        LecturerScenario lecturerScenario = null;
 
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from lecturer_scenario where scenarioID = ?");
+            stmt.setString(1, scenarioID);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                lecturerScenario = new LecturerScenario(rs.getString(1), rs.getString(2));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return lecturerScenario;
+    }
+    
+    public static List<String> retrieveDistinctScenarioActivated() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<String> scenarioActivatedList = new ArrayList<String>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT DISTINCT scenarioID FROM lecturer_scenario");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                scenarioActivatedList.add(rs.getString(1));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return scenarioActivatedList;
+    }
+    
+    public static List<String> retrieveDistinctLecturers(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<String> scenarioActivatedList = new ArrayList<String>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT DISTINCT lecturerID FROM lecturer_scenario where scenarioID = ?");
+            stmt.setString(1, scenarioID);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                scenarioActivatedList.add(rs.getString(1));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return scenarioActivatedList;
+    }
+    
+    
     
     public static List<String> retrieveScenarioActivated() {
         Connection conn = null;

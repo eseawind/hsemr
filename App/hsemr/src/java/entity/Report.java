@@ -13,24 +13,32 @@ import java.util.Date;
  * @author weiyi.ngow.2012
  */
 public class Report {
+    private int reportID; 
     private Date reportDatetime;
     private String reportName;
     private String reportFile;
-    private int dispatchStatus; 
     private String scenarioID;
     private String stateID;
     private int initialReport;
 
-    public Report(Date reportDatetime, String reportName, String reportFile, int dispatchStatus, String scenarioID, String stateID, int initialReport) {
+    public Report(int reportID, Date reportDatetime, String reportName, String reportFile, String scenarioID, String stateID, int initialReport) {
+        this.reportID = reportID; 
         this.reportDatetime = reportDatetime;
         this.reportName = reportName;
         this.reportFile = reportFile;
-        this.dispatchStatus = dispatchStatus;
         this.scenarioID = scenarioID;
         this.stateID = stateID;
         this.initialReport = initialReport;
     }
 
+    public int getReportID() {
+        return reportID;
+    }
+
+    public void setReportID(int reportID) {
+        this.reportID = reportID;
+    }
+    
     public Date getReportDatetime() {
         return reportDatetime;
     }
@@ -63,13 +71,6 @@ public class Report {
         this.reportFile = reportFile;
     }
 
-    public int getDispatchStatus() {
-        return dispatchStatus;
-    }
-
-    public void setDispatchStatus(int dispatchStatus) {
-        this.dispatchStatus = dispatchStatus;
-    }
 
     public String getScenarioID() {
         return scenarioID;

@@ -72,7 +72,7 @@
                         //retrieve current scenario
                         //Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
                         Scenario scenarioActivated= ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
-                        StateHistory stateActivatedLastest= StateHistoryDAO.retrieveLastestStateActivatedByLecturer(pg.getLecturerID());
+                        StateHistory stateActivatedLastest= StateHistoryDAO.retrieveLatestStateActivatedByLecturer(pg.getLecturerID());
 
                         //get the most recently activated scenario's state
                        // if (scenarioActivated == null || StateDAO.retrieveActivateState(scenarioActivated.getScenarioID()) == null) {
@@ -202,11 +202,11 @@
                             <h4>Doctor's Order</h4><br/>
 
                             <%
-                               
-                                if (StateHistoryDAO.retrieveAll().isEmpty()) {
+                                out.println(StateHistoryDAO.retrieveAll(scenarioID));
+                                if (StateHistoryDAO.retrieveAll(scenarioID).isEmpty()) {
                                     StateHistoryDAO.addStateHistory(scenarioID, stateID, pg.getLecturerID() );
                                 }
-                                HashMap<String, String> activatedStates = StateHistoryDAO.retrieveAll();
+                                HashMap<String, String> activatedStates = StateHistoryDAO.retrieveAll(scenarioID);
                                 // to store reports of all activated states
                                 HashMap<List<Report>, String> stateReportsHM = new HashMap<List<Report>, String>();
                                 // remove duplicates
@@ -243,7 +243,7 @@
                                 <%
                                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-                                    if (StateHistoryDAO.retrieveAll().isEmpty()) {
+                                    if (StateHistoryDAO.retrieveAll(scenarioID).isEmpty()) {
                                        // StateHistoryDAO.addStateHistory(scenarioID, stateID);
                                         
                                         StateHistoryDAO.addStateHistory(scenarioID, stateID, pg.getLecturerID());
@@ -262,11 +262,13 @@
                                             String reportFile = report.getReportFile();
 
                                             String reportDatetime = df.format(report.getReportDatetime());
-                                            int dispatchStatus = report.getDispatchStatus();
+                                            int reportID = report.getReportID();
+                                            PracticalGroupReport practicalGroupReport = PracticalGroupReportDAO.retrieve(reportID, scenarioID);
+                                            //int dispatchStatus = report.getDispatchStatus();
 
                                             String reportResults = "";
 
-                                            if (dispatchStatus == 1) {
+                                            if (practicalGroupReport != null || report.getInitialReport() == 1) {
 
                                                 reportResults = "reports/" + reportFile;
                                             }
@@ -284,7 +286,7 @@
                                         String counterStr = String.valueOf(counter);
                                         String firstDespatch = (String) session.getAttribute("clickedID");
 
-                                        if (dispatchStatus == 1) {
+                                        if (practicalGroupReport != null  || report.getInitialReport() == 1) {
                                             if (firstDespatch != null && !firstDespatch.equals("") && firstDespatch.equals(counterStr)) {%>
                                     <td><div id="reportDateWaiting">Waiting..</div>
                                         <div id="reportDateDisplay" style="display:none;"><%=reportDatetime%></div></td>
@@ -297,7 +299,7 @@
                                         }%> 
 
                                     <td><% // action (despatch status) column 
-                                        if (dispatchStatus == 1) {
+                                        if (practicalGroupReport != null  || report.getInitialReport() == 1) {
                                             if (firstDespatch != null && !firstDespatch.equals("") && firstDespatch.equals(counterStr)) {%>
                                         <div id="reportStatusWaiting">Waiting..</div>
                                         <div id="reportStatusDisplay" style="display:none;">Despatched</div></td>
@@ -319,7 +321,7 @@
 
                                 <td>
                                     <% // results column (link) 
-                                        if (dispatchStatus == 1) {
+                                        if (practicalGroupReport != null  || report.getInitialReport() == 1) {
                                             if (firstDespatch != null && !firstDespatch.equals("") && firstDespatch.equals(counterStr)) {
                                     %>
 
@@ -573,8 +575,8 @@
 
                                 <%
                                    // List<MedicationHistory> medicationHistoryList = new ArrayList<MedicationHistory>();
-
-                                    List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAll(scenarioID);
+                                    String practicalGroupID = (String)session.getAttribute("nurse");
+                                    List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAllInPracticalGroup(scenarioID,practicalGroupID);
                                     if (medicationHistoryList == null || medicationHistoryList.size() == 0) {
                                         out.println("<h5>There are no record at the moment</h5>");
                                     } else { %>
@@ -591,7 +593,7 @@
                                     <tr>
                                         <td><%=dateFormatterFprMedicationHistory.format(medicationHistory.getMedicineDatetime())%></td>
                                         <td><%=medicationHistory.getMedicineBarcode()%></td>
-                                        <td><%=session.getAttribute("nurse")%></td>
+                                        <td><%=medicationHistory.getPracticalGroupID()%></td>
                                     </tr> 
                                     <% }
 
@@ -1340,7 +1342,8 @@
 
                                                                     <li class="price">Medication History</li>           
                                                                         <%
-                                                                            List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAll(scenarioID);
+                                                                            String practicalGroupID = (String)session.getAttribute("nurse");
+                                                                            List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAllInPracticalGroup(scenarioID,practicalGroupID);
                                                                             if (medicationHistoryList == null || medicationHistoryList.size() == 0) {
                                                                                 out.println("<center>There are no records at the moment</center>");
                                                                             } else {
@@ -1360,11 +1363,11 @@
                                                                 <ul class="pricing-table">
                                                                     <li class="price">Doctor's Order</li>
 
-                                                                    <%if (StateHistoryDAO.retrieveAll().isEmpty()) {
+                                                                    <%if (StateHistoryDAO.retrieveAll(scenarioID).isEmpty()) {
                                                                            
                                                                             StateHistoryDAO.addStateHistory(scenarioID, stateID, pg.getLecturerID());
                                                                         }
-                                                                        HashMap<String, String> activatedStates = StateHistoryDAO.retrieveAll();
+                                                                        HashMap<String, String> activatedStates = StateHistoryDAO.retrieveAll(scenarioID);
                                                                         // to store reports of all activated states
                                                                         HashMap<List<Report>, String> stateReportsHM = new HashMap<List<Report>, String>();
                                                                         // remove duplicates

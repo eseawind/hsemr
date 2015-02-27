@@ -58,7 +58,8 @@
                     <%
                        //Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
                        String lecturerID = (String) session.getAttribute("lecturer");
-                       Scenario activatedScenario= ScenarioDAO.retrieveScenarioActivatedByLecturer(lecturerID);
+                       Scenario activatedScenario = ScenarioDAO.retrieveScenarioActivatedByLecturer(lecturerID);
+                       
                     %>
                     <h1>Select state to change the state</h1>
                     
@@ -85,7 +86,8 @@
                 
                 List<State> stateList = StateDAO.retrieveAll(activatedScenario.getScenarioID());
                 List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
-                StateHistory latestActivatedState= StateHistoryDAO.retrieveLastestStateActivatedByLecturer(lecturerID);
+                StateHistory latestActivatedState= StateHistoryDAO.retrieveLatestStateActivatedByLecturer(lecturerID);
+              
                 
                 if(latestActivatedState!= null){
                      stateIDCurrent= latestActivatedState.getStateID();

@@ -51,7 +51,7 @@ public class MedicationHistoryDAO {
         }
     }
     
-      public static List<MedicationHistory> retrieveAll(String scenarioID) {
+    public static List<MedicationHistory> retrieveAll(String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -61,6 +61,32 @@ public class MedicationHistoryDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("select * from medication_history where scenarioID = ? order by medicineDatetime asc");
             stmt.setString(1, scenarioID);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                MedicationHistory medicationHistory = new MedicationHistory(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                medicationHistoryList.add(medicationHistory);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return medicationHistoryList;
+    }
+    
+    public static List<MedicationHistory> retrieveAllInPracticalGroup(String scenarioID, String practicalGroupID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<MedicationHistory> medicationHistoryList = new ArrayList<MedicationHistory>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from medication_history where scenarioID = ? and practicalGroupID = ? order by medicineDatetime asc");
+            stmt.setString(1, scenarioID);
+            stmt.setString(2, practicalGroupID);
 
             rs = stmt.executeQuery();
             while (rs.next()) {

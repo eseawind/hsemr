@@ -54,7 +54,7 @@
                     //get the most recently activated scenario's state
                     
                    // State retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated1.getScenarioID());
-                  retrieveScenarioState= StateHistoryDAO.retrieveLastestStateActivatedByLecturer(pg.getLecturerID());
+                  retrieveScenarioState= StateHistoryDAO.retrieveLatestStateActivatedByLecturer(pg.getLecturerID());
                 //    String stateID = retrieveScenarioState.getStateID();
                 
                     if (retrieveScenarioState == null) {
