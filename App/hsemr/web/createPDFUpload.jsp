@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="css/original.css" />
         <script type="text/javascript" src="js/humane.js"></script>
         <script src="js/vendor/modernizr.js"></script>
+        
         <%@include file="/topbar/topbarAdmin.jsp" %>
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -27,6 +28,28 @@
         <div class="large-centered large-2 columns">
         <center><form action = "ProcessPDFCreation" method = "POST" enctype = "multipart/form-data"> 
                 <%
+                    
+                    String success = "";
+                    String error = "";
+
+                    if (session.getAttribute("success") != null) {
+
+                        success = (String) session.getAttribute("success");
+                        session.setAttribute("success", "");
+                    }
+
+                    if (session.getAttribute("error") != null) {
+
+                        error = (String) session.getAttribute("error");
+                        session.setAttribute("error", "");
+                    }
+                    
+                    if (session.getAttribute("s") != null) {
+
+                        String s = (String) session.getAttribute("s");
+                        session.setAttribute("s", "");
+                    }
+                    
                     List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
                     int max = scenarioList.size() - 1; 
                     Scenario lastScenario = scenarioList.get(max);
@@ -42,5 +65,22 @@
             </form><br>   </center>
         </div>
     </center>
+        <script>
+
+        $(document).ready(function() {
+            $(document).foundation();
+            var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+
+            var success1 = "<%=success%>";
+            var error1 = "<%=error%>";
+            if (success1 !== "") {
+                humaneSuccess.log(success1);
+            } else if (error1 !== "") {
+                humaneError.log(error1);
+            }
+
+        });
+    </script>
     </body>
 </html>

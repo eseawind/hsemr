@@ -10,6 +10,7 @@ import dao.DocumentDAO;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,8 +32,7 @@ public class ProcessPDFCreation extends HttpServlet {
      private static final long serialVersionUID = 1L;
 
     // location to store file uploaded
-    private static final String UPLOAD_DIRECTORY = "documents";
-
+    private static final String DATA_DIRECTORY = "scenarioPDF";
     // upload settings
     private static final int MEMORY_THRESHOLD = 1024 * 1024 * 3;  // 3MB
     private static final int MAX_FILE_SIZE = 1024 * 1024 * 40; // 40MB
@@ -96,15 +96,13 @@ public class ProcessPDFCreation extends HttpServlet {
         if (!ServletFileUpload.isMultipartContent(request)) {
             // if not, we stop here
             PrintWriter writer = response.getWriter();
-            writer.println("Error: Form must has enctype=multipart/form-data.");
+            writer.println("Error: Please upload a PDF file.");
             writer.flush();
             return;
         }
         
         String scenario = "";
-        String scenarioName = "";
         String scenarioID = ""; 
-        String stateID = "";  
         String fileName = "";
 
         // configures upload settings
@@ -128,66 +126,77 @@ public class ProcessPDFCreation extends HttpServlet {
         
         // constructs the directory path to store upload file
 //         this path is relative to application's directory
-        String uploadPath = getServletContext().getRealPath("")
-                + File.separator + UPLOAD_DIRECTORY;
-        
+//        String uploadPath = getServletContext().getRealPath("")
+//                + File.separator + UPLOAD_DIRECTORY;
+//        
  //       String uploadPath = System.getenv("OPENSHIFT_DATA_DIR") + UPLOAD_DIRECTORY;
-
-        // creates the directory if it does not exist
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
+        
+        String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
+        String uploadFolder = "";
+        if (pathToRoot == null){
+            uploadFolder = getServletContext().getRealPath("") + File.separator + "tmp";
         }
-
+        else{
+            uploadFolder = pathToRoot + File.separator + DATA_DIRECTORY; 
+        }
+       
+        // Set overall request size constraint
+        upload.setSizeMax(MAX_REQUEST_SIZE);
+        HttpSession session = request.getSession(false);
         try {
-            // parses the request's content to extract file data
-            @SuppressWarnings("unchecked")
-            List<FileItem> formItems = upload.parseRequest(request);
+            // Parse the request
+            List items = upload.parseRequest(request);
+            Iterator iter = items.iterator();
+            while (iter.hasNext()) {
+                FileItem item = (FileItem) iter.next();
 
-            if (formItems != null && formItems.size() > 0) {
-                // iterates over form's fields
-                for (FileItem item : formItems) {
-                    // processes only fields that are not form fields
-                    if (!item.isFormField()) {
-                        fileName = new File(item.getName()).getName();
-                        String filePath = uploadPath + File.separator + fileName;
-                        File storeFile = new File(filePath);
-
-                        // saves the file on disk
-                        item.write(storeFile);
-                        request.setAttribute("message",
-                                "PDF has been extracted successfully! Please confirm details");
-
-                        
-                    } else {
-                        if (item.getFieldName().equals("scenarioID")) {
-                            scenarioID = item.getString();
-                        }
-                        
-//                        if(item.getFieldName().equals("documentName")){
-//                            scenarioName= item.getString();
-//                        }
+                if (!item.isFormField()) {
+                    //Direct to the <uploadFolder> directory
+                    //If the folder does not exist then create an empty folder with the path from <uploadFolder>
+                    File folder = new File(uploadFolder);
+                    if (!folder.exists()) {
+                        folder.mkdir();
                     }
+
+                    //Get the uploaded file
+                    fileName = new File(item.getName()).getName();
+                    String filePath = uploadFolder + File.separator + fileName;
+                    File uploadedFile = new File(filePath);
+
+                    //Validate the file is ".zip"
+                    int indexOfLastDot = fileName.lastIndexOf('.');
+                    String fileType = fileName.substring(indexOfLastDot + 1).toLowerCase();
+                    if (!fileType.equals("pdf")) {
+                        String errorMessage = "Please upload PDF file";
+                        session.setAttribute("error", errorMessage);
+                        getServletContext().getRequestDispatcher("/createPDFUpload.jsp").forward(request, response);
+                        return;
+                    }
+                    if (item.getFieldName().equals("scenarioID")) {
+                        scenarioID = item.getString();
+                    }
+                    //saves the file to upload directory
+                    item.write(uploadedFile);
                     
+                    //pass the uploaded file and path to UnzipServlet
+                    session.setAttribute("pdf_file", uploadedFile);
+                    session.setAttribute("pdf_path", filePath);
                 }
             }
             
             //save it to database
             //DocumentDAO.add(documentName, fileName, 1, scenarioID, stateID);
-            HttpSession session = request.getSession(false);
+            
             //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
             
         } catch (Exception ex) {
             request.setAttribute("message",
                     "There was an error: " + ex.getMessage());
-            HttpSession session = request.getSession(false);
-            //session.setAttribute("error", "There was an error in uploading " + fileName + " .");
+            session.setAttribute("error", "There was an error in uploading " + fileName + " .");
         }
         // redirects client to message page
-        HttpSession session = request.getSession(false);
         //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
-       // session.setAttribute("s", uploadPath);
-        response.sendRedirect("createScenario.jsp");
+        response.sendRedirect("ProcessExtractPDF");
         
 //        getServletContext().getRequestDispatcher("/createStateWithReports.jsp").forward(
 //                request, response);
