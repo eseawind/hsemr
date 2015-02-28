@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package controller;
 
 import dao.LecturerScenarioDAO;
-import dao.ScenarioDAO;
-import dao.StateDAO;
 import dao.StateHistoryDAO;
-import entity.LecturerScenario;
-import entity.Scenario;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,8 +22,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Administrator
  */
-@WebServlet(name = "ProcessActivateScenarioAdmin", urlPatterns = {"/ProcessActivateScenarioAdmin"})
-public class ProcessActivateScenarioAdmin extends HttpServlet {
+@WebServlet(name = "ProcessDeactivateScenarioAdmin", urlPatterns = {"/ProcessDeactivateScenarioAdmin"})
+public class ProcessDeactivateScenarioAdmin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,39 +36,31 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //To retrieve the selected id to activate or deactive
         HttpSession session = request.getSession(false);
+        response.setContentType("text/html;charset=UTF-8");
+   
         
-        String[] lecturerToActivateCase = (String[]) request.getParameterValues("lecturerToActivateCase");
-        String scenarioID = (String) request.getParameter("scenarioID");
+        String[] deactivateLecturerList = request.getParameterValues("deactivateForLecturer");
+        String scenarioID = (String)request.getParameter("scenarioID");
         
-        String lecturerID = (String) session.getAttribute("lecturer");
-        String status = (String) request.getParameter("status");
-        
-        if(lecturerToActivateCase == null || lecturerToActivateCase.length == 0){
-            session.setAttribute("error", "Please select at least 1 lecturer to activate the case for.");
-            response.sendRedirect("activateScenarioAdmin.jsp");
+        if(deactivateLecturerList == null || deactivateLecturerList.length == 0){
+            session.setAttribute("error", "Please select at least 1 lecturer to deactivate the case for.");
+            response.sendRedirect("deactivateScenarioAdmin.jsp");
         }else{
-            for(String lecturerToActivate: lecturerToActivateCase){
-                LecturerScenarioDAO.activateScenario(lecturerToActivate, scenarioID);
-                StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivate);
+            for(String deactivateLecturer: deactivateLecturerList){
+                LecturerScenarioDAO.deactivateScenario(deactivateLecturer, scenarioID);
+                StateHistoryDAO.clearAllHistoryByLecturer(deactivateLecturer);
             }
-            session.setAttribute("success", "You have successfully activated the casae.");
+            session.setAttribute("success", "You have successfully deactivated the casae.");
             response.sendRedirect("viewScenarioAdmin.jsp");
         }
-
+     
+       
         
-//        if(lecScenario != null){ //it is activated
-//            session.setAttribute("error", "This case has been activated by: " + lecturerToActivateCase + ". Please choose another lecturer.");
-//            response.sendRedirect("activateScenarioAdmin.jsp");
-//        }else{ //not activated now, activate it
-//            LecturerScenarioDAO.activateScenario(lecturerToActivateCase, scenarioID);
-//            StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivateCase);
-//            session.setAttribute("success", "You have successfully activated the case: " + scenarioID + " for " + lecturerToActivateCase);
-//            response.sendRedirect("viewScenarioAdmin.jsp");
-//        }
-
-
+       
+        
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

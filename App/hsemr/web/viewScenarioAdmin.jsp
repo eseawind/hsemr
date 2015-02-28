@@ -110,23 +110,36 @@
 
                 <!--ACTIVATE-->
                 <td><center>
-                <form action ="activateScenarioAdmin.jsp" method ="POST">
-                    <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+               
+                    
                     <% 
                     
-                    if (lecScenario != null) {
+                    if (lecScenario != null) { //it is activated by some lecturer
                     
                     %>
-                    <input type ="submit" class="button tiny" value = "deactivate">
-                    <input type="hidden" name="status" value="deactivated">
-                    <%} else {%>
-                    <input type ="submit" class="button tiny" value="activate" >
+                    <form action ="deactivateScenarioAdmin.jsp" method ="POST">    
+                        <input type ="submit" class="button tiny" value = "deactivate">
+                        <input type="hidden" name="status" value="deactivated">
+                        <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                        <input type="hidden" name="status" value="activated">
+                    </form>
+                        
+                    <form action ="activateScenarioAdmin.jsp" method ="POST">    
+                        <input type ="submit" class="button tiny" value = "activate">
+                        <input type="hidden" name="status" value="deactivated">
+                        <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                        <input type="hidden" name="status" value="activated">
+                    </form>
+                    <%} else { // it is not activated, only show activated button%>
+                    <form action ="activateScenarioAdmin.jsp" method ="POST">
+                        <input type ="submit" class="button tiny" value="activate" >
 
                     <% }
                         
                      %>
-                    <input type="hidden" name="status" value="activated">
-                </form>
+                        <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                        <input type="hidden" name="status" value="activated">
+                    </form>
 
                 <!--EDIT-->
                 <form action ="editScenario.jsp" method ="POST">

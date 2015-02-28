@@ -116,7 +116,29 @@ public class LecturerScenarioDAO {
         return scenarioActivatedList;
     }
     
-    
+    public static List<String> retrieveDistinctLecturersDidNotActivate(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<String> scenarioActivatedList = new ArrayList<String>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from lecturer where lecturerID not in (SELECT DISTINCT lecturerID FROM lecturer_scenario where scenarioID = ?)");
+            stmt.setString(1, scenarioID);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                scenarioActivatedList.add(rs.getString(1));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return scenarioActivatedList;
+    }
     
     public static List<String> retrieveScenarioActivated() {
         Connection conn = null;

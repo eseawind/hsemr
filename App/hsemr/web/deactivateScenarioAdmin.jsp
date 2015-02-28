@@ -1,6 +1,6 @@
 <%-- 
-    Document   : activateScenarioAdmin
-    Created on : Feb 28, 2015, 10:41:45 PM
+    Document   : deactivateScenarioAdmin
+    Created on : Feb 28, 2015, 11:41:45 AM
     Author     : Administrator
 --%>
 <%@page import="entity.LecturerScenario"%>
@@ -26,7 +26,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
         <!--Web Title-->
-        <title>EMR | Case Management | Activate Case</title>
+        <title>EMR | Case Management | Deactivate Case</title>
         
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
@@ -84,17 +84,21 @@
                 }
                     %>
         
-        <center><h1>Activate Case</h1></center>
+        <center><h1>Deactivate Case</h1>
         <br>
-        <form data-abide action ="ProcessActivateScenarioAdmin" method ="POST">
+        Note: Please do not stop activated cases unless lecturers are NOT using it. Deactivating a case, will affect the students and lecturers.  
+        </center>
+        <br>
+        <form data-abide action ="ProcessDeactivateScenarioAdmin" method ="POST">
             <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
             <div class="large-centered large-6 columns">
                 <div class="panelCase">
                     <label><strong>Case Selected</strong>
-                       <input type="text" name="scenarioName" value = "<%=scen.getScenarioName()%>" required pattern ="^[a-zA-Z0-9 ]+$" readonly>
+                       <input type="text" name="scenarioName" value = "<%=scen.getScenarioName()%>" readonly>
                     </label>
                     
-                    <label><strong>Currently Activated By</strong><br>
+                    <label><strong>Currently Activated By</strong><br></label>                        
+                          
                         <%
                             List<String> lecScenarioList = LecturerScenarioDAO.retrieveDistinctLecturers(scenarioID);
                             
@@ -102,31 +106,16 @@
                                 out.println("This case is not activated by any lecturers at the moment.<br>");
                             }else{
                                 for(String lecActivatedScenario: lecScenarioList){%>
-                                    <%=lecActivatedScenario%> &nbsp;
+                                    <input type="checkbox" name = "deactivateForLecturer" value = "<%=lecActivatedScenario%>"><label><%=lecActivatedScenario%></label>
                                 <%}
                             }
                         %>
-                        <br><br>
-                        <label><strong>Activate Case For Lecturer</strong><br>
-                        <%
-                            List<String> lecWhoDidNotActivateList = LecturerScenarioDAO.retrieveDistinctLecturersDidNotActivate(scenarioID);
-                            
-                            if(lecWhoDidNotActivateList == null || lecWhoDidNotActivateList.size() == 0){
-                                out.println("This case is not activated by any lecturers at the moment.<br>");
-                            }else{
-                                for(String lecDidNotActivate: lecWhoDidNotActivateList){%>
-                                    <input type="checkbox" name = "lecturerToActivateCase" value = "<%=lecDidNotActivate%>"><label><%=lecDidNotActivate%></label>
-                                <%}
-                            }
-                        %>    
-                            
-                            
-                        
-                    </label>
+                        <br>
+                 
                 </div>
 
              
-                <center><input type="submit" value="Activate" class="button small"></center>
+                <center><input type="submit" value="Deactivate" class="deletebutton small"></center>
         </form>
             
             
