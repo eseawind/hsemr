@@ -48,9 +48,12 @@ public class ProcessExtractPDF extends HttpServlet {
         try {
 
             PdfReader reader = new PdfReader(retrievePDF);
-            out.println("This PDF has "+reader.getNumberOfPages()+" pages.");
-            String page = PdfTextExtractor.getTextFromPage(reader, 1);
-            out.println("Page Content:\n\n"+page+"\n\n");
+            int totalPages = reader.getNumberOfPages(); 
+            
+            for (int i = 1; i <= totalPages; i++) {
+                String page = PdfTextExtractor.getTextFromPage(reader, i);
+                out.println("Page " + i + " Content:\n\n"+page+"\n\n <br>");
+            }
 
         } catch (IOException e) {
             out.println(e);
