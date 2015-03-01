@@ -91,10 +91,10 @@ public class ProcessExportPDF extends HttpServlet {
              String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
             String fileLocation = "";
             if (pathToRoot == null){
-                fileLocation = getServletContext().getRealPath("") + File.separator + "tmp" + File.separator + practicalGroup + "for" + scenarioID + "Submission.pdf";
+                fileLocation = getServletContext().getRealPath("") + File.separator + "tmp";
             }
             else{
-                fileLocation = pathToRoot + File.separator + "exportData" + File.separator + practicalGroup + "for" + scenarioID + "Submission.pdf"; 
+                fileLocation = pathToRoot + File.separator + "exportData" ; 
             }
             //String fileLocation= "C:\\NPHSEMR\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
            // String fileLocation= System.getProperty("user.home") + "\\desktop\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
