@@ -119,10 +119,10 @@ public class ScenarioDAO {
         return scenario;
     }
 */
-    public static void add(String scenarioID, String scenarioName, String scenarioDescription, int scenarioStatus, String admissionNote, int bedNumber) {
+    public static void add(String scenarioID, String scenarioName, String scenarioDescription, String admissionNote, int bedNumber) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "INSERT INTO scenario (scenarioID, scenarioName, scenarioDescription, scenarioStatus, admissionNote, bedNumber) VALUES (?,?,?,?,?,?)";
+        String query = "INSERT INTO scenario (scenarioID, scenarioName, scenarioDescription, admissionNote, bedNumber) VALUES (?,?,?,?,?)";
 
         try {
             conn = ConnectionManager.getConnection();
@@ -131,9 +131,8 @@ public class ScenarioDAO {
             preparedStatement.setString(1, scenarioID);
             preparedStatement.setString(2, scenarioName);
             preparedStatement.setString(3, scenarioDescription);
-            preparedStatement.setInt(4, scenarioStatus);
-            preparedStatement.setString(5, admissionNote);
-            preparedStatement.setInt(6, bedNumber);
+            preparedStatement.setString(4, admissionNote);
+            preparedStatement.setInt(5, bedNumber);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

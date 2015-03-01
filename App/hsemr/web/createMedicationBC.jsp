@@ -66,10 +66,13 @@
             %>
 
             <center><h4>Can't find the medicine you're looking for? Add new medicine <a href="#" data-reveal-id="addNewMedicine">here</a></h4></center>
+            <center><h4>Create the medicine barcode <a href="http://www.barcode-generator.org/">here</a></h4></center>
 
             <!--add new medicine reveal modal-->
             <div id="addNewMedicine" class="reveal-modal" data-reveal>
                 <h2>Add New Medicine</h2>
+                Create the medicine barcode <a href="http://www.barcode-generator.org/">here</a>. Under "Create Free", please select <b>Code 128 (Standard)</b><br>
+                
                 <form action ="ProcessAddNewMedicine" method ="POST" data-abide>
                     Medicine Name <input type="text" name="newMedicineName" required/>
 
@@ -86,7 +89,8 @@
 
             <!--Add medication form-->
             <form action ="ProcessAddMedication" method ="POST">
-                <%                    List<Medicine> medicineList = MedicineDAO.retrieveAll();
+                <%                    
+                    List<Medicine> medicineList = MedicineDAO.retrieveAll();
 
                     List<Frequency> freqList = FrequencyDAO.retrieveAll();
                 %>

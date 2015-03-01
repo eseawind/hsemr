@@ -83,7 +83,7 @@ public class ProcessActivateScenario extends HttpServlet {
                 StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerID);
                 session.setAttribute("success", "You have successfully activated the case: " + scenarioID + " !");
 
-               // response.sendRedirect("viewScenarioLecturer.jsp");
+                response.sendRedirect("viewScenarioLecturer.jsp");
             }
 
         } finally {

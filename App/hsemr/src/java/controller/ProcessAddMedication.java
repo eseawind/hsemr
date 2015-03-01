@@ -44,12 +44,14 @@ public class ProcessAddMedication extends HttpServlet {
             String scenarioID = (String) session.getAttribute("scenarioID");
             String stateID = (String) request.getParameter("stateID");
             String discontinueStateID = (String) request.getParameter("discontinueStateID");
+            
             String fullTextStateID = stateID.replace("ST", "State ");
 
             //retrieve values for Medicine table
             String medicineName = request.getParameter("medicineName");
             Medicine medicineRetrieved = MedicineDAO.retrieveByMedicineName(medicineName);
             String medicineBarcode = medicineRetrieved.getMedicineBarcode();
+       
 
            // String routeRetrieved = medicineRetrieved.getRouteAbbr(); //commented out after db refactor
 
@@ -62,39 +64,20 @@ public class ProcessAddMedication extends HttpServlet {
 
             //retrieve values for Frequency table
             String dosage = request.getParameter("dosage");
-//
-            out.println("stateID" + stateID);
-            out.println("discontinueStateID" + discontinueStateID);
-            out.println("scenarioID" + scenarioID);
-            out.println("medicineName" + medicineName);
-            out.println("medicineBarcode" + medicineBarcode);
 
-            out.println("route" + route);
-           // out.println("routeRetrieved" + routeRetrieved);
-            out.println("doctorName" + doctorName);
-            out.println("order" + doctorOrder);
-            out.println("freq" + freq);
-            out.println("editMedicine" + editMedicine);
 
-         /*   if (!route.equals(routeRetrieved)) { //create new medicine with a different route
-                
-                //MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
+            if (medicineName != null) {
                 PrescriptionDAO.add(scenarioID, stateID, doctorName, doctorOrder, freq, medicineBarcode, discontinueStateID, dosage, route);
-                //MedicinePrescriptionDAO.add(medicineBarcode, scenarioID, stateID, freq, dosage);
-            } */
-           if (medicineName != null) {
-
-               // MedicineDAO.insertMedicine(medicineBarcode, medicineName, route);
-                PrescriptionDAO.add(scenarioID, stateID, doctorName, doctorOrder, freq, medicineBarcode, discontinueStateID, dosage, route);
-               // MedicinePrescriptionDAO.add(medicineBarcode, scenarioID, stateID, freq, dosage);
-
             }
             
-            if (editMedicine == null || editMedicine.equals("")) {
-            response.sendRedirect("createMedicationBC.jsp");
-        } else {
-            response.sendRedirect("editMedication.jsp");
-        }
+            if(stateID.equals(discontinueStateID)){
+                session.setAttribute("error", "You cannot select the same state for state and discontinue state.");
+                response.sendRedirect("createMedicationBC.jsp");
+            } else if (editMedicine == null || editMedicine.equals("")) {
+                response.sendRedirect("createMedicationBC.jsp");
+            } else {
+                response.sendRedirect("editMedication.jsp");
+            }
 
             
             

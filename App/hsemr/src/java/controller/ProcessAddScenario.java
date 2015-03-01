@@ -39,12 +39,11 @@ public class ProcessAddScenario extends HttpServlet {
             String scenarioName = request.getParameter("scenarioName");
             String scenarioDescription = request.getParameter("scenarioDescription");
             String admissionInfo = request.getParameter("admissionInfo");
-            
 
-            
             //retrieve the biggest bed number so we know what scenario to auto increment
             int maxBed = ScenarioDAO.retrieveMaxBedNumber();
             String scenarioID = "SC" + (maxBed + 1);
+            
 
             //Retrieve patient's information
             String patientNRIC = request.getParameter("patientNRIC");
@@ -53,7 +52,6 @@ public class ProcessAddScenario extends HttpServlet {
             String gender = request.getParameter("gender");
             String dobString = request.getParameter("DOB");
             String allergy = request.getParameter("allergy");
-           // String wardID= (String) request.getParameter("ward");
             List<Scenario> allScenario = ScenarioDAO.retrieveAll();
             
             Boolean scenarioExist = false;
@@ -179,13 +177,12 @@ public class ProcessAddScenario extends HttpServlet {
                 //*ORDER OF adding into db, THIS SEQ is important. don't shift it 
                 PatientDAO.add(patientNRIC, firstName, lastName, gender, dobString);
                 AllergyPatientDAO.add(patientNRIC, allergy);
-                ScenarioDAO.add(scenarioID, scenarioName, scenarioDescription, 0, admissionInfo, newBed);
+                ScenarioDAO.add(scenarioID, scenarioName, scenarioDescription, admissionInfo, newBed);
                 StateDAO.add(stateID0, scenarioID, stateDescription0, patientNRIC); //1 because default state status will be activate
                 VitalDAO.add(scenarioID, temperature0, RR0, BPS0, BPD0, HR0, SPO0, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1);
                 
                 session.setAttribute("scenarioID", scenarioID);
                 session.setAttribute("patientNRIC", patientNRIC);
-               // session.setAttribute("success", "New scenario: " + scenarioID +  " has been created successfully!");
                 response.sendRedirect("createStateBC.jsp");
                 
             }

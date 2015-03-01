@@ -64,18 +64,6 @@
         </ul>
 
         <div class="large-centered large-6 columns">
-            <!--<b>Step 1: Case creation</b> > Step 2: State creation > Step 3: Medication creation > Step 4: Report and Document creation-->
-            <!--    <ul class="breadcrumbs">
-                    <li><a href="#">Step 1: Create Case</a></li>
-                    <li><a href="#">Step 2: Create State</a></li>
-                    <li><a href="#">Step 3: Create Medication</a></li>
-                    <li><a href="#">Step 3: Upload Reports</a></li>
-                    <li><a href="#">Step 3: Upload Documents</a></li>
-                    <li class="unavailable"><a href="#">Gene Splicing</a></li>
-                    <li class="current"><a href="#">Cloning</a></li>
-                </ul>-->
-
-            <!--    <h2>Step 1: Create case</h2>-->
 
             <%
                 //for repopulating the fields, if there is an error
@@ -186,9 +174,6 @@
                         <input type="text" name="scenarioName" value = "<%=scenarioName%>" required pattern ="^[a-zA-Z0-9 ]+$">
                         <small class="error">Please enter a case name.</small>
                     </label>
-                    <!--<dl class="accordion" data-accordion>-->
-                    <!--<dd class="accordion-navigation">-->
-                    <!--<a href="#panel1">Case Information</a>-->
                     </div>
                         <div>
                             
@@ -202,15 +187,7 @@
                     </label>
                     </div>
                 </div>
-                <!--</dd>-->
-
-                <!--<dd class="accordion-navigation">-->
-                <!--<a href="#panel2">Patient's Information</a>-->
-                <!--<div id="panel2" class="content">-->
-                <!--New row 1-->
-
-                <!--Patient's Details-->
-
+                    
                 <div class="row">  
                     <div class="panelCase">
                         <div class="row">
@@ -256,10 +233,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--</dd>-->
-                    <!--<dd class="accordion-navigation">-->
-                    <!--<a href="#panel3">Default Vital Signs for State 0</a>-->
-                    <!--State 0-->
 
                     <!--Health Details-->
                     <center>Leave the fields below empty if not applicable.</center><br/>
@@ -339,8 +312,6 @@
                     </div>
                 </div>
 
-                <!--</dd>-->
-                <!--</dl>-->
                 <br/>
                 <center><input type="submit" value="Proceed to Step 2  >>" class="button small"></center>
             </form>
