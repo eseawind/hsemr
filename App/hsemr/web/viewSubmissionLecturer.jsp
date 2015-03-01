@@ -156,7 +156,7 @@
 
                 </table>
                 <br/><br/>
-                <form action="ProcessExportPDF" method="POST">
+                <form action="ProcessExportPDF" method="POST" target="_blank">
                     <%
                         List<Note> retrievedNoteList = (List<Note>) request.getAttribute("retrievedNoteList");
 

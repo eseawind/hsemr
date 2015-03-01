@@ -45,80 +45,7 @@ public class ProcessExportPDF extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            
-            HttpSession session = request.getSession(false);
-            ArrayList<Note> retrievedNote= (ArrayList<Note>) session.getAttribute("notesExport");
-            
-            //retrieve 1st note to get the practical group
-            Note retrieved1Note = retrievedNote.get(0);
-            String practicalGroup = retrieved1Note.getPracticalGroupID();
-            String scenarioID = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioID();
-            String scenarioName= ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
- 
-            Document document = new Document();
-           
-            String fileLocation= "C:\\NPHSEMR\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
-           // String fileLocation= System.getProperty("user.home") + "\\desktop\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
-           // out.println(fileLocation);
-            PdfWriter.getInstance(document, new FileOutputStream(fileLocation));
-            document.open();
-            
-            //Header
-            document.add(new Paragraph(practicalGroup + " Multidisciplinary Notes for " + scenarioName));
-            document.add(new Paragraph(" "));
-            
-            //Table
-            PdfPTable tableOfNotes = new PdfPTable(3);
-            PdfPCell c1 = new PdfPCell(new Phrase("Practical Group ID"));
-            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tableOfNotes.addCell(c1);
-
-            c1 = new PdfPCell(new Phrase("Nurse In-Charge"));
-            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tableOfNotes.addCell(c1);
-
-            c1 = new PdfPCell(new Phrase("Multidisciplinary Notes"));
-            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tableOfNotes.addCell(c1);
-            
-//            c1 = new PdfPCell(new Phrase("Time submited"));
-//            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//            tableOfNotes.addCell(c1);
-//            
-            tableOfNotes.setHeaderRows(1);
-            
-            DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-            
-            //for the content in table
-            for (Note note : retrievedNote){ 
-                tableOfNotes.addCell(note.getPracticalGroupID());
-                tableOfNotes.addCell(note.getGrpMemberNames());
-                tableOfNotes.addCell(note.getMultidisciplinaryNote());
-//                tableOfNotes.addCell(df.format(note.getNoteDatetime()));
-            }
-
-            document.add(tableOfNotes);
-   
-            //close document
-            document.close();
-            
-        // to be used to determine whether to retrieve form for the first time
-           response.sendRedirect("viewSubmissionLecturer.jsp");
-            session.setAttribute("success", "PDF Successfully Exported. Please find PDF at C:/NPHSEMR/.");
-            
-        } catch(Exception ex){
-               
-            HttpSession session = request.getSession(false);
-            // to be used to determine whether to retrieve form for the first time
-            session.setAttribute("error", "PDF Exported Failed. Please try again.");
-            //out.println(ex);
-            response.sendRedirect("viewSubmissionLecturer.jsp");
-            
-        } finally {
-            out.close();
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -147,7 +74,96 @@ public class ProcessExportPDF extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        try {
+            
+            HttpSession session = request.getSession(false);
+            ArrayList<Note> retrievedNote= (ArrayList<Note>) session.getAttribute("notesExport");
+            
+            //retrieve 1st note to get the practical group
+            Note retrieved1Note = retrievedNote.get(0);
+            String practicalGroup = retrieved1Note.getPracticalGroupID();
+            String scenarioID = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioID();
+            String scenarioName= ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
+ 
+            Document document = new Document();
+           
+             String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
+            String fileLocation = "";
+            if (pathToRoot == null){
+                fileLocation = getServletContext().getRealPath("") + File.separator + "tmp" + File.separator + practicalGroup + "for" + scenarioID + "Submission.pdf";
+            }
+            else{
+                fileLocation = pathToRoot + File.separator + "exportData" + File.separator + practicalGroup + "for" + scenarioID + "Submission.pdf"; 
+            }
+            //String fileLocation= "C:\\NPHSEMR\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
+           // String fileLocation= System.getProperty("user.home") + "\\desktop\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
+           // out.println(fileLocation);
+            PdfWriter.getInstance(document, new FileOutputStream(fileLocation));
+            document.open();
+            
+            //Header
+            document.add(new Paragraph(practicalGroup + " Multidisciplinary Notes for " + scenarioName));
+            document.add(new Paragraph(" "));
+            
+            //Table
+            PdfPTable tableOfNotes = new PdfPTable(4);
+            PdfPCell c1 = new PdfPCell(new Phrase("Practical Group ID"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfNotes.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Nurse In-Charge"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfNotes.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Multidisciplinary Notes"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfNotes.addCell(c1);
+            
+            c1 = new PdfPCell(new Phrase("Time submited"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfNotes.addCell(c1);
+            
+            tableOfNotes.setHeaderRows(1);
+            
+            DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+            
+            //for the content in table
+            for (Note note : retrievedNote){ 
+                tableOfNotes.addCell(note.getPracticalGroupID());
+                tableOfNotes.addCell(note.getGrpMemberNames());
+                tableOfNotes.addCell(note.getMultidisciplinaryNote());
+                tableOfNotes.addCell(df.format(note.getNoteDatetime()));
+            }
+
+            document.add(tableOfNotes);
+   
+            //close document
+            document.close();
+            session.setAttribute("export_path", fileLocation);
+
+        // to be used to determine whether to retrieve form for the first time
+            out.println("<html><body>");
+            out.println("<script type=\"text/javascript\">");
+            out.println("var popwin = window.open(\"viewExportPDF\")");
+            out.println("setTimeout(function(){ popwin.close(); window.location.href='viewExportPDF;},5000)");
+            out.println("</script>");
+            out.println("</body></html>");
+            
+            response.sendRedirect("viewExportPDF");
+            //session.setAttribute("success", "PDF Successfully Exported. Please find PDF at C:/NPHSEMR/.");
+            
+        } catch(Exception ex){
+               
+            HttpSession session = request.getSession(false);
+            // to be used to determine whether to retrieve form for the first time
+            session.setAttribute("error", "PDF Exported Failed. Please try again.");
+            out.println(ex);
+           // response.sendRedirect("viewSubmissionLecturer.jsp");
+            
+        } finally {
+            out.close();
+        }
     }
 
     /**
