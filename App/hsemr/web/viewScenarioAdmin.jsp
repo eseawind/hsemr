@@ -58,6 +58,7 @@
             a.showLink, a.hideLink {
                 text-decoration: none;
                 color: #36f;
+                font-weight: bold;
                 padding-left: 8px;
                 background: transparent url(down.gif) no-repeat left; }
             a.hideLink {
@@ -147,14 +148,15 @@
                         if (start == 0) {
                             out.println(admissionInfo.substring(0, admissionInfo.length()));
                         } else {
-                            out.println(admissionInfo.substring(0, start));
+                            int newStart = admissionInfo.lastIndexOf(".", start);
+                            out.println(admissionInfo.substring(0, newStart+1));
                     %>
                     <a href="#" id="<%=scenarioID%>-show" class="showLink" onclick="showHide('<%=scenarioID%>');
                             return false;">See more.</a>
                     <div id="<%=scenarioID%>" class="more">
                         <%
                             String more = admissionInfo.substring(start, admissionInfo.length());
-                            out.println(more);
+                            out.println("<br>" + more);
                             start = 0;
                             %>
                         <a href="#" id="<%=scenarioID%>-hide" class="hideLink" onclick="showHide('<%=scenarioID%>');
