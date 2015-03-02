@@ -24,10 +24,10 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        
+
         <!--Web Title-->
         <title>EMR | Case Management | Manage Case</title>
-        
+
         <!--CSS-->
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="css/original.css" />
@@ -36,10 +36,39 @@
 
         <!-- ADMIN TOP BAR-->
         <%@include file="/topbar/topbarAdmin.jsp" %>
+        <script language="javascript" type="text/javascript">
+            function showHide(shID) {
+                if (document.getElementById(shID)) {
+                    if (document.getElementById(shID + '-show').style.display != 'none') {
+                        document.getElementById(shID + '-show').style.display = 'none';
+                        document.getElementById(shID).style.display = 'block';
+                    }
+                    else {
+                        document.getElementById(shID + '-show').style.display = 'inline';
+                        document.getElementById(shID).style.display = 'none';
+                    }
+                }
+            }
+        </script>
+        <style type="text/css">
+           
+            /* This CSS is used for the Show/Hide functionality. */
+            .more {
+                display: none;}
+            a.showLink, a.hideLink {
+                text-decoration: none;
+                color: #36f;
+                padding-left: 8px;
+                background: transparent url(down.gif) no-repeat left; }
+            a.hideLink {
+                background: transparent url(up.gif) no-repeat left; }
+            a.showLink:hover, a.hideLink:hover {
+                border-bottom: 1px dotted #36f; }
+            </style>
 
-    </head>
+        </head>
 
-    <body style="font-size:14px; background-color: #ffffff">
+        <body style="font-size:14px; background-color: #ffffff">
     <center><br/><br/><h1>Case Management</h1>
 
         <form action ="ProcessResetAll" method="post">
@@ -50,7 +79,7 @@
 
     </center>
 
-             
+
     <div class="large-12 columns" style="padding-top: 0px;">
         <%  //Retrieve all the successful messages 
             String success = "";
@@ -87,9 +116,9 @@
                     String scenarioID = scenario.getScenarioID();
                     String scenarioName = scenario.getScenarioName();
                     String scenarioDescription = scenario.getScenarioDescription();
-                   // int status = scenario.getScenarioStatus();
+                    // int status = scenario.getScenarioStatus();
                     LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(scenarioID); // if lecScenario == null, then it is NOT activated
-                    
+
                     String admissionInfo = scenario.getAdmissionNote();%>
 
             <tr>
@@ -102,51 +131,76 @@
                     <%} else {%>
                     <font color= red>Deactivated</font>
                     <%}
-                    
-                        %></td>
+
+                    %></td>
                 <td><%=scenarioDescription%></td>
-                <td><%=admissionInfo%></td>
+                <td>
+                    <%
+                        int start = 0;
+                        for (int i = 0; i < admissionInfo.length(); i++) {
+                            start = admissionInfo.indexOf("Healthcare");
+                            if (start == -1) {
+                                start = 0;
+                            }
+                        }
+
+                        if (start == 0) {
+                            out.println(admissionInfo.substring(0, admissionInfo.length()));
+                        } else {
+                            out.println(admissionInfo.substring(0, start));
+                    %>
+                    <a href="#" id="<%=scenarioID%>-show" class="showLink" onclick="showHide('<%=scenarioID%>');
+                            return false;">See more.</a>
+                    <div id="<%=scenarioID%>" class="more">
+                        <%
+                            String more = admissionInfo.substring(start, admissionInfo.length());
+                            out.println(more);
+                            start = 0;
+                            %>
+                        <a href="#" id="<%=scenarioID%>-hide" class="hideLink" onclick="showHide('<%=scenarioID%>');
+                                return false;">Hide this content.</a>
+                    </div>
+                    <% } %>
+                </td>
 
 
                 <!--ACTIVATE-->
                 <td><center>
-               
-                    
-                    <% 
-                    
-                    if (lecScenario != null) { //it is activated by some lecturer
-                    
-                    %>
-                    <form action ="deactivateScenarioAdmin.jsp" method ="POST">    
-                        <input type ="submit" class="button tiny" value = "deactivate">
-                        <input type="hidden" name="status" value="deactivated">
-                        <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                        <input type="hidden" name="status" value="activated">
-                    </form>
-                        
-                    <form action ="activateScenarioAdmin.jsp" method ="POST">    
-                        <input type ="submit" class="button tiny" value = "activate">
-                        <input type="hidden" name="status" value="deactivated">
-                        <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                        <input type="hidden" name="status" value="activated">
-                    </form>
-                    <%} else { // it is not activated, only show activated button%>
-                    <form action ="activateScenarioAdmin.jsp" method ="POST">
-                        <input type ="submit" class="button tiny" value="activate" >
+
+
+                <%                    if (lecScenario != null) { //it is activated by some lecturer
+
+                %>
+                <form action ="deactivateScenarioAdmin.jsp" method ="POST">    
+                    <input type ="submit" class="button tiny" value = "deactivate">
+                    <input type="hidden" name="status" value="deactivated">
+                    <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                    <input type="hidden" name="status" value="activated">
+                </form>
+
+                <form action ="activateScenarioAdmin.jsp" method ="POST">    
+                    <input type ="submit" class="button tiny" value = "activate">
+                    <input type="hidden" name="status" value="deactivated">
+                    <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                    <input type="hidden" name="status" value="activated">
+                </form>
+                <%} else { // it is not activated, only show activated button%>
+                <form action ="activateScenarioAdmin.jsp" method ="POST">
+                    <input type ="submit" class="button tiny" value="activate" >
 
                     <% }
-                        
-                     %>
-                        <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                        <input type="hidden" name="status" value="activated">
-                    </form>
+
+                    %>
+                    <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                    <input type="hidden" name="status" value="activated">
+                </form>
 
                 <!--EDIT-->
                 <form action ="editScenario.jsp" method ="POST">
                     <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                    <% 
-                    
-                    if (lecScenario != null) { 
+                    <%
+
+                        if (lecScenario != null) {
                     %>
                     <input type = "submit" class="button tiny" value="edit" disabled>
                     <% } else { %>
@@ -157,9 +211,9 @@
                 <!--DELETE-->    
                 <form action ="ProcessDeleteScenario" method ="POST">
                     <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                    <% 
+                    <%
                         if (lecScenario != null) {
-                       
+
                     %>
                     <input type = "submit" class="deletebutton tiny" value="delete" disabled>
                     <% } else {
