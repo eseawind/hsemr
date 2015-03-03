@@ -13,12 +13,12 @@
         var auto_refresh = setInterval(
         function ()
         {
-        $('#load_me').load('autorefreshtest.jsp').fadeIn("slow");
-        }, 1000); // autorefresh the content of the div after
+        $('#load_me').load('viewPatientInformation.jsp').fadeIn("slow");
+        }, 10000); // autorefresh the content of the div after
                    //every 10000 milliseconds(10sec)
         </script>
    </head>
     <body>
-    <div id="load_me"> <%@ include file="autorefreshtest.jsp" %></div>
+    <div id="load_me"> <%@ include file="viewPatientInformation.jsp" %></div>
     </body>
 </html>
