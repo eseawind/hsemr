@@ -71,6 +71,34 @@ public class StateHistoryDAO {
         return stateHistory;
     }
        
+     public static LinkedHashMap<String,String> retrieveAll(String scenarioID, String lecturerID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        LinkedHashMap<String,String> stateHashMap = new LinkedHashMap<String,String>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT * FROM state_history where scenarioID = ? and lecturerID = ? order by timeActivated DESC");
+            stmt.setString(1, scenarioID);
+            stmt.setString(2, lecturerID);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String stateID = rs.getString(2);
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String stateDate = df.format(rs.getTimestamp(3));
+                stateHashMap.put(stateID,stateDate);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return stateHashMap;
+    }
+    
     public static LinkedHashMap<String,String> retrieveAll(String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;

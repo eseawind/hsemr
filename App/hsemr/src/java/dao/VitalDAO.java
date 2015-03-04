@@ -533,6 +533,33 @@ public class VitalDAO {
         return intakeOralList;
     }
     
+    public static List<Vital> retrieveIntakeOutputHistoryByScenarioIDAndPracticalGroup(String scenarioID, String practicalGroup) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Vital> intakeOralList = new ArrayList<Vital>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from vital where scenarioID = ? and practicalGroupID = ? AND ((oralType <> '-' AND oralAmount <> '-') OR (intravenousType <> '-' AND intravenousAmount <> '-') OR (output <> '-')) order by vitalDatetime desc");
+            stmt.setString(1, scenarioID);
+            stmt.setString(2, practicalGroup);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14), rs.getString(15));
+                intakeOralList.add(vital);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return intakeOralList;
+    }
+    
+    
     // IntakeOral
     public static List<Vital> retrieveIntakeOralByScenarioID(String scenarioID) {
         Connection conn = null;

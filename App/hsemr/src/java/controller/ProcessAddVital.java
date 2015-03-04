@@ -150,7 +150,6 @@ public class ProcessAddVital extends HttpServlet {
                 response.sendRedirect("./viewPatientInformation.jsp");
             } else { 
                 VitalDAO.add(scenarioID, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount, 0, practicalGroupID);
-               // VitalHistoryDAO.add(scenarioID, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount,practicalGroupID);
                 session.setAttribute("active", "vital");
                 session.setAttribute("success", "Vital signs have been updated!");
                 session.setAttribute("temperature", "");
