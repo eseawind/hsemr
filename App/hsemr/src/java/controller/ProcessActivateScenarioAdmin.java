@@ -50,24 +50,21 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
             session.setAttribute("error", "Please select at least 1 lecturer to activate the case for.");
             response.sendRedirect("activateScenarioAdmin.jsp");
         }else{
+            int counterLecWhoCannotActivate = 0;
             for(String lecturerToActivate: lecturerToActivateCase){
-                LecturerScenarioDAO.activateScenario(lecturerToActivate, scenarioID);
-                StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivate);
+                LecturerScenario lecScen = LecturerScenarioDAO.retrieveLecturer(lecturerToActivate);
+                
+                if(lecScen == null){ //lec has not activated any case, admin can activate for her/him
+                    LecturerScenarioDAO.activateScenario(lecturerToActivate, scenarioID);
+                    StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivate);
+                }else{
+                    counterLecWhoCannotActivate++; //these lecturer can't activate because they have activated other cases.
+                } 
             }
-            session.setAttribute("success", "You have successfully activated the casae.");
-            response.sendRedirect("viewScenarioAdmin.jsp");
+            
         }
 
         
-//        if(lecScenario != null){ //it is activated
-//            session.setAttribute("error", "This case has been activated by: " + lecturerToActivateCase + ". Please choose another lecturer.");
-//            response.sendRedirect("activateScenarioAdmin.jsp");
-//        }else{ //not activated now, activate it
-//            LecturerScenarioDAO.activateScenario(lecturerToActivateCase, scenarioID);
-//            StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivateCase);
-//            session.setAttribute("success", "You have successfully activated the case: " + scenarioID + " for " + lecturerToActivateCase);
-//            response.sendRedirect("viewScenarioAdmin.jsp");
-//        }
 
 
     }

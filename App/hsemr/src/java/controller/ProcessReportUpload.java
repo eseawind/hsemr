@@ -82,7 +82,15 @@ public class ProcessReportUpload extends HttpServlet {
 //        String uploadPath = getServletContext().getRealPath("")
 //                + File.separator + UPLOAD_DIRECTORY;
 ////        
-      String uploadPath = System.getenv("OPENSHIFT_DATA_DIR") + UPLOAD_DIRECTORY;
+        String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
+        String uploadPath = "";
+        
+        if (pathToRoot == null){
+            uploadPath = getServletContext().getRealPath("") + File.separator + "tmp";
+        }
+        else{
+            uploadPath = pathToRoot + File.separator + UPLOAD_DIRECTORY; 
+        }
 
         // creates the directory if it does not exist
         File uploadDir = new File(uploadPath);
@@ -131,7 +139,11 @@ public class ProcessReportUpload extends HttpServlet {
             }
             
             //save it to database
-            ReportDAO.add(reportName, fileName, scenarioID, stateID,0);
+            ReportDAO.add(reportName, fileName, scenarioID, stateID, 0);
+            response.getWriter().println(reportName);
+            response.getWriter().println(fileName);
+            response.getWriter().println(scenarioID);
+            response.getWriter().println(stateID);
             HttpSession session = request.getSession(false);
             //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
             

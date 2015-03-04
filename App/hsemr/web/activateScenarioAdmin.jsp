@@ -90,6 +90,7 @@
             <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
             <div class="large-centered large-6 columns">
                 <div class="panelCase">
+                    
                     <label><strong>Case Selected</strong>
                        <input type="text" name="scenarioName" value = "<%=scen.getScenarioName()%>" required pattern ="^[a-zA-Z0-9 ]+$" readonly>
                     </label>
@@ -97,6 +98,8 @@
                     <label><strong>Currently Activated By</strong><br>
                         <%
                             List<String> lecScenarioList = LecturerScenarioDAO.retrieveDistinctLecturers(scenarioID);
+                            
+                           
                             
                             if(lecScenarioList == null || lecScenarioList.size() == 0){
                                 out.println("This case is not activated by any lecturers at the moment.<br>");
@@ -108,9 +111,10 @@
                         %>
                         <br><br>
                         <label><strong>Activate Case For Lecturer</strong><br>
+                            Note: One lecturer can only activate one case at a time. Please deactivate the other case for that lecturer before activating this. <br><br> 
                         <%
-                            List<String> lecWhoDidNotActivateList = LecturerScenarioDAO.retrieveDistinctLecturersDidNotActivate(scenarioID);
-                            
+                            List<String> lecWhoDidNotActivateList = LecturerScenarioDAO.retrieveDistinctLecturers(); //they can activate because they have not activated any cases
+                             
                             if(lecWhoDidNotActivateList == null || lecWhoDidNotActivateList.size() == 0){
                                 out.println("This case is not activated by any lecturers at the moment.<br>");
                             }else{

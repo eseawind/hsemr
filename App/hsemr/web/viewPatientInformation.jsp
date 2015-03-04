@@ -209,12 +209,6 @@
                             <h4>Doctor's Order</h4><br/>
 
                             <%
-                                //for autorefresh testing
-
-                                out.println(StateHistoryDAO.retrieveLatestStateActivatedByLecturer("lec1").getStateID());
-                                out.println(System.currentTimeMillis());
-
-                                //for autorefresh testing
 
                                 if (StateHistoryDAO.retrieveAll(scenarioID).isEmpty()) {
                                     StateHistoryDAO.addStateHistory(scenarioID, stateID, pg.getLecturerID() );

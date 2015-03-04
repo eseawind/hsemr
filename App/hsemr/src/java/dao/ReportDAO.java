@@ -105,6 +105,30 @@ public class ReportDAO {
         return reports;
     }
     
+    public static Integer retrieveMaxReportNumber() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int maxBed = 0;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select max(reportID) as maxReportID from report");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                maxBed = rs.getInt("maxReportID");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return maxBed;
+    }
+    
+    
      public static List<Report> retrieveDespatchedReportsByScenario(String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -210,13 +234,13 @@ public class ReportDAO {
             dateFormatter = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
             dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
             preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, dateFormatter.format(currentDateTime));
-            preparedStatement.setString(2, reportName);
-            preparedStatement.setString(3, reportFile);
-            preparedStatement.setInt(4, 0); //default undespatched
-            preparedStatement.setString(5, scenarioID);
+            preparedStatement.setInt(1, ReportDAO.retrieveMaxReportNumber() + 1);
+            preparedStatement.setString(2, dateFormatter.format(currentDateTime));
+            preparedStatement.setString(3, reportName);
+            preparedStatement.setString(4, reportFile);
+            preparedStatement.setString(5, scenarioID); 
             preparedStatement.setString(6, stateID);
-            preparedStatement.setInt(7, initialReport);
+            preparedStatement.setInt(7, 1);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

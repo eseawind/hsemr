@@ -247,7 +247,7 @@
     </script>
     <script type="text/javascript">
         function deleteConfirmation() {
-            var deleteButton = confirm("Are you sure you want to delete? ")
+            var deleteButton = alert("Are you sure you want to delete? EVERYTHING including what the students have entered will be gone. Please ensure you have exported the documents before deleting. ")
             if (deleteButton) {
                 return true;
             }

@@ -20,6 +20,31 @@ import java.util.List;
  */
 public class LecturerScenarioDAO {
     
+        
+    public static LecturerScenario retrieveLecturer(String lecturerID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        LecturerScenario lecturerScenario = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from lecturer_scenario where lecturerID = ?");
+            stmt.setString(1, lecturerID);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                lecturerScenario = new LecturerScenario(rs.getString(1), rs.getString(2));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return lecturerScenario;
+    }
+    
     public static LecturerScenario retrieve(String lecturerID, String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -78,6 +103,29 @@ public class LecturerScenarioDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT DISTINCT scenarioID FROM lecturer_scenario");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                scenarioActivatedList.add(rs.getString(1));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return scenarioActivatedList;
+    }
+    
+        public static List<String> retrieveDistinctLecturers() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<String> scenarioActivatedList = new ArrayList<String>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT lecturerID from lecturer where lecturerID not in (SELECT DISTINCT lecturerID FROM lecturer_scenario)");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
