@@ -98,8 +98,8 @@
             <col width="2%">
             <col width="5%">
             <col width="5%">
-            <col width="25%">
-            <col width="58%">
+            <col width="30%">
+            <col width="53%">
             <col width="5%">
             <thead>
                 <tr>
