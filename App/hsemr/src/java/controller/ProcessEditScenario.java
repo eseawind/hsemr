@@ -66,6 +66,8 @@ public class ProcessEditScenario extends HttpServlet {
             String intravenousAmount = request.getParameter("intravenousAmount");
             String output = request.getParameter("output");
             
+           String practicalGroupID = (String)session.getAttribute("nurse");
+                  
             if (temperatureStr.equals("")) {
                 temperatureStr = "0";
             }
@@ -113,7 +115,7 @@ public class ProcessEditScenario extends HttpServlet {
             PatientDAO.update(patientNRIC, firstName, lastName, gender, dob, retrieveNRIC);
             
             if(newDefaultVital.equals("yes")) {
-                VitalDAO.add(scenarioID, temperature, rr, bps, bpd, hr, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1);
+                VitalDAO.add(scenarioID, temperature, rr, bps, bpd, hr, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1, practicalGroupID);
             } else {
                 VitalDAO.update(temperature, rr, hr, bps, bpd, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, scenarioID);
             }

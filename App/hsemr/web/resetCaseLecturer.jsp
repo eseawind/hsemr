@@ -3,6 +3,10 @@
     Created on : Jan 16, 2015, 9:49:55 PM
     Author     : jocelyn.ng.2012
 --%>
+<%@page import="entity.PracticalGroup"%>
+<%@page import="dao.PracticalGroupDAO"%>
+<%@page import="entity.LecturerScenario"%>
+<%@page import="dao.LecturerScenarioDAO"%>
 <%@page import="dao.StateDAO"%>
 <%@page import="entity.Scenario"%>
 <%@page import="dao.ScenarioDAO"%>
@@ -109,12 +113,18 @@
                                         scenario = scenarioList.get(counter); //supposed to get Counter, but somehow arrayindexoutofbounds when i put counter.
 
                                         scenarioID = scenario.getScenarioID();
+                                        
+                                        
+                                        LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerId, scenarioID);
+                                  
                                         counter++;
                                         caseNo = counter;
                                 %>
                                 <td><center><a href="#" data-reveal-id="<%=scenarioID%>">
 
-                                    <% if (scenario.getScenarioStatus() == 1) {%>
+                                    <% 
+                                    //if (scenario.getScenarioStatus() == 1) {
+                                    if (lecScenario != null) {%>
 
                                     <input type="submit" class="case" value="<%=counter%>"><br/>
 
@@ -148,6 +158,20 @@
 
             <form action = "ProcessResetScenario" method = "POST">   
                 <h2>Case Information</h2> 
+                
+                 <%
+                   
+                    List<PracticalGroup> pgList= PracticalGroupDAO.retrieveByLecturerID(lecturerId);
+                    
+                    if(pgList == null || pgList.size() == 0){
+                        out.println("There is no practical group for this lecturer, please contact admin to assign.<br>");
+                    }else{
+                        for(PracticalGroup pg: pgList){%>
+                            <input type="checkbox" name = "pgSelected" value = "<%=pg.getPracticalGroupID()%>"><label><%=pg.getPracticalGroupID()%></label>
+                        <%
+                        }
+                    }
+                 %>    
 
                 <input type ="hidden" id= "status" name = "status" value = "reset">
                 <input type ="hidden" id= "scenarioID" name = "scenarioID" value = "<%=scenario.getScenarioID()%>">

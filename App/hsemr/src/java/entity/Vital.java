@@ -27,8 +27,9 @@ public class Vital {
     private String intravenousType;
     private String intravenousAmount;
     private int initialVital;
+    private String practicalGrpID;
 
-    public Vital(Date vitalDatetime, String scenarioID, double temperature, int rr, int bpSystolic, int bpDiastolic, int hr, int spo, String output, String oralType, String oralAmount, String intravenousType, String intravenousAmount, int initialVital) {
+    public Vital(Date vitalDatetime, String scenarioID, double temperature, int rr, int bpSystolic, int bpDiastolic, int hr, int spo, String output, String oralType, String oralAmount, String intravenousType, String intravenousAmount, int initialVital, String practicalGrpID) {
         this.vitalDatetime = vitalDatetime;
         this.scenarioID = scenarioID;
         this.temperature = temperature;
@@ -43,6 +44,15 @@ public class Vital {
         this.intravenousType = intravenousType;
         this.intravenousAmount = intravenousAmount;
         this.initialVital = initialVital;
+        this.practicalGrpID= practicalGrpID;
+    }
+    
+    public String getPracticalGrpID() {
+        return practicalGrpID;
+    }
+
+    public void setPracticalGrpID(String practicalGrpID) {
+        this.practicalGrpID = practicalGrpID;
     }
 
     public Date getVitalDatetime() {

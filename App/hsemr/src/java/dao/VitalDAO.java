@@ -196,7 +196,7 @@ public class VitalDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14), rs.getString(15));
                 vitalsList.add(vital);
             }
 
@@ -252,11 +252,11 @@ public class VitalDAO {
     }
     
     
-      public static void add(String scenarioID, double temperature, int RR, int BPsystolic, int BPdiastolic, int HR, int SPO, String output, String oralType, String oralAmount, String intravenousType, String intravenousAmount, int initialVital) {
+      public static void add(String scenarioID, double temperature, int RR, int BPsystolic, int BPdiastolic, int HR, int SPO, String output, String oralType, String oralAmount, String intravenousType, String intravenousAmount, int initialVital, String practicalGroupID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         //String query = "UPDATE vital SET vitalDatetime = ?, patientNRIC =?, temperature = ?, RR = ?, BPsystolic = ?, BPdiastolic = ?,  HR = ?, SPO = ?, intake = ?, output = ?";
-        String query = "INSERT INTO vital (vitalDatetime, scenarioID, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount, initialVital) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO vital (vitalDatetime, scenarioID, temperature, RR, BPsystolic, BPdiastolic, HR, SPO, output, oralType, oralAmount, intravenousType, intravenousAmount, initialVital, practicalGroupID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             conn = ConnectionManager.getConnection();
@@ -281,6 +281,7 @@ public class VitalDAO {
             preparedStatement.setString(12, intravenousType);
             preparedStatement.setString(13, intravenousAmount);
             preparedStatement.setInt(14, initialVital);
+            preparedStatement.setString(15, practicalGroupID);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -306,7 +307,7 @@ public class VitalDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14), rs.getString(15));
                 vitalsList.add(vital);
             }
 
@@ -332,7 +333,7 @@ public class VitalDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14), rs.getString(15));
                 vitalsList.add(vital);
             }
 
@@ -358,7 +359,7 @@ public class VitalDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14), rs.getString(15));
                 vitalsList.add(vital);
             }
 
@@ -384,7 +385,7 @@ public class VitalDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14), rs.getString(15));
                 vitalsList.add(vital);
             }
 
@@ -410,7 +411,7 @@ public class VitalDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14), rs.getString(15));
                 vitalsList.add(vital);
             }
 
@@ -436,7 +437,7 @@ public class VitalDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14), rs.getString(15));
                 vitalsList.add(vital);
             }
 
@@ -467,6 +468,26 @@ public class VitalDAO {
         }
     }
     
+       public static void resetVitalByPracticalGrp(String scenarioID, String practicalGroupID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM vital WHERE scenarioID =? AND initialVital =0 AND practicalGroupID=?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, scenarioID);
+            preparedStatement.setString(2, practicalGroupID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
+       /*
         public static void resetVital(String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -484,7 +505,7 @@ public class VitalDAO {
         } finally {
             ConnectionManager.close(conn, preparedStatement, null);
         }
-    }
+    }*/
         
     //Retrieve intake and output based on scenario     
     public static List<Vital> retrieveIntakeOutputHistoryByScenarioID(String scenarioID) {
@@ -500,7 +521,7 @@ public class VitalDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14), rs.getString(15));
                 intakeOralList.add(vital);
             }
 
@@ -526,7 +547,7 @@ public class VitalDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14), rs.getString(15));
                 intakeOralList.add(vital);
             }
 
@@ -553,7 +574,7 @@ public class VitalDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14), rs.getString(15));
                 intakeOralList.add(vital);
             }
 
@@ -580,7 +601,7 @@ public class VitalDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                Vital vital = new Vital(rs.getTimestamp(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14), rs.getString(15));
                 intakeOralList.add(vital);
             }
 
@@ -612,10 +633,11 @@ public class VitalDAO {
         }
         
     }
+    
     public static void update(double temp, int rr, int hr, int bps, int bpd, int spo, String output, String intragastricType, String intragastricAmount, String intravenousType, String intravenousAmount, String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "UPDATE vital SET temperature =?, RR = ?, HR=?, BPsystolic=?, BPdiastolic=?, SPO=?, output=?, oralType=?, oralAmount=?, intravenousType=?, intravenousAmount=? WHERE scenarioID =? AND initialVital=?";
+        String query = "UPDATE vital SET temperature =?, RR = ?, HR=?, BPsystolic=?, BPdiastolic=?, SPO=?, output=?, oralType=?, oralAmount=?, intravenousType=?, intravenousAmount=?, practicalGroupID=? WHERE scenarioID =? AND initialVital=?";
 
         try {
             conn = ConnectionManager.getConnection();
@@ -632,8 +654,9 @@ public class VitalDAO {
             preparedStatement.setString(9, intragastricAmount);
             preparedStatement.setString(10, intravenousType);
             preparedStatement.setString(11, intravenousAmount);
-            preparedStatement.setString(12, scenarioID);
-            preparedStatement.setInt(13, 1);
+            preparedStatement.setString(12, "NA");
+            preparedStatement.setString(13, scenarioID);
+            preparedStatement.setInt(14, 1);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

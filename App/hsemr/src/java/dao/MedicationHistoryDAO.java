@@ -101,7 +101,28 @@ public class MedicationHistoryDAO {
         }
         return medicationHistoryList;
     }
-      
+    
+    public static void delete(String scenarioID, String practicalGrpID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM medication_history WHERE scenarioID =? and practicalGroupID=?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, scenarioID);
+            preparedStatement.setString(2, practicalGrpID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
+     
+    
     public static void delete(String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;

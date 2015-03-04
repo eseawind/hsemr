@@ -121,17 +121,20 @@ public class StateHistoryDAO {
         return list;
     }
     
+    
+    
     //delete all StateHistory in scenario
     public static void reset(String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "DELETE FROM `state_history` WHERE scenarioID = ?";
+        String query = "DELETE FROM `state_history` WHERE scenarioID = ? AND stateID <> ?; ";
 
         try {
             conn = ConnectionManager.getConnection();
 
             preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, scenarioID);
+            preparedStatement.setString(2, "ST0");
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

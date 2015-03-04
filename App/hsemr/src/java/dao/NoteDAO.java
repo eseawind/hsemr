@@ -48,6 +48,28 @@ public class NoteDAO {
         return note;
     }
     
+    
+    public static void reset(String scenarioID, String practicalGroupID) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM `note` WHERE scenarioID = ? and practicalGroupID=?";
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, scenarioID);
+            preparedStatement.setString(2, practicalGroupID);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    }
+    
+    /*
     public static void reset(String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -65,7 +87,7 @@ public class NoteDAO {
         } finally {
             ConnectionManager.close(conn, preparedStatement, null);
         }
-    }
+    }*/
     
     
     public static List<Note> retrieveNotesByPraticalGrp(String practicalGrp, String scenarioID) {

@@ -6,6 +6,7 @@
 package controller;
 
 import dao.*;
+import entity.PracticalGroup;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,23 +35,38 @@ public class ProcessResetScenario extends HttpServlet {
             throws ServletException, IOException {
         
             /* TODO output your page here. You may use following sample code. */
-
-            String scenarioID = (String) request.getParameter("scenarioID");
+           HttpSession session = request.getSession(false);
+           
+           String[] practicalGrpID = (String[]) request.getParameterValues("pgSelected");
+           String scenarioID = (String) request.getParameter("scenarioID");
             //to know which page it comes from then redirect to the correct page
+           String lecturerID = (String)session.getAttribute("lecturer");
+           PracticalGroup pg= PracticalGroupDAO.retrieveByLecturer(lecturerID);
             
             //StateDAO.resetStateStatus(scenarioID);
             //StateDAO.updateState("ST0", scenarioID, 1);
+            //NoteDAO.reset(scenarioID);
+            // VitalDAO.resetVital(scenarioID);
             
+           /*
             StateHistoryDAO.clearAllHistoryByScenario(scenarioID);
             StateHistoryDAO.reset(scenarioID);
             ReportDAO.resetStatus(scenarioID);
-            //NoteDAO.reset(scenarioID);
+            
             ReportDAO.resetToInitialValues(scenarioID);
             MedicationHistoryDAO.delete(scenarioID);
-            VitalDAO.resetVital(scenarioID);
+           */
+            for(String pgID : practicalGrpID){
+                VitalDAO.resetVitalByPracticalGrp(scenarioID, pgID);
+                //StateHistoryDAO.clearAllHistoryByScenario(scenarioID);
+                StateHistoryDAO.reset(scenarioID);
+                ReportDAO.resetStatus(scenarioID);
+                ReportDAO.resetToInitialValues(scenarioID);
+                MedicationHistoryDAO.delete(scenarioID, pgID);
+                NoteDAO.reset(scenarioID,pgID);
+            }
             
             response.getWriter().println(scenarioID);
-            HttpSession session = request.getSession(false);
             session.setAttribute("success", "You have successfully reset the case: " + scenarioID + " !");
 //                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
 //                rd.forward(request, response);
