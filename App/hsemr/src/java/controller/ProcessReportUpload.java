@@ -102,14 +102,14 @@ public class ProcessReportUpload extends HttpServlet {
             // parses the request's content to extract file data
             @SuppressWarnings("unchecked")
             List<FileItem> formItems = upload.parseRequest(request);
-
+            String filePath = "";
             if (formItems != null && formItems.size() > 0) {
                 // iterates over form's fields
                 for (FileItem item : formItems) {
                     // processes only fields that are not form fields
                     if (!item.isFormField()) {
                         fileName = new File(item.getName()).getName();
-                        String filePath = uploadPath + File.separator + fileName;
+                        filePath = uploadPath + File.separator + fileName;
                         File storeFile = new File(filePath);
 
                         // saves the file on disk
@@ -139,7 +139,7 @@ public class ProcessReportUpload extends HttpServlet {
             }
             
             //save it to database
-            ReportDAO.add(reportName, fileName, scenarioID, stateID, 0);
+            ReportDAO.add(reportName, filePath, scenarioID, stateID, 0);
             response.getWriter().println(reportName);
             response.getWriter().println(fileName);
             response.getWriter().println(scenarioID);

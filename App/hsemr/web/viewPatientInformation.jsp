@@ -273,7 +273,7 @@
 
                                             if (practicalGroupReport != null || report.getInitialReport() == 1) {
 
-                                                reportResults = "reports/" + reportFile;
+                                                reportResults = reportFile;
                                             }
 
 
