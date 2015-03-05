@@ -50,18 +50,14 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
             session.setAttribute("error", "Please select at least 1 lecturer to activate the case for.");
             response.sendRedirect("activateScenarioAdmin.jsp");
         }else{
-            int counterLecWhoCannotActivate = 0;
             for(String lecturerToActivate: lecturerToActivateCase){
-                LecturerScenario lecScen = LecturerScenarioDAO.retrieveLecturer(lecturerToActivate);
+                LecturerScenarioDAO.activateScenario(lecturerToActivate, scenarioID);
+                StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivate);
                 
-                if(lecScen == null){ //lec has not activated any case, admin can activate for her/him
-                    LecturerScenarioDAO.activateScenario(lecturerToActivate, scenarioID);
-                    StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivate);
-                }else{
-                    counterLecWhoCannotActivate++; //these lecturer can't activate because they have activated other cases.
-                } 
+
             }
-            
+            session.setAttribute("success", "Successfully activated cases for lecturers.");
+            response.sendRedirect("viewScenarioAdmin.jsp");
         }
 
         
