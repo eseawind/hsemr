@@ -139,7 +139,7 @@ public class ProcessReportUpload extends HttpServlet {
             }
             
             //save it to database
-            ReportDAO.add(reportName, filePath, scenarioID, stateID, 0);
+            ReportDAO.add(reportName, fileName, scenarioID, stateID, 0);
             response.getWriter().println(reportName);
             response.getWriter().println(fileName);
             response.getWriter().println(scenarioID);

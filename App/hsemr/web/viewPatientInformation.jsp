@@ -42,6 +42,16 @@
             $(document).ready(function() {
                 $(document).foundation();
             });
+            function administerConfirmation() {
+                var activateButton = confirm("Once administered, it will be added to medication history. Please check before you administer.")
+                if (activateButton) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+
 
         </script>
 
@@ -273,7 +283,7 @@
 
                                             if (practicalGroupReport != null || report.getInitialReport() == 1) {
 
-                                                reportResults = reportFile;
+                                                reportResults = "reports/" + reportFile;
                                             }
 
 
@@ -1528,17 +1538,6 @@
                                                 <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
 
                                                 <script>
-
-                                                    function administerConfirmation() {
-                                                        var activateButton = confirm("Once administered, it will be added to medication history. Please check before you administer.")
-                                                        if (activateButton) {
-                                                            return true;
-                                                        }
-                                                        else {
-                                                            return false;
-                                                        }
-                                                    }
-
 
                                                     $(document).ready(function() {
                                                         $(document).foundation();
