@@ -2626,8 +2626,8 @@ meta.foundation-mq-topbar {
 [data-magellan-expedition], [data-magellan-expedition-clone] {
     background: white;
     z-index: 50;
-    min-width: 100%;
-    padding: 10px; }
+    min-width:89%;
+    padding: 5px; }
 [data-magellan-expedition] .sub-nav, [data-magellan-expedition-clone] .sub-nav {
     margin-bottom: 0; }
 [data-magellan-expedition] .sub-nav dd, [data-magellan-expedition-clone] .sub-nav dd {
@@ -3854,9 +3854,10 @@ dialog[open] {
     width: auto;
     overflow: hidden;
     margin: -0.25rem 0 1.125rem;
-    padding-top: 0.25rem;
+    padding-top: 0;
     margin-right: 0;
-    margin-left: -0.75rem; }
+    margin-left: 0; 
+    background: #fafafa;}
 .sub-nav dt {
     text-transform: uppercase; }
 .sub-nav dt,
@@ -3866,9 +3867,9 @@ dialog[open] {
     display: inline;
     margin-left: 1rem;
     margin-bottom: 0.625rem;
-    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-weight: normal;
-    font-size: 0.875rem;
+    font-family: "Playfair Display SC";
+    font-weight: 100;
+    font-size: 1.475rem;
     color: #999999; }
 .sub-nav dt a,
 .sub-nav dd a,
@@ -3884,15 +3885,15 @@ dialog[open] {
 .sub-nav dd.active a,
 .sub-nav li.active a {
     border-radius: 3px;
-    font-weight: normal;
-    background: #008cba;
+    font-weight: 100;
+    background: #368a55;
     padding: 0.1875rem 1rem;
     cursor: default;
     color: white; }
 .sub-nav dt.active a:hover,
 .sub-nav dd.active a:hover,
 .sub-nav li.active a:hover {
-    background: #0078a0; }
+    background: #368a55; }
 
 /* Foundation Joyride */
 .joyride-list {

@@ -8,10 +8,10 @@
 
     settings : {
       active_class: 'active',
-      threshold: 0, // pixels from the top of the expedition for it to become fixes
-      destination_threshold: 20, // pixels from the top of destination for it to be considered active
+      threshold: 275, // pixels from the top of the expedition for it to become fixes
+      destination_threshold: 50, // pixels from the top of destination for it to be considered active
       throttle_delay: 30, // calculation throttling to increase framerate
-      fixed_top: 0 // top distance in pixels assigend to the fixed element on scroll
+      fixed_top: 50 // top distance in pixels assigend to the fixed element on scroll
     }, 
 
     init : function (scope, method, options) {
@@ -178,5 +178,6 @@
       // remove placeholder expeditions used for height calculation purposes
       $('[' + self.add_namespace('data-magellan-expedition-clone') + ']', self.scope).remove();
     }
+    
   };
 }(jQuery, window, window.document));
