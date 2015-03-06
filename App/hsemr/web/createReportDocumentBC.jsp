@@ -35,8 +35,8 @@
         <!--Breadcrumbs-->
         <ul class="breadcrumbs">
             <li class="unavailable">Step 1: Case Creation</li>
-            <li><a href="createStateBC.jsp">Step 2: State Creation</a></li>
-            <li><a href="createMedicationBC.jsp">Step 3: Medication Creation</a></li>
+            <li class="unavailable">Step 2: State Creation</li>
+            <li class="unavailable">Step 3: Medication Creation</li>
             <li class="current"><a href="#">Step 4: Report and Document Creation</a></li>
         </ul><br/>
 

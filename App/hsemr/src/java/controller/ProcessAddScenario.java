@@ -76,7 +76,7 @@ public class ProcessAddScenario extends HttpServlet {
             String output = request.getParameter("output");
             
             
-            double temperature0 = 0;
+            double temperature0 = 0.0;
             int RR0 = 0; 
             int HR0 = 0; 
             int BPS0 = 0;

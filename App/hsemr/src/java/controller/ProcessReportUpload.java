@@ -86,7 +86,8 @@ public class ProcessReportUpload extends HttpServlet {
         String uploadPath = "";
         
         if (pathToRoot == null){
-            uploadPath = getServletContext().getRealPath("") + File.separator + "tmp";
+            uploadPath = getServletContext().getRealPath("")
+                + File.separator + UPLOAD_DIRECTORY;
         }
         else{
             uploadPath = pathToRoot + File.separator + UPLOAD_DIRECTORY; 

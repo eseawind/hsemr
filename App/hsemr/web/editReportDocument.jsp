@@ -129,7 +129,7 @@
                                 <input type="text" name="documentName" required/>
                             </label>
 
-                            <label>>Please ensure that your file is named to what you want it to be shown.<br>
+                            <label>Please ensure that your file is named to what you want it to be shown.<br>
                                 <input type ="file" name = "file" required /><br>
                             </label>
                             <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>"/>
