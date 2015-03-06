@@ -6,6 +6,7 @@
 
 package controller;
 
+import dao.PracticalGroupReportDAO;
 import dao.ReportDAO;
 import java.io.IOException;
 import java.util.Date;
@@ -39,9 +40,11 @@ public class ProcessDespatch extends HttpServlet {
         String scenarioID = request.getParameter("scenarioID");
         String stateID = request.getParameter("stateID");
         String reportName = request.getParameter("reportName");
+        int reportID = Integer.parseInt(request.getParameter("reportID"));
+        String practicalGroup = request.getParameter("practicalGroup");
         Date date=new Date();
         String clickedID = request.getParameter("clickedID");
-        ReportDAO.updateStatus(date, reportName, 1, scenarioID, stateID);
+        PracticalGroupReportDAO.add(reportID, practicalGroup);
         HttpSession session = request.getSession(false);
         // to be used to determine whether to retrieve report for the first time
         session.setAttribute("clickedID", clickedID);

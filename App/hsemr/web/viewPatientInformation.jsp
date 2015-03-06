@@ -209,9 +209,6 @@
                                 out.println("content");
                             } %>" id="reports">
 
-
-
-
                             <h4>Doctor's Order</h4><br/>
 
                             <%
@@ -276,7 +273,7 @@
 
                                             String reportDatetime = df.format(report.getReportDatetime());
                                             int reportID = report.getReportID();
-                                            PracticalGroupReport practicalGroupReport = PracticalGroupReportDAO.retrieve(reportID, scenarioID);
+                                            PracticalGroupReport practicalGroupReport = PracticalGroupReportDAO.retrieve(reportID, practicalGrp);
                                             //int dispatchStatus = report.getDispatchStatus();
 
                                             String reportResults = "";
@@ -324,7 +321,9 @@
                                     %>
                                 <form action="ProcessDespatch" method="POST">
                                     <input type="hidden" name="reportName" value="<%=reportName%>">
+                                     <input type="hidden" name="reportID" value="<%=reportID%>">
                                     <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                                    <input type="hidden" name="practicalGroup" value="<%=practicalGrp%>">
                                     <input type="hidden" name="stateID" value="<%=report.getStateID()%>">
                                     <input type ="hidden" name="clickedID" value ="<%=counter%>">
                                     <input type="submit" id="downloadReport" class="report-despatch button tinytable" value="Despatch">
@@ -1252,7 +1251,7 @@
                                                             <div id="panelInvestigations" class="content">
                                                                 <ul class="pricing-table">
                                                                     <li class="price">Despatched Reports</li>
-                                                                        <%                                                    List<Report> reportList = ReportDAO.retrieveDespatchedReportsByScenario(scenarioID);
+                                                                        <%                                                    List<Report> reportList = ReportDAO.retrieveDespatchedReports(scenarioID,practicalGrp);
 
                                                                             if (reportList == null || reportList.size() == 0) {
                                                                                 out.println("<center>There are no records at the moment</center>");
@@ -1282,7 +1281,8 @@
 
                                                                     <li class="price">Last Updated Vitals</li>        
 
-                                                                    <%                                                List<Vital> vitalList = VitalDAO.retrieveAllVitalByScenarioID(scenarioID);
+                                                                    <%                                                
+                                                                    List<Vital> vitalList = VitalDAO.retrieveAllVitalByScenarioID(scenarioID);
                                                                         if (vitalList.size() > 0) {
 
                                                                     %>
