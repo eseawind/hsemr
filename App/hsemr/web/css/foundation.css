@@ -1097,15 +1097,14 @@ case, .case {
     -webkit-appearance: none;
     -webkit-border-radius: 0;
     display: inline-block;
-    padding-top: 1rem;
-    padding-right: 2.4rem;
-    padding-bottom: 1rem;
-    padding-left: 2.4rem;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
     font-size: 4.2rem;
     background-color: #368a55;
     border-color: #368a55;
+    width: 105px;
     color: white;
-    border-radius: 15px;
+    border-radius: 20px;
     transition: background-color 300ms ease-out; }
 case:hover, case:focus, .case:hover, .case:focus {
     background-color: #368a55; }
