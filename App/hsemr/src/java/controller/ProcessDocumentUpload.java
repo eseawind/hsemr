@@ -86,7 +86,7 @@ public class ProcessDocumentUpload extends HttpServlet {
         
         //String uploadPath = System.getenv("OPENSHIFT_DATA_DIR") + UPLOAD_DIRECTORY;
 
-                 String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
+        String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
         String uploadPath = "";
         
         if (pathToRoot == null){
@@ -143,19 +143,18 @@ public class ProcessDocumentUpload extends HttpServlet {
             //save it to database
             DocumentDAO.add(documentName, fileName, 1, scenarioID, stateID);
             HttpSession session = request.getSession(false);
-            //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
+            session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
             
         } catch (Exception ex) {
             request.setAttribute("message",
                     "There was an error: " + ex.getMessage());
             HttpSession session = request.getSession(false);
-            //session.setAttribute("error", "There was an error in uploading " + fileName + " .");
+            session.setAttribute("error", "There was an error in uploading " + fileName + " .");
         }
         // redirects client to message page
         HttpSession session = request.getSession(false);
-        //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
+        session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
         if(editDocument == null  || editDocument.equals("") ){
-
             response.sendRedirect("createReportDocumentBC.jsp");
         } else {
 

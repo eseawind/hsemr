@@ -146,17 +146,17 @@ public class ProcessReportUpload extends HttpServlet {
             response.getWriter().println(scenarioID);
             response.getWriter().println(stateID);
             HttpSession session = request.getSession(false);
-            //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
+            session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
             
         } catch (Exception ex) {
             request.setAttribute("message",
                     "There was an error: " + ex.getMessage());
             HttpSession session = request.getSession(false);
-            //session.setAttribute("error", "There was an error in uploading " + fileName + " .");
+            session.setAttribute("error", "There was an error in uploading " + fileName + " .");
         }
         // redirects client to message page
         HttpSession session = request.getSession(false);
-        //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
+        session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
         
         if (editReport == null || editReport.equals("")) {
             response.sendRedirect("createReportDocumentBC.jsp");

@@ -49,6 +49,16 @@
             <%        String success = "";
                 String error = "";
 
+                if (session.getAttribute("success") != null) {
+
+                    success = (String) session.getAttribute("success");
+                    session.setAttribute("success", "");
+                }
+                if (session.getAttribute("error") != null) {
+
+                    error = (String) session.getAttribute("error");
+                    session.setAttribute("error", "");
+                }
                 String scenarioID = (String) session.getAttribute("scenarioID");
                 //String patientNRIC = (String) session.getAttribute("patientNRIC");
                 List<State> stateList = StateDAO.retrieveAll(scenarioID);
