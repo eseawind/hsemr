@@ -152,8 +152,8 @@
                             return false;">See more > </a>
                     <div id="<%=scenarioID%>" class="more">
                         <%
-                            String more = scenarioDescription.substring(first, scenarioDescription.length());
-                            out.println("<br>" + more);
+                            String more1 = scenarioDescription.substring(first, scenarioDescription.length());
+                            out.println("<br>" + more1);
                             first = 0;
                         %>
                         <a href="#" id="<%=scenarioID%>-hide" class="hideLink" onclick="showHide('<%=scenarioID%>');
@@ -176,16 +176,18 @@
                         } else {
                             int newStart = admissionInfo.lastIndexOf(".", start);
                             out.println(admissionInfo.substring(0, newStart + 1));
+                            
+                            String scenarioID2 = scenarioID + scenarioID;
                     %>
-                    <a href="#" id="<%=scenarioID%>-show" class="showLink" onclick="showHide('<%=scenarioID%>');
+                    <a href="#" id="<%=scenarioID2%>-show" class="showLink" onclick="showHide('<%=scenarioID2%>');
                             return false;">See Healthcare Provider's Order > </a>
-                    <div id="<%=scenarioID%>" class="more">
+                    <div id="<%=scenarioID2%>" class="more">
                         <%
                             String more = admissionInfo.substring(start, admissionInfo.length());
                             out.println("<br>" + more);
                             start = 0;
                         %>
-                        <a href="#" id="<%=scenarioID%>-hide" class="hideLink" onclick="showHide('<%=scenarioID%>');
+                        <a href="#" id="<%=scenarioID2%>-hide" class="hideLink" onclick="showHide('<%=scenarioID2%>');
                                 return false;"> < Hide Healthcare Provider's Order</a>
                     </div>
                     <% } %>
