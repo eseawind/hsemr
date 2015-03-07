@@ -22,15 +22,6 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "ProcessResetScenario", urlPatterns = {"/ProcessResetScenario"})
 public class ProcessResetScenario extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -42,23 +33,15 @@ public class ProcessResetScenario extends HttpServlet {
             //to know which page it comes from then redirect to the correct page
            String lecturerID = (String)session.getAttribute("lecturer");
            PracticalGroup pg= PracticalGroupDAO.retrieveByLecturer(lecturerID);
-            
-            //StateDAO.resetStateStatus(scenarioID);
-            //StateDAO.updateState("ST0", scenarioID, 1);
-            //NoteDAO.reset(scenarioID);
-            // VitalDAO.resetVital(scenarioID);
-            
-           /*
-            StateHistoryDAO.clearAllHistoryByScenario(scenarioID);
-            StateHistoryDAO.reset(scenarioID);
-            ReportDAO.resetStatus(scenarioID);
-            
-            ReportDAO.resetToInitialValues(scenarioID);
-            MedicationHistoryDAO.delete(scenarioID);
-           */
-            for(String pgID : practicalGrpID){
+           
+           if(practicalGrpID == null || practicalGrpID.length == 0){
+               
+                session.setAttribute("error", "You need to select at least one practical group.");
+                response.sendRedirect("resetCaseLecturer.jsp");
+           }else{
+               
+                for(String pgID : practicalGrpID){
                 VitalDAO.resetVitalByPracticalGrp(scenarioID, pgID);
-                //StateHistoryDAO.clearAllHistoryByScenario(scenarioID);
                 StateHistoryDAO.reset(scenarioID);
                 ReportDAO.resetStatus(scenarioID);
                 ReportDAO.resetToInitialValues(scenarioID);
@@ -66,11 +49,15 @@ public class ProcessResetScenario extends HttpServlet {
                 NoteDAO.reset(scenarioID,pgID);
             }
             
-            response.getWriter().println(scenarioID);
-            session.setAttribute("success", "You have successfully reset the case: " + scenarioID + " !");
-//                RequestDispatcher rd = request.getRequestDispatcher("/viewScenarioLecturer.jsp");
-//                rd.forward(request, response);
-           response.sendRedirect("resetCaseLecturer.jsp");
+                response.getWriter().println(scenarioID);
+                session.setAttribute("success", "You have successfully reset the case: " + scenarioID + " !");
+                response.sendRedirect("resetCaseLecturer.jsp");
+
+           }
+           
+           
+            
+           
         
     }
 

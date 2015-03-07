@@ -5,6 +5,7 @@
  */
 package controller;
 
+import dao.LecturerScenarioDAO;
 import dao.MedicationHistoryDAO;
 import dao.NoteDAO;
 import dao.ReportDAO;
@@ -43,18 +44,15 @@ public class ProcessResetAll extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
+
             ReportDAO.resetToDefault();
             StateHistoryDAO.reset();
             MedicationHistoryDAO.deleteAll();
             VitalDAO.resetToDefault();
             NoteDAO.deleteAll();
-            VitalHistoryDAO.deleteAll();
             StateHistoryDAO.clearAllHistory();
-           // StateDAO.resetState();
-           // ScenarioDAO.resetScenario();
-            
-            
+            LecturerScenarioDAO.deleteAll();
+                  
             HttpSession session = request.getSession(false);
             session.setAttribute("success", "You have successfully reset all information to default state ");
             response.sendRedirect("viewScenarioAdmin.jsp");

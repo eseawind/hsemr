@@ -68,6 +68,11 @@
 
 
                     <%
+                        DateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+                        //DateFormat df = new SimpleDateFormat("dd-MM-yyyy H:m:s");
+                        //DateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+                        
+                        
                         String active = (String) session.getAttribute("active");
                         String success = "";
                         String error = "";
@@ -84,7 +89,6 @@
                         StateHistory stateActivatedLastest = StateHistoryDAO.retrieveLatestStateActivatedByLecturer(pg.getLecturerID());
 
                         //get the most recently activated scenario's state
-                        // if (scenarioActivated == null || StateDAO.retrieveActivateState(scenarioActivated.getScenarioID()) == null) {
                         if (scenarioActivated == null || stateActivatedLastest.getScenarioID() == null) {
                             out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
                         } else {
@@ -145,7 +149,6 @@
 
                     <%
                         if (session.getAttribute("success") != null) {
-
                             success = (String) session.getAttribute("success");
                             session.setAttribute("success", "");
                         }
@@ -251,8 +254,6 @@
                                 </tr>
 
                                 <%
-                                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
                                     if (StateHistoryDAO.retrieveAll(scenarioID).isEmpty()) {
                                         // StateHistoryDAO.addStateHistory(scenarioID, stateID);
 
@@ -385,9 +386,9 @@
 
                             <%
                                 Date currentDateTime = new Date();
-                                DateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy H:m:s");
-                                dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
-                                String currentDateFormatted = dateFormatter.format(currentDateTime);
+                                
+                                df.setTimeZone(TimeZone.getTimeZone("Singapore"));
+                                String currentDateFormatted = df.format(currentDateTime);
 
                                 String temp1 = (String) session.getAttribute("temperature");
                                 String HR1 = (String) session.getAttribute("HR");
@@ -611,11 +612,11 @@
                                         <td><b>Administered By</b></td>
                                     </tr>
                                     <%
-                                        DateFormat dateFormatterFprMedicationHistory = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+                                        
 
                                         for (MedicationHistory medicationHistory : medicationHistoryList) {%>
                                     <tr>
-                                        <td><%=dateFormatterFprMedicationHistory.format(medicationHistory.getMedicineDatetime())%></td>
+                                        <td><%=df.format(medicationHistory.getMedicineDatetime())%></td>
                                         <td><%=medicationHistory.getMedicineBarcode()%></td>
                                         <td><%=medicationHistory.getPracticalGroupID()%></td>
                                     </tr> 
@@ -706,74 +707,85 @@
 
                             <table style="border:none; border-top:#368a55 solid 1px; border-bottom:#368a55 solid 1px">
                                 <tr>
+                                    <td><b>Date Ordered</b></td>
                                     <td><b>Medicine Barcode</b></td>
                                     <td><b>Medicine Name<b></td>
-                                                <td><b>Route</b></td>
-                                                <td><b>Dosage</b></td>
-                                                <td><b>Frequency</b></td>
-                                                <td><b>Doctor Name/MCR No.</b></td>
-                                                <td><b>Remarks</b></td>
-                                                <td><b>Verified</b></td>
-                                                <td><b>Discontinued</b></td>
-                                                </tr>
+                                    <td><b>Route</b></td>
+                                    <td><b>Dosage</b></td>
+                                    <td><b>Frequency</b></td>
+                                    <td><b>Doctor Name/MCR No.</b></td>
+                                    <td><b>Remarks</b></td>
+                                    <td><b>Verified</b></td>
+                                    <td><b>Discontinued</b></td>
+                                </tr>
 
-                                                <tr>
-                                                    <%
-                                                        //taken from processMedicineBarcode
-                                                        ArrayList<String> medicineVerifiedList = (ArrayList<String>) session.getAttribute("medicineVerifiedList");
+                                <tr>
+                                    <%
+                                        //taken from processMedicineBarcode
+                                        ArrayList<String> medicineVerifiedList = (ArrayList<String>) session.getAttribute("medicineVerifiedList");
 
-                                                        if (medicineVerifiedList != null) {
-                                                            if (medicineVerifiedList.size() != 1) { //then take the values from ProcessMedicineBarcode
-                                                                medicineVerifiedList = (ArrayList<String>) session.getAttribute("medicineVerifiedListReturned");
-                                                            }
-                                                        }
+                                        if (medicineVerifiedList != null) {
+                                            if (medicineVerifiedList.size() != 1) { //then take the values from ProcessMedicineBarcode
+                                                medicineVerifiedList = (ArrayList<String>) session.getAttribute("medicineVerifiedListReturned");
+                                            }
+                                        }
 
-                                                        ArrayList<StateHistory> stateHistoryList = StateHistoryDAO.retrieveStateHistory();
+                                        ArrayList<StateHistory> stateHistoryList = StateHistoryDAO.retrieveStateHistory();
 
-                                                        //Check if medicine has been discontinued
-                                                        ArrayList<String> activatedStateList = new ArrayList<String>();
-                                                        for (StateHistory stateHistory : stateHistoryList) {
-                                                            //out.println(stateHistory.getStateID());
-                                                            activatedStateList.add(stateHistory.getStateID());
-                                                        }
+                                        //Check if medicine has been discontinued
+                                        ArrayList<String> activatedStateList = new ArrayList<String>();
+                                        for (StateHistory stateHistory : stateHistoryList) {
+                                            //out.println(stateHistory.getStateID());
+                                            activatedStateList.add(stateHistory.getStateID());
+                                        }
 
-                                                        //loop through every medication
-                                                        for (Map.Entry<List<Prescription>, String> entry : prescriptionHM.entrySet()) {
-                                                            List<Prescription> statePrescription = entry.getKey();
+                                        //loop through every medication
+                                        for (Map.Entry<List<Prescription>, String> entry : prescriptionHM.entrySet()) {
+                                            List<Prescription> statePrescription = entry.getKey();
 
-                                                            //Display Prescriptions
-                                                            for (Prescription prescription : statePrescription) {
+                                            //Display Prescriptions
+                                            for (Prescription prescription : statePrescription) {
 
-                                                                if (!prescription.getMedicineBarcode().equals("NA")) {
-                                                                    String doctorOrder = prescription.getDoctorOrder();
-                                                                    String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
-                                                                    if (medicineBarcodeInput == null) {
-                                                                        medicineBarcodeInput = "";
-                                                                    }
-                                                                    String discontinueState = prescription.getDiscontinueState();
-
-
-                                                    %>
+                                                if (!prescription.getMedicineBarcode().equals("NA")) {
+                                                    String doctorOrder = prescription.getDoctorOrder();
+                                                    String medicineBarcodeInput = (String) session.getAttribute("medicineBarcodeInput");
+                                                    if (medicineBarcodeInput == null) {
+                                                        medicineBarcodeInput = "";
+                                                    }
+                                                    String discontinueState = prescription.getDiscontinueState();
 
 
-                                                    <%                                                        if (discontinueState != null) {
-                                                            //has been activated, disable the textbox
-                                                            if (activatedStateList.contains(discontinueState)) {
-                                                                medicineBarcodeDisabled = "disabled";
+                                    %>
 
-                                                            }
-                                                        }
 
-                                                    %>
-                                                    <td>   
-                                                        <form action = "ProcessMedicineBarcode" method = "POST">
-                                                            <div class="password-confirmation-field">
-                                                                <input type="hidden" name = "medicineBarcode" id="medicineBarcode" value = "<%=prescription.getMedicineBarcode()%>">
+                                    <%                                                        if (discontinueState != null) {
+                                            //has been activated, disable the textbox
+                                            if (activatedStateList.contains(discontinueState)) {
+                                                medicineBarcodeDisabled = "disabled";
 
-                                                                <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>"  <%=medicineBarcodeDisabled%>>
-                                                            </div>
-                                                        </form>
-                                                    </td>
+                                            }
+                                        }
+
+                                    %>
+                                    <td><%
+                                        String presScenario = prescription.getScenarioID();
+                                        String presState = prescription.getStateID();
+                                        
+                                        StateHistory stateHistory =  StateHistoryDAO.retrieve(presScenario, presState, pg.getLecturerID());
+                                        
+                                        out.println(df.format(stateHistory.getTimeActivated()));
+                                    
+                                    %></td>
+                        
+                                    <td>   
+                                        <form action = "ProcessMedicineBarcode" method = "POST">
+                                            <div class="password-confirmation-field">
+                                                <input type="hidden" name = "medicineBarcode" id="medicineBarcode" value = "<%=prescription.getMedicineBarcode()%>">
+
+                                                <input type="text" name = "medicineBarcodeInput" value = "<%=medicineBarcodeInput%>"  <%=medicineBarcodeDisabled%>>
+                                            </div>
+                                        </form>
+                                    </td>
                                                     <%//reset it back to enabled
                                                         medicineBarcodeDisabled = "";
                                                     %>
@@ -934,7 +946,7 @@
                                                             </tr>
                                                         </thead>
                                                         <%
-                                                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                             
                                                                 //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
                                                                 for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
                                                                     Note notesRetrieve = notesListRetrieved.get(i);
@@ -979,7 +991,7 @@
                                                         <%
                                                             // Create an instance of SimpleDateFormat used for formatting 
                                                             // the string representation of date (month/day/year)
-                                                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                            
                                                             //String firstObtain = (String) session.getAttribute("obtained");
                                                             for (Document document : documents) {
                                                                 String consentName = document.getConsentName();
@@ -1112,7 +1124,7 @@
                                                     <%
                                                         List<Vital> oralIntakeList = VitalDAO.retrieveIntakeOutputHistoryByScenarioIDAndPracticalGroup(scenarioID, practicalGrp);
 
-                                                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                     
                                                         if (oralIntakeList.size() == 0) {
                                                             out.println("<h5>There is no historial data at the moment.</h5>");
                                                         } else {
@@ -1307,14 +1319,14 @@
                                                                             if (intakeOralList == null || intakeOralList.size() == 0) {
                                                                                 out.println("<center>There are no records at the moment</center>");
                                                                             } else {
-                                                                                DateFormat dateFormatterForIntake = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                                     
 
                                                                                 for (Vital intakeOutput : intakeOralList) {
                                                                                     String medicationHistoryInformation = intakeOutput.getOralType() + " | " + intakeOutput.getOralAmount();
 
                                                                         %>
 
-                                                                    <li class="bullet-item"><b><%=dateFormatterForIntake.format(intakeOutput.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
+                                                                    <li class="bullet-item"><b><%=df.format(intakeOutput.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
                                                                             <% }
                                                                                 } %>
 
@@ -1327,14 +1339,13 @@
                                                                             if (intakeIntravenousList == null || intakeIntravenousList.size() == 0) {
                                                                                 out.println("<center>There are no records at the moment</center>");
                                                                             } else {
-                                                                                DateFormat dateFormatterForIntakeIntra = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                                                                                 for (Vital intakeIntravenous : intakeIntravenousList) {
                                                                                     String medicationHistoryInformation = intakeIntravenous.getIntravenousType() + " | " + intakeIntravenous.getIntravenousAmount();
 
                                                                         %>
 
-                                                                    <li class="bullet-item"><b><%=dateFormatterForIntakeIntra.format(intakeIntravenous.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
+                                                                    <li class="bullet-item"><b><%=df.format(intakeIntravenous.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
                                                                             <% }
                                                                                 } %>
 
@@ -1347,14 +1358,13 @@
                                                                             if (outputList == null || outputList.size() == 0) {
                                                                                 out.println("<center>There are no records at the moment</center>");
                                                                             } else {
-                                                                                DateFormat dateFormatterForOutput = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                                                                                 for (Vital output : outputList) {
                                                                                     String medicationHistoryInformation = output.getOutput();
 
                                                                         %>
 
-                                                                    <li class="bullet-item"><b><%=dateFormatterForOutput.format(output.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
+                                                                    <li class="bullet-item"><b><%=df.format(output.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
                                                                             <% }
                                                                                 } %>
 
@@ -1380,14 +1390,13 @@
                                                                             if (medicationHistoryList == null || medicationHistoryList.size() == 0) {
                                                                                 out.println("<center>There are no records at the moment</center>");
                                                                             } else {
-                                                                                DateFormat dateFormatterForMedicationHistory = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                                                                                 for (MedicationHistory medicationHistory : medicationHistoryList) {
                                                                                     String medicationHistoryInformation = medicationHistory.getMedicineBarcode() + " | " + session.getAttribute("nurse");
 
                                                                         %>
 
-                                                                    <li class="bullet-item"><b><%=dateFormatterForMedicationHistory.format(medicationHistory.getMedicineDatetime())%></b><br><%=medicationHistoryInformation%></li>
+                                                                    <li class="bullet-item"><b><%=df.format(medicationHistory.getMedicineDatetime())%></b><br><%=medicationHistoryInformation%></li>
                                                                             <% }
                                                                                 } %>
 
@@ -1479,7 +1488,6 @@
                                                                         if (notesRetrieved == null || notesRetrieved.size() == 0) {
                                                                             out.println("<center>There are no records at the moment</center>");
                                                                         } else {
-                                                                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                                                                             for (Note note : notesRetrieved) {
                                                                                 String multidisciplinaryNotes = note.getMultidisciplinaryNote();

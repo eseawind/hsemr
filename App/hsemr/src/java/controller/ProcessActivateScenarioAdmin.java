@@ -53,8 +53,6 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
             for(String lecturerToActivate: lecturerToActivateCase){
                 LecturerScenarioDAO.activateScenario(lecturerToActivate, scenarioID);
                 StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivate);
-                
-
             }
             session.setAttribute("success", "Successfully activated cases for lecturers.");
             response.sendRedirect("viewScenarioAdmin.jsp");

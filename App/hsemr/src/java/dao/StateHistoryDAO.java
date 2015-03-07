@@ -70,6 +70,32 @@ public class StateHistoryDAO {
         }
         return stateHistory;
     }
+    
+    public static StateHistory retrieve(String scenarioID, String stateID, String lecturerID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        StateHistory stateHistory= null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT * FROM state_history where scenarioID = ? and stateID = ? and lecturerID=? order by timeActivated DESC LIMIT 1");
+            stmt.setString(1, scenarioID);
+            stmt.setString(2, stateID);
+            stmt.setString(3, lecturerID);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                stateHistory= new StateHistory(rs.getString(1), rs.getString(2), rs.getTimestamp(3), rs.getString(4));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return stateHistory;
+    }
        
      public static LinkedHashMap<String,String> retrieveAll(String scenarioID, String lecturerID) {
         Connection conn = null;

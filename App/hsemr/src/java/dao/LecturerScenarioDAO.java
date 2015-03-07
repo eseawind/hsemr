@@ -45,6 +45,24 @@ public class LecturerScenarioDAO {
         return lecturerScenario;
     }
     
+    public static void deleteAll (){
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE FROM lecturer_scenario";
+        
+        try {
+            conn = ConnectionManager.getConnection();
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, preparedStatement, null);
+        }
+    
+    }
+    
     public static LecturerScenario retrieve(String lecturerID, String scenarioID) {
         Connection conn = null;
         PreparedStatement stmt = null;

@@ -71,7 +71,6 @@ public class VitalHistoryDAO {
         } finally {
             ConnectionManager.close(conn, preparedStatement, null);
         }
-    
     }
      
 }

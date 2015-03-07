@@ -75,15 +75,7 @@
 
                         List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
 
-                        for (int i = 0; i < scenarioList.size(); i++) {
-                            Scenario scenario = scenarioList.get(i);
-                    %>
-
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <!-- <span class="label"> scenario.getScenarioStatus()%></span> -->
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <%
-                        }
+                     
                     %>
                     <table border="0">
                         <div class ="large-centered large-10 columns">
