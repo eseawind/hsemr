@@ -51,7 +51,7 @@
             }
         </script>
         <style type="text/css">
-           
+
             /* This CSS is used for the Show/Hide functionality. */
             .more {
                 display: none;}
@@ -135,8 +135,7 @@
 
                     %></td>
                 <td>
-                     <%
-                        int first = 0;
+                    <%                         int first = 0;
                         for (int i = 0; i < scenarioDescription.length(); i++) {
                             first = scenarioDescription.indexOf(".") + 1;
                             if (first == -1) {
@@ -156,7 +155,7 @@
                             String more = scenarioDescription.substring(first, scenarioDescription.length());
                             out.println("<br>" + more);
                             first = 0;
-                            %>
+                        %>
                         <a href="#" id="<%=scenarioID%>-hide" class="hideLink" onclick="showHide('<%=scenarioID%>');
                                 return false;"> < Hide</a>
                     </div>
@@ -176,7 +175,7 @@
                             out.println(admissionInfo.substring(0, admissionInfo.length()));
                         } else {
                             int newStart = admissionInfo.lastIndexOf(".", start);
-                            out.println(admissionInfo.substring(0, newStart+1));
+                            out.println(admissionInfo.substring(0, newStart + 1));
                     %>
                     <a href="#" id="<%=scenarioID%>-show" class="showLink" onclick="showHide('<%=scenarioID%>');
                             return false;">See Healthcare Provider's Order > </a>
@@ -185,7 +184,7 @@
                             String more = admissionInfo.substring(start, admissionInfo.length());
                             out.println("<br>" + more);
                             start = 0;
-                            %>
+                        %>
                         <a href="#" id="<%=scenarioID%>-hide" class="hideLink" onclick="showHide('<%=scenarioID%>');
                                 return false;"> < Hide Healthcare Provider's Order</a>
                     </div>
@@ -231,7 +230,9 @@
 
                         if (lecScenario != null) {
                     %>
-                    <input type = "submit" class="button tiny" value="edit" disabled>
+                    <!--<input type = "submit" class="button tiny" value="edit" disabled>-->
+                    <center><font size="2" color="#666666">Unable to edit activated case.</font></center>
+                    
                     <% } else { %>
                     <input type = "submit" class="button tiny" value="edit">
                     <% }%>
@@ -244,7 +245,9 @@
                         if (lecScenario != null) {
 
                     %>
-                    <input type = "submit" class="deletebutton tiny" value="delete" disabled>
+                    <!--<input type = "submit" class="deletebutton tiny" value="delete" disabled>-->
+                    <center><font size="2" color="#666666">Unable to delete activated case.</font></center>
+
                     <% } else {
                     %>
                     <input type = "submit" class="deletebutton tiny" onclick="if (!deleteConfirmation())
