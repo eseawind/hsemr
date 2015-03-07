@@ -138,12 +138,20 @@
                                 <%  }%>
                             </td>
                             <td><h2>Patient's Information</h2>
-                                <font size='4'><b>Name: <font color="#666666"><%=fullName%></font></b>&nbsp;&nbsp;
-                                <b>NRIC: <font color="#666666"><%=patientNRIC%></font></b>&nbsp;&nbsp;
-                                <b>DOB: <font color="#666666"><%=dob%></font></b>&nbsp;&nbsp;
-                                <b>Gender: <font color="#666666"><%=gender%></font></b>&nbsp;&nbsp;
-                                <b>Allergy: <font color="red"><%=allergy%></font></b>&nbsp;</font>
-                            </td><br/>
+                                <table style="border-color: white ">
+                                    <col width="20%">
+                                    <col width="15%">
+                                    <col width="15%">
+                                    <col width="15%">
+                                    <col width="35%">
+                                    <tr>
+                                        <td><font size='4'><b>Name: <font color="#666666"><%=fullName%></font></b></td>
+                                        <td><b>NRIC: <font color="#666666"><%=patientNRIC%></font></b></td>
+                                        <td><b>DOB: <font color="#666666"><%=dob%></font></b></td>
+                                        <td><b>Gender: <font color="#666666"><%=gender%></font></b></td>
+                                        <td><b>Allergy: <img src="img/warning.png" width="20" height="20" alt="Warning"/><font color="red">  <%=allergy%></font></b></font></td>                                        
+                                    </tr>
+                                </table>
                         </tr>
                     </table> <br/><br/>
 
@@ -322,7 +330,7 @@
                                     %>
                                 <form action="ProcessDespatch" method="POST">
                                     <input type="hidden" name="reportName" value="<%=reportName%>">
-                                     <input type="hidden" name="reportID" value="<%=reportID%>">
+                                    <input type="hidden" name="reportID" value="<%=reportID%>">
                                     <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
                                     <input type="hidden" name="practicalGroup" value="<%=practicalGrp%>">
                                     <input type="hidden" name="stateID" value="<%=report.getStateID()%>">
@@ -1263,7 +1271,7 @@
                                                             <div id="panelInvestigations" class="content">
                                                                 <ul class="pricing-table">
                                                                     <li class="price">Despatched Reports</li>
-                                                                        <%                                                    List<Report> reportList = ReportDAO.retrieveDespatchedReports(scenarioID,practicalGrp);
+                                                                        <%                                                    List<Report> reportList = ReportDAO.retrieveDespatchedReports(scenarioID, practicalGrp);
 
                                                                             if (reportList == null || reportList.size() == 0) {
                                                                                 out.println("<center>There are no records at the moment</center>");
@@ -1293,8 +1301,7 @@
 
                                                                     <li class="price">Last Updated Vitals</li>        
 
-                                                                    <%                                                
-                                                                    List<Vital> vitalList = VitalDAO.retrieveAllVitalByScenarioID(scenarioID);
+                                                                    <%                                                                        List<Vital> vitalList = VitalDAO.retrieveAllVitalByScenarioID(scenarioID);
                                                                         if (vitalList.size() > 0) {
 
                                                                     %>
