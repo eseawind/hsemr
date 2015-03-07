@@ -32,7 +32,7 @@
         
         
         %>
-        <div class="large-centered large-6 columns">
+        <div class="large-centered large-8 columns">
             <% 
                     Scenario scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
                        
@@ -45,7 +45,7 @@
 
                     <tr>
                         <td>
-                            <h5><font style="font-weight:400">Scenario Name</font></h5>
+                           <b>Scenario Name</b>
                         </td>
 
                         <td> 
@@ -54,7 +54,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <h5><font style="font-weight:400">Scenario Description</font></h5>
+                            <b>Scenario Description</b>
                         </td>
 
                         <td>

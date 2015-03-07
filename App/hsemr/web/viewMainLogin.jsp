@@ -11,6 +11,9 @@
         <!--CSS-->
         <link rel="stylesheet" href="css/foundation.css" />
         <link href='http://fonts.googleapis.com/css?family=Playfair+Display+SC:400,700,900' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Karma:400,300,500,600,700' rel='stylesheet' type='text/css'>
+
         <script src="js/vendor/modernizr.js"></script>
 
         <!--ICON-->
@@ -54,7 +57,7 @@
                 <%
                     }
                 %> 
-
+                
                 <!--Post form to ProcessLogin to validate the user's credentials-->
                 <form action="ProcessLogin" method="post">
                     <div class="panelHome" style="background-color: white">
@@ -105,14 +108,13 @@
                         <br/>
 
                         <!--Submit-->
-                        <center><input type="submit" class="button normal radius expand" value="Login"></center>
+                        <center><input type="submit" class="button normal radius expand" value="LOGIN"></center>
                     </div>
                 </form>
-                <br/>
             </div>  
-                                    
-            <!--Footer-->
-            <center><font size="1" color="#666666">&copy; Ngee Ann Polytechnic. School of Health Sciences. Electronic Medical Records. All rights reserved.</font></center>
+
+            <!--Footer--><br/>
+            <center><font size="2" color="#666666">&copy; Ngee Ann Polytechnic. School of Health Sciences. Electronic Medical Records. All rights reserved.</font></center>
         </div>
         <!--Scripts-->
         <script src="js/vendor/jquery.js"></script>

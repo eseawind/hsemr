@@ -128,13 +128,40 @@
                 <td><%
                     if (lecScenario != null) {
                     %>
-                    <font color= limegreen>Activated </font>
+                    <font color= "green"><b>Activated</b></font>
                     <%} else {%>
-                    <font color= red>Deactivated</font>
+                    <font color= "red">Deactivated</font>
                     <%}
 
                     %></td>
-                <td><%=scenarioDescription%></td>
+                <td>
+                     <%
+                        int first = 0;
+                        for (int i = 0; i < scenarioDescription.length(); i++) {
+                            first = scenarioDescription.indexOf(".") + 1;
+                            if (first == -1) {
+                                first = 0;
+                            }
+                        }
+
+                        if (first == 0) {
+                            out.println(scenarioDescription.substring(0, scenarioDescription.length()));
+                        } else {
+                            out.println(scenarioDescription.substring(0, first));
+                    %>
+                    <a href="#" id="<%=scenarioID%>-show" class="showLink" onclick="showHide('<%=scenarioID%>');
+                            return false;">See more > </a>
+                    <div id="<%=scenarioID%>" class="more">
+                        <%
+                            String more = scenarioDescription.substring(first, scenarioDescription.length());
+                            out.println("<br>" + more);
+                            first = 0;
+                            %>
+                        <a href="#" id="<%=scenarioID%>-hide" class="hideLink" onclick="showHide('<%=scenarioID%>');
+                                return false;"> < Hide</a>
+                    </div>
+                    <% } %>
+                </td>
                 <td>
                     <%
                         int start = 0;
@@ -152,7 +179,7 @@
                             out.println(admissionInfo.substring(0, newStart+1));
                     %>
                     <a href="#" id="<%=scenarioID%>-show" class="showLink" onclick="showHide('<%=scenarioID%>');
-                            return false;">See more.</a>
+                            return false;">See Healthcare Provider's Order > </a>
                     <div id="<%=scenarioID%>" class="more">
                         <%
                             String more = admissionInfo.substring(start, admissionInfo.length());
@@ -160,7 +187,7 @@
                             start = 0;
                             %>
                         <a href="#" id="<%=scenarioID%>-hide" class="hideLink" onclick="showHide('<%=scenarioID%>');
-                                return false;">Hide this content.</a>
+                                return false;"> < Hide Healthcare Provider's Order</a>
                     </div>
                     <% } %>
                 </td>
