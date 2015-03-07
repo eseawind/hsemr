@@ -62,7 +62,6 @@
             <div class="large-centered large-12 columns">
                 <center>
                     <h1>Select case to reset</h1>
-                    <br/>
                     <%  //Retrieve all the successful messages 
                         String success = "";
                         if (session.getAttribute("success") != null) {
@@ -75,64 +74,72 @@
 
                         List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
 
-                     
+
                     %>
-                    <table border="0">
-                        <div class ="large-centered large-10 columns">
+                    <!--Legend-->
+                    <table style="border-color: white; width: 420px">
+                        <col width ="10%">
+                        <col width ="40%">
+                        <col width ="60%">
+                        <tr>
+                            <td>Legend:</td>
+                            <td><legend></legend>  Activated Case</td>
+                        <td><legend style="background-color: #DBDBDB"></legend>  Deactivated Case</td>
+                        <tr/>
+                    </table>
+                    <br/>
 
-                            <%
-                                int sizeOfList = scenarioList.size();
-                                int numPerRow = 5;
-                                int numOfRows = sizeOfList / numPerRow;
-                                int counter = 0;
+                    <table style="margin-bottom: 5rem">
+                        <%                                int sizeOfList = scenarioList.size();
+                            int numPerRow = 5;
+                            int numOfRows = sizeOfList / numPerRow;
+                            int counter = 0;
 
-                                for (int i = 0; i <= numOfRows; i++) {
-                                    // out.println(numOfRows);
+                            for (int i = 0; i <= numOfRows; i++) {
+                                // out.println(numOfRows);
+                        %>
+
+                        <col width ="20%">
+                        <col width ="20%">
+                        <col width ="20%">
+                        <col width ="20%">
+                        <col width ="20%">
+                        <tr valign="top">
+                            <%                            Scenario scenario = null;
+                                //out.println(counter + "counter");
+                                for (int j = 0; j < numPerRow; j++) {
+
                             %>
+                            <%        if (sizeOfList > counter) {
+                                    scenario = scenarioList.get(counter); //supposed to get Counter, but somehow arrayindexoutofbounds when i put counter.
 
-                            <col width ="20%">
-                            <col width ="20%">
-                            <col width ="20%">
-                            <col width ="20%">
-                            <col width ="20%">
-                            <tr valign="top">
-                                <%                            Scenario scenario = null;
-                                    //out.println(counter + "counter");
-                                    for (int j = 0; j < numPerRow; j++) {
+                                    scenarioID = scenario.getScenarioID();
 
-                                %>
-                                <%        if (sizeOfList > counter) {
-                                        scenario = scenarioList.get(counter); //supposed to get Counter, but somehow arrayindexoutofbounds when i put counter.
+                                    LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerId, scenarioID);
 
-                                        scenarioID = scenario.getScenarioID();
-                                        
-                                        
-                                        LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerId, scenarioID);
-                                  
-                                        counter++;
-                                        caseNo = counter;
-                                %>
-                                <td><center><a href="#" data-reveal-id="<%=scenarioID%>">
+                                    counter++;
+                                    caseNo = counter;
+                            %>
+                            <td><center><a href="#" data-reveal-id="<%=scenarioID%>">
 
-                                    <% 
+                                <%
                                     //if (scenario.getScenarioStatus() == 1) {
                                     if (lecScenario != null) {%>
 
-                                    <input type="submit" class="case" value="<%=counter%>"><br/>
+                                <input type="submit" class="case" value="<%=counter%>"><br/>
 
-                                    <% } else {%>
-                                    <input type="submit" class="case off" value="<%=counter%>"><br/>
+                                <% } else {%>
+                                <input type="submit" class="case off" value="<%=counter%>"><br/>
 
-                                    <%
-                                        }
-                                    %><font color="black"><%=scenario.getScenarioName()%></font></a></center></td>
-                                    <%
-                                        }
-                                    %>
-                                    <%
-                                        }
-                                    %>
-                        </div>
+                                <%
+                                    }
+                                %><font color="black"><%=scenario.getScenarioName()%></font></a></center></td>
+                                <%
+                                    }
+                                %>
+                                <%
+                                    }
+                                %>
                         </tr>
                         <%
                             }
@@ -150,20 +157,20 @@
 
             <form action = "ProcessResetScenario" method = "POST">   
                 <h2>Case Information</h2> 
-                
-                 <%
-                   
-                    List<PracticalGroup> pgList= PracticalGroupDAO.retrieveByLecturerID(lecturerId);
-                    
-                    if(pgList == null || pgList.size() == 0){
+
+                <%
+
+                    List<PracticalGroup> pgList = PracticalGroupDAO.retrieveByLecturerID(lecturerId);
+
+                    if (pgList == null || pgList.size() == 0) {
                         out.println("There is no practical group for this lecturer, please contact admin to assign.<br>");
-                    }else{
-                        for(PracticalGroup pg: pgList){%>
-                            <input type="checkbox" name = "pgSelected" value = "<%=pg.getPracticalGroupID()%>"><label><%=pg.getPracticalGroupID()%></label>
-                        <%
+                    } else {
+                        for (PracticalGroup pg : pgList) {%>
+                <input type="checkbox" name = "pgSelected" value = "<%=pg.getPracticalGroupID()%>"><label><%=pg.getPracticalGroupID()%></label>
+                    <%
+                            }
                         }
-                    }
-                 %>    
+                    %>    
 
                 <input type ="hidden" id= "status" name = "status" value = "reset">
                 <input type ="hidden" id= "scenarioID" name = "scenarioID" value = "<%=scenario.getScenarioID()%>">

@@ -14,8 +14,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--Web Title-->
         <title>EMR | Case Management | Manage Case | Activate Case</title>
-        
-         <!-- LECTURER TOP BAR-->
+
+        <!-- LECTURER TOP BAR-->
         <%@include file="/topbar/topbarLecturer.jsp" %>
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="css/original.css" />
@@ -33,8 +33,8 @@
             }
         </script>
         <script>
-            
-            $(document).ready(function () {
+
+            $(document).ready(function() {
                 $(document).foundation();
             });
         </script>
@@ -54,96 +54,101 @@
             <div class="large-centered large-12 columns">
                 <center>
                     <h1>Select case to view details</h1>
-          <br/>
-            <%  //Retrieve all the successful messages 
-            
-            String success = "" ; 
-            if (session.getAttribute("success") != null) {
-                success = (String) session.getAttribute("success");
-                session.setAttribute("success", "");
-             }
-            
+                    <%  //Retrieve all the successful messages 
+                        String success = "";
+                        if (session.getAttribute("success") != null) {
+                            success = (String) session.getAttribute("success");
+                            session.setAttribute("success", "");
+                        }
 
-                int caseNo = 0;
-                String scenarioID = "";
+                        int caseNo = 0;
+                        String scenarioID = "";
 
-                List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
-                List<String> activatedScenarioList = LecturerScenarioDAO.retrieveScenarioActivated();
-                
-                for (int i = 0; i < scenarioList.size(); i++) {
-                    Scenario scenario = scenarioList.get(i);
-            %>
+                        List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
+                        List<String> activatedScenarioList = LecturerScenarioDAO.retrieveScenarioActivated();
 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <!-- <span class="label"> scenario.getScenarioStatus()%></span> -->
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <%
-                }
-            %>
-            <table border="0">
-            <div class ="large-centered large-10 columns">
-                     
-                <%
-                    int sizeOfList = scenarioList.size();
-                    int numPerRow = 5;
-                    int numOfRows = sizeOfList / numPerRow;
-                    int counter = 0;
-
-                    for (int i = 0; i <= numOfRows; i++) {
-                        
+                        for (int i = 0; i < scenarioList.size(); i++) {
+                            Scenario scenario = scenarioList.get(i);
                     %>
+
+                    <!-- <span class="label"> scenario.getScenarioStatus()%></span> -->
+                    <%
+                        }
+                    %>
+                    <!--Legend-->
+                    <table style="border-color: white; width: 420px">
+                        <col width ="10%">
+                        <col width ="40%">
+                        <col width ="60%">
+                        <tr>
+                            <td>Legend:</td>
+                            <td><legend></legend>  Activated Case</td>
+                            <td><legend style="background-color: #DBDBDB"></legend>  Deactivated Case</td>
+                        <tr/>
+                    </table>
+                    <br/>
                     
-                    <col width ="20%">
-                     <col width ="20%">
-                      <col width ="20%">
-                      <col width ="20%">
-                       <col width ="20%">
-                <tr valign="top">
-                    <%                            
-                        Scenario scenario = null;
-                        
-                        for (int j = 0; j < numPerRow; j++) {
-
-                    %>
-                        <%        if (sizeOfList > counter) {
-                                scenario = scenarioList.get(counter); 
-
-                                scenarioID = scenario.getScenarioID();
-                                
-                                LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerId, scenarioID);
-                                counter++;
-                                caseNo = counter; 
-                        %>
-                 <td><center><a href="#" data-reveal-id="<%=scenarioID%>">
-                 
-                        <% if (lecScenario != null) { //activated, hence able to find in lectuereScenario table%> 
-                        
-                            <input type="submit" class="case" value="<%=counter%>"><br/>
-                            
-                        <% } else {%>
-                       <input type="submit" class="case off" value="<%=counter%>"><br/>
-
+                    <table style="margin-bottom: 5rem">
                         <%
-                                }
-                        %><font color="black"><%=scenario.getScenarioName()%></font></a></center></td>
+                            int sizeOfList = scenarioList.size();
+                            int numPerRow = 5;
+                            int numOfRows = sizeOfList / numPerRow;
+                            int counter = 0;
+
+                            for (int i = 0; i <= numOfRows; i++) {
+
+                        %>
+
+                        <col width ="20%">
+                        <col width ="20%">
+                        <col width ="20%">
+                        <col width ="20%">
+                        <col width ="20%">
+                        <tr valign="top">
+                            <%                        Scenario scenario = null;
+
+                                for (int j = 0; j < numPerRow; j++) {
+
+                            %>
+                            <%        if (sizeOfList > counter) {
+                                    scenario = scenarioList.get(counter);
+
+                                    scenarioID = scenario.getScenarioID();
+
+                                    LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerId, scenarioID);
+                                    counter++;
+                                    caseNo = counter;
+                            %>
+                            <td><center><a href="#" data-reveal-id="<%=scenarioID%>">
+
+                                <% if (lecScenario != null) { //activated, hence able to find in lectuereScenario table%> 
+
+                                <input type="submit" class="case" value="<%=counter%>"><br/>
+
+                                <% } else {%>
+                                <input type="submit" class="case off" value="<%=counter%>"><br/>
+
+                                <%
+                                    }
+                                %><font color="black"><%=scenario.getScenarioName()%></font></a></center></td>
+                                <%
+                                    }
+                                %>
+                                <%
+                                    }
+                                %>
+
+                        </tr>
                         <%
                             }
-                        %>
-                    <%
-                        }
-                    %>
-            </div>
-            </tr>
-                    <%
-                        }
-                    %> </table>
-</center>
-           </div>    
+                        %> </table> 
+                </center>
+            </div>    
         </div>
 
         <%            for (int i = 0; i < scenarioList.size(); i++) {
                 Scenario scenario = scenarioList.get(i);
-                
+
         %>
 
         <div id="<%=scenario.getScenarioID()%>" class="reveal-modal" data-reveal>
@@ -152,7 +157,7 @@
                 <h2>Case Information</h2> 
                 <%
                     LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerId, scenario.getScenarioID());
-                    
+
                     if (lecScenario != null) { //it is activated
                 %>
                 Case is currently activated. 
@@ -163,18 +168,18 @@
 
                 Case is deactivated. 
                 <input type ="hidden" id= "status" name = "status" value = "activated">               
-               <% 
-                        
-                     //Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
-                    Scenario activatedScenario = ScenarioDAO.retrieveScenarioActivatedByLecturer(lecturerId);    
+                <%
+
+                    //Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
+                    Scenario activatedScenario = ScenarioDAO.retrieveScenarioActivatedByLecturer(lecturerId);
                     if (activatedScenario != null) { %>
-                   <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
-                                       return false" value="Activate Case" >
-                   <%} else { %>
-                       <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
-                                       return false" value="Activate Case" >
-                   <% }
-                  }%>
+                <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
+                            return false" value="Activate Case" >
+                <%} else { %>
+                <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
+                            return false" value="Activate Case" >
+                <% }
+            }%>
 
                 <p class="lead"><b>Case Number:</b> <%=scenario.getScenarioID()%> </p>
                 <p class="lead"><b>Case Name:</b> <%=scenario.getScenarioName()%> </p>
@@ -193,16 +198,16 @@
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $(document).foundation();
-                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
-               
-                var success1 = "<%=success%>";
-                if (success1 !== "") {
-                    humaneSuccess.log(success1);
-                }
+                    $(document).ready(function() {
+                        $(document).foundation();
+                        var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
 
-            });
+                        var success1 = "<%=success%>";
+                        if (success1 !== "") {
+                            humaneSuccess.log(success1);
+                        }
+
+                    });
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
     </body>

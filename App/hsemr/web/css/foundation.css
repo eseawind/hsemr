@@ -1112,6 +1112,20 @@ case.off:hover, case.off:focus, .case.off:hover, .case.off:focus {
     background-color: #368a55; }
 case.off, .case.off {
     background-color: #DBDBDB; }
+legend, .legend {
+    border-style: solid;
+    border-width: 0px;
+    margin: 0 0 1.25rem;
+    position: relative;
+    margin-bottom: 0px;
+    display: inline-block;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+    font-size: 4.2rem;
+    background-color: #368a55;
+    border-color: #368a55;
+    width: 15px;
+    border-radius: 5px; }
 ward, .ward {
     border-style: solid;
     border-width: 0px;
@@ -4558,7 +4572,7 @@ ul.off-canvas-list li a:hover {
 
 table {
     background: white;
-    //margin-bottom: 1.00rem;
+    //margin-bottom: 5rem;
     border: solid 1px #368a55; }
 table caption {
     background: transparent;

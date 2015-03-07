@@ -15,8 +15,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--Web Title-->
         <title>EMR | Case Management | Activate State</title>
-        
-         <!-- LECTURER TOP BAR-->
+
+        <!-- LECTURER TOP BAR-->
         <%@include file="/topbar/topbarLecturer.jsp" %>
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="css/original.css" />
@@ -34,8 +34,8 @@
             }
         </script>
         <script>
-            
-            $(document).ready(function () {
+
+            $(document).ready(function() {
                 $(document).foundation();
             });
         </script>
@@ -54,132 +54,138 @@
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center>
-                    
-                    <%
-                       //Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
-                       String lecturerID = (String) session.getAttribute("lecturer");
-                       Scenario activatedScenario = ScenarioDAO.retrieveScenarioActivatedByLecturer(lecturerID);
-                       
+
+                    <%                        //Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
+                        String lecturerID = (String) session.getAttribute("lecturer");
+                        Scenario activatedScenario = ScenarioDAO.retrieveScenarioActivatedByLecturer(lecturerID);
+
                     %>
                     <h1>Select state to change the state</h1>
-                    
-                   <% if(activatedScenario == null){%>
-                        <h2>No case is activated at the moment. Please activate a case <a href="./viewScenarioLecturer.jsp">here</a> first.</h2>
-                        
-                   <% }else{%>
-                        <h2>Currently activated case: <%=activatedScenario.getScenarioName()%></h2>
-                    
-                    
-          <br/>
-            <%  //Retrieve all the successful messages 
-            
-            String success = "" ; 
-            if (session.getAttribute("success") != null) {
-                success = (String) session.getAttribute("success");
-                session.setAttribute("success", "");
-            }
-            
-                int caseNo = 0;
-                String scenarioID = "";
-                String stateID = "";
-                String stateIDCurrent="";
-                
-                List<State> stateList = StateDAO.retrieveAll(activatedScenario.getScenarioID());
-                List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
-                StateHistory latestActivatedState= StateHistoryDAO.retrieveLatestStateActivatedByLecturer(lecturerID);
-              
-                
-                if(latestActivatedState!= null){
-                     stateIDCurrent= latestActivatedState.getStateID();
-                }else {
-                     out.println("Please ensure at least a scenario is activated first before proceeding to change state");
-                }
-                for (int i = 0; i < stateList.size(); i++) {
-                    State state = stateList.get(i);
-            %>
-            
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <%
-                }
-            %>
-            <table border="0">
-            <div class ="large-centered large-10 columns">
-                     
-                <%
-                    int sizeOfList = stateList.size();
-                    int numPerRow = 5;
-                    int numOfRows = sizeOfList / numPerRow;
-                    int counter = 0;
+                    <!--Legend-->
+                    <table style="border-color: white; width: 440px">
+                        <col width ="10%">
+                        <col width ="40%">
+                        <col width ="60%">
+                        <tr>
+                            <td>Legend:</td>
+                            <td><legend></legend>  Activated State</td>
+                        <td><legend style="background-color: #DBDBDB"></legend>  Deactivated State</td>
+                        <tr/>
+                    </table>
+                    <br/>
 
-                    for (int i = 0; i <= numOfRows; i++) {
-                        // out.println(numOfRows);
+                    <% if (activatedScenario == null) {%>
+                    <h2>No case is activated at the moment. Please activate a case <a href="./viewScenarioLecturer.jsp">here</a> first.</h2>
+
+                    <% } else {%>
+                    <p style="color: #007095">Currently activated case: <%=activatedScenario.getScenarioName()%></p>
+
+
+                    <br/>
+                    <%  //Retrieve all the successful messages 
+
+                        String success = "";
+                        if (session.getAttribute("success") != null) {
+                            success = (String) session.getAttribute("success");
+                            session.setAttribute("success", "");
+                        }
+
+                        int caseNo = 0;
+                        String scenarioID = "";
+                        String stateID = "";
+                        String stateIDCurrent = "";
+
+                        List<State> stateList = StateDAO.retrieveAll(activatedScenario.getScenarioID());
+                        List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
+                        StateHistory latestActivatedState = StateHistoryDAO.retrieveLatestStateActivatedByLecturer(lecturerID);
+
+                        if (latestActivatedState != null) {
+                            stateIDCurrent = latestActivatedState.getStateID();
+                        } else {
+                            out.println("Please ensure at least a scenario is activated first before proceeding to change state");
+                        }
+                        for (int i = 0; i < stateList.size(); i++) {
+                            State state = stateList.get(i);
                     %>
-                    
-                    <col width ="20%">
-                    <col width ="20%">
-                    <col width ="20%">
-                    <col width ="20%">
-                    <col width ="20%">
-                <tr valign="top">
-                    <%                            
-                        State state = null;
-                        //out.println(counter + "counter");
-                        for (int j = 0; j < numPerRow; j++) {
 
+                    <%
+                        }
                     %>
-                        <%        if (sizeOfList > counter) {
-                                state = stateList.get(counter); //supposed to get Counter, but somehow arrayindexoutofbounds when i put counter.
 
-                                stateID = state.getStateID();
-                               
-                                
-                                caseNo = counter; 
-                                
-                        %>
-                 <td><center><a href="#" data-reveal-id="<%=stateID%>">
-                 
-                        <% 
-                            //if (state.getStateID() == 1) {
-                            if(stateIDCurrent.equals(stateID)) {
-                        %>
-                        
-                            <input type="submit" class="case" value="<%=counter%>"><br/>
-                            
-                        <% } else {%>
-                       <input type="submit" class="case off" value="<%=counter%>"><br/>
+                    <table style="margin-bottom: 5rem">
 
                         <%
-                                }
-                        %><font color="black"><%=state.getStateDescription()%></font></a></center></td>
+                            int sizeOfList = stateList.size();
+                            int numPerRow = 5;
+                            int numOfRows = sizeOfList / numPerRow;
+                            int counter = 0;
+
+                            for (int i = 0; i <= numOfRows; i++) {
+                                // out.println(numOfRows);
+                        %>
+
+                        <col width ="20%">
+                        <col width ="20%">
+                        <col width ="20%">
+                        <col width ="20%">
+                        <col width ="20%">
+                        <tr valign="top">
+                            <%
+                                State state = null;
+                                //out.println(counter + "counter");
+                                for (int j = 0; j < numPerRow; j++) {
+
+                            %>
+                            <%        if (sizeOfList > counter) {
+                                    state = stateList.get(counter); //supposed to get Counter, but somehow arrayindexoutofbounds when i put counter.
+
+                                    stateID = state.getStateID();
+
+                                    caseNo = counter;
+
+                            %>
+                            <td><center><a href="#" data-reveal-id="<%=stateID%>">
+
+                                <%
+                                    //if (state.getStateID() == 1) {
+                                    if (stateIDCurrent.equals(stateID)) {
+                                %>
+
+                                <input type="submit" class="case" value="<%=counter%>"><br/>
+
+                                <% } else {%>
+                                <input type="submit" class="case off" value="<%=counter%>"><br/>
+
+                                <%
+                                    }
+                                %><font color="black"><%=state.getStateDescription()%></font></a></center></td>
+                                <%
+                                    }
+                                    counter++;
+                                %>
+                                <%
+                                    }
+                                %>
+                        </tr>
                         <%
                             }
-                        counter++;
-                        %>
-                    <%
-                        }
-                    %>
-            </div>
-            </tr>
-                    <%
-                        }
-                    %> </table>
-</center>
-           </div>    
+                        %> </table>
+                </center>
+            </div>    
         </div>
 
         <%            for (int i = 0; i < stateList.size(); i++) {
                 State state = stateList.get(i);
                 //int status = state.getStateStatus();
-        %>
+%>
 
         <div id="<%=state.getStateID()%>" class="reveal-modal" data-reveal>
 
             <form action = "ProcessActivateState" method = "POST">   
                 <h2>State Information</h2> 
                 <%
-                   // if (status == 1) {
-                      if (stateIDCurrent.equals(state.getStateID())){
+                    // if (status == 1) {
+                    if (stateIDCurrent.equals(state.getStateID())) {
                 %>
                 State is currently activated. 
                 <input type ="hidden" id= "status" name = "status" value = "deactivated">
@@ -189,14 +195,14 @@
 
                 State is deactivated. 
                 <input type ="hidden" id= "status" name = "status" value = "activated">               
-               <% 
+                <%
                     if (activatedScenario != null) { %>
-                   <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
-                                       return false" value="Activate State" >
-                   <%} else { %>
-                       <input type ="submit" class="button tiny" value="Activate State">
-                   <% }
-                  }%>
+                <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
+                            return false" value="Activate State" >
+                <%} else { %>
+                <input type ="submit" class="button tiny" value="Activate State">
+                <% }
+                    }%>
 
                 <p class="lead"><b>Case Number:</b> <%=activatedScenario.getScenarioID()%> </p>
                 <p class="lead"><b>Case Name:</b> <%=activatedScenario.getScenarioName()%> </p>
@@ -216,19 +222,19 @@
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $(document).foundation();
-                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
-               
-                var success1 = "<%=success%>";
-                if (success1 !== "") {
-                    humaneSuccess.log(success1);
-                }
+                    $(document).ready(function() {
+                        $(document).foundation();
+                        var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
 
-            });
+                        var success1 = "<%=success%>";
+                        if (success1 !== "") {
+                            humaneSuccess.log(success1);
+                        }
+
+                    });
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
-        
+
         <%}%>
     </body>
 </html>
