@@ -18,8 +18,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Jocelyn Ng
  */
-@WebServlet(name = "ProcessAddKeyword", urlPatterns = {"/ProcessAddKeyword"})
-public class ProcessAddKeyword extends HttpServlet {
+@WebServlet(name = "ProcessDeleteKeyword", urlPatterns = {"/ProcessDeleteKeyword"})
+public class ProcessDeleteKeyword extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,25 +35,12 @@ public class ProcessAddKeyword extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
 
-        int keywordID = Integer.parseInt(request.getParameter("keywordID"));
-        String keywordDesc = (String) request.getParameter("keywordDesc");
-        String fieldsToMap = (String) request.getParameter("fieldsToMap");
+        int keywordID = Integer.parseInt(request.getParameter("currentKeyword"));
+        String keywordDesc = (String) request.getParameter("keywordDescription");
 
-        /*if (keywordID != 0 && keywordID == 0) {
-         session.setAttribute("error", "Update failed: Please update BOTH Systolic and Diastolic values.");
-         response.sendRedirect("./createPDFUpload.jsp");
-         } */
-        if (keywordDesc == null || keywordDesc.equals(" ") || keywordDesc.equals("")) {
-            session.setAttribute("error", "Please enter a valid keyword.");
-            response.sendRedirect("./createPDFUpload.jsp");
-        } else if (fieldsToMap == null || fieldsToMap.equals(" ") || fieldsToMap.equals("")) {
-            session.setAttribute("error", "Please select a field to map the keyword.");
-            response.sendRedirect("./createPDFUpload.jsp");
-        } else {
-            KeywordDAO.insertKeyword(keywordID, keywordDesc, fieldsToMap);
-            session.setAttribute("success", "Added new keyword " + keywordDesc);
-            response.sendRedirect("./createPDFUpload.jsp");
-        }
+        KeywordDAO.delete(keywordID);
+        session.setAttribute("success", "Successfully removed " + keywordDesc);
+        response.sendRedirect("./createPDFUpload.jsp");
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

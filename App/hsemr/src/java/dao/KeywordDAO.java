@@ -11,11 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  *
@@ -71,33 +68,29 @@ public class KeywordDAO {
         return keywordList;
     }
     
-    public static void insertKeyword(int keywordID, String keywordDesc, String fieldsToMap) {
+   public static void insertKeyword(int keywordID, String keywordDesc, String fieldsToMap) {
         Connection conn = null;
-        PreparedStatement stmt = null;
-      
-//        DateFormat dateFormatter;
-        
+        PreparedStatement preparedStatement = null;
+        String query = "INSERT INTO keyword (keywordID, keywordDesc, fieldsToMap) VALUES (?, ?, ?)";
+
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO note(keywordID,keywordDesc,fieldsToMap VALUES (?,?,?)");
-          
-         
-            DateFormat dateFormatter;
-            dateFormatter = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-            dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
-            stmt.setInt(1, keywordID);
-            stmt.setString(2, keywordDesc);
-            stmt.setString(3, fieldsToMap);
-            stmt.executeUpdate();
-       
+            
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setInt(1, keywordID);
+            preparedStatement.setString(2, keywordDesc);
+            preparedStatement.setString(3, fieldsToMap);
+            preparedStatement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            ConnectionManager.close(conn, stmt);
+            ConnectionManager.close(conn, preparedStatement, null);
         }
     }
+      
     
-    public static void delete(String keywordID) {
+    public static void delete(int keywordID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         String query = "DELETE FROM keyword WHERE keywordID =?";
@@ -106,7 +99,7 @@ public class KeywordDAO {
             conn = ConnectionManager.getConnection();
 
             preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, keywordID);
+            preparedStatement.setInt(1, keywordID);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

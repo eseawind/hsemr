@@ -30,28 +30,13 @@
     <body>
         <%
             String keywordID = "";
-            String keywordDesc = "";
-            String fieldsToMap = "";
+            String keywordDescription = "";
 
             List<Keyword> keywordList = KeywordDAO.retrieveAll();
             if (keywordList != null) {
                 keywordID = Integer.toString(keywordList.size() + 1);
             }
 
-            if (request.getParameter("keywordID") != null) {
-                keywordID = request.getParameter("keywordID");
-                session.setAttribute("keywordID", keywordID);
-            }
-
-            if (request.getParameter("keywordDesc") != null) {
-                keywordID = request.getParameter("keywordDesc");
-                session.setAttribute("keywordDesc", keywordDesc);
-            }
-
-            if (request.getParameter("fieldsToMap") != null) {
-                keywordID = request.getParameter("fieldsToMap");
-                session.setAttribute("fieldsToMap", fieldsToMap);
-            }
         %>
         <div class="large-10 large-centered columns">  
             <div class="row" style="width:600px; padding-top: 50px">
@@ -59,8 +44,11 @@
                 <br/><br/>
                 <center><h3>Step 1: Add Keywords (optional):</h3></center>
 
-                <form action = "ProcessEditAccount" method = "post">
+                <form action = "ProcessAddKeyword" method = "post">
                     <br/>
+                    <!--Keyword ID-->
+                    <input type="hidden" name="keywordID" value="<%=keywordID%>">
+
                     <div class="panelCase">
                         <!--Keyword Description-->
                         <label>Keyword Description
@@ -97,17 +85,29 @@
                 %>
 
                 <div class="panelCase">
-                    <%for (Keyword keyword : keywordList) {
-                            String keywordDescription = keyword.getKeywordDesc();
-                    %>
 
-                    <input type = "submit" class="casecreationbutton tiny" value="<%=keywordDescription%>" disabled>
+                    <!--Delete Keyword-->
+                    
+                    
                     <%
-
-                            }
-                        }%>
-                </div><br/>
-                <hr><br/>
+                        for (Keyword keyword : keywordList) {
+                            keywordDescription = keyword.getKeywordDesc();
+                            int currentKeyword = keyword.getKeywordID();
+                    %>
+                    <div class="floatdiv">
+                    <form action = "ProcessDeleteKeyword" method = "POST"> 
+                        <input type="hidden" name="currentKeyword" value="<%=currentKeyword%>">
+                        <input type="hidden" name="keywordDescription" value="<%=keywordDescription%>">
+                        <input type = "submit" class="keyword" onclick="if (!deleteConfirmation())
+                                    return false" value="<%=keywordDescription%>">
+                    </form>
+                    </div>
+                <%}%>
+                    
+                </div>
+                <%}%>
+                <br/>
+                <br/>
                 <center><h3>Step 2: Select PDF File:</h3></center>
                 <div class="panelCase">
                     <form action = "ProcessPDFCreation" method = "POST" enctype = "multipart/form-data"> 
@@ -167,5 +167,26 @@
 
             });
         </script>
+
+        <script type="text/javascript">
+            function deleteConfirmation() {
+                var deleteButton = confirm("Are you sure you want to remove the keyword?")
+                if (deleteButton) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+
+        </script>
+        <style type="text/css">
+            
+
+            .floatdiv
+            {
+            display:inline-block;
+            }
+        </style>
     </body>
 </html>
