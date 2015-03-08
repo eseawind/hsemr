@@ -39,20 +39,7 @@
             $(function() {
                 $("#datepicker").datepicker();
             });
-//            function ValidateForm()
-//            {
-//                $('span.error_msg').html('');
-//               var success = true;
-//                $("#personID input").each(function()
-//                    {
-//                        if($(this).val()=="")
-//                        {
-//                            $(this).next().html("Field needs filling");
-//                            success = false;
-//                        }
-//                });
-//                return success;
-//            }
+
         </script>
 
 
@@ -70,13 +57,6 @@
             }
         %>
 
-        <%
-//            } else {
-//                scenarioName = (String) session.getAttribute("scenarioName");
-//                location = (String) session.getAttribute("location");
-//            }
-
-        %>
     </head>
     <body>
         <br>
@@ -199,29 +179,28 @@
             <form data-abide action ="ProcessEditScenario" method ="POST">
                 <!--Case Details-->
                 <div class="panelCase">
-
+                    
                     <input type="hidden" name="retrieveNRIC" value="<%=patientNRIC%>">
                     <input type="hidden" name="scenarioID" value="<%=scenarioID%>">  
-                    <label>Case Name
-                        <input type="text" name="scenarioName" value = "<%=scenarioName%>" required pattern ="^[a-zA-Z0-9 ]+$">
-                        <small class="error">Please enter a case name.</small>
-                    </label>
-
-                    <label>Case Description
-                        <textarea style = "resize:vertical"  name="scenarioDescription" rows="10" cols="10"  required><%=scenarioDescription%></textarea>
-                    </label>
-
-                    <label>Admission Information
-                        <textarea style = "resize:vertical"  name="admissionInfo" rows="10" cols="10" required><%=admissionInfo%></textarea>
-                    </label>
+                    <div class="row">
+                        <label>Case Name
+                            <input type="text" name="scenarioName" value = "<%=scenarioName%>" required pattern ="^[a-zA-Z0-9 ]+$">
+                            <small class="error">Please enter a case name.</small>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label>Case Description
+                            <textarea style = "resize:vertical"  name="scenarioDescription" rows="10" cols="10"  required><%=scenarioDescription%></textarea>
+                        </label>
+                    </div>
+                    
+                    <div class="row">
+                        <label>Admission Information
+                            <textarea style = "resize:vertical"  name="admissionInfo" rows="10" cols="10" required><%=admissionInfo%></textarea>
+                        </label>
+                    </div>
                 </div>
-                <!--</dd>-->
-
-                <!--<dd class="accordion-navigation">-->
-                <!--<a href="#panel2">Patient's Information</a>-->
-                <!--<div id="panel2" class="content">-->
-                <!--New row 1-->
-
+                    
                 <div class="row">  
                     <div class="panelCase">
                         <div class="row">

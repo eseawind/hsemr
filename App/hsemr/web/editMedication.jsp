@@ -231,9 +231,11 @@
             List<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID);
 
             if (prescriptionList == null || prescriptionList.size() == 0) {
-                out.println("<h3>" + "There are no medication created yet." + "</h3>");
-
-            } else {
+                out.println("<h3>" + "There are no medication created yet." + "</h3>");%>
+                <form action ="editReportDocument.jsp" method ="POST">
+                    <input type = "submit" Value ="Continue  >>" class="button small"> 
+                </form>               
+            <%} else {
                 %>
 
         <form action ="ProcessEditMedication" method ="POST">
@@ -403,9 +405,9 @@
                 <%
                             counter++;
                         }
-                        }
-                        
-                    }
+                        }%>
+                       <input type = "submit" Value ="Save and Proceed  >>" class="button small"></center>  
+                    <%}
 
 
                 %> 
@@ -414,7 +416,7 @@
             <br>
             <br>
             <center>
-                <input type = "submit" Value ="Save and Proceed  >>" class="button small"></center>
+               
         </form>
     </div>
     <script src="js/vendor/jquery.js"></script>

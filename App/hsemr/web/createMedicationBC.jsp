@@ -71,7 +71,8 @@
             <!--add new medicine reveal modal-->
             <div id="addNewMedicine" class="reveal-modal" data-reveal>
                 <h2>Add New Medicine</h2>
-                Create the medicine barcode <a href="http://www.barcode-generator.org/">here</a>. Under "Create Free", please select <b>Code 128 (Standard)</b><br>
+            
+                Create the medicine barcode <a href="http://www.barcode-generator.org/" target="_blank">here</a>. Under "Create Free", please select <b>Code 128 (Standard)</b><br>
                 
                 <form action ="ProcessAddNewMedicine" method ="POST" data-abide>
                     Medicine Name <input type="text" name="newMedicineName" required/>

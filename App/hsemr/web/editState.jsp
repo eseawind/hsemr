@@ -55,11 +55,16 @@
             <!--Display states that are in the database-->
 
             <% if (stateList == null || stateList.size() - 1 == 0 || stateList.size() - 1 == -1) {
-                    out.println("<h3>" + "There are no states created yet." + "</h3>");
-
-                } else {
+                    out.println("<center><h3>" + "There are no states created yet." + "</h3></center>");%>
+                    <center><h5><a href="#" style data-reveal-id="createState">Click to Add New State for <%=scenario%></a></h5></center>  
+                    
+                    <form action ="editMedication.jsp" method = "POST">
+                        
+                        <center><input type = "submit" Value ="Continue  >>" class="button small"></center>
+                    </form>
+               <% } else {
             %>
-            <center><h5><aa href="#" style data-reveal-id="createState">Click to Add New State for <%=scenario%></aa></h5></center>   
+            <center><h5><a href="#" style data-reveal-id="createState">Click to Add New State for <%=scenario%></a></h5></center>   
             <form action ="ProcessEditState" method="POST">
                 <%
                     List<String> stList = new ArrayList<String>();
@@ -96,7 +101,6 @@
                         <input type ="text" name ="<%=stateDescriptionNumber%>" value ="<%=stateDescription%>" required>
                     </label>
                     <label>Healthcare Provider's Order
-                        <!--<i>Please include "&lt;br&gt;" to separate doctor order to next line.</i>-->
                         <textarea style = "resize:vertical"  name="<%=doNum%>" rows="5" cols="10"><%=doctorOrder%></textarea>
                     </label>
                 </div>
@@ -104,18 +108,14 @@
                 <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>">
                 <input type ="hidden" name="<%=pNum%>" value="<%=p%>">
                 <% }
-                            //stateName = state.getStateDescription();
                             counter++;
 
-                        }
-
-                        //session.setAttribute("stateListSize", counter);
-                        // session.setAttribute("stList", stList);
-                        //stList = request.getAttribute("stList");
-                    }%>
+                        }%>
+                        <center><input type = "submit" Value ="Save and Proceed  >>" class="button small"></center>
+                   <% }%>
 
                 <!--End of display states in the database-->
-                <center><input type = "submit" Value ="Save and Proceed  >>" class="button small"></center>
+               
 
             </form>
             <!-- Reveal model for Create State -->

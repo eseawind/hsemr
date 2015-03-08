@@ -91,7 +91,10 @@ public class ProcessExportPDF extends HttpServlet {
              String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
             String fileLocation = "";
             if (pathToRoot == null){
-                fileLocation = getServletContext().getRealPath("") + File.separator + "tmp";
+                //fileLocation = getServletContext().getRealPath("") + File.separator + "tmp";
+                
+                fileLocation= "C:\\Users\\Administrator\\Documents\\GitHub\\hsemr\\App\\hsemr\\build\\web\\tmp" + practicalGroup + "for" + scenarioID + "Submission.pdf";
+                
             }
             else{
                 fileLocation = pathToRoot + File.separator + "exportData" ; 

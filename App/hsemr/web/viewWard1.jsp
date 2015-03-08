@@ -7,6 +7,7 @@
 <%@page import="java.util.List"%>
 <%@page import="entity.*"%>
 <%@page import="dao.*"%>
+<%@include file="protectPage/protectNurse.jsp" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

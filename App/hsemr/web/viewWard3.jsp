@@ -8,6 +8,7 @@
 <%@page import="entity.*"%>
 <%@page import="dao.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="protectPage/protectNurse.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
