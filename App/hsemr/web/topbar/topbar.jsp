@@ -45,25 +45,34 @@
                     <!-- Right Nav Section -->
 
                     <ul class="left">
-                        <li><a href="viewWardInformation.jsp">Ward Management</a></li>
-                            <%
-                                PracticalGroup pg = PracticalGroupDAO.retrieveLecturer(nurseId);
+                        <%
+                        PracticalGroup pg = PracticalGroupDAO.retrieveLecturer(nurseId);
                                 // Scenario scenarioActivated1 = ScenarioDAO.retrieveActivatedScenario();
-                                if (pg.getLecturerID() == null) {
-                                    response.sendRedirect("viewMainLogin.jsp");
-                                } else {
-                                    Scenario scenarioActivated1 = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
-                                    if (scenarioActivated1 != null) {
-                                        String scenarioName = scenarioActivated1.getScenarioName();
-                                        String scenarioDescription = scenarioActivated1.getScenarioDescription();
-                                %>
-                            <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="<b>Scenario Name:</b> <%=scenarioName%><br><br>
-                                                  <b>Scenario Description: </b> <%=scenarioDescription%>
-                                                  ">Case Information</span></a></li>
-                                    <% } else { %> 
-                            <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="No activated case yet">Case Information</span></a></li>  
-                                <%}
-                                }%> 
+                        if (pg == null || pg.getLecturerID() == null) {
+                        %>
+                        <li><a href="viewMainLogin.jsp">Ward Management</a></li>
+                        <% 
+                        } else {
+                        %>
+                        <li><a href="viewWardInformation.jsp">Ward Management</a></li>
+                        
+                            <%  
+                            if (pg == null || pg.getLecturerID() == null) {
+                                out.println("<h5>Please login <a href='viewMainLogin.jsp'><u>here</u></a></h5>");
+                            }   else {
+                                Scenario scenarioActivated1 = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+                                if (scenarioActivated1 != null) {
+                                    String scenarioName = scenarioActivated1.getScenarioName();
+                                    String scenarioDescription = scenarioActivated1.getScenarioDescription();
+                            %>
+                        <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="<b>Scenario Name:</b> <%=scenarioName%><br><br>
+                            <b>Scenario Description: </b> <%=scenarioDescription%>
+                            ">Case Information</span></a></li>
+                            <% } else { %> 
+                                <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="No activated case yet">Case Information</span></a></li>  
+                            <%}
+                            }
+                        }%> 
 
                     </ul>
 
