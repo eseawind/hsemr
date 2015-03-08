@@ -49,17 +49,21 @@
                             <%
                                 PracticalGroup pg = PracticalGroupDAO.retrieveLecturer(nurseId);
                                 // Scenario scenarioActivated1 = ScenarioDAO.retrieveActivatedScenario();
-                                Scenario scenarioActivated1 = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
-                                if (scenarioActivated1 != null) {
-                                    String scenarioName = scenarioActivated1.getScenarioName();
-                                    String scenarioDescription = scenarioActivated1.getScenarioDescription();
-                            %>
-                        <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="<b>Scenario Name:</b> <%=scenarioName%><br><br>
-                                              <b>Scenario Description: </b> <%=scenarioDescription%>
-                                              ">Case Information</span></a></li>
-                                <% } else { %> 
-                        <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="No activated case yet">Case Information</span></a></li>  
-                            <%}%> 
+                                if (pg.getLecturerID() == null) {
+                                    response.sendRedirect("viewMainLogin.jsp");
+                                } else {
+                                    Scenario scenarioActivated1 = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+                                    if (scenarioActivated1 != null) {
+                                        String scenarioName = scenarioActivated1.getScenarioName();
+                                        String scenarioDescription = scenarioActivated1.getScenarioDescription();
+                                %>
+                            <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="<b>Scenario Name:</b> <%=scenarioName%><br><br>
+                                                  <b>Scenario Description: </b> <%=scenarioDescription%>
+                                                  ">Case Information</span></a></li>
+                                    <% } else { %> 
+                            <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="No activated case yet">Case Information</span></a></li>  
+                                <%}
+                                }%> 
 
                     </ul>
 

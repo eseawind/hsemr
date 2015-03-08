@@ -68,6 +68,11 @@
                             success = (String) session.getAttribute("success");
                             session.setAttribute("success", "");
                         }
+                        String error = "";
+                        if (session.getAttribute("error") != null) {
+                            error = (String) session.getAttribute("error");
+                            session.setAttribute("error", "");
+                        }
 
                         int caseNo = 0;
                         String scenarioID = "";
@@ -194,15 +199,19 @@
         <script src="js/foundation.min.js"></script>
         <script>
             $(document).ready(function() {
-                $(document).foundation();
-                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
+              $(document).foundation();
+              var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+              var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
-                var success1 = "<%=success%>";
-                if (success1 !== "") {
-                    humaneSuccess.log(success1);
-                }
+              var success1 = "<%=success%>";
+              var error1 = "<%=error%>";
+              if (success1 !== "") {
+                  humaneSuccess.log(success1);
+              } else if (error1 !== "") {
+                  humaneError.log(error1);
+              }
 
-            });
+          });
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
     </body>

@@ -373,7 +373,7 @@
                             <%
                                 } else {
                                     // if no reports in the array
-                                    out.println("No doctor's order at the moment.");
+                                    out.println("<h5>There is no doctor's order at the moment.</h5>");
 
                                 }
                                 session.setAttribute("active", null);
@@ -611,7 +611,7 @@
                                     String practicalGroupID = (String) session.getAttribute("nurse");
                                     List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAllInPracticalGroup(scenarioID, practicalGroupID);
                                     if (medicationHistoryList == null || medicationHistoryList.size() == 0) {
-                                        out.println("<h5>There are no record at the moment</h5>");
+                                        out.println("<h5>There is no record at the moment</h5>");
                                     } else { %>
                                 <table>
                                     <tr>
@@ -663,7 +663,7 @@
                                 }
 
                                 if (prescriptionHM == null || prescriptionHM.size() == 0) {
-                                    out.println("There are no prescription(s) at the moment. ");
+                                    out.println("<h5>There is no prescription at the moment. </h5>");
                                 } else {%>
 
                             <a name="step1"></a>
@@ -1017,7 +1017,7 @@
                                                         <%
                                                                 }
                                                             } else {
-                                                                out.println("No documents at the moment.");
+                                                                out.println("<h5>There is no document at the moment.</h5>");
                                                             }
                                                         %>  </table>
                                                 </div>  
@@ -1069,6 +1069,8 @@
                                                     </table>
 
                                                     <%
+                                                        } else {
+                                                            out.println("<h5>There is no past doctor's order at the moment. </h5>");
                                                         }
                                                     %>    
 

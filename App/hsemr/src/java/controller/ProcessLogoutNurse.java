@@ -38,7 +38,7 @@ public class ProcessLogoutNurse extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             session.removeAttribute("nurse");
-            session.invalidate();
+            
             response.sendRedirect("viewMainLogin.jsp");
         } finally {
             out.close();
