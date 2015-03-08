@@ -1328,6 +1328,34 @@ deletebutton.tiny, .deletebutton.tiny {
     padding-left: 1.05rem;
     font-size: 0.8875rem; }
 
+keyword, .keyword {
+    border-style: dotted;
+    border-width: 3px;
+    border-color: #DBDBDB;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    line-height: normal;
+    margin: 0 0 1.25rem;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    display: inline-block;
+    padding-top: 0.5rem;
+    padding-right: 1rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    font-size: 1.1rem;
+    background-color: #f1efef;
+    color: #888888;
+    margin: 6px;
+    transition: background-color 300ms ease-out; }
+keyword:hover, keyword:focus, .keyword:hover, .keyword:focus {
+    background-color: #de2d0f; }
+keyword:hover, keyword:focus, .keyword:hover, .keyword:focus {
+    color: white;}
+
 casecreationbutton, .casecreationbutton {
     border-style: dotted;
     border-width: 3px;
