@@ -252,8 +252,11 @@
 
                     <% } else {
                     %>
+                   
+                    
                     <input type = "submit" class="deletebutton tiny" onclick="if (!deleteConfirmation())
-                                return false" value="delete" >
+                        return false" value="delete" >
+
                     <% }%>
                 </form>
             </center></td>  
@@ -278,16 +281,6 @@
                         });
     </script>
     <script type="text/javascript">
-        function deleteConfirmation() {
-            var deleteButton = alert("Are you sure you want to delete? EVERYTHING including what the students have entered will be gone. Please ensure you have exported the documents before deleting. ")
-            if (deleteButton) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-
         function resetConfirmation() {
             var resetButton = confirm("Resetting will delete ALL information, you will not be able to retrieve them. Please ensure you have exported the documents before resetting. ")
             if (resetButton) {
@@ -298,15 +291,19 @@
             }
         }
 
-        function activateConfirmation() {
-            var activateButton = confirm("Only one case can be activate each round. Activating this case will deactivate the rest.")
-            if (activateButton) {
+    </script>
+    
+     <script type="text/javascript">
+        function deleteConfirmation() {
+            var deleteButton = confirm("Are you sure you want to delete the case? ")
+            if (deleteButton) {
                 return true;
             }
             else {
                 return false;
             }
         }
+
     </script>
 
     <script type="text/javascript" src="js/humane.js"></script>

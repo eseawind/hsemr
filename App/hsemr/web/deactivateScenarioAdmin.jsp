@@ -114,8 +114,14 @@
                  
                 </div>
 
-             
-                <center><input type="submit" value="Deactivate" class="deletebutton small"></center>
+             <%
+                        String location = "viewScenarioAdmin.jsp";
+                        %>
+                <center>
+                
+                <input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/>
+                <input type="submit" value="Deactivate" class="deletebutton small"></center>
+                
         </form>
             
             
