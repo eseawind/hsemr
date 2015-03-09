@@ -1097,8 +1097,8 @@ case, .case {
     -webkit-appearance: none;
     -webkit-border-radius: 0;
     display: inline-block;
-    padding-top: 1.2rem;
-    padding-bottom: 1.2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
     font-size: 4.2rem;
     background-color: #368a55;
     border-color: #368a55;
@@ -1112,6 +1112,37 @@ case.off:hover, case.off:focus, .case.off:hover, .case.off:focus {
     background-color: #368a55; }
 case.off, .case.off {
     background-color: #DBDBDB; }
+
+resetcase, .resetcase {
+    border-style: solid;
+    border-width: 0px;
+    cursor: pointer;
+    font-family: "Roboto", sans-serif;
+    font-weight: normal;
+    line-height: normal;
+    margin: 0 0 1.25rem;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    display: inline-block;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: 4.2rem;
+    background-color: #cf2a0e;
+    border-color: #cf2a0e;
+    width: 105px;
+    color: white;
+    border-radius: 20px;
+    transition: background-color 300ms ease-out; }
+resetcase:hover, resetcase:focus, .resetcase:hover, .resetcase:focus {
+    background-color: #cf2a0e; }
+resetcase.off:hover, resetcase.off:focus, .resetcase.off:hover, .resetcase.off:focus {
+    background-color: #cf2a0e; }
+resetcase.off, .resetcase.off {
+    background-color: #DBDBDB; }
+
 legend, .legend {
     border-style: solid;
     border-width: 0px;

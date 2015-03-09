@@ -88,7 +88,7 @@
                         <col width ="60%">
                         <tr>
                             <td>Legend:</td>
-                            <td><legend></legend>  Activated Case</td>
+                            <td><legend style="background-color: #cf2a0e"></legend>  Activated Case</td>
                         <td><legend style="background-color: #DBDBDB"></legend>  Deactivated Case</td>
                         <tr/>
                     </table>
@@ -131,10 +131,10 @@
                                     //if (scenario.getScenarioStatus() == 1) {
                                     if (lecScenario != null) {%>
 
-                                <input type="submit" class="case" value="<%=counter%>"><br/>
+                                <input type="submit" class="resetcase" value="<%=counter%>"><br/>
 
                                 <% } else {%>
-                                <input type="submit" class="case off" value="<%=counter%>"><br/>
+                                <input type="submit" class="resetcase off" value="<%=counter%>"><br/>
 
                                 <%
                                     }
@@ -199,19 +199,19 @@
         <script src="js/foundation.min.js"></script>
         <script>
             $(document).ready(function() {
-              $(document).foundation();
-              var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
-              var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
-              var success1 = "<%=success%>";
-              var error1 = "<%=error%>";
-              if (success1 !== "") {
-                  humaneSuccess.log(success1);
-              } else if (error1 !== "") {
-                  humaneError.log(error1);
-              }
+                var success1 = "<%=success%>";
+                var error1 = "<%=error%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                } else if (error1 !== "") {
+                    humaneError.log(error1);
+                }
 
-          });
+            });
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
     </body>
