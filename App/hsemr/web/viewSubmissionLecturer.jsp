@@ -46,7 +46,7 @@
         <script src="js/foundation.min.js"></script>
         <div class="row" style="padding-top: 30px;">
             <center><h1>View Submissions</h1></center>
-            <div class="large-centered large-6 columns" style="padding-top: 10px;">
+            <div class="large-centered large-6 columns" style="padding-top: 30px;">
 
                 <%                    String success = "";
                     String error = "";
@@ -102,8 +102,8 @@
                                 %>
                             </select>
                         </label>
-                    </div><br/>
-                    <center><input type ="submit" value ="View Notes" class = "button small"/></center>
+                    </div><br/><br/>
+                    <center><input type ="submit" value ="View Notes" class = "button"/></center>
                 </form>
             </div>
 
