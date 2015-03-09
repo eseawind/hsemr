@@ -1361,8 +1361,8 @@ deletebutton, .deletebutton {
     border-style: solid;
     border-width: 1px;
     cursor: pointer;
-    font-family: "Roboto", sans-serif;
-    font-weight: normal;
+    font-family: inherit;
+    font-weight: 300;
     line-height: normal;
     margin: 0 0 1.25rem;
     position: relative;
@@ -1375,7 +1375,6 @@ deletebutton, .deletebutton {
     padding-right: 2rem;
     padding-bottom: 1.0625rem;
     padding-left: 2rem;
-    font-size: 1.2rem;
     background-color: white;
     border-color: #de2d0f;
     color: #de2d0f;
@@ -1389,7 +1388,41 @@ deletebutton.tiny, .deletebutton.tiny {
     padding-right: 1.05rem;
     padding-bottom: 0.3875rem;
     padding-left: 1.05rem;
-    font-size: 0.8875rem; }
+    font-size: 1.1000rem; }
+
+resetbutton, .resetbutton {
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 300;
+    line-height: normal;
+    margin: 0 0 1.25rem;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    display: inline-block;
+    padding-top: 1rem;
+    padding-right: 2rem;
+    padding-bottom: 1.0625rem;
+    padding-left: 2rem;
+    background-color: white;
+    border-color: #de2d0f;
+    color: #de2d0f;
+    width: 100%;
+    transition: background-color 300ms ease-out; }
+resetbutton:hover, resetbutton:focus, .resetbutton:hover, .resetbutton:focus {
+    background-color: #de2d0f; }
+resetbutton:hover, resetbutton:focus, .resetbutton:hover, .resetbutton:focus {
+    color: white; }
+resetbutton.tiny, .resetbutton.tiny {
+    padding-top: 0.325rem;
+    padding-right: 1.05rem;
+    padding-bottom: 0.3875rem;
+    padding-left: 1.05rem;
+    font-size: 1.1000rem; }
 
 keyword, .keyword {
     border-style: dotted;
@@ -1482,7 +1515,7 @@ button.tiny, .button.tiny {
     padding-right: 1.05rem;
     padding-bottom: 0.3875rem;
     padding-left: 1.05rem;
-    font-size: 0.8875rem; }
+    font-size: 1.1000rem; }
 button.tinytable, .button.tinytable {
     padding-top: 0.325rem;
     padding-right: 1.05rem;
