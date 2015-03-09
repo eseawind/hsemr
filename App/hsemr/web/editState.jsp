@@ -94,7 +94,7 @@
 
                 %>
                 <div class="panelCase">
-                    <div align="left">  <b><%=stateDesc%></b></div><br/>
+                    <div align="left"><h3><%=stateDesc%></h3></div><br/>
                     <input type="hidden" name ="stateNumber" value="<%=stateNumber%>">
                     <input type="hidden" name ="stateListSize" value="<%=stateList.size()%>">
                     <label>Description

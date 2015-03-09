@@ -53,7 +53,7 @@
             <%List<State> stateList = StateDAO.retrieveAll(scenarioID);%>
             <h2>Create State <%=stateList.size()%></h2>
 
-            States are created in <b>ascending</b> order. <br><br>
+            <p>States are created in <b>ascending</b> order.</p> 
 
 
             <form action = "ProcessAddState" method = "POST">
@@ -77,7 +77,7 @@
             <div class="panelCase">
                 <!--Display states that are in the database-->
                 <% if (stateList == null || stateList.size() - 1 == 0 || stateList.size() - 1 == -1) {
-                        out.println("<center>" + "There are no states created yet." + "</center>");
+                        out.println("<center><p>" + "There are no states created yet." + "</p></center>");
 
                     } else {
                         out.print("<center><h3>State(s) Created</h3></center>");

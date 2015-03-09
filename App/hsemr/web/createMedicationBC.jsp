@@ -72,12 +72,11 @@
             <div id="addNewMedicine" class="reveal-modal" data-reveal>
                 <h2>Add New Medicine</h2>
             
-                Create the medicine barcode <a href="http://www.barcode-generator.org/" target="_blank">here</a>. Under "Create Free", please select <b>Code 128 (Standard)</b><br>
+                <p>Create the medicine barcode <a href="http://www.barcode-generator.org/" target="_blank">here</a>. Under "Create Free", please select <b>Code 128 (Standard)</b></p><br>
                 
                 <form action ="ProcessAddNewMedicine" method ="POST" data-abide>
-                    Medicine Name <input type="text" name="newMedicineName" required/>
-
-                    Medicine Barcode <input type ="text" name ="newMedicineBarcode" style="text-transform:uppercase;" required pattern ="^[0-9a-zA-Z]+$">
+                    <label>Medicine Name <input type="text" name="newMedicineName" required/></label>
+                    <label>Medicine Barcode <input type ="text" name ="newMedicineBarcode" style="text-transform:uppercase;" required pattern ="^[0-9a-zA-Z]+$"></label>
 
                     <small class="error">No space and numbers allowed.</small> 
 
@@ -193,7 +192,7 @@
                 <!--Display medication that are in the database-->
                 <%  List<Prescription> prescriptionList = PrescriptionDAO.retrieve(scenarioID);
                     if (prescriptionList == null || prescriptionList.size() == 0) {
-                        out.println("There are no medication created yet.");
+                        out.println("<center><p>There are no medications created yet.</p></center>");
 
                     } else {
                         out.print("<center><h3>Medication(s) Created</h3></center>");
