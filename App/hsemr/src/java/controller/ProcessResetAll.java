@@ -13,7 +13,6 @@ import dao.ScenarioDAO;
 import dao.StateDAO;
 import dao.StateHistoryDAO;
 import dao.VitalDAO;
-import dao.VitalHistoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
