@@ -21,6 +21,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         
+        <!--For pull to refresh-->
+        <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+        <script src="js/hook.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="css/hook.css" type="text/css" />
+        <!--end of for pull to refresh-->
+        
         <!--Web Title-->
         <title>EMR | Ward Management | Ward View</title>
         
@@ -39,12 +45,19 @@
     </head>
     <body>  
     <center>
-             <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
+        <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
         <div class ="show-for-small-only">
+             <!--hook.js pull to refresh-->                                      
+            <div id="hook">
+                <div id="loader">
+                    <div class="spinner"></div>
+                </div>
+                    <span id="hook-text">Reloading, please wait...</span>
+            </div>
+            <!--hook.js pull to refresh-->
             <%
                 
-               // Scenario scen = ScenarioDAO.retrieveActivatedScenario();
-                //String scID = "";
+               
                 if (pg == null || pg.getLecturerID() == null) {
                      out.println("<h5>Please login <a href='viewMainLogin.jsp'><u>here</u></a></h5>");
                 } else {
@@ -55,12 +68,9 @@
                         out.println("<h1>No Case Activated</h1>");
                         out.println("Please contact lecturer/administrator.");
                     } else {
-                        //scID = scen.getScenarioID();
                         //get the most recently activated scenario's state
 
-                       // State retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated1.getScenarioID());
                       retrieveScenarioState= StateHistoryDAO.retrieveLatestStateActivatedByLecturer(pg.getLecturerID());
-                    //    String stateID = retrieveScenarioState.getStateID();
 
                         if (retrieveScenarioState == null) {
                              out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
@@ -77,17 +87,39 @@
                 %>
 
                         <form action ='viewPatientInformation.jsp' method ='POST'>
-                            <br><br><br><br><br><br><br><br><br><br>
+                       
                             <input type="submit" value="View Patient Management" class="button large"> 
-                        </form>  
-                        <%
-                        }
-                    }
+                        </form>
                 
-                    //create an arraylist to be passed to check validity of medicine
-//                    ArrayList<String> medicineVerifiedList = new ArrayList<String>();
-//                    medicineVerifiedList.add("TESTING");
-//                    session.setAttribute("medicineVerifiedList",medicineVerifiedList);
+                
+                <% 
+                    Scenario scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+                       
+                  //Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
+        if (scenarioActivated != null) {%>
+        
+        <dl class="accordion" data-accordion>
+            <dd class="accordion-navigation">
+                <a href="#panelCaseName">Case Information</a>
+                <div id="panelCaseName" class="content active">
+                    <%=scenarioActivated.getScenarioName()%>
+                </div>
+            </dd>
+            
+            <dd class="accordion-navigation">
+                <a href="#panelCaseName">Case Information</a>
+                <div id="panelCaseName" class="content active">
+                    <%=scenarioActivated.getScenarioDescription()%>
+                </div>
+            </dd>
+            
+        </dl>
+                
+        <%
+                }
+            }
+        }
+                
         %>
       
         <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
