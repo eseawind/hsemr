@@ -24,10 +24,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+
         <!--Web Title-->
         <title>EMR | Case Management | Deactivate Case</title>
-        
+
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
         <script src="responsive-tables.js"></script>
@@ -66,87 +66,82 @@
         %>
     </head>
     <body>
-        <%
-        String scenarioID = "";
-                String sessionScenario = (String) session.getAttribute("scenarioID");
-                if (request.getParameter("scenarioID") != null) {
-                    scenarioID = request.getParameter("scenarioID");
+        <%            String scenarioID = "";
+            String sessionScenario = (String) session.getAttribute("scenarioID");
+            if (request.getParameter("scenarioID") != null) {
+                scenarioID = request.getParameter("scenarioID");
 
-                    session.setAttribute("scenarioID", scenarioID);
-                } else if (sessionScenario != null) {
-                    scenarioID = sessionScenario;
-                }
+                session.setAttribute("scenarioID", scenarioID);
+            } else if (sessionScenario != null) {
+                scenarioID = sessionScenario;
+            }
 
-                Scenario scen = ScenarioDAO.retrieve(scenarioID);
+            Scenario scen = ScenarioDAO.retrieve(scenarioID);
 
-                if (scen == null) {
-                    out.println("No case selected");
-                }
-                    %>
-        
-        <center><h1>Deactivate Case</h1>
-        <br>
-        Note: Please do not stop activated cases unless lecturers are NOT using it. Deactivating a case, will affect the students and lecturers.  
-        </center>
-        <br>
-        <form data-abide action ="ProcessDeactivateScenarioAdmin" method ="POST">
-            <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-            <div class="large-centered large-6 columns">
-                <div class="panelCase">
-                    <label><strong>Case Selected</strong>
-                       <input type="text" name="scenarioName" value = "<%=scen.getScenarioName()%>" readonly>
-                    </label>
+            if (scen == null) {
+                out.println("No case selected");
+            }
+        %>
+         <div class="row" style="width: 600px; padding-top: 50px">
+                <center><h1>Deactivate Case</h1>
+                    <br>
+                    <p>Note: Please do not stop activated cases unless lecturers are NOT using it. Deactivating a case, will affect the students and lecturers.</p>
+                </center>
+                <br>
+                <form data-abide action ="ProcessDeactivateScenarioAdmin" method ="POST">
+                    <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                    <div class="panelCase">
+                    <p>
+                        <strong>Case Selected</strong>
+                            <input type="text" name="scenarioName" value = "<%=scen.getScenarioName()%>" readonly>
                     
-                    <label><strong>Currently Activated By</strong><br></label>                        
-                          
+
+                       <strong>Currently Activated By</strong><br>                
+
                         <%
                             List<String> lecScenarioList = LecturerScenarioDAO.retrieveDistinctLecturers(scenarioID);
-                            
-                            if(lecScenarioList == null || lecScenarioList.size() == 0){
+
+                            if (lecScenarioList == null || lecScenarioList.size() == 0) {
                                 out.println("This case is not activated by any lecturers at the moment.<br>");
-                            }else{
-                                for(String lecActivatedScenario: lecScenarioList){%>
-                                    <input type="checkbox" name = "deactivateForLecturer" value = "<%=lecActivatedScenario%>"><label><%=lecActivatedScenario%></label>
-                                <%}
-                            }
-                        %>
+                            } else {
+                                for (String lecActivatedScenario : lecScenarioList) {%>
+                        <input type="checkbox" name = "deactivateForLecturer" value = "<%=lecActivatedScenario%>"><label><%=lecActivatedScenario%></label>
+                            <%}
+                                }
+                            %>
                         <br>
-                 
-                </div>
+                    </p>
+                    </div>
 
-             <%
+                    <%
                         String location = "viewScenarioAdmin.jsp";
-                        %>
-                <center>
-                
-                <input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/>
-                <input type="submit" value="Deactivate" class="deletebutton small"></center>
-                
-        </form>
-            
-            
+                    %>
+                    <center><br/>
+
+                        <input type="button" value="Cancel" class="button" onClick="window.location = '<%=location%>'"/>
+                        <input type="submit" value="Deactivate" class="deletebutton"></center>
+
+                </form>
+            </div>
         </div>
-        
-
-
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
 
         <script>
-            $(document).ready(function() {
-                $(document).foundation();
-                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
-                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+                    $(document).ready(function() {
+                        $(document).foundation();
+                        var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                        var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
-                var success1 = "<%=success%>";
-                var error1 = "<%=error%>";
-                if (success1 !== "") {
-                    humaneSuccess.log(success1);
-                } else if (error1 !== "") {
-                    humaneError.log(error1);
-                }
+                        var success1 = "<%=success%>";
+                        var error1 = "<%=error%>";
+                        if (success1 !== "") {
+                            humaneSuccess.log(success1);
+                        } else if (error1 !== "") {
+                            humaneError.log(error1);
+                        }
 
-            });
+                    });
 
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
