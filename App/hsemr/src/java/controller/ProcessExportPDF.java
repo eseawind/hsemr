@@ -6,19 +6,28 @@
 
 package controller;
 
+import com.itextpdf.text.Chapter;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.MedicationHistoryDAO;
+import dao.NoteDAO;
 import dao.ScenarioDAO;
+import dao.VitalDAO;
+import entity.MedicationHistory;
 import entity.Note;
+import entity.Vital;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -78,23 +87,40 @@ public class ProcessExportPDF extends HttpServlet {
         try {
             
             HttpSession session = request.getSession(false);
-            ArrayList<Note> retrievedNote= (ArrayList<Note>) session.getAttribute("notesExport");
+          //  ArrayList<Note> retrievedNote= (ArrayList<Note>) session.getAttribute("notesExport");
             
             //retrieve 1st note to get the practical group
-            Note retrieved1Note = retrievedNote.get(0);
+          /*  Note retrieved1Note = retrievedNote.get(0);
             String practicalGroup = retrieved1Note.getPracticalGroupID();
             String scenarioID = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioID();
             String scenarioName= ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
+          */
+            
+            
+           String practialGroupID= (String) session.getAttribute("practicalGrpID");
+            String scenarioID= (String) session.getAttribute("scenarioID");
+             String scenarioName= (String) session.getAttribute("scenarioName");
+             
+            //retrieve notelist
+            ArrayList<Note> notesList = (ArrayList<Note>) NoteDAO.retrieveNotesByPraticalGrpDesc(practialGroupID, scenarioID);
+            
+            //retrieve medication historylist
+            List<MedicationHistory> medicationHistoryList=  MedicationHistoryDAO.retrieveAllInPracticalGroup(scenarioID,practialGroupID);
+            
+            //retrieve vitals
+            List<Vital> vitalList= VitalDAO.retrieveAllVital(scenarioID, practialGroupID);
  
             Document document = new Document();
+            Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
            
-             String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
+            String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
             String fileLocation = "";
             if (pathToRoot == null){
-                //fileLocation = getServletContext().getRealPath("") + File.separator + "tmp";
+                fileLocation = getServletContext().getRealPath("") + File.separator + "tmp";
                 
-                fileLocation= "C:\\Users\\Administrator\\Documents\\GitHub\\hsemr\\App\\hsemr\\build\\web\\tmp" + practicalGroup + "for" + scenarioID + "Submission.pdf";
-                
+               // fileLocation= "C:\\Users\\Administrator\\Documents\\GitHub\\hsemr\\App\\hsemr\\build\\web\\tmp" + practicalGroup + "for" + scenarioID + "Submission.pdf";
+                //fileLocation= "C:\\Users\\hpkhoo.2012.SMUSTU\\Documents\\GitHub\\hsemr\\App\\hsemr\\build\\web\\tmp" + practicalGroup + "for" + scenarioID + "Submission.pdf";
+               
             }
             else{
                 fileLocation = pathToRoot + File.separator + "exportData" ; 
@@ -104,12 +130,20 @@ public class ProcessExportPDF extends HttpServlet {
            // out.println(fileLocation);
             PdfWriter.getInstance(document, new FileOutputStream(fileLocation));
             document.open();
+           
+            //Paragraph nextLine = new Paragraph();
+             document.add(new Paragraph(" "));
             
-            //Header
-            document.add(new Paragraph(practicalGroup + " Multidisciplinary Notes for " + scenarioName));
+            //title of scenario
+            document.add(new Paragraph(scenarioName,catFont));
             document.add(new Paragraph(" "));
             
-            //Table
+            //Header 1 for notes
+            document.add(new Paragraph(practialGroupID + " Multidisciplinary Notes"));
+            document.add(new Paragraph(" "));
+          
+            
+            //Table 1
             PdfPTable tableOfNotes = new PdfPTable(4);
             PdfPCell c1 = new PdfPCell(new Phrase("Practical Group ID"));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -131,16 +165,160 @@ public class ProcessExportPDF extends HttpServlet {
             
             DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
             
-            //for the content in table
-            for (Note note : retrievedNote){ 
-                tableOfNotes.addCell(note.getPracticalGroupID());
-                tableOfNotes.addCell(note.getGrpMemberNames());
-                tableOfNotes.addCell(note.getMultidisciplinaryNote());
-                tableOfNotes.addCell(df.format(note.getNoteDatetime()));
+            if(notesList == null || notesList.isEmpty()){
+                document.add(new Paragraph("There are no notes submmited"));
+            }else{
+                //for the content in table 1
+                for (Note note : notesList){ 
+                    tableOfNotes.addCell(note.getPracticalGroupID());
+                    tableOfNotes.addCell(note.getGrpMemberNames());
+                    tableOfNotes.addCell(note.getMultidisciplinaryNote());
+                    tableOfNotes.addCell(df.format(note.getNoteDatetime()));
+                }
             }
-
+            //Contents of table 1
             document.add(tableOfNotes);
-   
+            document.add(new Paragraph(" "));
+
+            //Header 2 for medication history
+            document.add(new Paragraph(practialGroupID + " Medication History"));
+            document.add(new Paragraph(" "));
+            
+            //Table 2
+            PdfPTable tableOfMedicationHistory = new PdfPTable(2);
+            PdfPCell mh1 = new PdfPCell(new Phrase("Medication Datetime"));
+            mh1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfMedicationHistory.addCell(mh1);
+
+            mh1 = new PdfPCell(new Phrase("Medicine Adminstered"));
+            mh1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfMedicationHistory.addCell(mh1);
+        
+            tableOfMedicationHistory.setHeaderRows(1);
+            
+            //for the content in table 2
+            if(medicationHistoryList == null || medicationHistoryList.isEmpty()){
+                
+                document.add(new Paragraph("There are no medication history submitted"));
+
+            }else {
+                for (MedicationHistory mh : medicationHistoryList){ 
+                    tableOfMedicationHistory.addCell(df.format(mh.getMedicineDatetime()));
+                    tableOfMedicationHistory.addCell(mh.getMedicineBarcode());
+                }
+            }
+            
+            //Contents of table 2
+            document.add(tableOfMedicationHistory);
+            document.add(new Paragraph(" "));
+            
+            
+            //Header 3 for Vitals submission
+            document.add(new Paragraph(practialGroupID + " Vitals Signs"));
+            document.add(new Paragraph(" "));
+            
+            //Table 3
+            PdfPTable tableOfVitalHistory = new PdfPTable(7);
+            PdfPCell v1 = new PdfPCell(new Phrase("Vitals Datetime"));
+            v1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfVitalHistory.addCell(v1);
+
+            v1 = new PdfPCell(new Phrase("Temp"));
+            v1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfVitalHistory.addCell(v1);
+            
+            v1 = new PdfPCell(new Phrase("RR"));
+            v1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfVitalHistory.addCell(v1);
+            
+            v1 = new PdfPCell(new Phrase("BP Systolic"));
+            v1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfVitalHistory.addCell(v1);
+        
+            v1 = new PdfPCell(new Phrase("BP Diastolic"));
+            v1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfVitalHistory.addCell(v1);
+            
+            v1 = new PdfPCell(new Phrase("HR"));
+            v1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfVitalHistory.addCell(v1);
+            
+            v1 = new PdfPCell(new Phrase("SPO"));
+            v1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfVitalHistory.addCell(v1);
+            
+            tableOfVitalHistory.setHeaderRows(1);
+            
+            //for the content in table 3
+            if(vitalList == null || vitalList.isEmpty()){
+                
+                document.add(new Paragraph("There are no vitals signs submitted."));
+
+            }else {
+                
+                for (Vital vitals : vitalList){ 
+                    tableOfVitalHistory.addCell(df.format(vitals.getVitalDatetime()));
+                    tableOfVitalHistory.addCell(String.valueOf(vitals.getTemperature()));
+                    tableOfVitalHistory.addCell(Integer.toString(vitals.getRr()));
+                    tableOfVitalHistory.addCell(Integer.toString(vitals.getBpSystolic()));
+                    tableOfVitalHistory.addCell(Integer.toString(vitals.getBpDiastolic()));
+                    tableOfVitalHistory.addCell(Integer.toString(vitals.getHr()));
+                    tableOfVitalHistory.addCell(Integer.toString(vitals.getSpo()));
+                }
+            }
+            
+            //Contents of table 3
+            document.add(tableOfVitalHistory);
+            document.add(new Paragraph(" "));
+            
+            //Header 4 for Vitals submission
+            document.add(new Paragraph(practialGroupID + " Input & Output"));
+            document.add(new Paragraph(" "));
+            
+            //Table 4
+            PdfPTable tableOfInputOutput = new PdfPTable(5);
+            PdfPCell inputOutput = new PdfPCell(new Phrase("Output"));
+            inputOutput.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfInputOutput.addCell(inputOutput);
+            
+            inputOutput = new PdfPCell(new Phrase("Oral type"));
+            inputOutput.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfInputOutput.addCell(inputOutput);
+            
+            inputOutput = new PdfPCell(new Phrase("Oral Amount"));
+            inputOutput.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfInputOutput.addCell(inputOutput);
+            
+            inputOutput = new PdfPCell(new Phrase("Intravenous Type"));
+            inputOutput.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfInputOutput.addCell(inputOutput);
+            
+            inputOutput = new PdfPCell(new Phrase("Intravenous Amount"));
+            inputOutput.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfInputOutput.addCell(inputOutput);
+            
+            tableOfInputOutput.setHeaderRows(1);
+            
+            //for the content in table 3
+            if(vitalList == null || vitalList.isEmpty()){
+                
+                document.add(new Paragraph("There are no input and output submitted."));
+
+            }else {
+                
+                for (Vital vitals : vitalList){ 
+                    tableOfInputOutput.addCell(vitals.getOutput());
+                    tableOfInputOutput.addCell(vitals.getOralType());
+                    tableOfInputOutput.addCell(vitals.getOralAmount());
+                    tableOfInputOutput.addCell(vitals.getIntravenousType());
+                    tableOfInputOutput.addCell(vitals.getIntravenousAmount());
+                }
+            }
+            
+            //Contents of table 4
+            document.add(tableOfInputOutput);
+            document.add(new Paragraph(" "));
+            
             //close document
             document.close();
             session.setAttribute("export_path", fileLocation);

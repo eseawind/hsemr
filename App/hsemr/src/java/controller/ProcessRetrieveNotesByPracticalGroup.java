@@ -6,12 +6,11 @@
 
 package controller;
 
-import dao.NoteDAO;
-import dao.ScenarioDAO;
-import entity.Note;
-import entity.Scenario;
+import dao.*;
+import entity.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,24 +38,53 @@ public class ProcessRetrieveNotesByPracticalGroup extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        String practicalGroup = request.getParameter("practicalGroup");
+        String practicalGrpID = request.getParameter("practicalGroup");
         String scenarioName = request.getParameter("scenarioName");
         
         Scenario scenario = ScenarioDAO.retrieveByScenarioName(scenarioName);
         String scenarioID = scenario.getScenarioID();
-        ArrayList<Note> noteList = (ArrayList<Note>) NoteDAO.retrieveNotesByPraticalGrpDesc(practicalGroup, scenarioID);
+      
+         //retrieve notelist
+        ArrayList<Note> noteList = (ArrayList<Note>) NoteDAO.retrieveNotesByPraticalGrpDesc(practicalGrpID, scenarioID);
+
+        //retrieve medication historylist
+       List<MedicationHistory> medicationHistoryList=  MedicationHistoryDAO.retrieveAllInPracticalGroup(scenarioID,practicalGrpID);
+
+        //retrieve vitals
+        List<Vital> vitalList= VitalDAO.retrieveAllVital(scenarioID, practicalGrpID);
         
-        if(noteList == null || noteList.size() == 0){
-            session.setAttribute("error", "There are no notes available for " + scenarioName + " for " + practicalGroup + ".");
-            response.sendRedirect("viewSubmissionLecturer.jsp");
-        }else{
-            request.setAttribute("retrievedNoteList",noteList);
+       //setting of attribute
+       request.setAttribute("noteList", noteList);
+       request.setAttribute("medicationHistoryList", medicationHistoryList);
+       request.setAttribute("vitalList", vitalList);
+       request.setAttribute("practicalGrpID", practicalGrpID);
+       request.setAttribute("scenarioName", scenarioName);
+       request.setAttribute("scenarioID", scenarioID);
+       request.setAttribute("isPageLoaded", "true");
+       
+       if(noteList.isEmpty() &&  medicationHistoryList.isEmpty() && vitalList.isEmpty()){
+           session.setAttribute("error", "There are no notes available for " + scenarioName + " for " + practicalGrpID + ".");
+       }else{
+            session.setAttribute("success", "Successfully retrieved notes for " + scenarioName + " for " + practicalGrpID + ".");
+       }
+        RequestDispatcher rd = request.getRequestDispatcher("/viewSubmissionLecturer.jsp");
+        rd.forward(request, response);
+        
+        //response.sendRedirect("viewSubmissionLecturer.jsp");
+        
+        //ArrayList<Note> noteList = (ArrayList<Note>) NoteDAO.retrieveNotesByPraticalGrpDesc(practicalGroup, scenarioID);
+        
+//        if(noteList == null || noteList.size() == 0 ){
+//            session.setAttribute("error", "There are no notes available for " + scenarioName + " for " + practicalGroup + ".");
+//            response.sendRedirect("viewSubmissionLecturer.jsp");
+//       }else{
+            //request.setAttribute("retrievedNoteList",noteList);
             //response.getWriter().println(noteList.size());
-            session.setAttribute("success", "Successfully retrieved notes for " + scenarioName + " for " + practicalGroup + ".");
-            RequestDispatcher rd = request.getRequestDispatcher("/viewSubmissionLecturer.jsp");
-            rd.forward(request, response);
+//            session.setAttribute("success", "Successfully retrieved notes for " + scenarioName + " for " + practicalGroup + ".");
+//            RequestDispatcher rd = request.getRequestDispatcher("/viewSubmissionLecturer.jsp");
+//            rd.forward(request, response);
             //response.sendRedirect("viewSubmissionLecturer.jsp");
-        }
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
