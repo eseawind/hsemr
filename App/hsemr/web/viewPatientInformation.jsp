@@ -34,6 +34,13 @@
         <script src="js/vendor/modernizr.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
 
+        
+        <!--For pull to refresh-->
+        <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+        <script src="js/hook.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="css/hook.css" type="text/css" />
+        <!--end of for pull to refresh-->
+        
         <!--Web Title-->
         <title>EMR | Patient Information</title>
 
@@ -1199,9 +1206,21 @@
                                                 <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
 
                                                 <div class ="show-for-small-only">
+                                                    
+                                                    <div class ="show-for-small-only">
+                                                    
+                                                        <!--hook.js pull to refresh-->
+                                                    
+                                                        <div id="hook">
+                                                            <div id="loader">
+                                                                <div class="spinner"></div>
+                                                            </div>
+                                                                <span id="hook-text">Reloading, please wait...</span>
+                                                        </div>
+                                                        <!--hook.js pull to refresh-->
 
 
-                                                    <%                                //if (scenarioActivated == null || StateDAO.retrieveActivateState(scenarioActivated.getScenarioID()) == null) {
+                                                    <%                                
                                                         if (scenarioActivated == null || stateActivatedLastest.getScenarioID() == null) {
 
                                                             out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
@@ -1209,7 +1228,6 @@
 
                                                             String stateID = retrieveScenarioState.getStateID();
                                                             //get the most recently activated scenario's state
-                                                            //retrieveScenarioState = StateDAO.retrieveActivateState(scenarioActivated.getScenarioID());
                                                             retrieveScenarioState = StateDAO.retrieveStateInScenario(stateActivatedLastest.getScenarioID());
 
                                                             patientNRIC = retrieveScenarioState.getPatientNRIC();
@@ -1238,6 +1256,7 @@
                                                             }
                                                     %>    
 
+                                                  
                                                     <dl class="accordion" data-accordion>
                                                         <dd class="accordion-navigation">
                                                             <a href="#panelPatientInfo">Patient Information</a>
@@ -1247,7 +1266,7 @@
                                                                     <li class="bullet-item"><%=patientNRIC%></li>
                                                                     <li class="bullet-item"><%=dob%></li>
                                                                     <li class="bullet-item"><%=gender%></li>
-                                                                    <li class="bullet-item"><font color="red"><%=allergy%></font></li>
+                                                                    <li class="bullet-item"><img src="img/warning.png" width="20" height="20" alt="Warning"/><font color="red"><%=allergy%></font></li>
                                                                 </ul>
                                                             </div>
                                                         </dd>
@@ -1378,12 +1397,6 @@
                                                                                 } %>
 
                                                                 </ul>  
-
-
-
-
-
-
                                                             </div>
                                                         </dd>
                                                         <dd class="accordion-navigation">
@@ -1486,32 +1499,37 @@
                                                                 </ul>
                                                             </div>
                                                         </dd>
+                                                        
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelNotes">Notes</a>
-                                                            <div id="panelNotes" class="content">
-                                                                <ul class="pricing-table">
-                                                                    <li class="price">Notes History</li>   
-
+                                                            <a href="#panelMultiNotes">Notes</a>
+                                                            <div id="panelMultiNotes" class="content">
+                                                               <ul class="pricing-table">
+                                                                    <li class="price">Notes History</li>
+                                                                    
                                                                     <%
                                                                         List<Note> notesRetrieved = NoteDAO.retrieveNotesByPraticalGrpDesc(practicalGrp, scenarioID);
-                                                                        if (notesRetrieved == null || notesRetrieved.size() == 0) {
-                                                                            out.println("<center>There are no records at the moment</center>");
-                                                                        } else {
-
-                                                                            for (Note note : notesRetrieved) {
-                                                                                String multidisciplinaryNotes = note.getMultidisciplinaryNote();
-
+                                                                        
+                                                                        if(notesRetrieved == null || notesRetrieved.size() == 0){
+                                                                            %>
+                                                                            <center>There are no notes at the moment.</center>
+                                                                            
+                                                                        <%
+                                                                        }else{
+                                                                            for(Note note: notesRetrieved){
+                                                                                String multidisciplinaryNotes = note.getMultidisciplinaryNote();%>
+                                                                            	<li class="bullet-item"><b><%=df.format(note.getNoteDatetime())%></b><br> | <%=multidisciplinaryNotes%></li>  
+                                                                            
+                                                                           <% 
+                                                                            }//end of for loop
+                                                                        
+                                                                        }//end of else
+                                                                    
                                                                     %>
-                                                                    <li class="bullet-item"><b><%=df.format(note.getNoteDatetime())%></b><br> | <%=multidisciplinaryNotes%></li>  
-
-                                                                    <%}
-
-                                                                        }
-                                                                    %>
-
                                                                 </ul>
                                                             </div>
                                                         </dd>
+                                                        
+                                                       
                                                         <dd class="accordion-navigation">
                                                             <a href="#panelDocuments">Documents</a>
                                                             <div id="panelDocuments" class="content">

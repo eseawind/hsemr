@@ -6,11 +6,8 @@
 package controller;
 
 import dao.LecturerScenarioDAO;
-import dao.ScenarioDAO;
-import dao.StateDAO;
 import dao.StateHistoryDAO;
 import entity.LecturerScenario;
-import entity.Scenario;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,22 +40,32 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
         String[] lecturerToActivateCase = (String[]) request.getParameterValues("lecturerToActivateCase");
         String scenarioID = (String) request.getParameter("scenarioID");
         
-        String lecturerID = (String) session.getAttribute("lecturer");
         String status = (String) request.getParameter("status");
+        String errorMessage = ""; 
+        String successMessage = "";
+        
         
         if(lecturerToActivateCase == null || lecturerToActivateCase.length == 0){
             session.setAttribute("error", "Please select at least 1 lecturer to activate the case for.");
             response.sendRedirect("activateScenarioAdmin.jsp");
         }else{
             for(String lecturerToActivate: lecturerToActivateCase){
-                LecturerScenarioDAO.activateScenario(lecturerToActivate, scenarioID);
-                StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivate);
+                
+                if(LecturerScenarioDAO.retrieveLecturer(lecturerToActivate) == null){
+                    
+                    LecturerScenarioDAO.activateScenario(lecturerToActivate, scenarioID);
+                    StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivate);
+                }else{
+                    LecturerScenario lecScen =  LecturerScenarioDAO.retrieveLecturer(lecturerToActivate);
+                    
+                    session.setAttribute("error", lecturerToActivate + " has activated " + lecScen.getScenarioId() + ". Please deactivate it before activating this case.");
+                    response.sendRedirect("activateScenarioAdmin.jsp");
+                    return;
+                }
             }
             session.setAttribute("success", "Successfully activated cases for lecturers.");
             response.sendRedirect("viewScenarioAdmin.jsp");
         }
-
-        
 
 
     }

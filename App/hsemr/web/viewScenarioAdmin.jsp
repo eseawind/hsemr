@@ -281,7 +281,7 @@
         </script>
         <script type="text/javascript">
             function resetConfirmation() {
-                var resetButton = confirm("Resetting will delete ALL information, you will not be able to retrieve them. Please ensure you have exported the documents before resetting. ")
+                var resetButton = confirm("Resetting will deactivate all cases and delete ALL information, you will not be able to retrieve them. Please ensure you have exported the documents before resetting. ")
                 if (resetButton) {
                     return true;
                 }
@@ -294,7 +294,7 @@
 
         <script type="text/javascript">
             function deleteConfirmation() {
-                var deleteButton = confirm("Are you sure you want to delete the case? ")
+                var deleteButton = confirm("Are you sure you want to permanently delete the case? You will not be able to retrieve them after you have deleted. ")
                 if (deleteButton) {
                     return true;
                 }
