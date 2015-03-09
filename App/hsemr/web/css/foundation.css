@@ -1186,8 +1186,6 @@ ward:hover, ward:focus, .ward:hover, .ward:focus {
     background-color: #368a55;
     color: white;
     border-style: double;
-    border-width: 1px;	
-    border-color:white;
 }
 ward.off:hover, ward.off:focus, .ward.off:hover, .ward.off:focus {
     background-color: #368a55; }
