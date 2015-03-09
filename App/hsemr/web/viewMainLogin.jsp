@@ -12,7 +12,6 @@
         <link rel="stylesheet" href="css/foundation.css" />
         <link href='http://fonts.googleapis.com/css?family=Playfair+Display+SC:400,700,900' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Karma:400,300,500,600,700' rel='stylesheet' type='text/css'>
 
         <script src="js/vendor/modernizr.js"></script>
 
@@ -27,7 +26,7 @@
         <div class="large-centered large-12 columns">
             <!--HS EMR LOGO-->
             <center>
-                <div class="large-centered large-5 columns">
+                <div class="large-centered large-5 columns" style="padding-top:40px">
                     <!--To insert icon if needed-->
                     <!--<table style="border-color: white ">
                         <col width="5%">
@@ -37,11 +36,11 @@
                             <td><h0><font color="##368a55">HS EMR</font></h0></td>
                         </tr>
                     </table>-->
-                    <h0><font color="##368a55">HS EMR</font></h0>
-                    <h1><font color="#009a4d">Passion to Touch Lives</font></h1>
+                    <h0><font color="##368a55">HS EMR</font></h0><br/>
+                    <h00><font color="#009a4d">Passion to Touch Lives</font></h00>
                 </div>
             </center>
-            <div class="row" style="width:480px; padding-top: 10px">
+            <div class="row" style="width:440px; padding-top: 15px">
                 <!--Error Validation-->
                 <%
                     String userid = "";
@@ -57,64 +56,62 @@
                 <%
                     }
                 %> 
-                
+
                 <!--Post form to ProcessLogin to validate the user's credentials-->
                 <form action="ProcessLogin" method="post">
-                    <div class="panelHome" style="background-color: white">
-                        <br/>
-                        <!--User ID-->
-                        <label><strong>User ID</strong>
-                            <div class="row collapse">
-                                <div class="small-3 columns">
-                                    <span class="prefix radius"><i class="fi-torso size-24"></i></span>
-                                </div>
-                                <div class="small-9 columns">
-                                    <input type="text" name="userid" placeholder="Enter your user ID" value="<%=userid%>" required>
+                    <hr><br/><br/>
+                    <!--User ID-->
+                    <label><strong>User ID</strong>
+                        <div class="row collapse">
+                            <div class="small-3 columns">
+                                <span class="prefix radius"><i class="fi-torso size-24"></i></span>
+                            </div>
+                            <div class="small-9 columns">
+                                <input type="text" name="userid" placeholder="Enter your user ID" value="<%=userid%>" required>
 
-                                </div>
-                            </div> 
-                        </label>
-                        <br/>
+                            </div>
+                        </div> 
+                    </label>
+                    <br/>
 
-                        <!--Password-->
-                        <label><strong>Password</strong>
-                            <div class="row collapse">
-                                <div class="small-3 columns">
-                                    <span class="prefix radius"><i class="fi-lock size-24"></i></span>
-                                </div>
-                                <div class="small-9 columns">
-                                    <input type="password" name="password" placeholder="Enter your password" required>
-                                </div>
-                            </div> 
-                        </label>  
-                        <br/>
+                    <!--Password-->
+                    <label><strong>Password</strong>
+                        <div class="row collapse">
+                            <div class="small-3 columns">
+                                <span class="prefix radius"><i class="fi-lock size-24"></i></span>
+                            </div>
+                            <div class="small-9 columns">
+                                <input type="password" name="password" placeholder="Enter your password" required>
+                            </div>
+                        </div> 
+                    </label>  
+                    <br/>
 
-                        <!--Role-->
-                        <label><strong>Role</strong>
-                            <div class="row collapse">
-                                <div class="small-3 columns">
-                                    <span class="prefix radius"><i class="fi-torsos-all size-24"></i></span>
-                                </div>
-                                <div class="small-9 columns">
-                                    <select name = "userType">
-                                        <option value="practicalGroup">STUDENT</option>
-                                        <option value="lecturer">NP STAFF</option>
-                                        <option value="admin">ADMIN</option>
-                                    </select> 
-                                    <br/>
-                                </div>
-                            </div>    
-                        </label>
-                        <br/>
+                    <!--Role-->
+                    <label><strong>Role</strong>
+                        <div class="row collapse">
+                            <div class="small-3 columns">
+                                <span class="prefix radius"><i class="fi-torsos-all size-24"></i></span>
+                            </div>
+                            <div class="small-9 columns">
+                                <select name = "userType">
+                                    <option value="practicalGroup">STUDENT</option>
+                                    <option value="lecturer">NP STAFF</option>
+                                    <option value="admin">ADMIN</option>
+                                </select> 
+                                <br/>
+                            </div>
+                        </div>    
+                    </label>
+                    <br/><br/>
 
-                        <!--Submit-->
-                        <center><input type="submit" class="button normal radius expand" value="LOGIN"></center>
-                    </div>
+                    <!--Submit-->
+                    <center><input type="submit" class="login normal radius expand" value="LOGIN"></center>
                 </form>
             </div>  
-
             <!--Footer--><br/>
-            <center><font size="2" color="#666666">&copy; Ngee Ann Polytechnic. School of Health Sciences. Electronic Medical Records. All rights reserved.</font></center>
+            <center><font size="2" color="#666666"> Ngee Ann Polytechnic | School of Health Sciences | Electronic Medical Records
+                <br/>Copyright &copy; HS EMR. All rights reserved.</font></center>
         </div>
         <!--Scripts-->
         <script src="js/vendor/jquery.js"></script>

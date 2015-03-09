@@ -12,8 +12,8 @@
 
         <!--FONT-->
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Karma:400,300,500,600,700' rel='stylesheet' type='text/css'>
-
+        <link href='http://fonts.googleapis.com/css?family=Playfair+Display+SC:400,700,900' rel='stylesheet' type='text/css'>
+        
         <!--ICON-->
         <link rel="stylesheet" type="text/css" href="css/foundation-icons/foundation-icons.css">
         <link rel="stylesheet" type="text/css" href="css/foundation-icons/foundation-icons.svg">
