@@ -20,6 +20,30 @@ import java.util.List;
  */
 public class LecturerScenarioDAO {
     
+    public static String retrieveScenario(String lecturerID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String scenarioID = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select scenarioID from lecturer_scenario where lecturerID = ?");
+            stmt.setString(1, lecturerID);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                scenarioID = rs.getString(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return scenarioID;
+    }
+    
         
     public static LecturerScenario retrieveLecturer(String lecturerID) {
         Connection conn = null;
@@ -44,6 +68,7 @@ public class LecturerScenarioDAO {
         }
         return lecturerScenario;
     }
+
     
     public static void deleteAll (){
         Connection conn = null;
@@ -62,6 +87,31 @@ public class LecturerScenarioDAO {
         }
     
     }
+
+    
+    public static void deactivateScenarioForLecturer(String lecturerID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        LecturerScenario lecturerScenario = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM lecturer_scenario where lecturerID = ?");
+            stmt.setString(1, lecturerID);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                lecturerScenario = new LecturerScenario(rs.getString(1), rs.getString(2));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+    }
+     
     
     public static LecturerScenario retrieve(String lecturerID, String scenarioID) {
         Connection conn = null;
@@ -135,7 +185,7 @@ public class LecturerScenarioDAO {
         return scenarioActivatedList;
     }
     
-        public static List<String> retrieveDistinctLecturers() {
+    public static List<String> retrieveDistinctLecturersWhoDidNotActivateAnyCase() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -144,6 +194,29 @@ public class LecturerScenarioDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT lecturerID from lecturer where lecturerID not in (SELECT DISTINCT lecturerID FROM lecturer_scenario)");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                scenarioActivatedList.add(rs.getString(1));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return scenarioActivatedList;
+    }
+    
+    public static List<String> retrieveDistinctActivatedLecturers() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<String> scenarioActivatedList = new ArrayList<String>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT lecturerID from lecturer_scenario");
             rs = stmt.executeQuery();
 
             while (rs.next()) {

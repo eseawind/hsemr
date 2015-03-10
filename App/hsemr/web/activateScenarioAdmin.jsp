@@ -109,7 +109,7 @@
                         <strong>Activate Case For Lecturer</strong><br>
                         Note: One lecturer can only activate one case at a time. Please deactivate the other case for that lecturer before activating this. <br><br> 
                         <%
-                            List<String> lecWhoDidNotActivateList = LecturerScenarioDAO.retrieveDistinctLecturers(); //they can activate because they have not activated any cases
+                            List<String> lecWhoDidNotActivateList = LecturerScenarioDAO.retrieveDistinctLecturersWhoDidNotActivateAnyCase(); //they can activate because they have not activated any cases
 
                             if (lecWhoDidNotActivateList == null || lecWhoDidNotActivateList.size() == 0) {
                                 out.println("This case is not activated by any lecturers at the moment.<br>");
@@ -120,7 +120,12 @@
                                 }
                             %>  
                     </p>
-                </div>
+                    
+                    
+                    
+                </div> <!--End of panel case div-->
+               
+                
                 <%
                     String location = "viewScenarioAdmin.jsp";
                 %>
@@ -129,8 +134,62 @@
                     <input type="button" value="Cancel" class="button" onClick="window.location = '<%=location%>'"/>
                     <input type="submit" value="Activate" class="button"></center>
 
-            </form>
+                </form><!--End of form-->
+                    
+                     <!--New activate case-->                    
+                    <form data-abide action ="ProcessActivateScenarioAdmin" method ="POST">
+                    <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                    <p><strong>Activate Case For Lecturer(s)</strong></p>
+                    <p>Note: One lecturer can only activate one case at a time. If you select lecturers who have activated other cases, it will automatically deactivate the case that they have activated. </p>
+                    <table>
+                        <tr>
+                            <th scope="row">Activate Case For Lecturer</th>
+                                <%
+                                List<String> lecWhoDidNotActivateAnyCaseList = LecturerScenarioDAO.retrieveDistinctLecturersWhoDidNotActivateAnyCase(); //they can activate because they have not activated any cases
+
+                                if (lecWhoDidNotActivateAnyCaseList == null || lecWhoDidNotActivateAnyCaseList.size() == 0) {
+                                    out.println("This case is not activated by any lecturers at the moment.<br>");
+                                } else {
+                                    for (String lecDidNotActivate : lecWhoDidNotActivateList) {%>
+                                        <td><input type="checkbox" name = "lecturerToActivateCase" value = "<%=lecDidNotActivate%>"><label><%=lecDidNotActivate%></label></td>
+                                <%}
+                                    }
+                                %>  
+                        </tr>
+                        
+                        <tr>
+                            <th scope ="row">Lecturers activated for other cases (hover for more information)</th>
+                            <%
+                                List<String> lecWhoHasOtherCasesActivatedList = LecturerScenarioDAO.retrieveDistinctActivatedLecturers();
+                                
+                                if(lecWhoHasOtherCasesActivatedList == null || lecWhoHasOtherCasesActivatedList.size() == 0){
+                                    out.println("<td>NA</td>");
+                                }else{
+                                    for(String lecWithOtherCases :lecWhoHasOtherCasesActivatedList){
+                                    %>
+
+                                    <td><input type="checkbox" name = "lecturerToActivateCaseWhoHasOtherCase" value = "<%=lecWithOtherCases%>">
+                                        <span data-tooltip aria-haspopup="true" class="has-tip" title="<%=ScenarioDAO.retrieve(LecturerScenarioDAO.retrieveScenario(lecWithOtherCases)).getScenarioName() %>"><%=lecWithOtherCases%></span>
+                                       </td>
+                               <% } }
+                            %>
+                            
+                        </tr><br>
+
+
+                    </table>
+                    <input type="button" value="Cancel" class="button" onClick="window.location = '<%=location%>'"/>
+                    <input type="submit" value="Activate" class="button"></center>
+
+                </form>
+
+                
+                <!--End of new activate case--> 
+                    
+           
         </div>
+                    
+       
 
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>

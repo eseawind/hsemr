@@ -9,6 +9,7 @@ import dao.LecturerScenarioDAO;
 import dao.StateHistoryDAO;
 import entity.LecturerScenario;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,34 +39,96 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
         HttpSession session = request.getSession(false);
         
         String[] lecturerToActivateCase = (String[]) request.getParameterValues("lecturerToActivateCase");
+        String[] lecturerToActivateCaseWhoHasOtherCase = (String[]) request.getParameterValues("lecturerToActivateCaseWhoHasOtherCase");
+       
+        //add all into the arraylist of string (COMBINING THEM)
+        ArrayList<String> combinedLecturerToActivate = new ArrayList<String>(); 
+        
+        if(lecturerToActivateCase != null){
+            for(String lecturerToActivate: lecturerToActivateCase){
+                combinedLecturerToActivate.add(lecturerToActivate);
+            }
+        }
+        
+        if(lecturerToActivateCaseWhoHasOtherCase != null){
+            for(String lecturerToActivate: lecturerToActivateCaseWhoHasOtherCase){
+                combinedLecturerToActivate.add(lecturerToActivate);
+            }
+        }
+        
         String scenarioID = (String) request.getParameter("scenarioID");
         
         String status = (String) request.getParameter("status");
         String errorMessage = ""; 
         String successMessage = "";
         
-        
-        if(lecturerToActivateCase == null || lecturerToActivateCase.length == 0){
+         if(lecturerToActivateCase == null && lecturerToActivateCaseWhoHasOtherCase == null){
             session.setAttribute("error", "Please select at least 1 lecturer to activate the case for.");
-            response.sendRedirect("activateScenarioAdmin.jsp");
+            //response.sendRedirect("activateScenarioAdmin.jsp");
         }else{
-            for(String lecturerToActivate: lecturerToActivateCase){
-                
+            for(String lecturerToActivate: combinedLecturerToActivate){
                 if(LecturerScenarioDAO.retrieveLecturer(lecturerToActivate) == null){
-                    
                     LecturerScenarioDAO.activateScenario(lecturerToActivate, scenarioID);
                     StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivate);
                 }else{
-                    LecturerScenario lecScen =  LecturerScenarioDAO.retrieveLecturer(lecturerToActivate);
-                    
-                    session.setAttribute("error", lecturerToActivate + " has activated " + lecScen.getScenarioId() + ". Please deactivate it before activating this case.");
-                    response.sendRedirect("activateScenarioAdmin.jsp");
-                    return;
+                    //deactivate previous cases first
+                    LecturerScenarioDAO.deactivateScenario(lecturerToActivate);
+                    //activate the case now
+                    LecturerScenarioDAO.activateScenario(lecturerToActivate, scenarioID);
+                    StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivate);
                 }
             }
             session.setAttribute("success", "Successfully activated cases for lecturers.");
             response.sendRedirect("viewScenarioAdmin.jsp");
+            //return;
         }
+        
+       
+        
+        
+        
+//        if(lecturerToActivateCase == null || lecturerToActivateCase.length == 0){
+//            session.setAttribute("error", "Please select at least 1 lecturer to activate the case for.");
+//            response.sendRedirect("activateScenarioAdmin.jsp");
+//        }else{
+//            for(String lecturerToActivate: lecturerToActivateCase){
+//                
+//                if(LecturerScenarioDAO.retrieveLecturer(lecturerToActivate) == null){
+//                    
+//                    LecturerScenarioDAO.activateScenario(lecturerToActivate, scenarioID);
+//                    StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToActivate);
+//                }else{
+//                    LecturerScenario lecScen =  LecturerScenarioDAO.retrieveLecturer(lecturerToActivate);
+//                    
+//                    session.setAttribute("error", lecturerToActivate + " has activated " + lecScen.getScenarioId() + ". Please deactivate it before activating this case.");
+//                    response.sendRedirect("activateScenarioAdmin.jsp");
+//                    return;
+//                }
+//            }
+//            session.setAttribute("success", "Successfully activated cases for lecturers.");
+//            response.sendRedirect("viewScenarioAdmin.jsp");
+//            return;
+//        }
+//        
+//        if(lecturerToActivateCaseWhoHasOtherCase == null || lecturerToActivateCaseWhoHasOtherCase.length == 0){
+//            session.setAttribute("error", "Please select at least 1 lecturer to activate the case for.");
+//            response.sendRedirect("activateScenarioAdmin.jsp");
+//        }else{
+//            for(String lecturerToDeactivateThenActivate: lecturerToActivateCaseWhoHasOtherCase){
+//                
+//                if(LecturerScenarioDAO.retrieveLecturer(lecturerToDeactivateThenActivate) == null){
+//                    
+//                    LecturerScenarioDAO.activateScenario(lecturerToDeactivateThenActivate, scenarioID);
+//                    StateHistoryDAO.addStateHistory(scenarioID, "ST0", lecturerToDeactivateThenActivate);
+//                }else{
+//                    LecturerScenarioDAO.deactivateScenarioForLecturer(lecturerToDeactivateThenActivate);
+//                    LecturerScenarioDAO.activateScenario(lecturerToDeactivateThenActivate, scenarioID);
+//                }
+//            }
+//            session.setAttribute("success", "Successfully activated cases for lecturers.");
+//            response.sendRedirect("viewScenarioAdmin.jsp");
+//            return;
+//        }
 
 
     }
