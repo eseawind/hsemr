@@ -84,15 +84,6 @@
                             int counterScenario = 0;
                             int bedCounter = 1;
 
-                %>
-
-                        <form action ='viewPatientInformation.jsp' method ='POST'>
-                       
-                            <input type="submit" value="View Patient Management" class="button large"> 
-                        </form>
-                
-                
-                <% 
                     Scenario scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
                        
                   //Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
@@ -100,14 +91,14 @@
         
         <dl class="accordion" data-accordion>
             <dd class="accordion-navigation">
-                <a href="#panelCaseName">Case Information</a>
+                <a href="#panelCaseName"><b>Case Name</b></a>
                 <div id="panelCaseName" class="content active">
                     <%=scenarioActivated.getScenarioName()%>
                 </div>
             </dd>
             
             <dd class="accordion-navigation">
-                <a href="#panelCaseName">Case Information</a>
+                <a href="#panelCaseName"><b>Case Information</b></a>
                 <div id="panelCaseName" class="content active">
                     <%=scenarioActivated.getScenarioDescription()%>
                 </div>
@@ -121,7 +112,10 @@
         }
                 
         %>
-      
+      <form action ='viewPatientInformation.jsp' method ='POST'>
+            <%session.setAttribute("fromMobile", "true");%>          
+            <input type="submit" value="View Patient Management" class="button large"> 
+        </form>
         <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
         </div>
         
