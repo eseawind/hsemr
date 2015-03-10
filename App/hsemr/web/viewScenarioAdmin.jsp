@@ -57,14 +57,14 @@
                 display: none;}
             a.showLink, a.hideLink {
                 text-decoration: none;
-                color: #36f;
+                color: #007095;
                 font-weight: bold;
-                padding-left: 8px;
+                padding-left: 2px;
                 background: transparent url(down.gif) no-repeat left; }
             a.hideLink {
                 background: transparent url(up.gif) no-repeat left; }
             a.showLink:hover, a.hideLink:hover {
-                border-bottom: 1px dotted #36f; }
+                border-bottom: 1px solid #007095; }
             </style>
 
         </head>
@@ -201,21 +201,21 @@
 
                     %>
                     <form action ="deactivateScenarioAdmin.jsp" method ="POST">    
-                        <input type ="submit" class="button tiny" value = "deactivate">
+                        <input type ="submit" class="button tiny" value = "Deactivate">
                         <input type="hidden" name="status" value="deactivated">
                         <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
                         <input type="hidden" name="status" value="activated">
                     </form>
 
                     <form action ="activateScenarioAdmin.jsp" method ="POST">    
-                        <input type ="submit" class="button tiny" value = "activate">
+                        <input type ="submit" class="button tiny" value = "Activate">
                         <input type="hidden" name="status" value="deactivated">
                         <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
                         <input type="hidden" name="status" value="activated">
                     </form>
                     <%} else { // it is not activated, only show activated button%>
                     <form action ="activateScenarioAdmin.jsp" method ="POST">
-                        <input type ="submit" class="button tiny" value="activate" >
+                        <input type ="submit" class="button tiny" value="Activate" >
 
                         <% }
 
@@ -235,7 +235,7 @@
                         <center><font size="2" color="#666666">Unable to edit activated case.</font></center>
 
                         <% } else { %>
-                        <input type = "submit" class="button tiny" value="edit">
+                        <input type = "submit" class="button tiny" value="Edit">
                         <% }%>
                     </form>
 
@@ -254,7 +254,7 @@
 
 
                         <input type = "submit" class="deletebutton tiny" onclick="if (!deleteConfirmation())
-                                    return false" value="delete" >
+                                    return false" value="Delete" >
 
                         <% }%>
                     </form>
