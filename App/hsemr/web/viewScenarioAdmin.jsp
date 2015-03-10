@@ -195,12 +195,18 @@
 
                     <!--ACTIVATE-->
                     <td><center>
-
+                    <form action ="viewCaseAdmin.jsp" method ="POST">
+                        <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                        <input type ="submit" class="button tiny" value = "View Full Case">
+                    </form>    
 
                     <%                    if (lecScenario != null) { //it is activated by some lecturer
 
                     %>
-                    <form action ="deactivateScenarioAdmin.jsp" method ="POST">    
+                    
+                    
+                   
+                    <form action ="deactivateScenarioAdmin.jsp" method ="POST">
                         <input type ="submit" class="button tiny" value = "Deactivate">
                         <input type="hidden" name="status" value="deactivated">
                         <input type="hidden" name="scenarioID" value="<%=scenarioID%>">

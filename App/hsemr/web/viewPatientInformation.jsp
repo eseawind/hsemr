@@ -1207,18 +1207,27 @@
 
                                                 <div class ="show-for-small-only">
                                                     
-                                                    <div class ="show-for-small-only">
+                             
                                                     
-                                                        <!--hook.js pull to refresh-->
-                                                    
-                                                        <div id="hook">
-                                                            <div id="loader">
-                                                                <div class="spinner"></div>
-                                                            </div>
+                                                    <%
+                                                    String fromMobile = (String)(session.getAttribute("fromMobile"));
+                                                 
+                                                    if(fromMobile != null){%> 
+                                                        <!--hook.js pull to refresh-->     
+                                                            <div id="hook">
+                                                                <div id="loader">
+                                                                    <div class="spinner"></div>
+                                                                </div>
                                                                 <span id="hook-text">Reloading, please wait...</span>
-                                                        </div>
+                                                            </div>
                                                         <!--hook.js pull to refresh-->
+                                                        
 
+                                                    <%
+                                                    }
+                                                    %>
+
+                                                   
 
                                                     <%                                
                                                         if (scenarioActivated == null || stateActivatedLastest.getScenarioID() == null) {
@@ -1259,7 +1268,7 @@
                                                   
                                                     <dl class="accordion" data-accordion>
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelPatientInfo">Patient Information</a>
+                                                            <a href="#panelPatientInfo"><b>Patient Information</b></a>
                                                             <div id="panelPatientInfo" class="content active">
                                                                 <ul class="pricing-table">
                                                                     <li class="price"><%=fullName%></li>
@@ -1272,7 +1281,7 @@
                                                         </dd>
 
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelAdmissionNotes">Admission Notes</a>
+                                                            <a href="#panelAdmissionNotes"><b>Admission Notes</b></a>
                                                             <div id="panelAdmissionNotes" class="content">
                                                                 <%
                                                                     if (scenarioActivated.getAdmissionNote() != null) {%>
@@ -1288,7 +1297,7 @@
                                                         </dd>
 
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelInvestigations">Investigations</a>
+                                                            <a href="#panelInvestigations"><b>Investigations</b></a>
                                                             <div id="panelInvestigations" class="content">
                                                                 <ul class="pricing-table">
                                                                     <li class="price">Despatched Reports</li>
@@ -1313,9 +1322,67 @@
                                                                 </ul>
                                                             </div>
                                                         </dd>
+                                                        
+                                                         <dd class="accordion-navigation">
+                                                            <a href="#panelDocuments"><b>Documents</b></a>
+                                                            <div id="panelDocuments" class="content">
+                                                                <ul class="pricing-table">
+
+                                                                    <%
+                                                                        List<Document> documentsList = DocumentDAO.retrieveDocumentsByScenario(scenarioID);
+
+                                                                        if (documentsList == null || documentsList.size() == 0) {
+                                                                            out.println("<center>There are no documents at the moment</center>");
+
+                                                                        } else {
+
+                                                                            for (Document document : documentsList) {
+                                                                                String consentName = document.getConsentName() + " | ";
+                                                                                String consentFile = "documents/" + document.getConsentFile();
+                                                                    %>
+
+                                                                    <li class="bullet-item"> <%=consentName%>
+                                                                        <a href="<%=consentFile%>" target="_blank">View Document</a>
+                                                                    </li>
+                                                                    <%}
+                                                                        }
+
+                                                                    %>
+                                                                </ul>
+                                                            </div>
+                                                        </dd>
+                                                        
+                                                        <dd class="accordion-navigation">
+                                                            <a href="#panelMultiNotes"><b>Notes</b></a>
+                                                            <div id="panelMultiNotes" class="content">
+                                                               <ul class="pricing-table">
+                                                                    <li class="price">Notes History</li>
+                                                                    
+                                                                    <%
+                                                                        List<Note> notesRetrieved = NoteDAO.retrieveNotesByPraticalGrpDesc(practicalGrp, scenarioID);
+                                                                        
+                                                                        if(notesRetrieved == null || notesRetrieved.size() == 0){
+                                                                            %>
+                                                                            <center>There are no notes at the moment.</center>
+                                                                            
+                                                                        <%
+                                                                        }else{
+                                                                            for(Note note: notesRetrieved){
+                                                                                String multidisciplinaryNotes = note.getMultidisciplinaryNote();%>
+                                                                            	<li class="bullet-item"><b><%=df.format(note.getNoteDatetime())%></b><br> | <%=multidisciplinaryNotes%></li>  
+                                                                            
+                                                                           <% 
+                                                                            }//end of for loop
+                                                                        
+                                                                        }//end of else
+                                                                    
+                                                                    %>
+                                                                </ul>
+                                                            </div>
+                                                        </dd>
 
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelClinicalCharts">Clinical Charts</a>
+                                                            <a href="#panelClinicalCharts"><b>Clinical Charts</b></a>
                                                             <div id="panelClinicalCharts" class="content">
                                                                 You have no access to medication. Medication is only available in the web. 
                                                                 <ul class="pricing-table">
@@ -1341,7 +1408,7 @@
                                                                 </ul> 
 
                                                                 <ul class="pricing-table">
-                                                                    <li class="price">Intake - Oral</li>        
+                                                                    <li class="price"><b>Intake - Oral</b></li>        
                                                                         <%
                                                                             List<Vital> intakeOralList = VitalDAO.retrieveIntakeOralByScenarioID(scenarioID);
                                                                             if (intakeOralList == null || intakeOralList.size() == 0) {
@@ -1361,7 +1428,7 @@
                                                                 </ul>
 
                                                                 <ul class="pricing-table">
-                                                                    <li class="price">Intake - Intravenous</li>        
+                                                                    <li class="price"><b>Intake - Intravenous</b></li>        
                                                                         <%
                                                                             List<Vital> intakeIntravenousList = VitalDAO.retrieveIntakeIntraByScenarioID(scenarioID);
                                                                             if (intakeIntravenousList == null || intakeIntravenousList.size() == 0) {
@@ -1380,7 +1447,7 @@
                                                                 </ul> 
 
                                                                 <ul class="pricing-table">
-                                                                    <li class="price">Output</li>        
+                                                                    <li class="price"><b>Output</b></li>        
                                                                         <%
                                                                             List<Vital> outputList = VitalDAO.retrieveOutputByScenarioID(scenarioID);
                                                                             if (outputList == null || outputList.size() == 0) {
@@ -1399,8 +1466,11 @@
                                                                 </ul>  
                                                             </div>
                                                         </dd>
+                                                        
+                                                        
+                                                        
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelMedicationHistory">Medication History</a>
+                                                            <a href="#panelMedicationHistory"><b>Medication History</b></a>
                                                             <div id="panelMedicationHistory" class="content">
                                                                 You have no access to medication. Medication is only available in the web. 
                                                                 <ul class="pricing-table">
@@ -1500,64 +1570,8 @@
                                                             </div>
                                                         </dd>
                                                         
-                                                        <dd class="accordion-navigation">
-                                                            <a href="#panelMultiNotes">Notes</a>
-                                                            <div id="panelMultiNotes" class="content">
-                                                               <ul class="pricing-table">
-                                                                    <li class="price">Notes History</li>
-                                                                    
-                                                                    <%
-                                                                        List<Note> notesRetrieved = NoteDAO.retrieveNotesByPraticalGrpDesc(practicalGrp, scenarioID);
-                                                                        
-                                                                        if(notesRetrieved == null || notesRetrieved.size() == 0){
-                                                                            %>
-                                                                            <center>There are no notes at the moment.</center>
-                                                                            
-                                                                        <%
-                                                                        }else{
-                                                                            for(Note note: notesRetrieved){
-                                                                                String multidisciplinaryNotes = note.getMultidisciplinaryNote();%>
-                                                                            	<li class="bullet-item"><b><%=df.format(note.getNoteDatetime())%></b><br> | <%=multidisciplinaryNotes%></li>  
-                                                                            
-                                                                           <% 
-                                                                            }//end of for loop
-                                                                        
-                                                                        }//end of else
-                                                                    
-                                                                    %>
-                                                                </ul>
-                                                            </div>
-                                                        </dd>
-                                                        
                                                        
-                                                        <dd class="accordion-navigation">
-                                                            <a href="#panelDocuments">Documents</a>
-                                                            <div id="panelDocuments" class="content">
-                                                                <ul class="pricing-table">
-
-                                                                    <%
-                                                                        List<Document> documentsList = DocumentDAO.retrieveDocumentsByScenario(scenarioID);
-
-                                                                        if (documentsList == null || documentsList.size() == 0) {
-                                                                            out.println("<center>There are no documents at the moment</center>");
-
-                                                                        } else {
-
-                                                                            for (Document document : documentsList) {
-                                                                                String consentName = document.getConsentName() + " | ";
-                                                                                String consentFile = "documents/" + document.getConsentFile();
-                                                                    %>
-
-                                                                    <li class="bullet-item"> <%=consentName%>
-                                                                        <a href="<%=consentFile%>" target="_blank">View Document</a>
-                                                                    </li>
-                                                                    <%}
-                                                                        }
-
-                                                                    %>
-                                                                </ul>
-                                                            </div>
-                                                        </dd>
+                                                       
                                                     </dl>
 
 
