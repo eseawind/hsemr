@@ -311,32 +311,35 @@
                     <%
                                 }//end of for loop%>
                           </table>
-                          <form action="ProcessExportPDF" method="POST" target="_blank">
-                            <%
-                                //For export purpose
-                                if (noteList == null && medicationHistoryList == null && vitalList == null) {
-                                    out.println(" ");%>
-                                    <input type="submit" class="button small" value="Export to PDF">
-                                <%}else{
-                                    session.setAttribute("practicalGrpID", practicalGrpID);
-                                    session.setAttribute("scenarioID", scenarioID);
-                                    session.setAttribute("scenarioName", scenarioName);
-                            %>
-                                    <br>
-                            <center> <input type="submit" class="button small" value="Export to PDF"> </center>
-                                <%   }%>
-                            <!-- <center> <input type="submit" class="report-despatch button tinytable" value="Export to PDF"> </center> -->
-                        </form>
-                       
+                                                 
                        
                 
-                            <%}//end of else
+                            <%//end of else
                        // } //end of big if
   
-                       }//end of big else
-                    %> 
+                       }
+                    //end of big else
+                %> 
+                    
+               <form action="ProcessExportPDF" method="POST" target="_blank">
+                <%
+                    //For export purpose
+                    if (noteList == null && medicationHistoryList == null && vitalList == null) {
+                        out.println(" ");
+                    }else{
+                        session.setAttribute("practicalGrpID", practicalGrpID);
+                        session.setAttribute("scenarioID", scenarioID);
+                        session.setAttribute("scenarioName", scenarioName);
+                %>
+                        <br>
+                <center> <input type="submit" class="button small" value="Export to PDF"> </center>
+                    <%   
+                    }
+                }
+                    %>
+                <!-- <center> <input type="submit" class="report-despatch button tinytable" value="Export to PDF"> </center> -->
+            </form>
 
-               
             </div>
         </div>
 
