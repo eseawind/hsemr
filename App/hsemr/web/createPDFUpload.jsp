@@ -31,6 +31,8 @@
         <%
             String keywordID = "";
             String keywordDescription = "";
+            String fieldsToMap = "";
+            int currentKeyword = 0;
 
             List<Keyword> keywordList = KeywordDAO.retrieveAll();
             if (keywordList != null) {
@@ -85,27 +87,160 @@
                 %>
 
                 <div class="panelCase">
+                    <table style="border-color: white">
+                        <tr>
+                            <!--Doctor's Order-->
+                            <td><p>Doctor's Order</p></td>
+                            <td>
+                                <!--Delete Keyword--> 
+                                <%
+                                    for (Keyword keyword : keywordList) {
+                                        keywordDescription = keyword.getKeywordDesc();
+                                        currentKeyword = keyword.getKeywordID();
+                                        fieldsToMap = keyword.getFieldsToMap();
 
-                    <!--Delete Keyword-->
-                    
-                    
-                    <%
-                        for (Keyword keyword : keywordList) {
-                            keywordDescription = keyword.getKeywordDesc();
-                            int currentKeyword = keyword.getKeywordID();
-                    %>
-                    <div class="floatdiv">
-                    <form action = "ProcessDeleteKeyword" method = "POST"> 
-                        <input type="hidden" name="currentKeyword" value="<%=currentKeyword%>">
-                        <input type="hidden" name="keywordDescription" value="<%=keywordDescription%>">
-                        <input type = "submit" class="keyword" onclick="if (!deleteConfirmation())
-                                    return false" value="<%=keywordDescription%>">
-                    </form>
-                    </div>
-                <%}%>
-                    
-                </div>
-                <%}%>
+                                        if (fieldsToMap.equals("doctorOrder")) {%>
+
+                                <div class="floatdiv">
+                                    <form action = "ProcessDeleteKeyword" method = "POST"> 
+                                        <input type="hidden" name="currentKeyword" value="<%=currentKeyword%>">
+                                        <input type="hidden" name="keywordDescription" value="<%=keywordDescription%>">
+                                        <input type = "submit" class="keyword" onclick="if (!deleteConfirmation())
+                                                    return false" value="<%=keywordDescription%>">
+                                    </form>
+                                </div> 
+                                <% }
+                                    } %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!--Scenario Name-->
+                            <td><p>Scenario Name</p></td>
+                            <td>
+                                <!--Delete Keyword--> 
+                                <%
+                                    for (Keyword keyword : keywordList) {
+                                        keywordDescription = keyword.getKeywordDesc();
+                                        currentKeyword = keyword.getKeywordID();
+                                        fieldsToMap = keyword.getFieldsToMap();
+
+                                        if (fieldsToMap.equals("scenarioName")) {%>
+
+                                <div class="floatdiv">
+                                    <form action = "ProcessDeleteKeyword" method = "POST"> 
+                                        <input type="hidden" name="currentKeyword" value="<%=currentKeyword%>">
+                                        <input type="hidden" name="keywordDescription" value="<%=keywordDescription%>">
+                                        <input type = "submit" class="keyword" onclick="if (!deleteConfirmation())
+                                                    return false" value="<%=keywordDescription%>">
+                                    </form>
+                                </div> 
+                                <% }
+                                    } %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!--Scenario Description-->
+                            <td><p>Scenario Description</p></td>
+                            <td>
+                                <!--Delete Keyword--> 
+                                <%
+                                    for (Keyword keyword : keywordList) {
+                                        keywordDescription = keyword.getKeywordDesc();
+                                        currentKeyword = keyword.getKeywordID();
+                                        fieldsToMap = keyword.getFieldsToMap();
+
+                                        if (fieldsToMap.equals("scenarioDescription")) {%>
+
+                                <div class="floatdiv">
+                                    <form action = "ProcessDeleteKeyword" method = "POST"> 
+                                        <input type="hidden" name="currentKeyword" value="<%=currentKeyword%>">
+                                        <input type="hidden" name="keywordDescription" value="<%=keywordDescription%>">
+                                        <input type = "submit" class="keyword" onclick="if (!deleteConfirmation())
+                                                    return false" value="<%=keywordDescription%>">
+                                    </form>
+                                </div> 
+                                <% }
+                                    } %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!--Admission Note-->
+                            <td><p>Admission Note</p></td>
+                            <td>
+                                <!--Delete Keyword--> 
+                                <%
+                                    for (Keyword keyword : keywordList) {
+                                        keywordDescription = keyword.getKeywordDesc();
+                                        currentKeyword = keyword.getKeywordID();
+                                        fieldsToMap = keyword.getFieldsToMap();
+
+                                        if (fieldsToMap.equals("admissionNote")) {%>
+
+                                <div class="floatdiv">
+                                    <form action = "ProcessDeleteKeyword" method = "POST"> 
+                                        <input type="hidden" name="currentKeyword" value="<%=currentKeyword%>">
+                                        <input type="hidden" name="keywordDescription" value="<%=keywordDescription%>">
+                                        <input type = "submit" class="keyword" onclick="if (!deleteConfirmation())
+                                                    return false" value="<%=keywordDescription%>">
+                                    </form>
+                                </div> 
+                                <% }
+                                    } %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!--State ID-->
+                            <td><p>State ID</p></td>
+                            <td>
+                                <!--Delete Keyword--> 
+                                <%
+                                    for (Keyword keyword : keywordList) {
+                                        keywordDescription = keyword.getKeywordDesc();
+                                        currentKeyword = keyword.getKeywordID();
+                                        fieldsToMap = keyword.getFieldsToMap();
+
+                                        if (fieldsToMap.equals("stateID")) {%>
+
+                                <div class="floatdiv">
+                                    <form action = "ProcessDeleteKeyword" method = "POST"> 
+                                        <input type="hidden" name="currentKeyword" value="<%=currentKeyword%>">
+                                        <input type="hidden" name="keywordDescription" value="<%=keywordDescription%>">
+                                        <input type = "submit" class="keyword" onclick="if (!deleteConfirmation())
+                                                    return false" value="<%=keywordDescription%>">
+                                    </form>
+                                </div> 
+                                <% }
+                                    } %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!--Allergy-->
+                            <td><p>Allergy</p></td>
+                            <td>
+                                <!--Delete Keyword--> 
+                                <%
+                                    for (Keyword keyword : keywordList) {
+                                        keywordDescription = keyword.getKeywordDesc();
+                                        currentKeyword = keyword.getKeywordID();
+                                        fieldsToMap = keyword.getFieldsToMap();
+
+                                        if (fieldsToMap.equals("allergy")) {%>
+
+                                <div class="floatdiv">
+                                    <form action = "ProcessDeleteKeyword" method = "POST"> 
+                                        <input type="hidden" name="currentKeyword" value="<%=currentKeyword%>">
+                                        <input type="hidden" name="keywordDescription" value="<%=keywordDescription%>">
+                                        <input type = "submit" class="keyword" onclick="if (!deleteConfirmation())
+                                                    return false" value="<%=keywordDescription%>">
+                                    </form>
+                                </div> 
+                                <% }
+                                    } %>
+                            </td>
+                        </tr>
+                    </table>  
+                </div> 
+                <% } %>
                 <br/>
                 <br/>
                 <center><h3>Step 2: Select PDF File:</h3></center>
@@ -181,11 +316,11 @@
 
         </script>
         <style type="text/css">
-            
+
 
             .floatdiv
             {
-            display:inline-block;
+                display:inline-block;
             }
         </style>
     </body>
