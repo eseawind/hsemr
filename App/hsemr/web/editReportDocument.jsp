@@ -214,7 +214,7 @@
                     <td><a href="<%=reportURL%>" target="_blank" >View Report</a></td>
                     <td><form action ="ProcessDeleteReport" method = "POST">
                             <input type="hidden" name="reportFile" value="<%=reportFile%>">
-                            <input type = "submit" Value ="Delete Report" class="button tiny">
+                            <input type = "submit" Value ="Delete Report" class="deletebutton tiny">
                         </form></td>
                 </tr>
                 <%

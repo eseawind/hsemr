@@ -177,8 +177,8 @@
                             <option disabled="disabled" selected="selected" value = "">--Please select the Frequency--</option>
                             <%
                                 for (Frequency freq : freqList) {
-                                //out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
-%>
+                                    //out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
+                            %>
                             <option><%=freq.getFreqAbbr()%></option>
                             <%}
                             %>
@@ -264,7 +264,7 @@
                         </thead>
                         <%
                             List<Frequency> fList = FrequencyDAO.retrieveAll();
-                            out.print("<h3>Medication(s) Created</h3>");
+                            out.print("<h3>Medication(s) Created</h3><br/>");
 
                             String doctorOrder = "";
                             String doctorName = "";
@@ -398,13 +398,9 @@
                         <%
                                     counter++;
                                 }
-                    }%>
-                        <input type = "submit" Value ="Save and Proceed  >>" class="button small"></center>  
-                        <%}
-
-
-                        %> 
-                    </table>
+                            }}%>
+                    </table> <br/><br/>
+                    <input type = "submit" Value ="Save and Proceed  >>" class="button small"></center>  
                     <br>
                     <br>
                     <br>
