@@ -1669,7 +1669,7 @@ meta.foundation-mq-topbar {
     color: #34893E;
     width: 100%;
     display: block;
-    padding: 0 10px; }
+    padding: 0 12px; }
 .top-bar .toggle-topbar {
     position: absolute;
     right: 0;
@@ -1948,7 +1948,7 @@ meta.foundation-mq-topbar {
         color: white; }
     .top-bar-section li:not(.has-form) a:not(.button) {
         color: black;
-        padding: 0 15px;
+        padding: 0 12px;
         line-height: 53px;
         border-right: solid 1px #34893E;
         background: white; }
@@ -1957,7 +1957,7 @@ meta.foundation-mq-topbar {
         background-color: #555555;
         background: #99c49e; }
     .top-bar-section li.active:not(.has-form) a:not(.button) {
-        padding: 0 15px;
+        padding: 0 12px;
         line-height: 55px;
         color: white;
         background: #008cba; }
@@ -1997,7 +1997,7 @@ meta.foundation-mq-topbar {
     .top-bar-section .has-dropdown .dropdown li.has-dropdown > a:after {
         border: none;
         content: "\00bb";
-        top: 1rem;
+        top: 1.4rem;
         margin-top: -1px;
         right: 0px;
         line-height: 1.2; }
@@ -2021,7 +2021,11 @@ meta.foundation-mq-topbar {
         background: #99c49e; }
     .top-bar-section .dropdown li label {
         white-space: nowrap;
-        background: #333333; }
+        background: #888;
+        color: white;
+        font-size: 0.800rem;
+        border: solid 1px;
+        border-color: #34893E}
     .top-bar-section .dropdown li .dropdown {
         left: 100%;
         top: 0; }
@@ -2839,13 +2843,13 @@ abbr {
 
 /* Pricing Tables */
 .pricing-table {
-  border: solid 1px #DDDDDD;
-  margin-left: 0;
-  margin-bottom: 1.25rem; }
-  .pricing-table * {
+    border: solid 1px #DDDDDD;
+    margin-left: 0;
+    margin-bottom: 1.25rem; }
+.pricing-table * {
     list-style: none;
     line-height: 1; }
-  .pricing-table .title {
+.pricing-table .title {
     background-color: #333333;
     padding: 0.9375rem 1.25rem;
     text-align: center;
@@ -2853,7 +2857,7 @@ abbr {
     font-weight: normal;
     font-size: 1rem;
     font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; }
-  .pricing-table .price {
+.pricing-table .price {
     background-color: #F6F6F6;
     padding: 0.9375rem 1.25rem;
     text-align: center;
@@ -2861,7 +2865,7 @@ abbr {
     font-weight: normal;
     font-size: 2rem;
     font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif; }
-  .pricing-table .description {
+.pricing-table .description {
     background-color: #FFFFFF;
     padding: 0.9375rem;
     text-align: center;
@@ -2870,7 +2874,7 @@ abbr {
     font-weight: normal;
     line-height: 1.4;
     border-bottom: dotted 1px #DDDDDD; }
-  .pricing-table .bullet-item {
+.pricing-table .bullet-item {
     background-color: #FFFFFF;
     padding: 0.9375rem;
     text-align: center;
@@ -2878,31 +2882,31 @@ abbr {
     font-size: 0.875rem;
     font-weight: normal;
     border-bottom: dotted 1px #DDDDDD; }
-  .pricing-table .cta-button {
+.pricing-table .cta-button {
     background-color: #FFFFFF;
     text-align: center;
     padding: 1.25rem 1.25rem 0; }
 
 @-webkit-keyframes rotate {
-  from {
-    -webkit-transform: rotate(0deg); }
-  to {
-    -webkit-transform: rotate(360deg); } }
+    from {
+        -webkit-transform: rotate(0deg); }
+    to {
+        -webkit-transform: rotate(360deg); } }
 @-moz-keyframes rotate {
-  from {
-    -moz-transform: rotate(0deg); }
-  to {
-    -moz-transform: rotate(360deg); } }
+    from {
+        -moz-transform: rotate(0deg); }
+    to {
+        -moz-transform: rotate(360deg); } }
 @-o-keyframes rotate {
-  from {
-    -o-transform: rotate(0deg); }
-  to {
-    -o-transform: rotate(360deg); } }
+    from {
+        -o-transform: rotate(0deg); }
+    to {
+        -o-transform: rotate(360deg); } }
 @keyframes rotate {
-  from {
-    transform: rotate(0deg); }
-  to {
-    transform: rotate(360deg); } }
+    from {
+        transform: rotate(0deg); }
+    to {
+        transform: rotate(360deg); } }
 
 
 /*

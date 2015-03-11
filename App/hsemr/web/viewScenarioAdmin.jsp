@@ -70,14 +70,12 @@
         </head>
 
         <body style="font-size:14px; background-color: #ffffff;">
-        <div class="row" style="padding-top: 30px;">
-            <div class="large-centered large-5 columns">
+        <div class="row" style="padding-top: 30px; width: 300px;">
                 <center><h1>Case Management</h1></center><br/>
                 <form action ="ProcessResetAll" method="post">
                     <input type = "submit" class="resetbutton tiny" onclick="if (!resetConfirmation())
                                 return false" value="Reset All Cases" >
                 </form>
-            </div>
         </div>
 
         <div class="large-12 columns" style="padding-top: 0px;">

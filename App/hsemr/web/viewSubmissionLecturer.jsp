@@ -22,10 +22,10 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        
+
         <!--Web Title-->
         <title>EMR | View Submissions</title>
-        
+
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="css/original.css" />
         <script src="js/vendor/modernizr.js"></script>
@@ -66,8 +66,7 @@
                     String nursesInCharge = "";
                     String notes = "";
                     String dateTime = "";
-                    
-               
+
                     if (notesList == null || notesList.size() == 0) {%>
 
                 <center>No groups have entered their notes yet.</center>
@@ -107,58 +106,57 @@
                 </form>
             </div>
 
-            
+
             <%
                 //retrieve 1st note to get the practical group
                 //Note retrieved1Note = retrievedNoteList.get(0);
-               // String practicalGroup = retrieved1Note.getPracticalGroupID();
-               //String scenarioName = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
-                
+                // String practicalGroup = retrieved1Note.getPracticalGroupID();
+                //String scenarioName = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
                 DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-                
+
                 //retrieve practicalgrpID & scenarioID & scenarioName
                 ArrayList<Note> noteList = (ArrayList<Note>) request.getAttribute("noteList");
                 List<MedicationHistory> medicationHistoryList = (List<MedicationHistory>) request.getAttribute("medicationHistoryList");
                 List<Vital> vitalList = (List<Vital>) request.getAttribute("vitalList");
-                
+
                 //Get practialGroupID
                 String practicalGrpID = (String) request.getAttribute("practicalGrpID");
                 String scenarioName = (String) request.getAttribute("scenarioName");
                 String scenarioID = (String) request.getAttribute("scenarioID");
-                 String isPageLoaded = (String)request.getAttribute("isPageLoaded");
-                 
-            
+                String isPageLoaded = (String) request.getAttribute("isPageLoaded");
+
+
             %>
 
             <hr>
             <div class="large-centered large-12 columns" style="padding-top: 10px;">
-               
+
                 <!--TABLE 1 for notes-->
-                <% if(noteList == null || noteList.size() ==0) {
-                    if(isPageLoaded == null){ 
-                        //first time loading this page
-                        out.println(" ");
-                    }else{ %>
-                      
-                       <center><h3>Submissions for <%=practicalGrpID%> for <%=scenarioName%> </h3></center><br/>
-                 <%    
-                       out.println("<b>No Multidisciplinary notes submitted at the moment.</b>");
-                    } 
-                     
-                } else { %>
+                <% if (noteList == null || noteList.size() == 0) {
+                        if (isPageLoaded == null) {
+                            //first time loading this page
+                            out.println(" ");
+                        } else {%>
+
+                <center><h3>Submissions for <%=practicalGrpID%> for <%=scenarioName%> </h3></center><br/>
+                    <%
+                         out.println("<p>No Multidisciplinary notes submitted at the moment.</p>");
+                     }
+
+                 } else { %>
                 <table class="responsive" id="cssTable">
                     <col width="15%">
                     <col width="20%">
                     <col width="30%">
                     <col width="15%">
                     <thead>
-                        <b>Multidisciplinary Notes</b>
-                        <tr>
-                            <th>Practical Group ID</th> 
-                            <th>Nurses In-Charge</th>
-                            <th>Multidisciplinary Notes</th>
-                            <th>Time Submitted</th>
-                        </tr>
+                    <p>Multidisciplinary Notes</p>
+                    <tr>
+                        <th>Practical Group ID</th> 
+                        <th>Nurses In-Charge</th>
+                        <th>Multidisciplinary Notes</th>
+                        <th>Time Submitted</th>
+                    </tr>
                     </thead>
                     <%for (Note note : noteList) {
 
@@ -171,37 +169,37 @@
                         <td><%=df.format(note.getNoteDatetime())%></td>
                     </tr>
                     <%
-                                }//end of for
-                }//end of else 
+                            }//end of for
+                        }//end of else 
                     %> 
 
                 </table>
                 <br/><br/>
-                
-                
-                
-                 <!--TABLE 2 for MEdication history-->
-                 
-                 <%  
-                    if(medicationHistoryList== null || medicationHistoryList.size() == 0) {
-                        if(isPageLoaded == null){ 
-                        out.println(" ");
-                       }else{
-                            out.println("<b>No medication history submitted at the moment</b>");
+
+
+
+                <!--TABLE 2 for MEdication history-->
+
+                <%
+                    if (medicationHistoryList == null || medicationHistoryList.size() == 0) {
+                        if (isPageLoaded == null) {
+                            out.println(" ");
+                        } else {
+                            out.println("<p>No medication history submitted at the moment</p>");
                         }
-                    }else{
-                 %>
+                    } else {
+                %>
                 <table class="responsive" id="cssTable">
                     <col width="15%">
                     <col width="20%">
                     <col width="30%">
                     <col width="15%">
                     <thead>
-                    <b>Medication History</b>
-                        <tr>
-                            <th>Medication Datetime</th> 
-                            <th>Medication administered</th>
-                        </tr>
+                    <p>Medication History</p>
+                    <tr>
+                        <th>Medication Datetime</th> 
+                        <th>Medication administered</th>
+                    </tr>
                     </thead>
                     <%for (MedicationHistory mh : medicationHistoryList) {
 
@@ -210,40 +208,40 @@
                     <tr>
                         <td><%=mh.getMedicineDatetime()%></td>
                         <td><%=mh.getMedicineBarcode()%></td>
-                        
+
                     </tr>
                     <% }//end of for loop
-                        
-                    }//end of else
+
+                        }//end of else
                     %>
                 </table>
                 <br/><br/>
-                    
-                    <!--TABLE 3 for Vital signs-->
-                    <% if(vitalList== null || vitalList.size() == 0) {
-                        if(isPageLoaded == null){ 
-                        out.println(" ");
-                       }else {
-                            out.println("<b>No Vitals Signs submitted at the moment</b>");
-                        }
-                    }else{ %>
-                    <table class="responsive" id="cssTable">
+
+                <!--TABLE 3 for Vital signs-->
+                <% if (vitalList == null || vitalList.size() == 0) {
+                        if (isPageLoaded == null) {
+                            out.println(" ");
+                        } else {
+                            out.println("<p>No Vitals Signs submitted at the moment</p>");
+                            }
+                        } else { %>
+                <table class="responsive" id="cssTable">
                     <col width="15%">
                     <col width="20%">
                     <col width="30%">
                     <col width="15%">
                     <thead>
-                    <b>Vital signs </b>
-                        <tr>
-                            <th>Vitals Datetime</th> 
-                            <th>Temperature</th>
-                            <th>RR</th>
-                            <th>BP Systolic</th>
-                            <th>BP Diastolic</th>
-                            <th>HR</th>
-                            <th>SPO</th>
-                            
-                        </tr>
+                    <p>Vital signs </p>
+                    <tr>
+                        <th>Vitals Datetime</th> 
+                        <th>Temperature</th>
+                        <th>RR</th>
+                        <th>BP Systolic</th>
+                        <th>BP Diastolic</th>
+                        <th>HR</th>
+                        <th>SPO</th>
+
+                    </tr>
                     </thead>
                     <%
                         //DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
@@ -259,43 +257,43 @@
                         <td><%=vitals.getBpDiastolic()%></td>
                         <td><%=vitals.getHr()%></td>
                         <td><%=vitals.getSpo()%></td>
-                        
+
                     </tr>
                     <%
-                                }//end of for loop
-                    }//end of else
-   
+                            }//end of for loop
+                        }//end of else
+
                     %> 
 
                 </table>
                 <br/><br/>
-                
+
                 <!--TABLE 4 for Input output-->
-                 <% if(vitalList== null || vitalList.size() == 0) {
-                        if(isPageLoaded == null){ 
-                        out.println(" ");
-                       }else {
-                            out.println("<b>No Input/Output submitted at the moment</b>");
-                        }
-                    }else{ %>
-                    <table class="responsive" id="cssTable">
+                <% if (vitalList == null || vitalList.size() == 0) {
+                        if (isPageLoaded == null) {
+                            out.println(" ");
+                        } else {
+                            out.println("<p>No Input/Output submitted at the moment</p>");
+                         }
+                     } else { %>
+                <table class="responsive" id="cssTable">
                     <col width="15%">
                     <col width="20%">
                     <col width="30%">
                     <col width="15%">
                     <thead>
-                    <b> Input/Output</b>
-                        <tr>
-                            <th>Output</th> 
-                            <th>Oral Type</th>
-                            <th>Oral Amount</th>
-                            <th>Intravenous Type</th>
-                            <th>Intravenous Amount</th>
-                       
-                        </tr>
+                    <p> Input/Output</p>
+                    <tr>
+                        <th>Output</th> 
+                        <th>Oral Type</th>
+                        <th>Oral Amount</th>
+                        <th>Intravenous Type</th>
+                        <th>Intravenous Amount</th>
+
+                    </tr>
                     </thead>
                     <%
-                        
+
                         for (Vital vitalsInputOutput : vitalList) {
 
                     %>
@@ -306,39 +304,40 @@
                         <td><%=vitalsInputOutput.getOralAmount()%></td>
                         <td><%=vitalsInputOutput.getIntravenousType()%></td>
                         <td><%=vitalsInputOutput.getIntravenousAmount()%></td>
-                     
+
                     </tr>
                     <%
-                                }//end of for loop%>
-                          </table>
-                                                 
-                       
-                
-                            <%//end of else
-                       // } //end of big if
-  
-                       }
-                    //end of big else
-                %> 
-                    
-               <form action="ProcessExportPDF" method="POST" target="_blank">
-                <%
-                    //For export purpose
-                    if (noteList == null && medicationHistoryList == null && vitalList == null) {
-                        out.println(" ");
-                    }else{
-                        session.setAttribute("practicalGrpID", practicalGrpID);
-                        session.setAttribute("scenarioID", scenarioID);
-                        session.setAttribute("scenarioName", scenarioName);
-                %>
-                        <br>
-                <center> <input type="submit" class="button small" value="Export to PDF"> </center>
-                    <%   
+                        }//end of for loop%>
+                </table>
+
+
+
+                <%//end of else
+                        // } //end of big if
+
                     }
-                }
+        //end of big else
+                %> 
+
+                <form action="ProcessExportPDF" method="POST" target="_blank">
+                    <%
+                        //For export purpose
+                        if (noteList == null && medicationHistoryList == null && vitalList == null) {
+                            out.println(" ");
+                        } else {
+                            session.setAttribute("practicalGrpID", practicalGrpID);
+                            session.setAttribute("scenarioID", scenarioID);
+                            session.setAttribute("scenarioName", scenarioName);
                     %>
-                <!-- <center> <input type="submit" class="report-despatch button tinytable" value="Export to PDF"> </center> -->
-            </form>
+                    <br/><br/><br/>
+                    <center> <input type="submit" class="button" value="Export to PDF"> </center>
+                    <br/><br/><br/>
+                    <%
+                            }
+                        }
+                    %>
+                    <!-- <center> <input type="submit" class="report-despatch button tinytable" value="Export to PDF"> </center> -->
+                </form>
 
             </div>
         </div>
