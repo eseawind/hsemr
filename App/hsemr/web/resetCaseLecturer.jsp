@@ -120,7 +120,7 @@
 
                                     scenarioID = scenario.getScenarioID();
 
-                                    LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerId, scenarioID);
+                                    LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerID, scenarioID);
 
                                     counter++;
                                     caseNo = counter;
@@ -162,10 +162,10 @@
 
             <form action = "ProcessResetScenario" method = "POST">   
                 <h2>Case Information</h2> 
-
+                <br/>
                 <%
 
-                    List<PracticalGroup> pgList = PracticalGroupDAO.retrieveByLecturerID(lecturerId);
+                    List<PracticalGroup> pgList = PracticalGroupDAO.retrieveByLecturerID(lecturerID);
 
                     if (pgList == null || pgList.size() == 0) {
                         out.println("There is no practical group for this lecturer, please contact admin to assign.<br>");
@@ -179,7 +179,7 @@
 
                 <input type ="hidden" id= "status" name = "status" value = "reset">
                 <input type ="hidden" id= "scenarioID" name = "scenarioID" value = "<%=scenario.getScenarioID()%>">
-                <input type ="submit" class="button tiny" value = "Reset Case">
+                <input type ="submit" class="deletebutton tiny" value = "Reset Case">
 
                 <p class="lead"><b>Case Number:</b> <%=scenario.getScenarioID()%> </p>
                 <p class="lead"><b>Case Name:</b> <%=scenario.getScenarioName()%> </p>

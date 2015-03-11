@@ -181,13 +181,13 @@
                     // if (status == 1) {
                     if (stateIDCurrent.equals(state.getStateID())) {
                 %>
-                State is currently activated. 
+                <p><i>State is currently activated.</i></p>
                 <input type ="hidden" id= "status" name = "status" value = "deactivated">
-                <input type ="submit" class="button tiny" value = "Deactivate State">
+                <input type ="submit" class="deletebutton tiny" value = "Deactivate State">
 
                 <% } else { %>
 
-                State is deactivated. 
+                <p>State is deactivated.</p>
                 <input type ="hidden" id= "status" name = "status" value = "activated">               
                 <%
                     if (activatedScenario != null) { %>

@@ -120,7 +120,7 @@
 
                                     scenarioID = scenario.getScenarioID();
 
-                                    LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerId, scenarioID);
+                                    LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerID, scenarioID);
                                     counter++;
                                     caseNo = counter;
                             %>
@@ -161,22 +161,20 @@
             <form action = "ProcessActivateScenario" method = "POST">   
                 <h2>Case Information</h2> 
                 <%
-                    LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerId, scenario.getScenarioID());
+                    LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerID, scenario.getScenarioID());
 
                     if (lecScenario != null) { //it is activated
                 %>
-                Case is currently activated. 
+                <p><i>Case is currently activated.</i></p> 
                 <input type ="hidden" id= "status" name = "status" value = "deactivated">
-                <input type ="submit" class="button tiny" value = "Deactivate Case">
+                <input type ="submit" class="deletebutton tiny" value = "Deactivate Case">
 
                 <% } else { %>
 
-                Case is deactivated. 
+                <p>Case is deactivated. </p>
                 <input type ="hidden" id= "status" name = "status" value = "activated">               
                 <%
 
-                    //Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
-                    Scenario activatedScenario = ScenarioDAO.retrieveScenarioActivatedByLecturer(lecturerId);
                     if (activatedScenario != null) { %>
                 <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
                             return false" value="Activate Case" >
