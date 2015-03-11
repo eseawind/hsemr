@@ -71,7 +71,7 @@
         <!--RESPONSIVE. WEB VERSION HERE-->
         <div class="hide-for-small-only">
             <div align ="center">
-                <div class="large-centered large-11 columns">
+                <div class="large-centered large-11 columns" style="margin-bottom: 50%">
 
 
                     <%
@@ -133,7 +133,7 @@
                     <br>   
                     <!--Patient's Information-->
                     <!--To insert icon if needed-->
-                    <table style="border-color: #368a55 ">
+                    <table style="border-color: #368a55; ">
                         <col width="5%">
                         <col width="95%">
                         <tr>
@@ -145,18 +145,18 @@
                                 <%  }%>
                             </td>
                             <td><h2>Patient's Information</h2>
-                                <table style="border-color: white ">
+                                <table style="border-color: white; width:1000px">
                                     <col width="20%">
                                     <col width="15%">
                                     <col width="15%">
                                     <col width="15%">
                                     <col width="35%">
                                     <tr>
-                                        <td><font size='4'><b>Name: <font color="#666666"><%=fullName%></font></b></td>
+                                        <td><b>Name: <font color="#666666"><%=fullName%></font></b></td>
                                         <td><b>NRIC: <font color="#666666"><%=patientNRIC%></font></b></td>
                                         <td><b>DOB: <font color="#666666"><%=dob%></font></b></td>
                                         <td><b>Gender: <font color="#666666"><%=gender%></font></b></td>
-                                        <td><b>Allergy: <img src="img/warning.png" width="20" height="20" alt="Warning"/><font color="red">  <%=allergy%></font></b></font></td>                                        
+                                        <td><b><img src="img/warning.png" width="20" height="20" alt="Warning"/> Allergy: <font color="red">  <%=allergy%></font></b></td>                                        
                                     </tr>
                                 </table>
                         </tr>
@@ -180,32 +180,32 @@
                                     out.println("active");
                                 } else {
                                     out.println("");
-                                } %>" ><a href="#admission"><b>Admission Notes</b></a></dd>
+                                } %>" ><a href="#admission">Admission Notes</a></dd>
                             <dd class="<% if (active != null && active.equals("reports")) {
                                     out.println("active");
                                 } else {
                                     out.println("");
-                                } %>"><a href="#reports"><b>Investigations</b></a></dd>
+                                } %>"><a href="#reports">Investigations</a></dd>
                             <dd class="<% if (active != null && active.equals("vital")) {
                                     out.println("active");
                                 } else {
                                     out.println("");
-                                } %>"><a href="#vital"><b>Clinical Charts</b></a></dd>
+                                } %>"><a href="#vital">Clinical Charts</a></dd>
                             <dd class="<% if (active != null && active.equals("medication")) {
                                     out.println("active");
                                 } else {
                                     out.println("");
-                                } %>"><a href="#medication"><b>Medication</b></a></dd>
+                            } %>"><a href="#medication">Medication</a></dd>
                             <dd class="<% if (active != null && active.equals("multidisciplinary")) {
                                     out.println("active");
                                 } else {
                                     out.println("");
-                                } %>"><a href="#multidisciplinary"><b>Notes</b></a></dd>
+                                } %>"><a href="#multidisciplinary">Notes</a></dd>
                             <dd class="<% if (active != null && active.equals("documents")) {
                                     out.println("active");
                                 } else {
                                     out.println("");
-                                } %>"><a href="#documents"><b>Documents</b></a></dd>
+                                } %>"><a href="#documents">Documents</a></dd>
                         </dl>
 
                         <!--ADMISSION NOTES-->
@@ -892,8 +892,6 @@
                                                 <%}
 
                                                 %>
-
-
                                                 </div>
                                                 <!--END OF MEDICATIONS-->
 

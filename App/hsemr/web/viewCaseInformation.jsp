@@ -15,63 +15,54 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/foundation.css" />
         <%@include file="/topbar/topbar.jsp" %> 
-        
+
         <!--Web Title-->
         <title>EMR | Case Information</title>
     </head>
     <body>
-    <center>
-        <br/><br/><br/>
-        <h1>Case Information</h1><br/><br/>
-        
-        <%
-             //create an arraylist to be passed to check validity of medicine
+    <center> 
+        <div class="large-12 large-centered columns">  
+            <div class="row" style="padding-top: 60px">
+                <h1>Case Information</h1><br/><br/>
+
+                <%
+                    //create an arraylist to be passed to check validity of medicine
                     ArrayList<String> medicineVerifiedList = new ArrayList<String>();
                     medicineVerifiedList.add("TESTING");
-                    session.setAttribute("medicineVerifiedList",medicineVerifiedList);
-        
-        
-        %>
-        <div class="large-centered large-8 columns">
-            <% 
-                    Scenario scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
-                       
-                  //Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
-        if (scenarioActivated != null) {%>
-            <form action ="viewPatientInformation.jsp" method="post">
-                <table>
-                    <col width="30%">
-                    <col width="70%">
+                    session.setAttribute("medicineVerifiedList", medicineVerifiedList);
 
-                    <tr>
-                        <td>
-                           <b>Scenario Name</b>
-                        </td>
 
-                        <td> 
-                            <%=scenarioActivated.getScenarioName()%>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>Scenario Description</b>
-                        </td>
-
-                        <td>
-                            <%=scenarioActivated.getScenarioDescription()%>
-                        </td>
-                    </tr>
-
-                </table><br/><br/><br/><br/>
-                <input type="submit" class="button small" value="Proceed">
-            </form>
-            <%
-                    } else { %>
-            <p><font size="6">NO CASE ACTIVATED</font><br>
-                Please contact administrator/lecturer for case activation.</p>
-                <%
-                    }
                 %>
+                <%                Scenario scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+
+                    //Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
+                if (scenarioActivated != null) {%>
+                <!--Display Case Info-->
+                <form action ="viewPatientInformation.jsp" method="post">
+                    <table style="border-color: #EEEEEE">
+                        <col width="25%">
+                        <col width="75%">
+
+                        <tr>
+                            <td><b>Scenario Name</b></td>
+                            <td><%=scenarioActivated.getScenarioName()%></td>
+                        </tr>
+                        <tr>
+                            <td><b>Scenario Description</b></td>
+                            <td><%=scenarioActivated.getScenarioDescription()%></td>
+                        </tr>
+
+                    </table><br/><br/><br/><br/>
+                    <input type="submit" class="button" value="Proceed">
+                </form>
+                <%
+            } else { %>
+                <p><font size="6">NO CASE ACTIVATED</font><br>
+                    Please contact administrator/lecturer for case activation.</p>
+                    <%
+                        }
+                    %>
+            </div>
         </div>
     </center>
 
