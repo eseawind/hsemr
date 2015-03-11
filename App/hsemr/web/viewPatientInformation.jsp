@@ -69,7 +69,7 @@
         <script src="js/foundation.min.js"></script>
 
         <!--RESPONSIVE. WEB VERSION HERE-->
-        <div class="hide-for-small-only">
+        <div class="hide-for-touch">
             <div align ="center">
                 <div class="large-centered large-11 columns" style="margin-bottom: 50%">
 
@@ -1203,10 +1203,9 @@
 
                                                 <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
 
-                                                <div class ="show-for-small-only">
-                                                    
-                             
-                                                    
+                                                <div class ="show-for-touch">
+                                                        <div class ="show-for-small-only">
+
                                                     <%
                                                     String fromMobile = (String)(session.getAttribute("fromMobile"));
                                                  
@@ -1224,7 +1223,6 @@
                                                     <%
                                                     }
                                                     %>
-
                                                    
 
                                                     <%                                
