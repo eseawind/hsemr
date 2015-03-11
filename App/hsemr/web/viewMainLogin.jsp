@@ -26,7 +26,7 @@
         <div class="large-centered large-12 columns">
             <!--HS EMR LOGO-->
             <center>
-                <div class="large-centered large-5 columns" style="padding-top:40px">
+                <div class="row" style="width: 440px; padding-top:20px">
                     <!--To insert icon if needed-->
                     <!--<table style="border-color: white ">
                         <col width="5%">
@@ -37,10 +37,12 @@
                         </tr>
                     </table>-->
                     <h0><font color="##368a55">HS EMR</font></h0><br/>
-                    <h00><font color="#009a4d">Passion to Touch Lives</font></h00>
+                    <h00><font color="#009a4d">Passion to Touch Lives</font></h00>  
+                    <hr>
                 </div>
             </center>
-            <div class="row" style="width:440px; padding-top: 15px">
+          
+            <div class="row" style="width:440px;">
                 <!--Error Validation-->
                 <%
                     String userid = "";
@@ -59,7 +61,7 @@
 
                 <!--Post form to ProcessLogin to validate the user's credentials-->
                 <form action="ProcessLogin" method="post">
-                    <hr><br/><br/>
+                    <br/><br/>
                     <!--User ID-->
                     <label><strong>User ID</strong>
                         <div class="row collapse">
@@ -109,7 +111,7 @@
                     <center><input type="submit" class="login normal radius expand" value="LOGIN"></center>
                 </form>
             </div>  
-            <!--Footer--><br/>
+            <!--Footer-->
             <center><font size="2" color="#666666"> Ngee Ann Polytechnic | School of Health Sciences | Electronic Medical Records
                 <br/>Copyright &copy; HS EMR. All rights reserved.</font></center>
         </div>
