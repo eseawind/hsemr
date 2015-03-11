@@ -29,6 +29,7 @@
         <title>EMR | Case Management | Activate Case</title>
 
         <link rel="stylesheet" href="css/foundation.css" />
+        <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="responsive-tables.css">
         <script src="responsive-tables.js"></script>
         <%@include file="/topbar/topbarAdmin.jsp" %>
@@ -115,17 +116,18 @@
                                 out.println("This case is not activated by any lecturers at the moment.<br>");
                             } else {
                                 for (String lecDidNotActivate : lecWhoDidNotActivateList) {%>
-                        <input type="checkbox" name = "lecturerToActivateCase" value = "<%=lecDidNotActivate%>"><label><%=lecDidNotActivate%></label>
-                            <%}
-                                }
-                            %>  
+                       
+                        </td>
+                        <%}
+                            }
+                        %>  
                     </p>
-                    
-                    
-                    
+
+
+
                 </div> <!--End of panel case div-->
-               
-                
+
+
                 <%
                     String location = "viewScenarioAdmin.jsp";
                 %>
@@ -134,81 +136,84 @@
                     <input type="button" value="Cancel" class="button" onClick="window.location = '<%=location%>'"/>
                     <input type="submit" value="Activate" class="button"></center>
 
-                </form><!--End of form-->
-                    
-                     <!--New activate case-->                    
-                    <form data-abide action ="ProcessActivateScenarioAdmin" method ="POST">
-                    <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                    <p><strong>Activate Case For Lecturer(s)</strong></p>
-                    <p>Note: One lecturer can only activate one case at a time. If you select lecturers who have activated other cases, it will automatically deactivate the case that they have activated. </p>
-                    <table>
-                        <tr>
-                            <th scope="row">Activate Case For Lecturer</th>
-                                <%
+            </form><!--End of form-->
+
+            <!--New activate case-->                    
+            <form data-abide action ="ProcessActivateScenarioAdmin" method ="POST">
+                <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                <p><strong>Activate Case For Lecturer(s)</strong></p>
+                <p>Note: One lecturer can only activate one case at a time. If you select lecturers who have activated other cases, it will automatically deactivate the case that they have activated. </p>
+                <table>
+                    <tr>
+                        <th scope="row">Activate Case For Lecturer</th>
+                            <%
                                 List<String> lecWhoDidNotActivateAnyCaseList = LecturerScenarioDAO.retrieveDistinctLecturersWhoDidNotActivateAnyCase(); //they can activate because they have not activated any cases
 
                                 if (lecWhoDidNotActivateAnyCaseList == null || lecWhoDidNotActivateAnyCaseList.size() == 0) {
                                     out.println("This case is not activated by any lecturers at the moment.<br>");
                                 } else {
                                     for (String lecDidNotActivate : lecWhoDidNotActivateList) {%>
-                                        <td><input type="checkbox" name = "lecturerToActivateCase" value = "<%=lecDidNotActivate%>"><label><%=lecDidNotActivate%></label></td>
-                                <%}
-                                    }
-                                %>  
-                        </tr>
-                        
-                        <tr>
-                            <th scope ="row">Lecturers activated for other cases (hover for more information)</th>
+                        <td>  
+                            <input type="checkbox" class="css-checkbox" id="<%=lecDidNotActivate%>"/>
+                            <label for="<%=lecDidNotActivate%>" name="lecturerToActivateCase" class="css-label lite-green-check"><%=lecDidNotActivate%></label>
+                        </td>
+                        <%}
+                            }
+                        %>  
+                    </tr>
+
+                    <tr>
+                        <th scope ="row">Lecturers activated for other cases (hover for more information)</th>
                             <%
                                 List<String> lecWhoHasOtherCasesActivatedList = LecturerScenarioDAO.retrieveDistinctActivatedLecturers();
-                                
-                                if(lecWhoHasOtherCasesActivatedList == null || lecWhoHasOtherCasesActivatedList.size() == 0){
+
+                                if (lecWhoHasOtherCasesActivatedList == null || lecWhoHasOtherCasesActivatedList.size() == 0) {
                                     out.println("<td>NA</td>");
-                                }else{
-                                    for(String lecWithOtherCases :lecWhoHasOtherCasesActivatedList){
-                                    %>
-
-                                    <td><input type="checkbox" name = "lecturerToActivateCaseWhoHasOtherCase" value = "<%=lecWithOtherCases%>">
-                                        <span data-tooltip aria-haspopup="true" class="has-tip" title="<%=ScenarioDAO.retrieve(LecturerScenarioDAO.retrieveScenario(lecWithOtherCases)).getScenarioName() %>"><%=lecWithOtherCases%></span>
-                                       </td>
-                               <% } }
+                                } else {
+                                    for (String lecWithOtherCases : lecWhoHasOtherCasesActivatedList) {
                             %>
-                            
-                        </tr><br>
+                        <td>    <input type="checkbox" class="css-checkbox" id="<%=lecWithOtherCases%>"/>
+                            <label for="<%=lecWithOtherCases%>" name="lecturerToActivateCaseWhoHasOtherCase" class="css-label lite-red-check">
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="<%=ScenarioDAO.retrieve(LecturerScenarioDAO.retrieveScenario(lecWithOtherCases)).getScenarioName()%>"><%=lecWithOtherCases%></span></label>
+                        </td>
+                        <% }
+                            }
+                        %>
 
-
-                    </table>
-                    <input type="button" value="Cancel" class="button" onClick="window.location = '<%=location%>'"/>
+                    </tr>
+                </table>
+                <br/><br/>
+                <center><input type="button" value="Cancel" class="button" onClick="window.location = '<%=location%>'"/>
                     <input type="submit" value="Activate" class="button"></center>
 
-                </form>
+            </form>
 
-                
-                <!--End of new activate case--> 
-                    
-           
+
+            <!--End of new activate case--> 
+
+
         </div>
-                    
-       
+
+
 
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
 
         <script>
-                        $(document).ready(function() {
-                            $(document).foundation();
-                            var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
-                            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+                    $(document).ready(function() {
+                        $(document).foundation();
+                        var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                        var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
-                            var success1 = "<%=success%>";
-                            var error1 = "<%=error%>";
-                            if (success1 !== "") {
-                                humaneSuccess.log(success1);
-                            } else if (error1 !== "") {
-                                humaneError.log(error1);
-                            }
+                        var success1 = "<%=success%>";
+                        var error1 = "<%=error%>";
+                        if (success1 !== "") {
+                            humaneSuccess.log(success1);
+                        } else if (error1 !== "") {
+                            humaneError.log(error1);
+                        }
 
-                        });
+                    });
 
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
