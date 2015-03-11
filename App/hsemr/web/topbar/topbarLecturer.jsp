@@ -4,6 +4,8 @@
     Author     : weiyi.ngow.2012
 --%>
 
+<%@page import="entity.*"%>
+<%@page import="dao.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -32,9 +34,6 @@
                     <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
                 </ul>
 
-                <%
-                    String lecturerId = (String) session.getAttribute("lecturer");
-                %>
                 <secion class="top-bar-section">
                     <!-- Right Nav Section -->
 
@@ -55,10 +54,20 @@
                             </ul> 
                         <li><a href="./viewSubmissionLecturer.jsp">View Submissions</a></li>
                     </ul>
+                    <%
+                        String lecturerID = (String) session.getAttribute("lecturer");
+                        Scenario activatedScenario = ScenarioDAO.retrieveScenarioActivatedByLecturer(lecturerID);
+                        String caseName = "-";
+                        if (activatedScenario != null) {
+                            caseName = activatedScenario.getScenarioName();
+                        }%>
+
                     <ul class="right"> 
-                        <li><a href="#">Welcome, <%= lecturerId%>!</a></li>
+                        <li><a href="#">Welcome, <%= lecturerID%>! </a></li>
+                        <li><a href="#">Current Case: <%=caseName%></a></li>
                         <li><a href="ProcessLogoutLecturer">Log Out</a></li>
                     </ul>
+
                 </secion>
             </nav>
         </div>

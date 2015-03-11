@@ -54,12 +54,6 @@
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center>
-
-                    <%                        //Scenario activatedScenario = ScenarioDAO.retrieveActivatedScenario();
-                        String lecturerID = (String) session.getAttribute("lecturer");
-                        Scenario activatedScenario = ScenarioDAO.retrieveScenarioActivatedByLecturer(lecturerID);
-
-                    %>
                     <h1>Select state to change the state</h1>
                     <!--Legend-->
                     <table style="border-color: white; width: 440px">
