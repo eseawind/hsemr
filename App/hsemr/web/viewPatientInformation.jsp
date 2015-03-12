@@ -34,12 +34,8 @@
         <script src="js/vendor/modernizr.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
 
+
         
-        <!--For pull to refresh-->
-        <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
-        <script src="js/hook.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="css/hook.css" type="text/css" />
-        <!--end of for pull to refresh-->
         
         <!--Web Title-->
         <title>EMR | Patient Information</title>
@@ -470,7 +466,7 @@
                                                     <input type="text" name ="temperature" maxlength="4" pattern ="\b(3[4-9](\.[0-9]{1,2})?|4[0-2])(\.[0-9]{1,2})?$\b"  value="<%=temp1%>"/>
                                                     <small class="error">Temperature must be between 34 - 42.</small>
                                                 </div>
-                                                <label for="right-label" class="left inline">ºC</label>
+                                                <label for="right-label" class="left inline">ÂºC</label>
                                             </div></td>
                                     </tr> 
 
@@ -1204,12 +1200,33 @@
                                                 <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
 
                                                 <div class ="show-for-touch">
-                                                        <div class ="show-for-small-only">
+                                                                
+                                                  
 
                                                     <%
                                                     String fromMobile = (String)(session.getAttribute("fromMobile"));
+                                                    
+                                                    
                                                  
-                                                    if(fromMobile != null){%> 
+                                                    if(fromMobile != null){
+                                                    
+                                                    
+                                                    %> 
+                                                    
+                                                      <!--For pull to refresh-->
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    <script>
+                                                        if (screen && screen.width < 480) {
+                                                          document.write('<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"><\/script>');
+                                                          document.write('<script src="js/hook.js" type="text/javascript"><\/script>');
+                                                          document.write('<link rel="stylesheet" href="css/hook.css" type="text/css"/>');
+                                                        }
+                                                    </script>
+                                                    <!--end of for pull to refresh-->
+                                                    
                                                         <!--hook.js pull to refresh-->     
                                                             <div id="hook">
                                                                 <div id="loader">
