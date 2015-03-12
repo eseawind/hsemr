@@ -61,11 +61,14 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
         String status = (String) request.getParameter("status");
         String errorMessage = ""; 
         String successMessage = "";
+        response.getWriter().println(combinedLecturerToActivate);
         
-         if(lecturerToActivateCase == null && lecturerToActivateCaseWhoHasOtherCase == null){
+        if(combinedLecturerToActivate == null || combinedLecturerToActivate.size() == 0){
             session.setAttribute("error", "Please select at least 1 lecturer to activate the case for.");
-            //response.sendRedirect("activateScenarioAdmin.jsp");
+            
+            response.sendRedirect("activateScenarioAdmin.jsp");
         }else{
+            response.getWriter().println(combinedLecturerToActivate.size());
             for(String lecturerToActivate: combinedLecturerToActivate){
                 if(LecturerScenarioDAO.retrieveLecturer(lecturerToActivate) == null){
                     LecturerScenarioDAO.activateScenario(lecturerToActivate, scenarioID);
@@ -80,7 +83,7 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
             }
             session.setAttribute("success", "Successfully activated cases for lecturers.");
             response.sendRedirect("viewScenarioAdmin.jsp");
-            //return;
+            
         }
         
        

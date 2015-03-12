@@ -185,6 +185,31 @@ public class LecturerScenarioDAO {
         return scenarioActivatedList;
     }
     
+    
+    public static List<String> retrieveLecturerActivatedScenario(String scenarioID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<String> scenarioActivatedList = new ArrayList<String>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select lecturerID from lecturer_scenario where scenarioID = ?");
+            stmt.setString(1, scenarioID);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                scenarioActivatedList.add(rs.getString(1));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return scenarioActivatedList;
+    }
+    
     public static List<String> retrieveDistinctLecturersWhoDidNotActivateAnyCase() {
         Connection conn = null;
         PreparedStatement stmt = null;

@@ -83,10 +83,9 @@
                 out.println("No case selected");
             }
         %>
-        <div class="row" style="width: 600px; padding-top: 50px">
+        <div class="row" style="width: 700px; padding-top: 50px">
             <center><h1>Activate Case</h1></center>
             <br>
-            <form data-abide action ="ProcessActivateScenarioAdmin" method ="POST">
                 <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
                 <div class="panelCase">
                     <p>
@@ -112,37 +111,12 @@
                         <%
                             List<String> lecWhoDidNotActivateList = LecturerScenarioDAO.retrieveDistinctLecturersWhoDidNotActivateAnyCase(); //they can activate because they have not activated any cases
 
-                            if (lecWhoDidNotActivateList == null || lecWhoDidNotActivateList.size() == 0) {
-                                out.println("This case is not activated by any lecturers at the moment.<br>");
-                            } else {
-                                for (String lecDidNotActivate : lecWhoDidNotActivateList) {%>
-                       
-                        </td>
-                        <%}
-                            }
-                        %>  
-                    </p>
-
-
-
-                </div> <!--End of panel case div-->
-
-
-                <%
-                    String location = "viewScenarioAdmin.jsp";
-                %>
-                <center>
-                    <br/>
-                    <input type="button" value="Cancel" class="button" onClick="window.location = '<%=location%>'"/>
-                    <input type="submit" value="Activate" class="button"></center>
-
-            </form><!--End of form-->
-
-            <!--New activate case-->                    
-            <form data-abide action ="ProcessActivateScenarioAdmin" method ="POST">
+                           
+                        %>
+                         <form data-abide action ="ProcessActivateScenarioAdmin" method ="POST">
                 <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
                 <p><strong>Activate Case For Lecturer(s)</strong></p>
-                <p>Note: One lecturer can only activate one case at a time. If you select lecturers who have activated other cases, it will automatically deactivate the case that they have activated. </p>
+                <p>Note: One lecturer can only activate one case at a time. If you select lecturers who have activated other cases, it will <font color = "b20000"><b>automatically deactivate the case that they have activated.</b></font> </p>
                 <table>
                     <tr>
                         <th scope="row">Activate Case For Lecturer</th>
@@ -154,8 +128,8 @@
                                 } else {
                                     for (String lecDidNotActivate : lecWhoDidNotActivateList) {%>
                         <td>  
-                            <input type="checkbox" class="css-checkbox" id="<%=lecDidNotActivate%>"/>
-                            <label for="<%=lecDidNotActivate%>" name="lecturerToActivateCase" class="css-label lite-green-check"><%=lecDidNotActivate%></label>
+                            <input type="checkbox" name="lecturerToActivateCase" class="css-checkbox" id="<%=lecDidNotActivate%>" value = "<%=lecDidNotActivate%>"/>
+                            <label for="<%=lecDidNotActivate%>"  class="css-label lite-green-check"><%=lecDidNotActivate%></label>
                         </td>
                         <%}
                             }
@@ -163,7 +137,7 @@
                     </tr>
 
                     <tr>
-                        <th scope ="row">Lecturers activated for other cases (hover for more information)</th>
+                        <th scope ="row">Lecturers who activated other cases (hover for case information)</th>
                             <%
                                 List<String> lecWhoHasOtherCasesActivatedList = LecturerScenarioDAO.retrieveDistinctActivatedLecturers();
 
@@ -172,8 +146,8 @@
                                 } else {
                                     for (String lecWithOtherCases : lecWhoHasOtherCasesActivatedList) {
                             %>
-                        <td>    <input type="checkbox" class="css-checkbox" id="<%=lecWithOtherCases%>"/>
-                            <label for="<%=lecWithOtherCases%>" name="lecturerToActivateCaseWhoHasOtherCase" class="css-label lite-red-check">
+                        <td>    <input type="checkbox" name="lecturerToActivateCaseWhoHasOtherCase" class="css-checkbox" id="<%=lecWithOtherCases%>" value = "<%=lecWithOtherCases%>" />
+                            <label for="<%=lecWithOtherCases%>" class="css-label lite-red-check">
                             <span data-tooltip aria-haspopup="true" class="has-tip" title="<%=ScenarioDAO.retrieve(LecturerScenarioDAO.retrieveScenario(lecWithOtherCases)).getScenarioName()%>"><%=lecWithOtherCases%></span></label>
                         </td>
                         <% }
@@ -183,14 +157,23 @@
                     </tr>
                 </table>
                 <br/><br/>
+                  <%
+                    String location = "viewScenarioAdmin.jsp";
+                %>
                 <center><input type="button" value="Cancel" class="button" onClick="window.location = '<%=location%>'"/>
-                    <input type="submit" value="Activate" class="button"></center>
+                <input type="submit" value="Activate" class="button"></center>
 
-            </form>
+            </form></p>
 
 
-            <!--End of new activate case--> 
 
+            </div> <!--End of panel case div-->
+
+
+              
+            <center>
+
+  
 
         </div>
 
