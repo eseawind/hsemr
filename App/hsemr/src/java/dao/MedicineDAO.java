@@ -60,6 +60,27 @@ public class MedicineDAO {
         }
         return medicine;
     }
+    
+    public static void update(String medicineBarcode, String medicineName) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query= "UPDATE medicine SET medicineName =? WHERE medicineBarcode =?";  
+        
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1,medicineName);
+            preparedStatement.setString(2,medicineBarcode);
+            preparedStatement.executeUpdate();
+            
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }finally {
+            ConnectionManager.close(conn,preparedStatement,null);
+        }        
+    }
+    
 
     public static Medicine retrieveByMedicineName(String medicineName) {
         Connection conn = null;
