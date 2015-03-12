@@ -114,7 +114,6 @@
                         String scenarioID = scenario.getScenarioID();
                         String scenarioName = scenario.getScenarioName();
                         String scenarioDescription = scenario.getScenarioDescription();
-                        // int status = scenario.getScenarioStatus();
                         LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(scenarioID); // if lecScenario == null, then it is NOT activated
 
                         String admissionInfo = scenario.getAdmissionNote();%>
@@ -125,7 +124,15 @@
                     <td><%
                         if (lecScenario != null) {
                         %>
-                        <font color= "green"><b>Activated</b></font>
+                        <font color= "green"><b>Activated</b></font> by<br>
+                        
+                        <%
+                            List<String> lecActivatedList = LecturerScenarioDAO.retrieveLecturerActivatedScenario(scenarioID);
+                            
+                            for(String lecturer: lecActivatedList){
+                                out.println(lecturer + " ");
+                            }
+                        %>
                         <%} else {%>
                         <font color= "red">Deactivated</font>
                         <%}
