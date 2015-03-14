@@ -296,7 +296,7 @@
                     </div>
                 </div>
                 <br/>
-                <center><input type="submit" value="Save and Proceed  >>" class="button small"></center>
+                <center><input type="submit" value="Next  >>" class="button small"></center>
             </form>
             <%
                 }

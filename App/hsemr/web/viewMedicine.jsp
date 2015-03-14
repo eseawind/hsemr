@@ -46,15 +46,21 @@
             <div class="large-centered large-12 columns">
                 <center><h1>Medicine Management</h1><br/><br/>
                     <%
-                        String success = "";
-
+                        String success = ""; 
+                        String error = "";
                         if (session.getAttribute("success") != null) {
 
                             success = (String) session.getAttribute("success");
                             session.setAttribute("success", "");
-
+                        
                         }
-                    %>
+                        if (session.getAttribute("error") != null) {
+
+                            error = (String) session.getAttribute("error");
+                            session.setAttribute("error", "");
+                        
+                        }
+                        %>
                     <!--TABLE-->
                     <table class="responsive" id="cssTable">
                         <col width="30%">
@@ -84,7 +90,7 @@
                                 String userLoggedIn = (String) session.getAttribute("admin");
                             %>
                             <td>
-                                <form action="ProcessDeleteAccount" method="post">
+                                <form action="ProcessDeleteMedicine" method="post">
                                     <input type="hidden" name="medicineBarcode" value="<%=medicine.getMedicineBarcode()%>">       
                                     <input type="submit" class="button tinytable" value="delete">
                                 </form>
@@ -97,9 +103,9 @@
                     </table><br/><br/><br/>
 
                     <!--Create New Account button-->
-                    <form action="createAccount.jsp" method="post">
+                    <form action="createMedicine.jsp" method="post">
                         <input type="hidden" name="type" value="admin">
-                        <input type="submit" class="button small" value="Create New Account">
+                        <input type="submit" class="button small" value="Create New Medicine">
                     </form>
                 </center>
             </div>

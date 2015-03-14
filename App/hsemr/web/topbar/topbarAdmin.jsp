@@ -55,7 +55,12 @@
                                 <li><a href="./viewPracticalGroupAccounts.jsp">Practical Group</a></li>
                             </ul>   
                         </li>
-                        <li><a href="#">Medication Management</a></li> 
+                          <li class="has-dropdown">
+                            <a href="#">Medication Management</a>
+                            <ul class="dropdown">
+                                <li><a href="./viewMedicine.jsp">Manage Medicine</a></li>
+                            </ul>   
+                        </li>
                     </ul>
 
                     <ul class="right"> 

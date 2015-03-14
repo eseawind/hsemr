@@ -81,6 +81,24 @@ public class MedicineDAO {
         }        
     }
     
+     public static void delete(String medicineBarcode) throws SQLException{
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        String query= "DELETE FROM medicine WHERE medicineBarcode = ? ";  
+        
+        try {
+            conn = ConnectionManager.getConnection();
+
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1,medicineBarcode);
+            preparedStatement.executeUpdate();
+         
+        }finally {
+            ConnectionManager.close(conn,preparedStatement,null);
+        }        
+    }
+    
+    
 
     public static Medicine retrieveByMedicineName(String medicineName) {
         Connection conn = null;

@@ -81,7 +81,7 @@
 
                     String editingdocument = "editingInProgress";
                     if (documentList == null || documentList.size() == 0) {
-                        out.println("<h3>" + "There are no documents(s) uploaded yet." + "</h3>");
+                        out.println("<center><h3>" + "There are no documents(s) uploaded yet." + "</h3></center>");
 
                     }%>
 

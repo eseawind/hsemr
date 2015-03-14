@@ -64,7 +64,6 @@
                     <center> 
                         <input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/>
                         <input type="submit" class="button small" value="Save"></center>
-
                 </form>
             </div>
         </div>

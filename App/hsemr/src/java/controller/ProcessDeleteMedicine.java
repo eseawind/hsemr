@@ -8,18 +8,21 @@ package controller;
 
 import dao.MedicineDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Administrator
  */
-@WebServlet(name = "ProcessAddNewMedicine", urlPatterns = {"/ProcessAddNewMedicine"})
-public class ProcessAddNewMedicine extends HttpServlet {
+@WebServlet(name = "ProcessDeleteMedicine", urlPatterns = {"/ProcessDeleteMedicine"})
+public class ProcessDeleteMedicine extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,23 +35,21 @@ public class ProcessAddNewMedicine extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        String medicineBarcode = request.getParameter("medicineBarcode");
+        try{
+          
+            MedicineDAO.delete(medicineBarcode);
+        }catch(SQLException e){
+            session.setAttribute("error", "Medicine: " + medicineBarcode + " is used in other cases. Please ensure that the medicine is not used in any case before deleting.");
+            response.sendRedirect("./viewMedicine.jsp");
+            return;
+        }
         
-            String newMedicineName = request.getParameter("newMedicineName");
-            String newMedicineBarcode = request.getParameter("newMedicineBarcode").trim().toUpperCase();
-            MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName);
-            
-            String editMedicine = request.getParameter("editMedicine");
-            String createMedicine = request.getParameter("createMedicine");
-            
-
-            if(createMedicine != null){
-                response.sendRedirect("viewMedicine.jsp");
-            }else if(editMedicine != null){
-                response.sendRedirect("editMedication.jsp");
-            }else{
-                response.sendRedirect("createMedicationBC.jsp");
-            }
-            
+        session.setAttribute("error", "Medicine: " + medicineBarcode + " is used in other cases. Please ensure that the medicine is not used in any case before deleting.");
+        response.sendRedirect("./viewMedicine.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

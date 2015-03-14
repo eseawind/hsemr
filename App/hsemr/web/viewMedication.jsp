@@ -380,7 +380,7 @@
                                     counter++;
                                 }
                     }%>
-                        <input type = "submit" Value ="Save and Proceed  >>" class="button small"></center>  
+                        <input type = "submit" Value ="Next  >>" class="button small"></center>  
                         <%}
 
 

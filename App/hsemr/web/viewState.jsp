@@ -115,7 +115,7 @@
                             counter++;
 
                         }%>
-                        <center><input type = "submit" Value ="Save and Proceed  >>" class="button small"></center>
+                        <center><input type = "submit" Value ="Next  >>" class="button small"></center>
                    <% }%>
 
                 <!--End of display states in the database-->

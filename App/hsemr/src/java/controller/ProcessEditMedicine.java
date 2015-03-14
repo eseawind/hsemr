@@ -9,13 +9,11 @@ package controller;
 import dao.MedicineDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,16 +35,14 @@ public class ProcessEditMedicine extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
-        
+   
         String medicineBarcode = request.getParameter("medicineBarcode");
         String medicineName = request.getParameter("medicineName");
-        HttpSession session = request.getSession(false);
-         
+        
         MedicineDAO.update(medicineBarcode, medicineName);
-        session.setAttribute("success", "Account: " + medicineBarcode + " has been edited successfully.");
-        RequestDispatcher rd = request.getRequestDispatcher("./editAccount.jsp");
-        rd.forward(request, response);
+     
+        response.sendRedirect("./viewMedicine.jsp");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
