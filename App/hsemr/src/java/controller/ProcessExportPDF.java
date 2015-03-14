@@ -255,15 +255,26 @@ public class ProcessExportPDF extends HttpServlet {
                 document.add(new Paragraph("There are no vitals signs submitted."));
 
             }else {
-                
+                boolean allZero = true; 
                 for (Vital vitals : vitalList){ 
-                    tableOfVitalHistory.addCell(df.format(vitals.getVitalDatetime()));
-                    tableOfVitalHistory.addCell(String.valueOf(vitals.getTemperature()));
-                    tableOfVitalHistory.addCell(Integer.toString(vitals.getRr()));
-                    tableOfVitalHistory.addCell(Integer.toString(vitals.getBpSystolic()));
-                    tableOfVitalHistory.addCell(Integer.toString(vitals.getBpDiastolic()));
-                    tableOfVitalHistory.addCell(Integer.toString(vitals.getHr()));
-                    tableOfVitalHistory.addCell(Integer.toString(vitals.getSpo()));
+                   if(vitals.getTemperature()==0.0 || vitals.getRr() == 0 || vitals.getBpSystolic() == 0 || vitals.getBpDiastolic() == 0 || vitals.getHr() == 0 || vitals.getSpo() == 0 ) {
+                        allZero = false; 
+                   }
+               }
+                if (allZero == false) {
+                    for (Vital vitals : vitalList){ 
+                        if(vitals.getTemperature()==0.0 && vitals.getRr() == 0 && vitals.getBpSystolic() == 0 && vitals.getBpDiastolic() == 0 && vitals.getHr() == 0 && vitals.getSpo() == 0 ) {
+                            out.println("");
+                        } else {
+                            tableOfVitalHistory.addCell(df.format(vitals.getVitalDatetime()));
+                            tableOfVitalHistory.addCell(String.valueOf(vitals.getTemperature()));
+                            tableOfVitalHistory.addCell(Integer.toString(vitals.getRr()));
+                            tableOfVitalHistory.addCell(Integer.toString(vitals.getBpSystolic()));
+                            tableOfVitalHistory.addCell(Integer.toString(vitals.getBpDiastolic()));
+                            tableOfVitalHistory.addCell(Integer.toString(vitals.getHr()));
+                            tableOfVitalHistory.addCell(Integer.toString(vitals.getSpo()));
+                        }
+                    }
                 }
             }
             
@@ -276,10 +287,16 @@ public class ProcessExportPDF extends HttpServlet {
             document.add(new Paragraph(" "));
             
             //Table 4
-            PdfPTable tableOfInputOutput = new PdfPTable(5);
-            PdfPCell inputOutput = new PdfPCell(new Phrase("Output"));
+            PdfPTable tableOfInputOutput = new PdfPTable(6);
+            PdfPCell inputOutput = new PdfPCell(new Phrase("Vitals Datetime"));
             inputOutput.setHorizontalAlignment(Element.ALIGN_CENTER);
             tableOfInputOutput.addCell(inputOutput);
+            
+            
+            inputOutput = new PdfPCell(new Phrase("Output"));
+            inputOutput.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfInputOutput.addCell(inputOutput);
+            
             
             inputOutput = new PdfPCell(new Phrase("Oral type"));
             inputOutput.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -301,17 +318,28 @@ public class ProcessExportPDF extends HttpServlet {
             
             //for the content in table 3
             if(vitalList == null || vitalList.isEmpty()){
-                
                 document.add(new Paragraph("There are no input and output submitted."));
-
             }else {
-                
+                boolean allDashes = true; 
                 for (Vital vitals : vitalList){ 
-                    tableOfInputOutput.addCell(vitals.getOutput());
-                    tableOfInputOutput.addCell(vitals.getOralType());
-                    tableOfInputOutput.addCell(vitals.getOralAmount());
-                    tableOfInputOutput.addCell(vitals.getIntravenousType());
-                    tableOfInputOutput.addCell(vitals.getIntravenousAmount());
+                   if(!vitals.getOutput().equals("-") || !vitals.getOralType().equals("-") || !vitals.getOralAmount().equals("-") || !vitals.getIntravenousType().equals("-") || !vitals.getIntravenousAmount().equals("-")) {
+                        allDashes = false; 
+                   }
+               }
+               if (allDashes == false) {
+                
+                   for (Vital vitals : vitalList){ 
+                        if(vitals.getOutput().equals("-") && vitals.getOralType().equals("-") && vitals.getOralAmount().equals("-") && vitals.getIntravenousType().equals("-") && vitals.getIntravenousAmount().equals("-")) {
+                            out.println("");
+                        } else {
+                            tableOfInputOutput.addCell(df.format(vitals.getVitalDatetime()));
+                            tableOfInputOutput.addCell(vitals.getOutput());
+                            tableOfInputOutput.addCell(vitals.getOralType());
+                            tableOfInputOutput.addCell(vitals.getOralAmount());
+                            tableOfInputOutput.addCell(vitals.getIntravenousType());
+                            tableOfInputOutput.addCell(vitals.getIntravenousAmount());
+                        }
+                    }
                 }
             }
             

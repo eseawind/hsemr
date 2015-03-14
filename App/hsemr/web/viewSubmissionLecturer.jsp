@@ -218,50 +218,62 @@
                 <br/><br/>
 
                 <!--TABLE 3 for Vital signs-->
-                <% if (vitalList == null || vitalList.size() == 0) {
-                        if (isPageLoaded == null) {
-                            out.println(" ");
+                <% 
+                if (vitalList == null || vitalList.size() == 0) {
+                    if (isPageLoaded == null) {
+                        out.println(" ");
+                    } else {
+                        out.println("<p>No Vitals Signs submitted at the moment</p>");
+                        }
+                    } else { 
+                        boolean allZero = true; 
+                            for (Vital vitals : vitalList){ 
+                                if(vitals.getTemperature()==0.0 || vitals.getRr() == 0 || vitals.getBpSystolic() == 0 || vitals.getBpDiastolic() == 0 || vitals.getHr() == 0 || vitals.getSpo() == 0 ) {
+                                    allZero = false; 
+                               }
+                           }
+                           if (allZero == false) {%>
+            <table class="responsive" id="cssTable">
+                <col width="15%">
+                <col width="20%">
+                <col width="30%">
+                <col width="15%">
+                <thead>
+                <p>Vital signs </p>
+                <tr>
+                    <th>Vitals Datetime</th> 
+                    <th>Temperature</th>
+                    <th>RR</th>
+                    <th>BP Systolic</th>
+                    <th>BP Diastolic</th>
+                    <th>HR</th>
+                    <th>SPO</th>
+
+                </tr>
+                </thead>
+                <%
+                    //DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+                    for (Vital vitals : vitalList) {
+                        if(vitals.getTemperature()==0.0 && vitals.getRr() == 0 && vitals.getBpSystolic() == 0 && vitals.getBpDiastolic() == 0 && vitals.getHr() == 0 && vitals.getSpo() == 0 ) {
+                            out.println("");
                         } else {
-                            out.println("<p>No Vitals Signs submitted at the moment</p>");
-                            }
-                        } else { %>
-                <table class="responsive" id="cssTable">
-                    <col width="15%">
-                    <col width="20%">
-                    <col width="30%">
-                    <col width="15%">
-                    <thead>
-                    <p>Vital signs </p>
-                    <tr>
-                        <th>Vitals Datetime</th> 
-                        <th>Temperature</th>
-                        <th>RR</th>
-                        <th>BP Systolic</th>
-                        <th>BP Diastolic</th>
-                        <th>HR</th>
-                        <th>SPO</th>
+                %>
 
-                    </tr>
-                    </thead>
-                    <%
-                        //DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-                        for (Vital vitals : vitalList) {
+                        <tr>
+                            <td><%=vitals.getVitalDatetime()%></td>
+                            <td><%=vitals.getTemperature()%></td>
+                            <td><%=vitals.getRr()%></td>
+                            <td><%=vitals.getBpSystolic()%></td>
+                            <td><%=vitals.getBpDiastolic()%></td>
+                            <td><%=vitals.getHr()%></td>
+                            <td><%=vitals.getSpo()%></td>
 
-                    %>
-
-                    <tr>
-                        <td><%=vitals.getVitalDatetime()%></td>
-                        <td><%=vitals.getTemperature()%></td>
-                        <td><%=vitals.getRr()%></td>
-                        <td><%=vitals.getBpSystolic()%></td>
-                        <td><%=vitals.getBpDiastolic()%></td>
-                        <td><%=vitals.getHr()%></td>
-                        <td><%=vitals.getSpo()%></td>
-
-                    </tr>
-                    <%
-                            }//end of for loop
-                        }//end of else
+                        </tr>
+                <%
+                            } //end of else
+                        }//end of for loop
+                    }//end of allzero false
+                }//end of else
 
                     %> 
 
@@ -275,15 +287,26 @@
                         } else {
                             out.println("<p>No Input/Output submitted at the moment</p>");
                          }
-                     } else { %>
+                     } else { 
+                        boolean allDashes = true; 
+                         for (Vital vitals : vitalList){ 
+                            if(!vitals.getOutput().equals("-") || !vitals.getOralType().equals("-") || !vitals.getOralAmount().equals("-") || !vitals.getIntravenousType().equals("-") || !vitals.getIntravenousAmount().equals("-")) {
+                                    allDashes = false; 
+                            }
+                        }
+                        if (allDashes == false) {
+                        
+                 %>
                 <table class="responsive" id="cssTable">
-                    <col width="15%">
                     <col width="20%">
-                    <col width="30%">
-                    <col width="15%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="20%">
                     <thead>
                     <p> Input/Output</p>
                     <tr>
+                        <th>Vitals Datetime</th> 
                         <th>Output</th> 
                         <th>Oral Type</th>
                         <th>Oral Amount</th>
@@ -295,10 +318,14 @@
                     <%
 
                         for (Vital vitalsInputOutput : vitalList) {
+                            if(vitalsInputOutput.getOutput().equals("-") && vitalsInputOutput.getOralType().equals("-") && vitalsInputOutput.getOralAmount().equals("-") && vitalsInputOutput.getIntravenousType().equals("-") && vitalsInputOutput.getIntravenousAmount().equals("-")) {
+                                out.println("");
+                            } else {
 
                     %>
 
                     <tr>
+                        <td><%=vitalsInputOutput.getVitalDatetime()%></td>
                         <td><%=vitalsInputOutput.getOutput()%></td>
                         <td><%=vitalsInputOutput.getOralType()%></td>
                         <td><%=vitalsInputOutput.getOralAmount()%></td>
@@ -307,7 +334,9 @@
 
                     </tr>
                     <%
-                        }//end of for loop%>
+                            }//end of for loop
+                        }
+    }%>
                 </table>
 
 

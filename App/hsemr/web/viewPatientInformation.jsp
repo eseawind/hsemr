@@ -466,7 +466,7 @@
                                                     <input type="text" name ="temperature" maxlength="4" pattern ="\b(3[4-9](\.[0-9]{1,2})?|4[0-2])(\.[0-9]{1,2})?$\b"  value="<%=temp1%>"/>
                                                     <small class="error">Temperature must be between 34 - 42.</small>
                                                 </div>
-                                                <label for="right-label" class="left inline">ÂºC</label>
+                                                <label for="right-label" class="left inline">ºC</label>
                                             </div></td>
                                     </tr> 
 
