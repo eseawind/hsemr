@@ -56,16 +56,18 @@ public class ProcessExtractPDF extends HttpServlet {
         String retrievePDF = (String) session.getAttribute("pdf_path");
         File pdfFile = (File) session.getAttribute("pdf_file");
         
-         //for cleaning the pdf file
-        String SRC = "C:\\HealthLab\\ECS UK ARF Adult (Faculty).pdf";
-        String DEST = "C:\\HealthLab\\ECS UK ARF Adult (Faculty) - output.pdf";
+//        retrievePDF = "C:\\\\HealthLab\\\\ECS UK ARF Adult (Faculty) - remove.pdf";
+//        out.println(retrievePDF);
+//         //for cleaning the pdf file
+//        String SRC = "C:\\HealthLab\\ECS UK ARF Adult (Faculty).pdf";
+//        String DEST = "C:\\HealthLab\\ECS UK ARF Adult (Faculty) - remove.pdf";
         
-        try {
-            //clean up the pdf and block out information first
-            manipulatePdf(SRC, DEST);
-        } catch (DocumentException ex) {
-            Logger.getLogger(ProcessExtractPDF.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            //clean up the pdf and block out information first
+//            manipulatePdf(SRC, DEST);
+//        } catch (DocumentException ex) {
+//            Logger.getLogger(ProcessExtractPDF.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
         try {
 
@@ -89,7 +91,8 @@ public class ProcessExtractPDF extends HttpServlet {
         PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
         List<PdfCleanUpLocation> cleanUpLocations = new ArrayList<PdfCleanUpLocation>();
         //block in first page
-        cleanUpLocations.add(new PdfCleanUpLocation(1, new Rectangle(97f, 405f, 480f, 445f), BaseColor.BLACK));
+        //cleanUpLocations.add(new PdfCleanUpLocation(1, new Rectangle(97f, 750f, 430f, 450f), BaseColor.BLACK));
+        cleanUpLocations.add(new PdfCleanUpLocation(1, new Rectangle(97f, 470f, 430f, 3000f), BaseColor.BLACK));
         PdfCleanUpProcessor cleaner = new PdfCleanUpProcessor(cleanUpLocations, stamper);
         
         cleaner.cleanUp() ;
