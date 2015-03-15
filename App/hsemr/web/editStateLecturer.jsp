@@ -96,7 +96,7 @@
                         if (latestActivatedState != null) {
                             stateIDCurrent = latestActivatedState.getStateID();
                         } else {
-                            out.println("Please ensure at least a scenario is activated first before proceeding to change state");
+                            out.println("<p>Please ensure at least a scenario is activated first before proceeding to change state</p>");
                         }
                         for (int i = 0; i < stateList.size(); i++) {
                             State state = stateList.get(i);

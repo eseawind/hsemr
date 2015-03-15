@@ -89,7 +89,7 @@
                                     <input type="hidden" name="password" value="<%=practicalGroup.getPracticalGroupPassword()%>">
                                     <input type="hidden" name="lecturerID" value="<%=practicalGroup.getLecturerID()%>">
                                     <input type="hidden" name="type" value="nurse">
-                                    <input type="submit" class="button tinytable" value="edit">
+                                    <center><input type="submit" class="button tinytable" value="edit"></center>
                                 </form>
                             </td>
                             <%
@@ -103,12 +103,12 @@
                                         if (userLoggedIn != null && userLoggedIn.equals(practicalGroup.getPracticalGroupID())) {
                                     %>
                                     <!--<input type = "submit" class="button tinytable" value="delete" disabled>-->
-                                    <div class style="padding-top:7px"><b><font color="#368a55">LOGGED IN</font></b></div>
+                                    <center><div class style="padding-top:7px"><b><font color="#368a55">LOGGED IN</font></b></div></center>
                                             <%
                                             } else {
                                             %>
-                                    <input type="submit" class="button tinytable" onclick="if (!deleteConfirmation())
-                                                return false" value="delete" >
+                                        <center><input type="submit" class="button tinytable" onclick="if (!deleteConfirmation())
+                                            return false" value="delete" ></center>
                                     <%
                                         }
                                     %>

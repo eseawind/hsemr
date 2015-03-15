@@ -36,7 +36,7 @@
                             <td><h0><font color="##368a55">HS EMR</font></h0></td>
                         </tr>
                     </table>-->
-                    <h0><font color="##368a55">HS EMR</font></h0><br/>
+                    <h0><font color="#368a55">HS EMR</font></h0><br/>
                     <h00><font color="#009a4d">Passion to Touch Lives</font></h00>  
                     <hr>
                 </div>

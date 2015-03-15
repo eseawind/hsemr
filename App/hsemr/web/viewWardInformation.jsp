@@ -66,7 +66,7 @@
                     StateHistory retrieveScenarioState= null;
                     if (scenarioActivated1 == null) {
                         out.println("<h1>No Case Activated</h1>");
-                        out.println("Please contact lecturer/administrator.");
+                        out.println("<p>Please contact lecturer/administrator.</p>");
                     } else {
                         //get the most recently activated scenario's state
 
@@ -132,7 +132,7 @@
 
                                // if (scenario == null || StateDAO.retrieveActivateState(scenario.getScenarioID()) == null) {
                                if (scenario == null || retrieveScenarioState == null) {
-                                    out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
+                                    out.println("<center><h1>No Case/States Activated</h1><br><p>Please contact administrator/lecturer for case activation.</p></center>");
                                 } else {%>
                         <h1>Please select a ward:</h1>
                         <%
