@@ -20,6 +20,30 @@ import java.util.List;
  */
 public class KeywordDAO {
     
+     public static Keyword retrieveEntity(String fieldsToMap) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Keyword keyword = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from keyword where fieldsToMap = ?");
+            stmt.setString(1, fieldsToMap);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                keyword = new Keyword(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return keyword;
+    }
+    
     public static Keyword retrieve(String keywordID) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -33,7 +57,7 @@ public class KeywordDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                keyword = new Keyword(rs.getInt(1), rs.getString(2), rs.getString(3));
+                keyword = new Keyword(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
             }
 
         } catch (SQLException e) {
@@ -56,7 +80,7 @@ public class KeywordDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Keyword newKey = new Keyword(rs.getInt(1), rs.getString(2), rs.getString(3));
+                Keyword newKey = new Keyword(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
                 keywordList.add(newKey);
             }
 
@@ -68,10 +92,10 @@ public class KeywordDAO {
         return keywordList;
     }
     
-   public static void insertKeyword(int keywordID, String keywordDesc, String fieldsToMap) {
+   public static void insertKeyword(int keywordID, String keywordDesc, String fieldsToMap, String entityToMap) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "INSERT INTO keyword (keywordID, keywordDesc, fieldsToMap) VALUES (?, ?, ?)";
+        String query = "INSERT INTO keyword (keywordID, keywordDesc, fieldsToMap, entityToMap) VALUES (?, ?, ?, ?)";
 
         try {
             conn = ConnectionManager.getConnection();
@@ -80,6 +104,7 @@ public class KeywordDAO {
             preparedStatement.setInt(1, keywordID);
             preparedStatement.setString(2, keywordDesc);
             preparedStatement.setString(3, fieldsToMap);
+            preparedStatement.setString(4, entityToMap);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

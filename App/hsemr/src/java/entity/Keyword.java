@@ -15,11 +15,21 @@ public class Keyword {
     private int keywordID;
     private String keywordDesc;
     private String fieldsToMap;
+    private String entityToMap;
 
-    public Keyword(int keywordID, String keywordDesc, String fieldsToMap) {
+    public Keyword(int keywordID, String keywordDesc, String fieldsToMap, String entityToMap) {
         this.keywordID = keywordID;
         this.keywordDesc = keywordDesc;
         this.fieldsToMap = fieldsToMap;
+        this.entityToMap = entityToMap;
+    }
+    
+    public String getEntityToMap(){
+        return entityToMap;
+    }
+    
+    public void setEntityToMap(String entityToMap){
+         this.entityToMap = entityToMap;
     }
 
     public int getKeywordID() {

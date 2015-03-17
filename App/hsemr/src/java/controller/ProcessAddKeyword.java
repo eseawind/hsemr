@@ -6,6 +6,7 @@
 package controller;
 
 import dao.KeywordDAO;
+import entity.Keyword;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,7 +39,9 @@ public class ProcessAddKeyword extends HttpServlet {
         int keywordID = Integer.parseInt(request.getParameter("keywordID"));
         String keywordDesc = (String) request.getParameter("keywordDesc");
         String fieldsToMap = (String) request.getParameter("fieldsToMap");
-
+        Keyword keyword= KeywordDAO.retrieveEntity(fieldsToMap);
+        String entityToMap = keyword.getEntityToMap();
+        
         /*if (keywordID != 0 && keywordID == 0) {
          session.setAttribute("error", "Update failed: Please update BOTH Systolic and Diastolic values.");
          response.sendRedirect("./createPDFUpload.jsp");
@@ -50,7 +53,7 @@ public class ProcessAddKeyword extends HttpServlet {
             session.setAttribute("error", "Please select a field to map the keyword.");
             response.sendRedirect("./createPDFUpload.jsp");
         } else {
-            KeywordDAO.insertKeyword(keywordID, keywordDesc, fieldsToMap);
+            KeywordDAO.insertKeyword(keywordID, keywordDesc, fieldsToMap,entityToMap);
             session.setAttribute("success", "Added new keyword " + keywordDesc);
             response.sendRedirect("./createPDFUpload.jsp");
         }

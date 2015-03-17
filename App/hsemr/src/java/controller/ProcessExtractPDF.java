@@ -89,13 +89,17 @@ public class ProcessExtractPDF extends HttpServlet {
             
             for (int i = 1; i <= totalPages; i++) {
                 String page = PdfTextExtractor.getTextFromPage(reader, i);
+                
+                //print out which page
                 out.println("Page " + i );
+                
+                //insert info into db
                 String[] words = page.split("\n");
                 for(String wordLine: words){
-                    out.println("<br><br>" + wordLine);
+                    
+                  out.println("<br><br>" + wordLine);
                 }
                //out.println("Page " + i + " Content:\n\n"+ page +"\n\n <br>");
-               
             }
             
 
