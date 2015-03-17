@@ -14,6 +14,8 @@ import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.itextpdf.text.pdf.pdfcleanup.PdfCleanUpLocation;
 import com.itextpdf.text.pdf.pdfcleanup.PdfCleanUpProcessor;
+import dao.KeywordDAO;
+import entity.Keyword;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -83,10 +85,14 @@ public class ProcessExtractPDF extends HttpServlet {
         }
         
         try {
-
+            //retrieve list of keywords to loop thru
+            List<Keyword> keywordList= KeywordDAO.retrieveKeywordDesc();
+                    
             PdfReader reader = new PdfReader(DEST);
             int totalPages = reader.getNumberOfPages(); 
-            
+            String scenarioDescriptionList = ""; 
+            String scenarioName = "";
+            boolean scenarioDescriptionReading = false;
             for (int i = 1; i <= totalPages; i++) {
                 String page = PdfTextExtractor.getTextFromPage(reader, i);
                 
@@ -95,12 +101,47 @@ public class ProcessExtractPDF extends HttpServlet {
                 
                 //insert info into db
                 String[] words = page.split("\n");
-                for(String wordLine: words){
+                
+                for(int j = 0; j < words.length; j++){
+                    String wordLine = words[j];
                     
+                   for(Keyword keyword : keywordList) {
+                       int indexOfKeyword = wordLine.indexOf(keyword.getKeywordDesc() + ":");
+                       
+                        String attributeName = keyword.getFieldsToMap();
+                       String entityName = keyword.getEntityToMap(); 
+                       
+                       if (indexOfKeyword >= 0 ) {
+                         
+                          if(attributeName.equals("scenarioName")) {
+                             // out.println("KEYWORD=" + keyword.getKeywordDesc() +"LENGTH=" + keyword.getKeywordDesc().length() );
+                              int lengthOfKeyword = keyword.getKeywordDesc().length() + 1;
+                              scenarioName = wordLine.substring(lengthOfKeyword);
+                              
+                          }
+                       } else if (attributeName.equals("scenarioDescription")) { 
+                            int storeLineNumberOfKeyword = j; 
+                           if (scenarioDescriptionReading == true) {
+                               int indexOfEndingKeyword = wordLine.indexOf("History//Information:");
+                               for(int k = storeLineNumberOfKeyword; k < words.length; k++){
+                                    String wordLine2 = words[k];
+                                    if(indexOfEndingKeyword < 0) {
+                                        scenarioDescriptionList += wordLine2; 
+                                    } else { 
+                                        scenarioDescriptionReading = false; 
+                                       
+                                    }
+                              }
+                          } else { 
+                              scenarioDescriptionReading = true; 
+                           }
+                       }
+                   } 
                   out.println("<br><br>" + wordLine);
                 }
-               //out.println("Page " + i + " Content:\n\n"+ page +"\n\n <br>");
             }
+                out.println("scenarioName = " + scenarioName);
+                out.println("scenarioDescription = " + scenarioDescriptionList);
             
 
         } catch (IOException e) {
@@ -110,6 +151,7 @@ public class ProcessExtractPDF extends HttpServlet {
     
     //creating a gray block to block out information
     
+   
     public void manipulatePdf(String src, String dest) throws IOException, DocumentException {
         PdfReader reader = new PdfReader(src);
         PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
@@ -118,12 +160,21 @@ public class ProcessExtractPDF extends HttpServlet {
         //cleanUpLocations.add(new PdfCleanUpLocation(1, new Rectangle(97f, 750f, 430f, 450f), BaseColor.BLACK));
         cleanUpLocations.add(new PdfCleanUpLocation(1, new Rectangle(97f, 470f, 430f, 3000f), BaseColor.BLACK));
         PdfCleanUpProcessor cleaner = new PdfCleanUpProcessor(cleanUpLocations, stamper);
-        
         cleaner.cleanUp() ;
+        
+        int totalPages = reader.getNumberOfPages(); 
+        
+        //loop from 3rd page onwards, 2 confirm not used
+        for(int i = 2; i <= totalPages; i++){
+            //cleanUpLocations.add(new PdfCleanUpLocation(i, new Rectangle(95f, 330f, 550f, 3000f), BaseColor.BLACK));
+            cleanUpLocations.add(new PdfCleanUpLocation(i, new Rectangle(95f, 330f, 550f, 3000f), BaseColor.BLACK));
+            cleaner = new PdfCleanUpProcessor(cleanUpLocations, stamper);
+            cleaner.cleanUp();
+        }
+ 
         stamper.close();
         reader.close();
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

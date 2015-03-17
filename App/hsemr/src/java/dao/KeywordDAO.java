@@ -20,6 +20,32 @@ import java.util.List;
  */
 public class KeywordDAO {
     
+    public static List<Keyword> retrieveKeywordDesc() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Keyword> keywordList= new ArrayList<Keyword>();
+        Keyword keyword= null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from keyword");
+         
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                keyword = new Keyword(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                keywordList.add(keyword);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return keywordList;
+    }
+    
      public static Keyword retrieveEntity(String fieldsToMap) {
         Connection conn = null;
         PreparedStatement stmt = null;
