@@ -37,7 +37,8 @@ import javax.servlet.http.HttpSession;
 public class ProcessExtractPDF extends HttpServlet {
 
      /** The original PDF that will be parsed. */
-    
+        // location to store file uploaded
+    private static final String DATA_DIRECTORY = "scenarioPDF";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -51,33 +52,52 @@ public class ProcessExtractPDF extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        out.println("test");
+      
         HttpSession session = request.getSession(false);
+        String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
+        String uploadFolder = "";
+        if (pathToRoot == null){
+            uploadFolder = getServletContext().getRealPath("") + File.separator + "tmp";
+        }
+        else{
+            uploadFolder = pathToRoot + File.separator + DATA_DIRECTORY; 
+        }
+        
         String retrievePDF = (String) session.getAttribute("pdf_path");
         File pdfFile = (File) session.getAttribute("pdf_file");
+        String name = pdfFile.getName();
+        name = name.replaceAll(".pdf", "");
+        String outputName = name + "output.pdf";
         
-//        retrievePDF = "C:\\\\HealthLab\\\\ECS UK ARF Adult (Faculty) - remove.pdf";
-//        out.println(retrievePDF);
-//         //for cleaning the pdf file
-//        String SRC = "C:\\HealthLab\\ECS UK ARF Adult (Faculty).pdf";
-//        String DEST = "C:\\HealthLab\\ECS UK ARF Adult (Faculty) - remove.pdf";
+        //retrievePDF = "C:\\\\HealthLab\\\\ECS UK ARF Adult (Faculty) - remove.pdf";
+
+         //for cleaning the pdf file
+        String SRC = retrievePDF;
+        String DEST = uploadFolder + File.separator + outputName;
         
-//        try {
-//            //clean up the pdf and block out information first
-//            manipulatePdf(SRC, DEST);
-//        } catch (DocumentException ex) {
-//            Logger.getLogger(ProcessExtractPDF.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            //clean up the pdf and block out information first
+            manipulatePdf(SRC, DEST);
+        } catch (DocumentException ex) {
+            Logger.getLogger(ProcessExtractPDF.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         try {
 
-            PdfReader reader = new PdfReader(retrievePDF);
+            PdfReader reader = new PdfReader(DEST);
             int totalPages = reader.getNumberOfPages(); 
             
             for (int i = 1; i <= totalPages; i++) {
                 String page = PdfTextExtractor.getTextFromPage(reader, i);
-                out.println("Page " + i + " Content:\n\n"+page+"\n\n <br>");
+                out.println("Page " + i );
+                String[] words = page.split("\n");
+                for(String wordLine: words){
+                    out.println("<br><br>" + wordLine);
+                }
+               //out.println("Page " + i + " Content:\n\n"+ page +"\n\n <br>");
+               
             }
+            
 
         } catch (IOException e) {
             out.println(e);
