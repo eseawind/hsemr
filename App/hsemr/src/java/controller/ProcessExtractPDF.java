@@ -92,6 +92,59 @@ public class ProcessExtractPDF extends HttpServlet {
             int totalPages = reader.getNumberOfPages(); 
             String scenarioDescriptionList = ""; 
             String scenarioName = "";
+            int testing=0;
+            String abc=" ";
+            
+             for (int i = 1; i <= totalPages; i++) {
+                String page = PdfTextExtractor.getTextFromPage(reader, i);
+                
+                //print out which page
+                out.println("Page " + i );
+                
+                //insert info into db
+                String[] words = page.split("\n");
+                outerloop:
+                for(String wordLine: words){
+                    for(Keyword keyword : keywordList) {
+                       int indexOfKeyword = wordLine.indexOf(keyword.getKeywordDesc() + ":");
+                       int indexOfEndingKeyword = wordLine.indexOf("History/Information:");
+                       String attributeName = keyword.getFieldsToMap();
+                       
+                       if(indexOfKeyword >= 0){
+                           //String attributeName = keyword.getFieldsToMap();
+                           
+                           if(attributeName.equals("scenarioName")){
+                              int lengthOfKeyword = keyword.getKeywordDesc().length() + 1;
+                              scenarioName = wordLine.substring(lengthOfKeyword);
+                             
+                           }
+                       }
+                       
+                       if(indexOfEndingKeyword < 0){
+                            if(attributeName.equals("scenarioDescription")){
+                             
+                            //  scenarioDescriptionList = wordLine.substring(0, indexOfEndingKeyword );
+                              //wordLine.substring(0, indexOfEndingKeyword);
+                              scenarioDescriptionList += wordLine;
+                              testing += wordLine.length();
+                           }
+                       }else{
+                           out.println("KEYWORDINDEX" + indexOfEndingKeyword);
+                           break outerloop;
+                       }
+                    }
+                    out.println("<br><br>" + wordLine);
+                }
+             }
+              out.println("SCENARIO NAME = " + scenarioName);
+              out.println("SCCCEFE= " + scenarioDescriptionList);
+                
+               out.println("TEST index = " + testing);
+               //abc = scenarioDescriptionList.substring(testing);
+               out.println("hiiiii");
+              out.println("SCENARIO DESCRIPTION = " + scenarioDescriptionList);
+              
+            /*
             boolean scenarioDescriptionReading = false;
             for (int i = 1; i <= totalPages; i++) {
                 String page = PdfTextExtractor.getTextFromPage(reader, i);
@@ -142,7 +195,7 @@ public class ProcessExtractPDF extends HttpServlet {
             }
                 out.println("scenarioName = " + scenarioName);
                 out.println("scenarioDescription = " + scenarioDescriptionList);
-            
+            */
 
         } catch (IOException e) {
             out.println(e);
