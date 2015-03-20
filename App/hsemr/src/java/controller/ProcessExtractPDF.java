@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -90,113 +92,130 @@ public class ProcessExtractPDF extends HttpServlet {
                     
             PdfReader reader = new PdfReader(DEST);
             int totalPages = reader.getNumberOfPages(); 
-            String scenarioDescriptionList = ""; 
-            String scenarioName = "";
-            int testing=0;
-            String abc=" ";
-            
+            String contentsOfCase = "";
+            //String[] wordsLine = new String[10000];
+      
              for (int i = 1; i <= totalPages; i++) {
                 String page = PdfTextExtractor.getTextFromPage(reader, i);
+                contentsOfCase += page;
                 
-                //print out which page
-                out.println("Page " + i );
-                
-                //insert info into db
-                String[] words = page.split("\n");
-                outerloop:
-                for(String wordLine: words){
-                    for(Keyword keyword : keywordList) {
-                       int indexOfKeyword = wordLine.indexOf(keyword.getKeywordDesc() + ":");
-                       int indexOfEndingKeyword = wordLine.indexOf("History/Information:");
-                       String attributeName = keyword.getFieldsToMap();
-                       
-                       if(indexOfKeyword >= 0){
-                           //String attributeName = keyword.getFieldsToMap();
-                           
-                           if(attributeName.equals("scenarioName")){
-                              int lengthOfKeyword = keyword.getKeywordDesc().length() + 1;
-                              scenarioName = wordLine.substring(lengthOfKeyword);
-                             
-                           }
-                       }
-                       
-                       if(indexOfEndingKeyword < 0){
-                            if(attributeName.equals("scenarioDescription")){
-                             
-                            //  scenarioDescriptionList = wordLine.substring(0, indexOfEndingKeyword );
-                              //wordLine.substring(0, indexOfEndingKeyword);
-                              scenarioDescriptionList += wordLine;
-                              testing += wordLine.length();
-                           }
-                       }else{
-                           out.println("KEYWORDINDEX" + indexOfEndingKeyword);
-                           break outerloop;
-                       }
-                    }
-                    out.println("<br><br>" + wordLine);
+                //line by line code
+               String[] wordsLine= page.split("\n");
+              
+                for(String words : wordsLine){
+                 out.println("<br>" + words);
                 }
              }
-              out.println("SCENARIO NAME = " + scenarioName);
-              out.println("SCCCEFE= " + scenarioDescriptionList);
+             
+             
+            //out.println(contentsOfCase);
+
+           
+           /////////////////////////////////
+           //// SUBSTRING METHOD        ////
+           ///////////////////////////////// 
+            
+            
+            /////////////////////////////////
+           //// ONLY PAGE 1             ////
+           /////////////////////////////////  
+            
+             String pageOne = PdfTextExtractor.getTextFromPage(reader, 1);
+     
+            //1. Initialise the keywords
+            String keywordScenarioName = "";
+            String keywordScenarioDesc = "";
+            String keywordAdmissionInformation = "";
+            String keywordDoctorOrder = ""; 
+            
+            //2. Get keywords from database
+            List<Keyword> keywordsForScenarioName = (List<Keyword>) KeywordDAO.retrieveKeywordsByFields("scenarioName");
+            List<Keyword> keywordsForScenarioDescription = (List<Keyword>) KeywordDAO.retrieveKeywordsByFields("scenarioDescription");
+            List<Keyword> keywordsForAdmissionInformation = (List<Keyword>) KeywordDAO.retrieveKeywordsByFields("admissionNote");
+            List<Keyword> keywordsForDoctorOrder = (List<Keyword>) KeywordDAO.retrieveKeywordsByFields("doctorOrder");
+            
+            //3. Finding the appropriate keywords. 
+            // Loop all the keywords to find the respective keywords that exists in the chunk of test
+            
+            //Scenario Name Keywords
+            for(Keyword keywordsScenarioName : keywordsForScenarioName){
+                keywordScenarioName = keywordsScenarioName.getKeywordDesc();
                 
-               out.println("TEST index = " + testing);
-               //abc = scenarioDescriptionList.substring(testing);
-               out.println("hiiiii");
-              out.println("SCENARIO DESCRIPTION = " + scenarioDescriptionList);
-              
-            /*
-            boolean scenarioDescriptionReading = false;
-            for (int i = 1; i <= totalPages; i++) {
-                String page = PdfTextExtractor.getTextFromPage(reader, i);
+                out.println(keywordsScenarioName.getKeywordDesc());
                 
-                //print out which page
-                out.println("Page " + i );
-                
-                //insert info into db
-                String[] words = page.split("\n");
-                
-                for(int j = 0; j < words.length; j++){
-                    String wordLine = words[j];
-                    
-                   for(Keyword keyword : keywordList) {
-                       int indexOfKeyword = wordLine.indexOf(keyword.getKeywordDesc() + ":");
-                       
-                        String attributeName = keyword.getFieldsToMap();
-                       String entityName = keyword.getEntityToMap(); 
-                       
-                       if (indexOfKeyword >= 0 ) {
-                         
-                          if(attributeName.equals("scenarioName")) {
-                             // out.println("KEYWORD=" + keyword.getKeywordDesc() +"LENGTH=" + keyword.getKeywordDesc().length() );
-                              int lengthOfKeyword = keyword.getKeywordDesc().length() + 1;
-                              scenarioName = wordLine.substring(lengthOfKeyword);
-                              
-                          }
-                       } else if (attributeName.equals("scenarioDescription")) { 
-                            int storeLineNumberOfKeyword = j; 
-                           if (scenarioDescriptionReading == true) {
-                               int indexOfEndingKeyword = wordLine.indexOf("History//Information:");
-                               for(int k = storeLineNumberOfKeyword; k < words.length; k++){
-                                    String wordLine2 = words[k];
-                                    if(indexOfEndingKeyword < 0) {
-                                        scenarioDescriptionList += wordLine2; 
-                                    } else { 
-                                        scenarioDescriptionReading = false; 
-                                       
-                                    }
-                              }
-                          } else { 
-                              scenarioDescriptionReading = true; 
-                           }
-                       }
-                   } 
-                  out.println("<br><br>" + wordLine);
+                if(pageOne.contains(keywordScenarioName)){
+                    //if found, this is the START of the substring for scenarioName
+                    break;
                 }
             }
-                out.println("scenarioName = " + scenarioName);
-                out.println("scenarioDescription = " + scenarioDescriptionList);
-            */
+            
+            
+            //Scenario Description Keywords
+            for(Keyword keywordsScenarioDesc : keywordsForScenarioDescription){
+                keywordScenarioDesc = keywordsScenarioDesc.getKeywordDesc();
+                
+                if(pageOne.contains(keywordScenarioDesc)){
+                    //if found, this is the END to substring for scenarioName
+                    break;
+                }
+            }
+            
+            // Admission Notes Keywords
+            for(Keyword keywordsAdmissionInformation : keywordsForAdmissionInformation){
+                keywordAdmissionInformation = keywordsAdmissionInformation.getKeywordDesc();
+                
+                if(pageOne.contains(keywordAdmissionInformation)){
+                    //if found, this is the END to substring for scenarioName
+                    break;
+                }
+            }
+            
+            // Healthcare Provider Orders Keywords
+            for(Keyword keywordsDoctorOrder : keywordsForDoctorOrder){
+                keywordDoctorOrder = keywordsDoctorOrder.getKeywordDesc();
+                
+                if(pageOne.contains(keywordDoctorOrder)){
+                    //if found, this is the END to substring for scenarioName
+                    break;
+                }
+            }
+            
+            
+            //4. Extracting Information based on keywords found earlier in step 3
+            //Scenario Name
+            out.println("<h1>Case Name</h1>");
+            int startPositionScenarioName = pageOne.indexOf(keywordScenarioName) + keywordScenarioName.length();
+            int endPositionScenarioName = pageOne.indexOf(keywordScenarioDesc, startPositionScenarioName);
+            String scenarioNameExtracted = pageOne.substring(startPositionScenarioName, endPositionScenarioName);
+            out.println(scenarioNameExtracted);
+            
 
+            //Scenario Description
+            out.println("<h1>Case Description</h1>");
+            int startPositionScenarioDesc = pageOne.indexOf(keywordScenarioDesc) + keywordScenarioDesc.length();
+            int endPositionScenarioDesc = pageOne.indexOf(keywordAdmissionInformation, startPositionScenarioDesc);
+            String scenarioDescExtracted = pageOne.substring(startPositionScenarioDesc, endPositionScenarioDesc);
+            out.println(scenarioDescExtracted);
+            
+            //AdmissionNotes
+            out.println("<h1>Admission Notes</h1>");
+            int startPositionAdmissionNotes = pageOne.indexOf(keywordAdmissionInformation) + keywordAdmissionInformation.length();
+            int endPositionAdmissionNotes = pageOne.indexOf(keywordDoctorOrder, startPositionAdmissionNotes);
+            String scenarioAdmissionNotesExtracted = pageOne.substring(startPositionAdmissionNotes, endPositionAdmissionNotes);
+            out.println(scenarioAdmissionNotesExtracted);
+            
+            //State 0 Healthcare Provider Order
+            out.println("<h1>State 0 Healthcare Provider Order</h1>");
+            int startPositionInitialStateOrders = pageOne.indexOf(keywordDoctorOrder) + keywordDoctorOrder.length();
+            int endPositionInitialStateOrders = pageOne.indexOf("®", startPositionInitialStateOrders);
+            String initialStateOrdersExtracted = pageOne.substring(startPositionInitialStateOrders, endPositionInitialStateOrders);
+            out.println(initialStateOrdersExtracted);
+            
+            /////////////////////////////////
+           //// END OF PAGE 1             ////
+           ///////////////////////////////// 
+
+            
         } catch (IOException e) {
             out.println(e);
         }

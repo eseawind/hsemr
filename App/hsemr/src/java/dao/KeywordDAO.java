@@ -69,6 +69,33 @@ public class KeywordDAO {
         }
         return keyword;
     }
+         
+    
+    public static List<Keyword> retrieveKeywordsByFields(String fieldsToMap) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Keyword> keywordList = new ArrayList<Keyword>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from keyword where fieldsToMap = ?");
+            stmt.setString(1, fieldsToMap);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Keyword newKey = new Keyword(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                
+                keywordList.add(newKey);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return keywordList;
+    }
     
     public static Keyword retrieve(String keywordID) {
         Connection conn = null;
