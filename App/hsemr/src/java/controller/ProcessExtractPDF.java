@@ -58,6 +58,9 @@ public class ProcessExtractPDF extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
       
+        String[] wordsLine = new String[10000];
+        ArrayList<String> contentsInLineArrayList = new ArrayList<String>();
+        
         HttpSession session = request.getSession(false);
         String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
         String uploadFolder = "";
@@ -88,31 +91,20 @@ public class ProcessExtractPDF extends HttpServlet {
         }
         
         try {
-            //retrieve list of keywords to loop thru
-            List<Keyword> keywordList= KeywordDAO.retrieveKeywordDesc();
-                    
             PdfReader reader = new PdfReader(DEST);
             int totalPages = reader.getNumberOfPages(); 
             String contentsOfCase = "";
-            //String[] wordsLine = new String[10000];
-      
+          
              for (int i = 1; i <= totalPages; i++) {
                 String page = PdfTextExtractor.getTextFromPage(reader, i);
                 contentsOfCase += page;
                 
-                /*
-                //line by line code
-               String[] wordsLine= page.split("\n");
-              
-                for(String words : wordsLine){
-                 out.println("<br>" + words);
-                }
-                */
-             }
-             
-             
-            //out.println(contentsOfCase);
+                 wordsLine = page.split("\n");
 
+                for (String words : wordsLine) {
+                    contentsInLineArrayList.add(words);
+                }
+             }
            
            /////////////////////////////////
            //// SUBSTRING METHOD        ////
@@ -194,7 +186,7 @@ public class ProcessExtractPDF extends HttpServlet {
             
 
             //Scenario Description
-            out.println("<h1>Case Description</h1>");
+           // out.println("<h1>Case Description</h1>");
             int startPositionScenarioDesc = pageOne.indexOf("Synopsis:") + ("Synopsis:").length();
             int endPositionScenarioDesc = pageOne.indexOf(keywordAdmissionInformation, startPositionScenarioDesc);
             String scenarioDescExtracted = pageOne.substring(startPositionScenarioDesc, endPositionScenarioDesc);
@@ -227,16 +219,90 @@ public class ProcessExtractPDF extends HttpServlet {
             PrescriptionDAO.add(scenarioID, "ST0", "Dr.Tan/01234Z" , initialStateOrdersExtracted, "NA", "NA", "-", "-", "N.A");
             
             
-            
-           // request.setAttribute("scID", scenarioID);
-            session.setAttribute("scenarioID", scenarioID);
-            response.sendRedirect("./editScenario.jsp");
-            //RequestDispatcher rd = request.getRequestDispatcher("/editScenario.jsp");
-            //rd.forward(request, response);
+
             /////////////////////////////////
            //// END OF PAGE 1             ////
            ///////////////////////////////// 
 
+            
+            /////////////////////////////////
+            //// PAGE 2        STATE INFO////
+            ///////////////////////////////// 
+            
+            
+              //1. Get keywords for state information
+            List<Keyword> keywordsForState = (List<Keyword>) KeywordDAO.retrieveKeywordsByFields("stateID");
+
+            //2. Loop through ALL the keywords in state information
+            out.println("<h1>Keywords for States in this case</h1>");
+            for (Keyword keywordsState : keywordsForState) {
+                String keywordState = keywordsState.getKeywordDesc();
+
+                out.println();
+                if (contentsOfCase.contains(keywordState)) {
+                    //if it contains, then substring to extract the words
+                    out.println(keywordState);
+                }
+
+               
+            }
+            
+            //State 1 Healthcare Provider Order
+            out.println("<h1>State Information</h1>");
+
+            for(int i = 0; i < contentsInLineArrayList.size(); i++){
+                String contentInLine = contentsInLineArrayList.get(i);
+                for(int j = 0; j < keywordsForState.size(); j++){
+                    
+                    String keywordState = keywordsForState.get(j).getKeywordDesc();
+                  
+                    if(contentInLine.contains(keywordState)){
+//                        out.println("<h2>" + keywordState + "</h2>");
+                        int lineNumberOfKeywordOfState = i;
+                        // out.println(lineNumberOfKeywordOfState);
+                       // out.println(contentInLine);
+                        
+                        //get line 1 of state information 
+                        contentsInLineArrayList.get(lineNumberOfKeywordOfState +1);
+                        //out.println(contentsInLineArrayList.get(lineNumberOfKeywordOfState +1) + "<br>");
+                        String contentsInLine1 = contentsInLineArrayList.get(lineNumberOfKeywordOfState +1);
+                        
+                        //out.println(contentsInLine1 + "<br>");
+                        
+                        int startPositionForStateLine1 =0;
+                        int endPositionForStateLine1 = contentsInLine1.indexOf("HR", startPositionForStateLine1);
+                        String stateLine1Extracted = contentsInLine1.substring(startPositionForStateLine1, endPositionForStateLine1);
+//                        out.println(stateLine1Extracted);                     
+                        
+                        String contentsInLine2 = contentsInLineArrayList.get(lineNumberOfKeywordOfState + 2);
+                        
+                        //out.println(contentsInLine1 + "<br>");
+                        
+                        int startPositionForStateLine2 =0;
+                        int endPositionForStateLine2 = contentsInLine2.indexOf("BP", startPositionForStateLine2);
+                        String stateLine2Extracted = contentsInLine2.substring(startPositionForStateLine2, endPositionForStateLine2);
+                        //out.println(stateLine2Extracted);
+                        
+                        String stateInformation = stateLine1Extracted + stateLine2Extracted;
+              
+                        out.println("<h2>"+ stateInformation +"</h2>");
+                        
+                        
+                        
+
+                        
+                        
+                        
+                        //session.setAttribute("scenarioID", scenarioID);
+                        //response.sendRedirect("./editScenario.jsp");
+            
+                    }
+                
+                }
+                
+                
+
+            }
             
         } catch (IOException e) {
             out.println(e);
