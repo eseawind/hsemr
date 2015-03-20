@@ -69,7 +69,8 @@
         </ul>
 
         <div class="large-centered large-6 columns">
-            <%                String scenarioID = "";
+            <%  
+                String scenarioID = "";
                 String sessionScenario = (String) session.getAttribute("scenarioID");
                 if (request.getParameter("scenarioID") != null) {
                     scenarioID = request.getParameter("scenarioID");
@@ -90,16 +91,26 @@
 
                     State st = StateDAO.retrieveStateInScenario(scenarioID);
 
+                
                     String patientNRIC = st.getPatientNRIC();
-                    Patient pat = PatientDAO.retrieve(patientNRIC);
+                    String firstName = "";
+                    String lastName = "";
+                    String dobString = "";
 
-                    String firstName = pat.getFirstName();
-                    String lastName = pat.getLastName();
-                    String dobString = pat.getDob();
+                    String allergy = "";
+                    String gender = "";
+                    
+                    if(!patientNRIC.equals("-")){      
+                        Patient pat = PatientDAO.retrieve(patientNRIC);
 
-                    String allergy = PatientDAO.retrieveAllergy(patientNRIC);
-                    String gender = pat.getGender();
 
+                        firstName = pat.getFirstName();
+                        lastName = pat.getLastName();
+                        dobString = pat.getDob();
+
+                        allergy = PatientDAO.retrieveAllergy(patientNRIC);
+                        gender = pat.getGender();
+                    }
                     List<Vital> vitalList = VitalDAO.retrieveAllVitalByScenarioID(scenarioID);
                     Vital initialVital;
                     String temperature0 = "";
@@ -113,28 +124,31 @@
                     String intravenousType = "";
                     String intravenousAmount = "";
                     String output = "";
-
-                    for (int i = 0; i < vitalList.size(); i++) {
-                        Vital v = vitalList.get(i);
-                        if (v.getInitialVital() == 1) {
-                            initialVital = v;
-
-                            temperature0 = String.valueOf(initialVital.getTemperature());
-                            RR0 = String.valueOf(initialVital.getRr());
-                            HR0 = String.valueOf(initialVital.getHr());
-                            BPS = String.valueOf(initialVital.getBpSystolic());
-                            BPD = String.valueOf(initialVital.getBpDiastolic());
-                            SPO0 = String.valueOf(initialVital.getSpo());
-                            intragastricType = initialVital.getOralType();
-                            intragastricAmount = initialVital.getOralAmount();
-                            intravenousType = initialVital.getIntravenousType();
-                            intravenousAmount = initialVital.getIntravenousAmount();
-                            output = initialVital.getOutput();
-                        }
-                    }
+                   
                     String newDefaultVital = "no";
-                    if (vitalList.size() <= 0) {
-                        newDefaultVital = "yes";
+                    if(vitalList != null){
+                        for (int i = 0; i < vitalList.size(); i++) {
+                            Vital v = vitalList.get(i);
+                            if (v.getInitialVital() == 1) {
+                                initialVital = v;
+
+                                temperature0 = String.valueOf(initialVital.getTemperature());
+                                RR0 = String.valueOf(initialVital.getRr());
+                                HR0 = String.valueOf(initialVital.getHr());
+                                BPS = String.valueOf(initialVital.getBpSystolic());
+                                BPD = String.valueOf(initialVital.getBpDiastolic());
+                                SPO0 = String.valueOf(initialVital.getSpo());
+                                intragastricType = initialVital.getOralType();
+                                intragastricAmount = initialVital.getOralAmount();
+                                intravenousType = initialVital.getIntravenousType();
+                                intravenousAmount = initialVital.getIntravenousAmount();
+                                output = initialVital.getOutput();
+                            }
+                        }
+                            
+                            if (vitalList.size() <= 0) {
+                                newDefaultVital = "yes";
+                            }
                     }
                     if (temperature0.equals("0.00") || temperature0.equals("0.0")) {
                         temperature0 = "";

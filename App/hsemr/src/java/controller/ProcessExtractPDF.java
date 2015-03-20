@@ -14,7 +14,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.itextpdf.text.pdf.pdfcleanup.PdfCleanUpLocation;
 import com.itextpdf.text.pdf.pdfcleanup.PdfCleanUpProcessor;
-import dao.KeywordDAO;
+import dao.*;
 import entity.Keyword;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -99,12 +100,14 @@ public class ProcessExtractPDF extends HttpServlet {
                 String page = PdfTextExtractor.getTextFromPage(reader, i);
                 contentsOfCase += page;
                 
+                /*
                 //line by line code
                String[] wordsLine= page.split("\n");
               
                 for(String words : wordsLine){
                  out.println("<br>" + words);
                 }
+                */
              }
              
              
@@ -141,7 +144,7 @@ public class ProcessExtractPDF extends HttpServlet {
             for(Keyword keywordsScenarioName : keywordsForScenarioName){
                 keywordScenarioName = keywordsScenarioName.getKeywordDesc();
                 
-                out.println(keywordsScenarioName.getKeywordDesc());
+                //out.println(keywordsScenarioName.getKeywordDesc());
                 
                 if(pageOne.contains(keywordScenarioName)){
                     //if found, this is the START of the substring for scenarioName
@@ -183,34 +186,53 @@ public class ProcessExtractPDF extends HttpServlet {
             
             //4. Extracting Information based on keywords found earlier in step 3
             //Scenario Name
-            out.println("<h1>Case Name</h1>");
+   //         out.println("<h1>Case Name</h1>");
             int startPositionScenarioName = pageOne.indexOf(keywordScenarioName) + keywordScenarioName.length();
             int endPositionScenarioName = pageOne.indexOf(keywordScenarioDesc, startPositionScenarioName);
             String scenarioNameExtracted = pageOne.substring(startPositionScenarioName, endPositionScenarioName);
-            out.println(scenarioNameExtracted);
+   //         out.println(scenarioNameExtracted);
             
 
             //Scenario Description
             out.println("<h1>Case Description</h1>");
-            int startPositionScenarioDesc = pageOne.indexOf(keywordScenarioDesc) + keywordScenarioDesc.length();
+            int startPositionScenarioDesc = pageOne.indexOf("Synopsis:") + ("Synopsis:").length();
             int endPositionScenarioDesc = pageOne.indexOf(keywordAdmissionInformation, startPositionScenarioDesc);
             String scenarioDescExtracted = pageOne.substring(startPositionScenarioDesc, endPositionScenarioDesc);
-            out.println(scenarioDescExtracted);
+  //          out.println(scenarioDescExtracted);
             
             //AdmissionNotes
-            out.println("<h1>Admission Notes</h1>");
+  //          out.println("<h1>Admission Notes</h1>");
             int startPositionAdmissionNotes = pageOne.indexOf(keywordAdmissionInformation) + keywordAdmissionInformation.length();
             int endPositionAdmissionNotes = pageOne.indexOf(keywordDoctorOrder, startPositionAdmissionNotes);
             String scenarioAdmissionNotesExtracted = pageOne.substring(startPositionAdmissionNotes, endPositionAdmissionNotes);
-            out.println(scenarioAdmissionNotesExtracted);
+ //           out.println(scenarioAdmissionNotesExtracted);
             
             //State 0 Healthcare Provider Order
-            out.println("<h1>State 0 Healthcare Provider Order</h1>");
+ //           out.println("<h1>State 0 Healthcare Provider Order</h1>");
             int startPositionInitialStateOrders = pageOne.indexOf(keywordDoctorOrder) + keywordDoctorOrder.length();
             int endPositionInitialStateOrders = pageOne.indexOf("®", startPositionInitialStateOrders);
             String initialStateOrdersExtracted = pageOne.substring(startPositionInitialStateOrders, endPositionInitialStateOrders);
-            out.println(initialStateOrdersExtracted);
+   //         out.println(initialStateOrdersExtracted);
             
+            
+            //Insertion into database:
+            //Scenario Table
+            Integer scNumber= ScenarioDAO.retrieveMaxBedNumber() + 1;
+            String scenarioID= "SC" + scNumber;
+            ScenarioDAO.add(scenarioID, scenarioNameExtracted, scenarioDescExtracted.trim(), scenarioAdmissionNotesExtracted.trim(), scNumber);
+            
+            //State Table
+            StateDAO.add("ST0", scenarioID, "default state", "-");
+            //Prescription Table
+            PrescriptionDAO.add(scenarioID, "ST0", "Dr.Tan/01234Z" , initialStateOrdersExtracted, "NA", "NA", "-", "-", "N.A");
+            
+            
+            
+           // request.setAttribute("scID", scenarioID);
+            session.setAttribute("scenarioID", scenarioID);
+            response.sendRedirect("./editScenario.jsp");
+            //RequestDispatcher rd = request.getRequestDispatcher("/editScenario.jsp");
+            //rd.forward(request, response);
             /////////////////////////////////
            //// END OF PAGE 1             ////
            ///////////////////////////////// 
