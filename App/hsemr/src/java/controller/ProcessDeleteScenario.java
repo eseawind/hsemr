@@ -34,40 +34,43 @@ public class ProcessDeleteScenario extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        String scenarioID = request.getParameter("scenarioID");
-
-       // Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
-        
-        State retrieveScenarioState = StateDAO.retrieveStateInScenario(scenarioID);
-        String patientNRIC = retrieveScenarioState.getPatientNRIC();
-        
-        AllergyPatientDAO.delete(patientNRIC);
-        DocumentDAO.delete(scenarioID);
-        ReportDAO.delete(scenarioID);
-      //MedicinePrescriptionDAO.delete(scenarioID); after refractoring of db no longer available
-        MedicationHistoryDAO.delete(scenarioID);
-        
-        PrescriptionDAO.delete(scenarioID); 
-        ReportDAO.delete(scenarioID);
-        
-        StateDAO.delete(scenarioID);
-        PatientDAO.delete(patientNRIC);
-        
-        
-        NoteDAO.delete(scenarioID);
-       
-        
-        
-        VitalDAO.delete(scenarioID);
-        
-        
-        ScenarioDAO.delete(scenarioID);
         
         HttpSession session = request.getSession(false);
-        session.setAttribute("success", "Successfully deleted: " + scenarioID);
-        response.sendRedirect("./viewScenarioAdmin.jsp");
+        if(session.getAttribute("admin") == null){
+            response.sendRedirect("viewMainLogin.jsp");
+        }else{
+        
+            String scenarioID = request.getParameter("scenarioID");
+
+            State retrieveScenarioState = StateDAO.retrieveStateInScenario(scenarioID);
+            String patientNRIC = retrieveScenarioState.getPatientNRIC();
+
+            AllergyPatientDAO.delete(patientNRIC);
+            DocumentDAO.delete(scenarioID);
+            ReportDAO.delete(scenarioID);
+          //MedicinePrescriptionDAO.delete(scenarioID); after refractoring of db no longer available
+            MedicationHistoryDAO.delete(scenarioID);
+
+            PrescriptionDAO.delete(scenarioID); 
+            ReportDAO.delete(scenarioID);
+
+            StateDAO.delete(scenarioID);
+            PatientDAO.delete(patientNRIC);
+
+
+            NoteDAO.delete(scenarioID);
+
+
+
+            VitalDAO.delete(scenarioID);
+
+
+            ScenarioDAO.delete(scenarioID);
+
+          
+            session.setAttribute("success", "Successfully deleted: " + scenarioID);
+            response.sendRedirect("./viewScenarioAdmin.jsp");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -89,8 +89,14 @@
                         //retrieve current scenario
                         //Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
                         Scenario scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
-                        StateHistory stateActivatedLastest = StateHistoryDAO.retrieveLatestStateActivatedByLecturer(pg.getLecturerID());
+                        StateHistory stateActivatedLastest = null;
+                        
+                        
+                        if(pg != null){
+                        
+                            stateActivatedLastest = StateHistoryDAO.retrieveLatestStateActivatedByLecturer(pg.getLecturerID());
 
+                        }
                         //get the most recently activated scenario's state
                         if (scenarioActivated == null || stateActivatedLastest.getScenarioID() == null) {
                             out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
