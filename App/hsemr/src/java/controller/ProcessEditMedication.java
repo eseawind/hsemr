@@ -5,7 +5,6 @@
  */
 package controller;
 
-import dao.MedicineDAO;
 import dao.PrescriptionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,79 +34,66 @@ public class ProcessEditMedication extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession(false);
-            
-            String scenarioID = (String) session.getAttribute("scenarioID");
+        HttpSession session = request.getSession(false);
+        if(session.getAttribute("admin") == null){
+            response.sendRedirect("viewMainLogin.jsp");
+        }else{
 
-            int prescriptionListSize = Integer.parseInt(request.getParameter("prescriptionListSize"));
+            try {
 
-            for (int i = 0; i < prescriptionListSize; i++) {
-                String medBarcodeNumber = "medBarcode" + i;
-                String routeNumber = "route" + i;
-                String frequencyNumber = "frequency" + i;
-                String doctorNameNumber = "doctorName" + i;
-                String doctorOrderNumber = "doctorOrder" + i;
-                String dosageNumber = "dosage" + i;
-                String medicineNameNumber = "medicineName" + i;
-                String routeDefault = "routeDefault" + i;
-                String frequencyDefault = "frequencyDefault" + i;
-                String stateIDNumber = "stateID" + i;
-                //String docOrderDefault= "docOrderDefault" + i;
+                String scenarioID = (String) session.getAttribute("scenarioID");
 
-                String stateID = request.getParameter(stateIDNumber);
-                
-                String medicineName = request.getParameter(medicineNameNumber);
-                String route = request.getParameter(routeNumber);
-                if (route == null) {
-                    route = request.getParameter(routeDefault);
+                int prescriptionListSize = Integer.parseInt(request.getParameter("prescriptionListSize"));
+
+                for (int i = 0; i < prescriptionListSize; i++) {
+                    String medBarcodeNumber = "medBarcode" + i;
+                    String routeNumber = "route" + i;
+                    String frequencyNumber = "frequency" + i;
+                    String doctorNameNumber = "doctorName" + i;
+                    String doctorOrderNumber = "doctorOrder" + i;
+                    String dosageNumber = "dosage" + i;
+                    String medicineNameNumber = "medicineName" + i;
+                    String routeDefault = "routeDefault" + i;
+                    String frequencyDefault = "frequencyDefault" + i;
+                    String stateIDNumber = "stateID" + i;
+                    //String docOrderDefault= "docOrderDefault" + i;
+
+                    String stateID = request.getParameter(stateIDNumber);
+
+                    String medicineName = request.getParameter(medicineNameNumber);
+                    String route = request.getParameter(routeNumber);
+                    if (route == null) {
+                        route = request.getParameter(routeDefault);
+                    }
+                    String frequency = request.getParameter(frequencyNumber);
+                    if (frequency == null) {
+                        frequency = request.getParameter(frequencyDefault);
+                    }
+
+                    //String doctorOrder = request.getParameter(doctorOrderNumber);
+                   /* if(doctorOrder == null ){
+                        doctorOrder= request.getParameter(docOrderDefault);
+                    }*/
+                    String doctorName = request.getParameter(doctorNameNumber);
+                    String doctorOrder = request.getParameter(doctorOrderNumber);
+                    String dosage = request.getParameter(dosageNumber);
+                    String medBarcode = request.getParameter(medBarcodeNumber);
+
+                    String initialRoute = request.getParameter(routeDefault);
+                  //  String initalOrder= request.getParameter(docOrderDefault);
+                    String initialFreq= request.getParameter(frequencyDefault);
+
+                  //  MedicinePrescriptionDAO.updateMedPres(frequency, dosage, medBarcode, scenarioID, stateID);
+                  //  MedicineDAO.updateMed(medBarcode, medicineName, route, initialRoute); // route can change
+
+                    PrescriptionDAO.updatePres(doctorName, doctorOrder, frequency, scenarioID, stateID, medBarcode, route, dosage, initialRoute, initialFreq);
+
                 }
-                String frequency = request.getParameter(frequencyNumber);
-                if (frequency == null) {
-                    frequency = request.getParameter(frequencyDefault);
-                }
-                
-                //String doctorOrder = request.getParameter(doctorOrderNumber);
-               /* if(doctorOrder == null ){
-                    doctorOrder= request.getParameter(docOrderDefault);
-                }*/
-                String doctorName = request.getParameter(doctorNameNumber);
-                String doctorOrder = request.getParameter(doctorOrderNumber);
-                String dosage = request.getParameter(dosageNumber);
-                String medBarcode = request.getParameter(medBarcodeNumber);
+                response.sendRedirect("editReportDocument.jsp");
 
-                String initialRoute = request.getParameter(routeDefault);
-              //  String initalOrder= request.getParameter(docOrderDefault);
-                String initialFreq= request.getParameter(frequencyDefault);
-
-              //  MedicinePrescriptionDAO.updateMedPres(frequency, dosage, medBarcode, scenarioID, stateID);
-              //  MedicineDAO.updateMed(medBarcode, medicineName, route, initialRoute); // route can change
-               
-                PrescriptionDAO.updatePres(doctorName, doctorOrder, frequency, scenarioID, stateID, medBarcode, route, dosage, initialRoute, initialFreq);
-                
-                out.println(doctorName + "<BR>");
-                out.println(doctorOrder + "<BR>");
-                out.println("freq to update" + frequency);
-                out.println("scenario to updat" + scenarioID);
-                out.println("stateID to updat" + stateID);
-                out.println("medbarcode to updat" + medBarcode);
-                
-                out.println("<BR>" + medicineName + "<BR>");
-                out.println(route + "<BR>");
-                out.println(frequency + "<BR>");
-                
-                out.println(dosage + "<BR>");
-                out.println(medBarcode + "<BR><BR><BR>");
-
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            response.sendRedirect("editReportDocument.jsp");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            out.close();
         }
     }
 

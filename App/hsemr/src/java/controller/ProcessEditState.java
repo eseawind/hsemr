@@ -34,49 +34,50 @@ public class ProcessEditState extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession(false);
-            String scenarioID = request.getParameter("scenarioID");
-            int stateListSize = Integer.parseInt(request.getParameter("stateListSize"));
-            for (int i = 0; i < stateListSize; i++) {
-                int num = i+1; 
-                String descNum = "statedescription" + num;
-                String doNum = "doctorOrder" + num;
-                String pNum = "p" + num;
-                String desc = request.getParameter(descNum);
-                String doctorOrder = request.getParameter(doNum);
-//                String prescription = request.getParameter(pNum);
-                String prescription = request.getParameter(pNum);
-                int statenum = i + 1;
-                String stateID = "ST" + statenum;
-                
-                
-                if (prescription == null || prescription.equals("null")) {
-                    if (doctorOrder != null && !doctorOrder.equals("") ) {
-                       // MedicinePrescriptionDAO.add("NA", scenarioID, stateID, "NA", "Nil");
-                        PrescriptionDAO.add(scenarioID, stateID, "Dr.Tan/01234Z", doctorOrder, "NA", "NA", "-","-","N.A") ;
-                    }
-                } else {
-                    if(doctorOrder == null || doctorOrder.equals("")) {
-                        //MedicinePrescriptionDAO.deleteNA(scenarioID, stateID);
-                        PrescriptionDAO.deletePrescriptionNA(scenarioID, stateID) ;
-                    } else {
-                        //PrescriptionDAO.updatePres("Dr.Tan/01234Z", doctorOrder, "NA", scenarioID, stateID, "NA");
-                        PrescriptionDAO.updatePresOrderDesc(scenarioID, stateID , "Dr.Tan/01234Z", doctorOrder, "NA");
-                    }
-                }
-                
-                StateDAO.updateStateDesc(stateID, desc, scenarioID);
-            }
+        HttpSession session = request.getSession(false);
+        if(session.getAttribute("admin") == null){
+            response.sendRedirect("viewMainLogin.jsp");
+        }else{
+            PrintWriter out = response.getWriter();
+            try {
+                String scenarioID = request.getParameter("scenarioID");
+                int stateListSize = Integer.parseInt(request.getParameter("stateListSize"));
+                for (int i = 0; i < stateListSize; i++) {
+                    int num = i+1; 
+                    String descNum = "statedescription" + num;
+                    String doNum = "doctorOrder" + num;
+                    String pNum = "p" + num;
+                    String desc = request.getParameter(descNum);
+                    String doctorOrder = request.getParameter(doNum);
+                    String prescription = request.getParameter(pNum);
+                    int statenum = i + 1;
+                    String stateID = "ST" + statenum;
 
-            response.sendRedirect("editMedication.jsp");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            out.close();
+
+                    if (prescription == null || prescription.equals("null")) {
+                        if (doctorOrder != null && !doctorOrder.equals("") ) {
+                           // MedicinePrescriptionDAO.add("NA", scenarioID, stateID, "NA", "Nil");
+                            PrescriptionDAO.add(scenarioID, stateID, "Dr.Tan/01234Z", doctorOrder, "NA", "NA", "-","-","N.A") ;
+                        }
+                    } else {
+                        if(doctorOrder == null || doctorOrder.equals("")) {
+                            //MedicinePrescriptionDAO.deleteNA(scenarioID, stateID);
+                            PrescriptionDAO.deletePrescriptionNA(scenarioID, stateID) ;
+                        } else {
+                            //PrescriptionDAO.updatePres("Dr.Tan/01234Z", doctorOrder, "NA", scenarioID, stateID, "NA");
+                            PrescriptionDAO.updatePresOrderDesc(scenarioID, stateID , "Dr.Tan/01234Z", doctorOrder, "NA");
+                        }
+                    }
+
+                    StateDAO.updateStateDesc(stateID, desc, scenarioID);
+                }
+
+                response.sendRedirect("editMedication.jsp");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                out.close();
+            }
         }
     }
 

@@ -37,112 +37,104 @@ public class ProcessEditScenario extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+  
+        HttpSession session = request.getSession(false);
+        if(session.getAttribute("admin") == null){
+            response.sendRedirect("viewMainLogin.jsp");
+        }else{
+            try {
+                /* TODO output your page here. You may use following sample code. */
 
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession(false);
-            String scenarioID = request.getParameter("scenarioID");
-            String scenarioName = request.getParameter("scenarioName");
-            String scenarioDescription = request.getParameter("scenarioDescription");
-            String admissionInfo = request.getParameter("admissionInfo");
+                String scenarioID = request.getParameter("scenarioID");
+                String scenarioName = request.getParameter("scenarioName");
+                String scenarioDescription = request.getParameter("scenarioDescription");
+                String admissionInfo = request.getParameter("admissionInfo");
 
-            String retrieveNRIC = request.getParameter("retrieveNRIC");
-            String patientNRIC = request.getParameter("patientNRIC");
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
-            String dob = request.getParameter("DOB");
-            String allergy = request.getParameter("allergy");
-            String gender = request.getParameter("gender");
-            String temperatureStr = request.getParameter("temperature0");
-            String rrStr = request.getParameter("RR0");
-            String hrStr = request.getParameter("HR0");
-            String bpsStr = request.getParameter("BPS");
-            String bpdStr = request.getParameter("BPD");
-            String spoStr = request.getParameter("SPO0");
-            String intragastricType = request.getParameter("intragastricType");
-            String intragastricAmount = request.getParameter("intragastricAmount");
-            String intravenousType = request.getParameter("intravenousType");
-            String intravenousAmount = request.getParameter("intravenousAmount");
-            String output = request.getParameter("output");
-            
-           String practicalGroupID = (String)session.getAttribute("nurse");
-                  
-            if (temperatureStr.equals("")) {
-                temperatureStr = "0";
-            }
-            if (rrStr.equals("")) {
-                rrStr = "0";
-            }
-            if (hrStr.equals("")) {
-                hrStr = "0";
-            }
-            if (bpsStr.equals("")) {
-                bpsStr = "0";
-            }
-            if (bpdStr.equals("")) {
-                bpdStr = "0";
-            }
-            if (spoStr.equals("")) {
-                spoStr = "0";
-            }
-            
-            if (intragastricType.equals("")) {
-                intragastricType = "-";
-            }
-            if (intragastricAmount.equals("")) {
-                intragastricAmount = "-";
-            }
-            if (intravenousType.equals("")) {
-                intravenousType = "-";
-            }
-            if (intravenousAmount.equals("")) {
-                intravenousAmount = "-";
-            }
-            if (output.equals("")) {
-                output = "-";
-            }            
-            double temperature = Double.parseDouble(temperatureStr);
-            int rr = Integer.parseInt(rrStr);
-            int hr = Integer.parseInt(hrStr);
-            int bps = Integer.parseInt(bpsStr);
-            int bpd = Integer.parseInt(bpdStr);
-            int spo = Integer.parseInt(spoStr);
-            String newDefaultVital = request.getParameter("newDefaultVital");
-                        
-            AllergyPatientDAO.update(patientNRIC, allergy, retrieveNRIC);
-            StateDAO.updateNRIC(patientNRIC, retrieveNRIC);
-            PatientDAO.update(patientNRIC, firstName, lastName, gender, dob, retrieveNRIC);
-            out.println(newDefaultVital);
-            
-            out.println(scenarioID);
-            out.println(temperature);
-            out.println(rr);
-            out.println(bps);
-            out.println(bpd);
-            out.println(hr);
-            out.println(spo);
-            out.println(output);
-            out.println(intragastricType);
-            out.println(intragastricAmount);
-            out.println(practicalGroupID);
-            
-            if(newDefaultVital.equals("yes")) {
-                VitalDAO.add(scenarioID, temperature, rr, bps, bpd, hr, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1, "NA");
-            } else {
-                VitalDAO.update(temperature, rr, hr, bps, bpd, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, scenarioID);
-            }
+                String retrieveNRIC = request.getParameter("retrieveNRIC");
+                String patientNRIC = request.getParameter("patientNRIC");
+                String firstName = request.getParameter("firstName");
+                String lastName = request.getParameter("lastName");
+                String dob = request.getParameter("DOB");
+                String allergy = request.getParameter("allergy");
+                String gender = request.getParameter("gender");
+                String temperatureStr = request.getParameter("temperature0");
+                String rrStr = request.getParameter("RR0");
+                String hrStr = request.getParameter("HR0");
+                String bpsStr = request.getParameter("BPS");
+                String bpdStr = request.getParameter("BPD");
+                String spoStr = request.getParameter("SPO0");
+                String intragastricType = request.getParameter("intragastricType");
+                String intragastricAmount = request.getParameter("intragastricAmount");
+                String intravenousType = request.getParameter("intravenousType");
+                String intravenousAmount = request.getParameter("intravenousAmount");
+                String output = request.getParameter("output");
+
+               String practicalGroupID = (String)session.getAttribute("nurse");
+
+                if (temperatureStr.equals("")) {
+                    temperatureStr = "0";
+                }
+                if (rrStr.equals("")) {
+                    rrStr = "0";
+                }
+                if (hrStr.equals("")) {
+                    hrStr = "0";
+                }
+                if (bpsStr.equals("")) {
+                    bpsStr = "0";
+                }
+                if (bpdStr.equals("")) {
+                    bpdStr = "0";
+                }
+                if (spoStr.equals("")) {
+                    spoStr = "0";
+                }
+
+                if (intragastricType.equals("")) {
+                    intragastricType = "-";
+                }
+                if (intragastricAmount.equals("")) {
+                    intragastricAmount = "-";
+                }
+                if (intravenousType.equals("")) {
+                    intravenousType = "-";
+                }
+                if (intravenousAmount.equals("")) {
+                    intravenousAmount = "-";
+                }
+                if (output.equals("")) {
+                    output = "-";
+                }            
+                double temperature = Double.parseDouble(temperatureStr);
+                int rr = Integer.parseInt(rrStr);
+                int hr = Integer.parseInt(hrStr);
+                int bps = Integer.parseInt(bpsStr);
+                int bpd = Integer.parseInt(bpdStr);
+                int spo = Integer.parseInt(spoStr);
+                String newDefaultVital = request.getParameter("newDefaultVital");
+
+                AllergyPatientDAO.update(patientNRIC, allergy, retrieveNRIC);
+                StateDAO.updateNRIC(patientNRIC, retrieveNRIC);
+                PatientDAO.update(patientNRIC, firstName, lastName, gender, dob, retrieveNRIC);
+
+
+                if(newDefaultVital.equals("yes")) {
+                    VitalDAO.add(scenarioID, temperature, rr, bps, bpd, hr, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1, "NA");
+                } else {
+                    VitalDAO.update(temperature, rr, hr, bps, bpd, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, scenarioID);
+                }
+
+                ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, admissionInfo);
+                session.setAttribute("patientNRIC", patientNRIC);
+
+
+                response.sendRedirect("editState.jsp");
+                
            
-            ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, admissionInfo);
-            session.setAttribute("patientNRIC", patientNRIC);
+            } catch (Exception e) {
+                e.printStackTrace();
 
-            
-            response.sendRedirect("editState.jsp");
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        } finally {
-            out.close();
+            } 
         }
     }
 

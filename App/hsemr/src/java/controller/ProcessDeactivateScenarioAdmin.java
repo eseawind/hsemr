@@ -36,23 +36,26 @@ public class ProcessDeactivateScenarioAdmin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
         response.setContentType("text/html;charset=UTF-8");
-   
-        
-        String[] deactivateLecturerList = request.getParameterValues("deactivateForLecturer");
-        String scenarioID = (String)request.getParameter("scenarioID");
-        
-        if(deactivateLecturerList == null || deactivateLecturerList.length == 0){
-            session.setAttribute("error", "Please select at least 1 lecturer to deactivate the case for.");
-            response.sendRedirect("deactivateScenarioAdmin.jsp");
+        HttpSession session = request.getSession(false);
+        if(session.getAttribute("admin") == null){
+            response.sendRedirect("viewMainLogin.jsp");
         }else{
-            for(String deactivateLecturer: deactivateLecturerList){
-                LecturerScenarioDAO.deactivateScenario(deactivateLecturer, scenarioID);
-                StateHistoryDAO.clearAllHistoryByLecturer(deactivateLecturer);
+
+            String[] deactivateLecturerList = request.getParameterValues("deactivateForLecturer");
+            String scenarioID = (String)request.getParameter("scenarioID");
+
+            if(deactivateLecturerList == null || deactivateLecturerList.length == 0){
+                session.setAttribute("error", "Please select at least 1 lecturer to deactivate the case for.");
+                response.sendRedirect("deactivateScenarioAdmin.jsp");
+            }else{
+                for(String deactivateLecturer: deactivateLecturerList){
+                    LecturerScenarioDAO.deactivateScenario(deactivateLecturer, scenarioID);
+                    StateHistoryDAO.clearAllHistoryByLecturer(deactivateLecturer);
+                }
+                session.setAttribute("success", "You have successfully deactivated the casae.");
+                response.sendRedirect("viewScenarioAdmin.jsp");
             }
-            session.setAttribute("success", "You have successfully deactivated the casae.");
-            response.sendRedirect("viewScenarioAdmin.jsp");
         }
      
        
