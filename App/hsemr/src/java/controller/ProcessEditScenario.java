@@ -87,7 +87,7 @@ public class ProcessEditScenario extends HttpServlet {
                 spoStr = "0";
             }
             
- if (intragastricType.equals("")) {
+            if (intragastricType.equals("")) {
                 intragastricType = "-";
             }
             if (intragastricAmount.equals("")) {
@@ -113,20 +113,31 @@ public class ProcessEditScenario extends HttpServlet {
             AllergyPatientDAO.update(patientNRIC, allergy, retrieveNRIC);
             StateDAO.updateNRIC(patientNRIC, retrieveNRIC);
             PatientDAO.update(patientNRIC, firstName, lastName, gender, dob, retrieveNRIC);
+            out.println(newDefaultVital);
+            
+            out.println(scenarioID);
+            out.println(temperature);
+            out.println(rr);
+            out.println(bps);
+            out.println(bpd);
+            out.println(hr);
+            out.println(spo);
+            out.println(output);
+            out.println(intragastricType);
+            out.println(intragastricAmount);
+            out.println(practicalGroupID);
             
             if(newDefaultVital.equals("yes")) {
-                VitalDAO.add(scenarioID, temperature, rr, bps, bpd, hr, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1, practicalGroupID);
+                VitalDAO.add(scenarioID, temperature, rr, bps, bpd, hr, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1, "NA");
             } else {
                 VitalDAO.update(temperature, rr, hr, bps, bpd, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, scenarioID);
             }
            
             ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, admissionInfo);
             session.setAttribute("patientNRIC", patientNRIC);
-//            RequestDispatcher rd = request.getRequestDispatcher("/editState.jsp");
-//            
-//            rd.forward(request, response);
 
-            response.sendRedirect("editState.jsp");
+            
+           // response.sendRedirect("editState.jsp");
         } catch (Exception e) {
             e.printStackTrace();
 
