@@ -66,14 +66,13 @@ public class ProcessAddMedication extends HttpServlet {
             String dosage = request.getParameter("dosage");
 
 
-            if (medicineName != null) {
+            if (medicineName != null && (!stateID.equals(discontinueStateID)) ) {
                 PrescriptionDAO.add(scenarioID, stateID, doctorName, doctorOrder, freq, medicineBarcode, discontinueStateID, dosage, route);
+            }else{
+                  session.setAttribute("error", "You cannot select the same state for state and discontinue state.");
             }
             
-            if(stateID.equals(discontinueStateID)){
-                session.setAttribute("error", "You cannot select the same state for state and discontinue state.");
-                response.sendRedirect("createMedicationBC.jsp");
-            } else if (editMedicine == null || editMedicine.equals("")) {
+            if (editMedicine == null || editMedicine.equals("")) {
                 response.sendRedirect("createMedicationBC.jsp");
             } else {
                 response.sendRedirect("editMedication.jsp");
