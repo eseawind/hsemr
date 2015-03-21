@@ -5,14 +5,7 @@
  */
 package controller;
 
-import dao.LecturerScenarioDAO;
-import dao.MedicationHistoryDAO;
-import dao.NoteDAO;
-import dao.ReportDAO;
-import dao.ScenarioDAO;
-import dao.StateDAO;
-import dao.StateHistoryDAO;
-import dao.VitalDAO;
+import dao.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -44,7 +37,8 @@ public class ProcessResetAll extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
-            ReportDAO.resetToDefault();
+            //ReportDAO.resetToDefault();
+            PracticalGroupReportDAO.deleteAll();
             StateHistoryDAO.reset();
             MedicationHistoryDAO.deleteAll();
             VitalDAO.resetToDefault();

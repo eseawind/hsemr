@@ -239,7 +239,7 @@
                 <%} else {
                 %>
 
-                <form action ="ProcessEditMedication" method ="POST">
+                <form action ="viewReportDocument.jsp" method ="POST">
                     <table class="responsive" id="cssTable">
                         <col width="5%">
                         <col width="5%">
