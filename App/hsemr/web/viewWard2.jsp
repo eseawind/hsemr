@@ -17,6 +17,9 @@
         <!--Web Title-->
         <title>EMR | Ward Management | Bed View</title>
         
+        
+        <%out.println(session.getAttribute("nurse"));%>
+        
         <link rel="shortcut icon" href="img/DefaultLogo-favicon.ico">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/foundation.css" />
@@ -47,15 +50,23 @@
                         int counter = 1;
                         int counterScenario = 0;
                         int bedCounter = 1;
-                       
-                         //Scenario scen = ScenarioDAO.retrieveActivatedScenario();
-                        Scenario scen = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
                         String scID = "";
-                        if (scen == null) {
+                         //Scenario scen = ScenarioDAO.retrieveActivatedScenario();
+                        //Scenario scen = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+                        
+                        if(pg == null){
                             out.println("No scenario activated, please contact lecturer/ administrator");
-                        } else {
-                            scID = scen.getScenarioID();
+                        }else{
+                        
+                           
+                            if ((ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID()) == null)) {
+                                out.println("No scenario activated, please contact lecturer/ administrator");
+                            } else {
+                                Scenario scen = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+                                scID = scen.getScenarioID();
+                            }
                         }
+                      
 
                     %>
                     <tr>

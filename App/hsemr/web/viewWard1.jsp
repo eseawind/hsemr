@@ -7,8 +7,8 @@
 <%@page import="java.util.List"%>
 <%@page import="entity.*"%>
 <%@page import="dao.*"%>
-<%@include file="protectPage/protectNurse.jsp" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="protectPage/protectNurse.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,6 +16,9 @@
         
         <!--Web Title-->
         <title>EMR | Ward Management | Bed View</title>
+        
+        
+        <%out.println(session.getAttribute("nurse"));%>
         
         <link rel="shortcut icon" href="img/DefaultLogo-favicon.ico">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,16 +32,15 @@
                 background: white;
             }
         </style>
-
-   
     </head>
     <body>
     <center>
         <div class="row" style="padding-top: 60px;">
 
             <h1>Please select a bed in <font style="font-weight:300">Ward 1</font>:</h1>
+
             <div class="large-12 columns" style="padding-top: 20px;"> 
-                <table style ="border-spacing:5px; border:none;"> 
+                <table style ="border-spacing:5px; border:none">    
                     <%
                         List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
 
@@ -48,17 +50,24 @@
                         int counter = 1;
                         int counterScenario = 0;
                         int bedCounter = 1;
-                       
-                         //Scenario scen = ScenarioDAO.retrieveActivatedScenario();
-                        Scenario scen = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
                         String scID = "";
-                        if (scen == null) {
+                         //Scenario scen = ScenarioDAO.retrieveActivatedScenario();
+                        //Scenario scen = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+                        
+                        if(pg == null){
                             out.println("No scenario activated, please contact lecturer/ administrator");
-                        } else {
-                            scID = scen.getScenarioID();
+                        }else{
+                        
+                           
+                            if ((ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID()) == null)) {
+                                out.println("No scenario activated, please contact lecturer/ administrator");
+                            } else {
+                                Scenario scen = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+                                scID = scen.getScenarioID();
+                            }
                         }
-
                       
+
                     %>
                     <tr>
                         <%                    for (int row = 0; row <= numOfRows; row++) {
@@ -92,7 +101,6 @@
                     %>
 
                 </table>
-
                 <form>
                     <br/>
                     <input type="button" value="Back to Ward Overview" class="button" onClick="window.location = 'viewWardInformation.jsp'"/>
