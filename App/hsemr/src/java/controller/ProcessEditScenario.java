@@ -137,7 +137,7 @@ public class ProcessEditScenario extends HttpServlet {
             session.setAttribute("patientNRIC", patientNRIC);
 
             
-           // response.sendRedirect("editState.jsp");
+            response.sendRedirect("editState.jsp");
         } catch (Exception e) {
             e.printStackTrace();
 
