@@ -298,16 +298,7 @@ public class ProcessExtractPDF extends HttpServlet {
 
                     }
 
-//                    Random rand = new Random();
-//                    int randomNum = rand.nextInt((99999 - 10000) + 10000);
-//                    String patientNRIC = "S38" + randomNum + "Q";
-//                   
-//                    Patient retrievedPatient = PatientDAO.retrieve(patientNRIC);
-//                    while (retrievedPatient != null) {
-//                        randomNum = rand.nextInt((99999 - 10000) + 10000);
-//                        patientNRIC = "S38" + randomNum + "Q";
-//                        retrievedPatient = PatientDAO.retrieve(patientNRIC);
-//                    }
+
 //                    out.println(stateID);
 //                    out.println(stateInformation);
 //                    out.println(scenarioID);
@@ -335,9 +326,27 @@ public class ProcessExtractPDF extends HttpServlet {
                     }
 
                 }
+                
+                //adding in state information
 
                 if (!stateID.isEmpty() && !stateInformation.isEmpty()) {
-                    StateDAO.add(stateID, scenarioID, stateInformation, "-");
+                    Random rand = new Random();
+                    int randomNum = rand.nextInt((99999 - 10000) + 10000);
+                    String patientNRIC = "S38" + randomNum + "Q";
+                   
+                    Patient retrievedPatient = PatientDAO.retrieve(patientNRIC);
+                    while (retrievedPatient != null) {
+                        randomNum = rand.nextInt((99999 - 10000) + 10000);
+                        patientNRIC = "S38" + randomNum + "Q";
+                        retrievedPatient = PatientDAO.retrieve(patientNRIC);
+                    }
+                    
+                    
+                    StateDAO.add(stateID, scenarioID, stateInformation, patientNRIC);
+                    
+                    
+                    
+                    
                 }
 
                 if (!healthcareProviderOrder.isEmpty()) {

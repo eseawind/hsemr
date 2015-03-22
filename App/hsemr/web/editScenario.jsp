@@ -102,14 +102,18 @@
                     
                     if(!patientNRIC.equals("-")){      
                         Patient pat = PatientDAO.retrieve(patientNRIC);
+                        
+                        if(pat != null){
+                            firstName = pat.getFirstName();
+                            lastName = pat.getLastName();
+                            dobString = pat.getDob();
+
+                            allergy = PatientDAO.retrieveAllergy(patientNRIC);
+                            gender = pat.getGender();
+                        }
 
 
-                        firstName = pat.getFirstName();
-                        lastName = pat.getLastName();
-                        dobString = pat.getDob();
-
-                        allergy = PatientDAO.retrieveAllergy(patientNRIC);
-                        gender = pat.getGender();
+                      
                     }
                     List<Vital> vitalList = VitalDAO.retrieveAllVitalByScenarioID(scenarioID);
                     Vital initialVital;
