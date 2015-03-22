@@ -142,7 +142,7 @@ public class ScenarioDAO {
         }
     }
     
-       public static Integer retrieveMaxBedNumber() {
+    public static Integer retrieveMaxBedNumber() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;

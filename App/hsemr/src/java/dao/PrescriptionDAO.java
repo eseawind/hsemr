@@ -25,6 +25,7 @@ import java.util.TimeZone;
  */
 public class PrescriptionDAO {
     
+    
     public static void add(String scenarioID, String stateID, String doctorName, String doctorOrder, String freqAbbr, String medicineBarcode, String discontinueStateID, String dosage, String routeAbbr) {
         Connection conn = null;
         PreparedStatement stmt = null;
