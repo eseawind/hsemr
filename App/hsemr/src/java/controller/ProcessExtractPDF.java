@@ -17,6 +17,7 @@ import dao.*;
 import entity.Keyword;
 import entity.Patient;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -266,7 +267,7 @@ public class ProcessExtractPDF extends HttpServlet {
                         // out.println(contentInLine);
                         stateID = keywordState.replaceAll(":", "");
                         stateID = "ST" + stateID.replaceAll("\\D+", "");
-                        healthcareProviderOrder += stateID + "!";
+//                        healthcareProviderOrder += stateID + "!";
 
                         //get line 1 of state information 
                         contentsInLineArrayList.get(lineNumberOfKeywordOfState + 1);
@@ -340,10 +341,10 @@ public class ProcessExtractPDF extends HttpServlet {
                 }
 
                 if (!healthcareProviderOrder.isEmpty()) {
-                    
+                    out.println(healthcareProviderOrder);
 //                    String stateIDExtracted = healthcareProviderOrder.substring(0, 3);
-//                    out.println(stateIDExtracted);
-//
+//                    out.println(stateIDExtracted + "<br>");
+////
 ////                    scenarioID = healthcareProviderOrder.substring(startScenarioID, endStateID);
 //                    Integer scNumberRetrieved = ScenarioDAO.retrieveMaxBedNumber();
 //                    String scenarioIDRetrieved = "SC" + scNumberRetrieved;
@@ -360,8 +361,8 @@ public class ProcessExtractPDF extends HttpServlet {
                 }
 
             }
-            //session.setAttribute("scenarioID", scenarioID);
-            //response.sendRedirect("./editScenario.jsp");
+            session.setAttribute("scenarioID", scenarioID);
+            response.sendRedirect("./editScenario.jsp");
 
         } catch (IOException e) {
             out.println(e);
