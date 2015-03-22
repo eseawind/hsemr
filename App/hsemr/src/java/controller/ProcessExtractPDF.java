@@ -16,12 +16,16 @@ import com.itextpdf.text.pdf.pdfcleanup.PdfCleanUpLocation;
 import com.itextpdf.text.pdf.pdfcleanup.PdfCleanUpProcessor;
 import dao.*;
 import entity.Keyword;
+import entity.Patient;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -99,10 +103,10 @@ public class ProcessExtractPDF extends HttpServlet {
                 String page = PdfTextExtractor.getTextFromPage(reader, i);
                 contentsOfCase += page;
                 
-                 wordsLine = page.split("\n");
+                 wordsLine = page.split("\n"); //separate lines of words
 
-                for (String words : wordsLine) {
-                    contentsInLineArrayList.add(words);
+                for (String words : wordsLine) { 
+                    contentsInLineArrayList.add(words); // combine all line of words in one arraylist
                 }
              }
            
@@ -249,19 +253,35 @@ public class ProcessExtractPDF extends HttpServlet {
             
             //State 1 Healthcare Provider Order
             out.println("<h1>State Information</h1>");
-
+            
+            // i = 0 refers to from page 1 til state information
+            
+            String pageTwo = PdfTextExtractor.getTextFromPage(reader, 2);
+            String[] linesOfPageTwo = pageTwo.split("\n");
+            
+            int lineNumberOfPageTwo = 0; 
+            boolean first = false; 
             for(int i = 0; i < contentsInLineArrayList.size(); i++){
                 String contentInLine = contentsInLineArrayList.get(i);
+                
+                if(contentInLine.contains(linesOfPageTwo[0]) && first == false){
+                    lineNumberOfPageTwo = i; // To only start finding HPO after page two
+                    first = true; // prevent other page from having the same line
+                }
+                
                 for(int j = 0; j < keywordsForState.size(); j++){
                     
                     String keywordState = keywordsForState.get(j).getKeywordDesc();
-                  
+                    // State ID
+                    String stateID = "";        
+                    String stateInformation = "";
                     if(contentInLine.contains(keywordState)){
+                        
 //                        out.println("<h2>" + keywordState + "</h2>");
                         int lineNumberOfKeywordOfState = i;
                         // out.println(lineNumberOfKeywordOfState);
                        // out.println(contentInLine);
-                        
+                        stateID = keywordState.replaceAll(":","");
                         //get line 1 of state information 
                         contentsInLineArrayList.get(lineNumberOfKeywordOfState +1);
                         //out.println(contentsInLineArrayList.get(lineNumberOfKeywordOfState +1) + "<br>");
@@ -280,29 +300,57 @@ public class ProcessExtractPDF extends HttpServlet {
                         
                         int startPositionForStateLine2 =0;
                         int endPositionForStateLine2 = contentsInLine2.indexOf("BP", startPositionForStateLine2);
-                        String stateLine2Extracted = contentsInLine2.substring(startPositionForStateLine2, endPositionForStateLine2);
-                        //out.println(stateLine2Extracted);
+                        String stateLine2Extracted = "";
+                        if (endPositionForStateLine2 > 0) {
+                            stateLine2Extracted = contentsInLine2.substring(startPositionForStateLine2, endPositionForStateLine2);
+                        }
                         
-                        String stateInformation = stateLine1Extracted + stateLine2Extracted;
+                        // State Description
+                        stateInformation = stateLine1Extracted + stateLine2Extracted;
               
                         out.println("<h2>"+ stateInformation +"</h2>");
                         
+                    } 
+                    String healthcareProviderOrder = "";
+                    if ((first == true && contentInLine.contains("Healthcare Provider’s Orders:")) || (first == true && contentInLine.contains("Surgeon’s Orders:"))) { // continue to extract next few lines and stop before ® 
+                        int lineToStopLoop = contentsInLineArrayList.size();
                         
                         
-
+                        for (int lineOfHPO = i+1; lineOfHPO < lineToStopLoop; lineOfHPO++) {
+                            if (!contentsInLineArrayList.get(lineOfHPO).contains("®") && j == 0) {
+                                String line = contentsInLineArrayList.get(lineOfHPO); 
+                                line = line.replaceAll("•","");
+                                if (line.length() > 0) {
+                                    line += "<br>";
+                                }
+                                healthcareProviderOrder += line;
+                                
+                            } else { 
+                                lineToStopLoop = lineOfHPO; // to stop extracting
+                            }
+                        }
+                        //Map<String,String> hpo = new HashMap<String,String>(); // mapping stateid to hpo
+                        //hpo.put(stateID, healthcareProviderOrder);
                         
-                        
-                        
-                        //session.setAttribute("scenarioID", scenarioID);
-                        //response.sendRedirect("./editScenario.jsp");
-            
                     }
-                
+                    Random rand = new Random();
+                    int randomNum = rand.nextInt((99999 - 10000) + 10000);
+                    String patientNRIC = "S38" + randomNum + "Q";
+                   
+                    Patient retrievedPatient = PatientDAO.retrieve(patientNRIC);
+                    //out.println(patientNRIC);
+                    while (retrievedPatient != null) {
+                        randomNum = rand.nextInt((99999 - 10000) + 10000);
+                        patientNRIC = "S38" + randomNum + "Q";
+                        retrievedPatient = PatientDAO.retrieve(patientNRIC);
+                    }
+                    
+                    //StateDAO.add(stateID, scenarioID, stateInformation, patientNRIC );
+                    //PrescriptionDAO.add(scenarioID, stateID, "Dr.Tan/01234Z", healthcareProviderOrder, "NA", "NA", "-", "-", "NA");
                 }
-                
-                
-
             }
+            //session.setAttribute("scenarioID", scenarioID);
+            //response.sendRedirect("./editScenario.jsp");
             
         } catch (IOException e) {
             out.println(e);
