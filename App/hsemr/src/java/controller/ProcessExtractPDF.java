@@ -111,6 +111,7 @@ public class ProcessExtractPDF extends HttpServlet {
             /////////////////////////////////
             //// SUBSTRING METHOD        ////
             ///////////////////////////////// 
+            
             /////////////////////////////////
             //// ONLY PAGE 1             ////
             /////////////////////////////////  
@@ -214,6 +215,7 @@ public class ProcessExtractPDF extends HttpServlet {
             /////////////////////////////////
             //// END OF PAGE 1             ////
             ///////////////////////////////// 
+            
             /////////////////////////////////
             //// PAGE 2        STATE INFO////
             ///////////////////////////////// 
@@ -254,6 +256,7 @@ public class ProcessExtractPDF extends HttpServlet {
                     first = true; // prevent other page from having the same line
                 }
 
+                
                 for (int j = 0; j < keywordsForState.size(); j++) {
 
                     String keywordState = keywordsForState.get(j).getKeywordDesc();
@@ -267,7 +270,10 @@ public class ProcessExtractPDF extends HttpServlet {
                         // out.println(contentInLine);
                         stateID = keywordState.replaceAll(":", "");
                         stateID = "ST" + stateID.replaceAll("\\D+", "");
-//                        healthcareProviderOrder += stateID + "!";
+                        if(!stateID.equals("")) {
+                            session.setAttribute("pdfState", stateID);
+                        }
+//                        healthcareProviderOrder += stateID + "THISISSTATE";
 
                         //get line 1 of state information 
                         contentsInLineArrayList.get(lineNumberOfKeywordOfState + 1);
@@ -298,13 +304,6 @@ public class ProcessExtractPDF extends HttpServlet {
 
                     }
 
-
-//                    out.println(stateID);
-//                    out.println(stateInformation);
-//                    out.println(scenarioID);
-                    //StateDAO.add(stateID, scenarioID, stateInformation, "-");
-                    //StateDAO.add(stateID, scenarioID, stateInformation, patientNRIC );
-                    //PrescriptionDAO.add(scenarioID, stateID, "Dr.Tan/01234Z", healthcareProviderOrder, "NA", "NA", "-", "-", "NA");
                     //Healthcare Provider's Order AKA doctor's order
                     if ((first == true && contentInLine.contains("Healthcare Provider’s Orders:")) || (first == true && contentInLine.contains("Surgeon’s Orders:"))) { // continue to extract next few lines and stop before ® 
                         int lineToStopLoop = contentsInLineArrayList.size();
@@ -314,7 +313,7 @@ public class ProcessExtractPDF extends HttpServlet {
                                 String line = contentsInLineArrayList.get(lineOfHPO);
                                 line = line.replaceAll("•", "");
                                 if (line.length() > 0) {
-                                    line += "<br>";
+                                    
                                 }
                                 healthcareProviderOrder += line;
 
@@ -327,8 +326,7 @@ public class ProcessExtractPDF extends HttpServlet {
 
                 }
                 
-                //adding in state information
-
+                //Adding in state information
                 if (!stateID.isEmpty() && !stateInformation.isEmpty()) {
                     Random rand = new Random();
                     int randomNum = rand.nextInt((99999 - 10000) + 10000);
@@ -340,33 +338,13 @@ public class ProcessExtractPDF extends HttpServlet {
                         patientNRIC = "S38" + randomNum + "Q";
                         retrievedPatient = PatientDAO.retrieve(patientNRIC);
                     }
-                    
-                    
-                    StateDAO.add(stateID, scenarioID, stateInformation, patientNRIC);
-                    
-                    
-                    
-                    
+                    StateDAO.add(stateID, scenarioID, stateInformation, patientNRIC);     
                 }
 
+                stateID = (String) session.getAttribute("pdfState");
+
                 if (!healthcareProviderOrder.isEmpty()) {
-                    out.println(healthcareProviderOrder);
-//                    String stateIDExtracted = healthcareProviderOrder.substring(0, 3);
-//                    out.println(stateIDExtracted + "<br>");
-////
-////                    scenarioID = healthcareProviderOrder.substring(startScenarioID, endStateID);
-//                    Integer scNumberRetrieved = ScenarioDAO.retrieveMaxBedNumber();
-//                    String scenarioIDRetrieved = "SC" + scNumberRetrieved;
-//                    
-//                    int startHealthCareProviderOrder = healthcareProviderOrder.indexOf("!") + ("!").length();
-////                    int endStateID = pageOne.indexOf("®", startPositionInitialStateOrders);
-//                    int endHealthCareProviderOrder = healthcareProviderOrder.length();
-//                    String healthcareProviderOrderExtracted = healthcareProviderOrder.substring(startHealthCareProviderOrder, endHealthCareProviderOrder);
-//                   
-////                    out.println(scenarioIDRetrieved);
-////                    out.println(stateIDExtracted);
-//                    out.println(healthcareProviderOrderExtracted);
-//                   PrescriptionDAO.add(scenarioIDRetrieved, stateIDExtracted, "Dr.Tan/01234Z", healthcareProviderOrderExtracted, "NA", "NA", "-", "-", "NA");
+                    PrescriptionDAO.add(scenarioID, stateID, "Dr.Tan/01234Z", healthcareProviderOrder, "NA", "NA", "-", "-", "N.A");
                 }
 
             }
