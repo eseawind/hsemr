@@ -8,6 +8,7 @@ package controller;
 import dao.KeywordDAO;
 import entity.Keyword;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,13 +35,16 @@ public class ProcessAddKeyword extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
         HttpSession session = request.getSession(false);
+        PrintWriter out = response.getWriter();
 
         int keywordID = Integer.parseInt(request.getParameter("keywordID"));
         String keywordDesc = (String) request.getParameter("keywordDesc");
         String fieldsToMap = (String) request.getParameter("fieldsToMap");
-        Keyword keyword= KeywordDAO.retrieveEntity(fieldsToMap);
-        String entityToMap = keyword.getEntityToMap();
+       // Keyword keyword= KeywordDAO.retrieveEntity(fieldsToMap);
+        String entityToMap= KeywordDAO.retrieveEntity(fieldsToMap);
+        //String entityToMap = keyword.getEntityToMap();
         
         /*if (keywordID != 0 && keywordID == 0) {
          session.setAttribute("error", "Update failed: Please update BOTH Systolic and Diastolic values.");
@@ -53,7 +57,8 @@ public class ProcessAddKeyword extends HttpServlet {
             session.setAttribute("error", "Please select a field to map the keyword.");
             response.sendRedirect("./createPDFUpload.jsp");
         } else {
-            KeywordDAO.insertKeyword(keywordID, keywordDesc, fieldsToMap,entityToMap);
+            KeywordDAO.insertKeyword(keywordID, keywordDesc, fieldsToMap, entityToMap);
+            //out.println("keywordid: " + keywordID + "KeyDesc: " + keywordDesc + "FieldsToMap: " + fieldsToMap + "entityToMap: " + entityToMap);
             session.setAttribute("success", "Added new keyword " + keywordDesc);
             response.sendRedirect("./createPDFUpload.jsp");
         }

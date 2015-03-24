@@ -46,20 +46,22 @@ public class KeywordDAO {
         return keywordList;
     }
     
-     public static Keyword retrieveEntity(String fieldsToMap) {
+     public static String retrieveEntity(String fieldsToMap) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Keyword keyword = null;
+       // Keyword keyword = null;
+        String entity= "";
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from keyword where fieldsToMap = ?");
+            stmt = conn.prepareStatement("select entityToMap from keyword where fieldsToMap = ?");
             stmt.setString(1, fieldsToMap);
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                keyword = new Keyword(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+              //  keyword = new Keyword(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                entity = rs.getString(1);
             }
 
         } catch (SQLException e) {
@@ -67,7 +69,8 @@ public class KeywordDAO {
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return keyword;
+       // return keyword;
+        return entity;
     }
          
     
