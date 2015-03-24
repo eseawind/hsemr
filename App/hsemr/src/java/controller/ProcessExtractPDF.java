@@ -87,7 +87,7 @@ public class ProcessExtractPDF extends HttpServlet {
 
         try {
             //clean up the pdf and block out information first
-            manipulatePdf(SRC, DEST);
+            manipulatePdf(SRC, DEST, request, response);
         } catch (DocumentException ex) {
             Logger.getLogger(ProcessExtractPDF.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -353,11 +353,17 @@ public class ProcessExtractPDF extends HttpServlet {
 
         } catch (IOException e) {
             out.println(e);
+        }catch(StringIndexOutOfBoundsException ex){
+            session.setAttribute("error", "Please upload a file with the correct format.");
+            response.sendRedirect("./createPDFUpload.jsp");
+        
         }
     }
 
     //creating a gray block to block out information
-    public void manipulatePdf(String src, String dest) throws IOException, DocumentException {
+    public void manipulatePdf(String src, String dest, HttpServletRequest request, HttpServletResponse response) throws IOException, DocumentException {
+        
+
         PdfReader reader = new PdfReader(src);
         PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
         List<PdfCleanUpLocation> cleanUpLocations = new ArrayList<PdfCleanUpLocation>();
@@ -379,6 +385,9 @@ public class ProcessExtractPDF extends HttpServlet {
 
         stamper.close();
         reader.close();
+
+
+ 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
