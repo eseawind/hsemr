@@ -29,17 +29,29 @@
       
         <%
             String medicineBarcode = request.getParameter("medicineBarcode");
+            
+            if(medicineBarcode == null){
+                medicineBarcode = (String)request.getAttribute("medicineBarcode");
+            }
+            
             Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
         %>
         <div class="large-10 large-centered columns">  
             <div class="row" style="width:400px; padding-top: 50px">
                 <center><h1>Edit <%=medicine.getMedicineName() %>'s details</h1></center>
-                    <%
-                        String error = (String) request.getAttribute("error");
-                        if (error == null) {
-                            error = "";
-                        }
-                    %>
+                        <%            String success = "";
+            String error = "";
+
+            if (session.getAttribute("success") != null && !session.getAttribute("success").equals("")) {
+                success = (String) session.getAttribute("success");
+                session.setAttribute("success", "");
+            }
+
+            if (session.getAttribute("error") != null && !session.getAttribute("error").equals("")) {
+                error = (String) session.getAttribute("error");
+                session.setAttribute("error", "");
+            }
+        %>
 
                 <form action = "ProcessEditMedicine" method = "post">
                     <br/>
