@@ -39,17 +39,19 @@ public class ProcessDeleteMedicine extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String medicineBarcode = request.getParameter("medicineBarcode");
+        
+        
         try{
-          
             MedicineDAO.delete(medicineBarcode);
-        }catch(SQLException e){
-            session.setAttribute("error", "Medicine: " + medicineBarcode + " is used in other cases. Please ensure that the medicine is not used in any case before deleting.");
+            session.setAttribute("success", "Medicine: " + medicineBarcode + " has been successfully deleted.");
             response.sendRedirect("./viewMedicine.jsp");
-            return;
+        }catch(SQLException e){
+            out.println("hi");
+            //session.setAttribute("success", "Medicine: " + medicineBarcode + " has been successfully deleted.");
+            session.setAttribute("success", "Medicine: " + medicineBarcode + " is used in other cases. Please ensure that the medicine is not used in any case before deleting.");
+            response.sendRedirect("./viewMedicine.jsp");
         }
         
-        session.setAttribute("error", "Medicine: " + medicineBarcode + " is used in other cases. Please ensure that the medicine is not used in any case before deleting.");
-        response.sendRedirect("./viewMedicine.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

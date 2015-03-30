@@ -45,7 +45,7 @@
         
         
          <h1>Add New Medicine</h1>
-                         <p>Create the medicine barcode <a href="http://www.barcode-generator.org/" target="_blank">here</a>. Under "Create Free", please select <b>Code 128 (Standard)</b></p><br>viewMedicine.jsp
+                         <p>Create the medicine barcode <a href="http://www.barcode-generator.org/" target="_blank">here</a>. Under "Create Free", please select <b>Code 128 (Standard)</b></p><br>
             <form action ="ProcessAddNewMedicine" method ="POST" data-abide>
                 <label>Medicine Name <input type="text" name="newMedicineName" required/></label>
                 <label>Medicine Barcode <input type ="text" name ="newMedicineBarcode" style="text-transform:uppercase;" required pattern ="^[0-9a-zA-Z]+$"></label>

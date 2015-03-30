@@ -7,13 +7,17 @@
 package controller;
 
 import dao.MedicineDAO;
+import entity.Medicine;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,15 +37,60 @@ public class ProcessEditMedicine extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
    
         String medicineBarcode = request.getParameter("medicineBarcode");
-        String medicineName = request.getParameter("medicineName");
+        String medicineName = request.getParameter("medicineName").trim();
         
-        MedicineDAO.update(medicineBarcode, medicineName);
+        out.println(medicineBarcode);
+        out.println(medicineName);
+        
+        ArrayList<Medicine> medicineList = (ArrayList<Medicine>)MedicineDAO.retrieveAll(); 
+        ArrayList<String> medicineNameList = new ArrayList<String>();
+        boolean medicineExist = false;
+        
+        for(Medicine medicine: medicineList){
+            medicineNameList.add(medicine.getMedicineName());
+            String medicineNameRetreived = medicine.getMedicineName();
+//            if(medicineNameRetreived.equalsIgnoreCase(medicineName)){
+//                medicineExist = true;
+//                break;
+//            }
+        }
+        
+//        out.println(medicineExist);
+        
+//        for(String medicine: medicineNameList){
+//            out.println(medicine);
+//        }
+//        
+//        if(medicineNameList.contains("Codydramol")){
+//         out.println("HI");
+//        }
+        if(medicineNameList.contains(medicineName)){
+            out.println(medicineNameList.contains(medicineName));
+            out.println("cannot edit!");
+            String medicineBarcodeReturned = MedicineDAO.retrieveByMedicineName(medicineName).getMedicineBarcode();
+            request.setAttribute("medicineBarcode", medicineBarcodeReturned);
+            out.println(medicineBarcodeReturned);
+            session.setAttribute("error",  "Please ensure that your medicine name is unique.");
+            RequestDispatcher rd = request.getRequestDispatcher("./editMedicine.jsp");
+            rd.forward(request, response);
+            //response.sendRedirect("./editMedicine.jsp");
+        }else{
+            out.println(medicineNameList.contains(medicineName));
+            MedicineDAO.update(medicineBarcode, medicineName);
+            session.setAttribute("success",  "You have successfully changed the medicine name.");
+            response.sendRedirect("./viewMedicine.jsp");
+        }
+        
+        
+        
+        
      
-        response.sendRedirect("./viewMedicine.jsp");
+        
         
     }
 
