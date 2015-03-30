@@ -200,7 +200,7 @@
                         <label for="right-label" class="right inline" > Doctor's Order </label>
                     </div>
                     <div class="small-9 columns">
-                        <input type="text" name="doctorOrder" required>
+                        <input type="text" name="doctorOrder">
                     </div>
                 </div>
 
@@ -209,7 +209,7 @@
                         <label for="right-label" class="right inline" > Dosage </label>
                     </div>
                     <div class="small-9 columns">
-                        <input type="text" name="dosage" required>
+                        <input type="text" name="dosage">
                     </div>
                 </div>
 
@@ -391,7 +391,7 @@
                             <td>
                                 <!-- <input type="hidden" name="<%=docOrderDefault%>" value="<%=doctorOrder%>"> -->
                                 <input type="text" name="<%=doctorNameNumber%>" value="<%=doctorName%>" required></td>
-                            <td><input type="text" name="<%=doctorOrderNumber%>" value="<%=doctorOrder%>" required></td>
+                            <td><input type="text" name="<%=doctorOrderNumber%>" value="<%=doctorOrder%>"></td>
                             <td><input type="text" name="<%=dosageNumber%>" value="<%=dosage%>" required></td>
 
                         </tr>
