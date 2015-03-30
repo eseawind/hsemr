@@ -79,7 +79,7 @@ public class ProcessAddVital extends HttpServlet {
             try {
                 temperature = Double.parseDouble(request.getParameter("temperature"));
             } catch (NumberFormatException e) {
-                
+                e.printStackTrace();
             }
 
             try {
@@ -124,7 +124,17 @@ public class ProcessAddVital extends HttpServlet {
             session.setAttribute("intravenousAmount", request.getParameter("intravenousAmount"));
             session.setAttribute("output", request.getParameter("output"));
             
-            if (BPsystolic != 0 && BPdiastolic == 0) {
+            
+            if(temperature == 0.0 && RR == 0 && HR == 0 && BPsystolic == 0 && BPdiastolic == 0 && SPO == 0 && BPsystolic == 0 && oralAmount.equals("-")  && oralType.equals("-") && intravenousType.equals("-") && intravenousType.equals("-")){
+                session.setAttribute("error", "Update failed: At least 1 field must be filled up before updating.");
+                session.setAttribute("active", "vital");
+                response.sendRedirect("./viewPatientInformation.jsp");
+            }else if(BPsystolic < BPdiastolic){
+                session.setAttribute("error", "Update failed: BP Systolic must be higher than BP Diastolic.");
+                session.setAttribute("active", "vital");
+                response.sendRedirect("./viewPatientInformation.jsp");
+            }
+            else if (BPsystolic != 0 && BPdiastolic == 0) {
                 session.setAttribute("error", "Update failed: Please update BOTH Systolic and Diastolic values.");
                 session.setAttribute("active", "vital");
                 response.sendRedirect("./viewPatientInformation.jsp");

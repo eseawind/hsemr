@@ -625,7 +625,7 @@
                                 <table>
                                     <tr>
                                         <td><b>Date Administered</b></td>
-                                        <td><b>Medicine Barcode</b></td>
+                                        <td><b>Medicine Name</b></td>
                                         <td><b>Administered By</b></td>
                                     </tr>
                                     <%
@@ -634,7 +634,7 @@
                                         for (MedicationHistory medicationHistory : medicationHistoryList) {%>
                                     <tr>
                                         <td><%=df.format(medicationHistory.getMedicineDatetime())%></td>
-                                        <td><%=medicationHistory.getMedicineBarcode()%></td>
+                                        <td><%=MedicineDAO.retrieve(medicationHistory.getMedicineBarcode()).getMedicineName()%></td>
                                         <td><%=medicationHistory.getPracticalGroupID()%></td>
                                     </tr> 
                                     <% }

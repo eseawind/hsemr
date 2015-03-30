@@ -178,11 +178,11 @@
                         </label>
 
                         <label> Doctor's Order 
-                            <input type="text" name="doctorOrder" required>
+                            <input type="text" name="doctorOrder">
                         </label>
 
                         <label>Dosage
-                            <input type="text" name="dosage" required>
+                            <input type="text" name="dosage">
                         </label>
                     </div>
                     <center><input type="submit" value="Create Medication" class="button small"></center> 
