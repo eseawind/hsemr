@@ -133,7 +133,7 @@ public class ProcessPDFCreation extends HttpServlet {
         String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
         String uploadFolder = "";
         if (pathToRoot == null){
-            uploadFolder = getServletContext().getRealPath("") + File.separator + "tmp";
+            uploadFolder = getServletContext().getRealPath("") + File.separator + "upload";
         }
         else{
             uploadFolder = pathToRoot + File.separator + DATA_DIRECTORY; 

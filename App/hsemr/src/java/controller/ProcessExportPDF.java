@@ -112,19 +112,17 @@ public class ProcessExportPDF extends HttpServlet {
  
             Document document = new Document();
             Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
-            
+          
             String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
             String fileLocation = "";
             if (pathToRoot == null){
                 fileLocation = getServletContext().getRealPath("") + File.separator + "public";
                 
-                
-               // fileLocation= "C:\\Users\\Administrator\\Documents\\GitHub\\hsemr\\App\\hsemr\\build\\web\\tmp" + practicalGroup + "for" + scenarioID + "Submission.pdf";
+                // fileLocation= "C:\\Users\\Administrator\\Documents\\GitHub\\hsemr\\App\\hsemr\\build\\web\\tmp" + practicalGroup + "for" + scenarioID + "Submission.pdf";
                 //fileLocation= "C:\\Users\\hpkhoo.2012.SMUSTU\\Documents\\GitHub\\hsemr\\App\\hsemr\\build\\web\\tmp" + practicalGroup + "for" + scenarioID + "Submission.pdf";
                
-            }
-            else{
-                fileLocation = pathToRoot + File.separator + "exportData" ; 
+            } else{
+                fileLocation = pathToRoot + File.separator + "public" ; 
             }
             //String fileLocation= "C:\\NPHSEMR\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
            // String fileLocation= System.getProperty("user.home") + "\\desktop\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";

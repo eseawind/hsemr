@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,7 +70,7 @@ public class ProcessExtractPDF extends HttpServlet {
         String pathToRoot = System.getenv("OPENSHIFT_DATA_DIR");
         String uploadFolder = "";
         if (pathToRoot == null) {
-            uploadFolder = getServletContext().getRealPath("") + File.separator + "tmp";
+            uploadFolder = getServletContext().getRealPath("") + File.separator + "upload";
         } else {
             uploadFolder = pathToRoot + File.separator + DATA_DIRECTORY;
         }
@@ -79,12 +80,13 @@ public class ProcessExtractPDF extends HttpServlet {
         String name = pdfFile.getName();
         name = name.replaceAll(".pdf", "");
         String outputName = name + "output.pdf";
-
+        
         //retrievePDF = "C:\\\\HealthLab\\\\ECS UK ARF Adult (Faculty) - remove.pdf";
         //for cleaning the pdf file
         String SRC = retrievePDF;
         String DEST = uploadFolder + File.separator + outputName;
-
+        
+        File outputFile = new File(DEST);
         try {
             //clean up the pdf and block out information first
             manipulatePdf(SRC, DEST, request, response);
@@ -349,6 +351,10 @@ public class ProcessExtractPDF extends HttpServlet {
 
             }
             session.setAttribute("scenarioID", scenarioID);
+            
+            pdfFile.delete();
+            outputFile.delete();
+            
             response.sendRedirect("./editScenario.jsp");
 
         } catch (IOException e) {

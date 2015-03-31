@@ -63,7 +63,7 @@
                         <br/>
 
                         <!--Password-->
-                        <label><strong>New Mediine Name</strong>
+                        <label><strong>New Medicine Name</strong>
                             <input type="text" id="medicineName" name="medicineName" value ="<%=medicine.getMedicineName()%>" required autofocus>
                         </label>  
                         <br/>

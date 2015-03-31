@@ -46,9 +46,9 @@ public class ProcessDeleteMedicine extends HttpServlet {
             session.setAttribute("success", "Medicine: " + medicineBarcode + " has been successfully deleted.");
             response.sendRedirect("./viewMedicine.jsp");
         }catch(SQLException e){
-            out.println("hi");
+            
             //session.setAttribute("success", "Medicine: " + medicineBarcode + " has been successfully deleted.");
-            session.setAttribute("success", "Medicine: " + medicineBarcode + " is used in other cases. Please ensure that the medicine is not used in any case before deleting.");
+            session.setAttribute("error", "Medicine: " + medicineBarcode + " is used in other cases. Please ensure that the medicine is not used in any case before deleting.");
             response.sendRedirect("./viewMedicine.jsp");
         }
         
