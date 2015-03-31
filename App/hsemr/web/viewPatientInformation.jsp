@@ -1600,11 +1600,11 @@
 
 
                                                     %>
-
+                                                    <a href="viewMainLogin.jsp" >Log Out</a>
                                                 </div>
 
 
-
+                                                    
                                                 <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
 
                                                 <script>

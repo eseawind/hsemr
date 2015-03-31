@@ -116,6 +116,10 @@
             <%session.setAttribute("fromMobile", "true");%>          
             <input type="submit" value="View Patient Management" class="button large"> 
         </form>
+            
+          
+        <a href="viewMainLogin.jsp" >Log Out</a>
+     
         <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
         </div>
         
