@@ -378,7 +378,10 @@ public class ProcessExtractPDF extends HttpServlet {
             
             response.sendRedirect("./editScenario.jsp");
 
-        } catch (IOException e) {
+        } catch(FileNotFoundException e){
+            session.setAttribute("error", "Please wait a few seconds and upload again.");
+            response.sendRedirect("./createPDFUpload.jsp");
+        }catch (IOException e) {
             out.println(e);
         }catch(StringIndexOutOfBoundsException ex){
             session.setAttribute("error", "Please upload a file with the correct format.");
