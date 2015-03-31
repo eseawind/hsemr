@@ -85,17 +85,19 @@
                         Patient retrievePatient = PatientDAO.retrieve(patientNRIC);
 
                         State retrieveScenarioState = null;
-
+                        StateHistory stateActivatedLastest = null;
+                        Scenario scenarioActivated = null;
                         //retrieve current scenario
                         //Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
-                        Scenario scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
-                        StateHistory stateActivatedLastest = null;
-                        
                         
                         if(pg != null){
+                            scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+                            stateActivatedLastest = null;
+                        }
                         
+                        //check pg != null twice, do not remove! 
+                        if(pg != null){
                             stateActivatedLastest = StateHistoryDAO.retrieveLatestStateActivatedByLecturer(pg.getLecturerID());
-
                         }
                         //get the most recently activated scenario's state
                         if (scenarioActivated == null || stateActivatedLastest.getScenarioID() == null) {
@@ -550,7 +552,7 @@
                                                     <input type="text" name ="oralAmount"  value="<%=oralAmount1%>"/>
                                                 </div>
 
-                                                <label for="left-label" class="left inline">Amount Taken</label>
+                                                <label for="left-label" class="left inline">Amount Taken (mL)</label>
 
                                             </div>
                                         </td></tr>
@@ -570,7 +572,7 @@
                                                     <input type="text" name ="intravenousAmount"  value="<%=intravenousAmount1%>" />
                                                 </div>
 
-                                                <label for="left-label" class="left inline">Amount Infused</label>
+                                                <label for="left-label" class="left inline">Amount Infused (mL)</label>
 
                                             </div>
                                         </td></tr>
@@ -1598,11 +1600,11 @@
 
 
                                                     %>
-
+                                                    <a href="viewMainLogin.jsp" >Log Out</a>
                                                 </div>
 
 
-
+                                                    
                                                 <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
 
                                                 <script>

@@ -161,17 +161,20 @@ public class StateDAO {
         }
     }
 */
- /*
-    public static void resetStateStatus(String scenarioID) {
+ 
+    public static void updateNRICForState0(String scenarioID, String patientNRIC) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "UPDATE state SET stateStatus =0 WHERE scenarioID =?";
+        String query = "UPDATE state SET patientNRIC =? WHERE scenarioID =? AND patientNRIC=? AND stateID=?";
 
         try {
             conn = ConnectionManager.getConnection();
 
             preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, scenarioID);
+            preparedStatement.setString(1, patientNRIC);
+            preparedStatement.setString(2, scenarioID);
+            preparedStatement.setString(3, "-");
+            preparedStatement.setString(4, "ST0");
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -180,7 +183,7 @@ public class StateDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
- */   
+ 
 /*
     public static void updateState(String stateID, String scenarioID, int stateStatus) {
         Connection conn = null;
