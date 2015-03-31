@@ -87,16 +87,19 @@
                 String intravenousAmount = "";
                 String output = "";
 
-                if (request.getAttribute("scenarioName") != null) {
-                    scenarioName = (String) request.getAttribute("scenarioName");
+                if (session.getAttribute("scenarioName") != null || !session.getAttribute("scenarioName").equals("")) {
+                    scenarioName = (String) session.getAttribute("scenarioName");
+                    session.setAttribute("scenarioName", "");
                 }
 
-                if (request.getAttribute("scenarioDescription") != null) {
-                    scenarioDescription = (String) request.getAttribute("scenarioDescription");
+                if (session.getAttribute("scenarioDescription") != null || !session.getAttribute("scenarioDescription").equals("")) {
+                    scenarioDescription = (String) session.getAttribute("scenarioDescription");
+                    session.setAttribute("scenarioDescription", "");
                 }
 
-                if (request.getAttribute("admissionInfo") != null) {
-                    admissionInfo = (String) request.getAttribute("admissionInfo");
+                if (session.getAttribute("admissionInfo") != null || !session.getAttribute("admissionInfo").equals("")) {
+                    admissionInfo = (String) session.getAttribute("admissionInfo");
+                    session.setAttribute("admissionInfo", "");
                 }
 
                 if (request.getAttribute("patientNRIC") != null) {
@@ -118,28 +121,28 @@
                 if (request.getAttribute("allergy") != null) {
                     allergy = (String) request.getAttribute("allergy");
                 }
-
-                if (request.getAttribute("temperature0") != null) {
+                
+                if (request.getAttribute("temperature0") != null && !String.valueOf(request.getAttribute("temperature0")).equals("0.0")) {
                     temperature0 = String.valueOf(request.getAttribute("temperature0"));
                 }
 
-                if (request.getAttribute("RR0") != null) {
+                if (request.getAttribute("RR0") != null && !String.valueOf(request.getAttribute("RR0")).equals("0")) {
                     RR0 = String.valueOf(request.getAttribute("RR0"));
                 }
 
-                if (request.getAttribute("HR0") != null) {
+                if (request.getAttribute("HR0") != null && !String.valueOf(request.getAttribute("HR0")).equals("0")) {
                     HR0 = String.valueOf(request.getAttribute("HR0"));
                 }
 
-                if (request.getAttribute("BPS") != null) {
+                if (request.getAttribute("BPS") != null && !!String.valueOf(request.getAttribute("BPS")).equals("0")) {
                     BPS = String.valueOf(request.getAttribute("BPS"));
                 }
 
-                if (request.getAttribute("BPD") != null) {
+                if (request.getAttribute("BPD") != null && !!String.valueOf(request.getAttribute("BPD")).equals("0")) {
                     BPD = String.valueOf(request.getAttribute("BPD"));
                 }
 
-                if (request.getAttribute("SPO0") != null) {
+                if (request.getAttribute("SPO0") != null && !String.valueOf(request.getAttribute("SPO0")).equals("0")) {
                     SPO0 = String.valueOf(request.getAttribute("SPO0"));
                 }
 
@@ -166,7 +169,9 @@
             %>
 
             <form data-abide action ="ProcessAddScenario" method ="POST">
+                <div class="row">  
                 <!--Case Details-->
+                
                 <div class="panelCase">
                     <div>
                         <label>Case Name
@@ -177,12 +182,12 @@
                     <div>
 
                         <label>Case Description
-                            <textarea style = "resize:vertical"  name="scenarioDescription" rows="10" cols="10" placeholder ="<%=scenarioDescription%>" required></textarea>
+                            <textarea style = "resize:vertical"  name="scenarioDescription" rows="10" cols="10" required><%=scenarioDescription%></textarea>
                         </label>
                     </div>
                     <div>
                         <label>Admission Information
-                            <textarea style = "resize:vertical"  name="admissionInfo" rows="10" cols="10" placeholder = "<%=admissionInfo%>" required></textarea>
+                            <textarea style = "resize:vertical"  name="admissionInfo" rows="10" cols="10" required><%=admissionInfo%></textarea>
                         </label>
                     </div>
                 </div>
@@ -301,8 +306,9 @@
                         </div>  
                     </div>
                 </div> 
-                <br/><br/>
-                <center><input type="submit" value="Proceed to Step 2  >>" class="button"></center> 
+            </div>
+            <br/><br/>
+            <center><input type="submit" value="Proceed to Step 2  >>" class="button"></center> 
             </form>
             <script src="js/vendor/jquery.js"></script>
             <script src="js/foundation.min.js"></script>

@@ -36,6 +36,12 @@ public class ProcessAddScenario extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException { //Retrieve case information
+            
+        try{ 
+            HttpSession session = request.getSession(false);
+            if(session.getAttribute("admin") == null){
+                response.sendRedirect("viewMainLogin.jsp");
+            }
             String scenarioName = request.getParameter("scenarioName");
             String scenarioDescription = request.getParameter("scenarioDescription");
             String admissionInfo = request.getParameter("admissionInfo");
@@ -97,9 +103,7 @@ public class ProcessAddScenario extends HttpServlet {
             String stateDescription0 = "default state"; //for the default state only
           
             int newBed = ScenarioDAO.retrieveMaxBedNumber()+1;
-            
-            HttpSession session = request.getSession(false);
-            
+           
             Patient retrievedPatient = PatientDAO.retrieve(patientNRIC);
             
             if (intragastricType.equals("")) {
@@ -117,14 +121,14 @@ public class ProcessAddScenario extends HttpServlet {
             if (output.equals("")) {
                 output = "-";
             }
-                    
+            session.setAttribute("scenarioName",scenarioName);
+            session.setAttribute("scenarioDescription", scenarioDescription); 
+            session.setAttribute("admissionInfo", admissionInfo);
             if(retrievedPatient != null){ // patientNRIC exists
                 session.setAttribute("error", "Patient NRIC: " + retrievedPatient.getPatientNRIC() +  " exists. Patient NRIC needs to be unique.");
                 
                 //for repopulating the fields in createScenario.jsp 
-                request.setAttribute("scenarioName",scenarioName);
-                request.setAttribute("scenarioDescription", scenarioDescription);
-                request.setAttribute("admissionInfo", admissionInfo);
+                
                 request.setAttribute("patientNRIC", patientNRIC);
                 request.setAttribute("firstName", firstName);
                 request.setAttribute("lastName", lastName);
@@ -186,7 +190,9 @@ public class ProcessAddScenario extends HttpServlet {
                 response.sendRedirect("createStateBC.jsp");
                 
             }
-            
+        } catch (Exception e) {
+            System.out.println("Please contact administrator. Click <a href='viewMainLogin.jsp'>here</a> to login again.");
+        }   
             
             
     }
