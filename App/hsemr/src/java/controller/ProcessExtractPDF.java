@@ -114,6 +114,18 @@ public class ProcessExtractPDF extends HttpServlet {
             //// SUBSTRING METHOD        ////
             ///////////////////////////////// 
             
+            //NRIC generation
+            Random rand = new Random();
+            int randomNum = rand.nextInt((99999 - 10000) + 10000);
+            String patientNRIC = "S38" + randomNum + "Q";
+
+            Patient retrievedPatient = PatientDAO.retrieve(patientNRIC);
+            while (retrievedPatient != null) {
+                randomNum = rand.nextInt((99999 - 10000) + 10000);
+                patientNRIC = "S38" + randomNum + "Q";
+                retrievedPatient = PatientDAO.retrieve(patientNRIC);
+            }
+             
             /////////////////////////////////
             //// ONLY PAGE 1             ////
             /////////////////////////////////  
@@ -210,10 +222,15 @@ public class ProcessExtractPDF extends HttpServlet {
             ScenarioDAO.add(scenarioID, scenarioNameExtracted, scenarioDescExtracted.trim(), scenarioAdmissionNotesExtracted.trim(), scNumber);
 
             //State Table
-            StateDAO.add("ST0", scenarioID, "default state", "-");
+           // StateDAO.add("ST0", scenarioID, "default state", "-");
+            StateDAO.add("ST0", scenarioID, "default state", patientNRIC);
+            
             //Prescription Table
             PrescriptionDAO.add(scenarioID, "ST0", "Dr.Tan/01234Z", initialStateOrdersExtracted, "NA", "NA", "-", "-", "N.A");
 
+            AllergyPatientDAO.add(patientNRIC, "");
+            PatientDAO.add(patientNRIC, "", "", "", "");
+                    
             /////////////////////////////////
             //// END OF PAGE 1             ////
             ///////////////////////////////// 
@@ -329,19 +346,23 @@ public class ProcessExtractPDF extends HttpServlet {
                 }
                 
                 //Adding in state information
-                if (!stateID.isEmpty() && !stateInformation.isEmpty()) {
-                    Random rand = new Random();
-                    int randomNum = rand.nextInt((99999 - 10000) + 10000);
-                    String patientNRIC = "S38" + randomNum + "Q";
-                   
-                    Patient retrievedPatient = PatientDAO.retrieve(patientNRIC);
-                    while (retrievedPatient != null) {
-                        randomNum = rand.nextInt((99999 - 10000) + 10000);
-                        patientNRIC = "S38" + randomNum + "Q";
-                        retrievedPatient = PatientDAO.retrieve(patientNRIC);
-                    }
-                    StateDAO.add(stateID, scenarioID, stateInformation, patientNRIC);     
-                }
+               if (!stateID.isEmpty() && !stateInformation.isEmpty()) {
+//                    Random rand = new Random();
+//                    int randomNum = rand.nextInt((99999 - 10000) + 10000);
+//                    String patientNRIC = "S38" + randomNum + "Q";
+//                   
+//                    Patient retrievedPatient = PatientDAO.retrieve(patientNRIC);
+//                    while (retrievedPatient != null) {
+//                        randomNum = rand.nextInt((99999 - 10000) + 10000);
+//                        patientNRIC = "S38" + randomNum + "Q";
+//                        retrievedPatient = PatientDAO.retrieve(patientNRIC);
+//                    }
+                    
+                    StateDAO.add(stateID, scenarioID, stateInformation, patientNRIC);
+//                    StateDAO.updateNRICForState0(scenarioID, patientNRIC);
+//                    AllergyPatientDAO.add(patientNRIC, "");
+//                    PatientDAO.add(patientNRIC, "", "", "", "");
+               }
 
                 stateID = (String) session.getAttribute("pdfState");
 
