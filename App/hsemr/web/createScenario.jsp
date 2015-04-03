@@ -87,17 +87,17 @@
                 String intravenousAmount = "";
                 String output = "";
 
-                if (session.getAttribute("scenarioName") != null || !session.getAttribute("scenarioName").equals("")) {
+                if (session.getAttribute("scenarioName") != null) {
                     scenarioName = (String) session.getAttribute("scenarioName");
                     session.setAttribute("scenarioName", "");
                 }
 
-                if (session.getAttribute("scenarioDescription") != null || !session.getAttribute("scenarioDescription").equals("")) {
+                if (session.getAttribute("scenarioDescription") != null) {
                     scenarioDescription = (String) session.getAttribute("scenarioDescription");
                     session.setAttribute("scenarioDescription", "");
                 }
 
-                if (session.getAttribute("admissionInfo") != null || !session.getAttribute("admissionInfo").equals("")) {
+                if (session.getAttribute("admissionInfo") != null) {
                     admissionInfo = (String) session.getAttribute("admissionInfo");
                     session.setAttribute("admissionInfo", "");
                 }
