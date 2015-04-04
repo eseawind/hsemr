@@ -152,10 +152,11 @@
                     <thead>
                     <p>Multidisciplinary Notes</p>
                     <tr>
+                        <th>Time Submitted</th>
                         <th>Practical Group ID</th> 
                         <th>Nurses In-Charge</th>
                         <th>Multidisciplinary Notes</th>
-                        <th>Time Submitted</th>
+                        
                     </tr>
                     </thead>
                     <%for (Note note : noteList) {
@@ -163,10 +164,11 @@
                     %>
 
                     <tr>
+                        <td><%=df.format(note.getNoteDatetime())%></td>
                         <td><%=note.getPracticalGroupID()%></td>
                         <td><%=note.getGrpMemberNames()%></td>
                         <td><%=note.getMultidisciplinaryNote()%></td>
-                        <td><%=df.format(note.getNoteDatetime())%></td>
+                       
                     </tr>
                     <%
                             }//end of for
@@ -304,7 +306,7 @@
                     <col width="20%">
                     <col width="20%">
                     <thead>
-                    <p> Input/Output</p>
+                    <p> Intake/Output</p>
                     <tr>
                         <th>Vitals Datetime</th> 
                         <th>Output</th> 
