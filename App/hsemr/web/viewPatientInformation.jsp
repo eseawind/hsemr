@@ -39,7 +39,7 @@
         
         <!--Web Title-->
         <title>EMR | Patient Information</title>
-
+    
         <script>
 
             $(document).ready(function() {
@@ -63,7 +63,6 @@
     </head>
     <body>
         <script src="js/foundation.min.js"></script>
-
         <!--RESPONSIVE. WEB VERSION HERE-->
         <div class="hide-for-touch">
             <div align ="center">
@@ -1601,7 +1600,7 @@
 
 
                                                     %>
-                                                    <a href="viewMainLogin.jsp" >Log Out</a>
+                                                    <font size="6"><a href="viewMainLogin.jsp" >Log Out</a></font>
                                                 </div>
 
 
