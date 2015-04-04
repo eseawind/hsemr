@@ -210,7 +210,7 @@
                         <label for="right-label" class="right inline" > Dosage </label>
                     </div>
                     <div class="small-9 columns">
-                        <input type="text" name="dosage">
+                        <input type="text" name="dosage" required>
                     </div>
                 </div>
 

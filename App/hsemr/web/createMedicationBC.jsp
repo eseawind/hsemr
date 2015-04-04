@@ -182,7 +182,7 @@
                         </label>
 
                         <label>Dosage
-                            <input type="text" name="dosage">
+                            <input type="text" name="dosage" required>
                         </label>
                     </div>
                     <center><input type="submit" value="Create Medication" class="button small"></center> 
