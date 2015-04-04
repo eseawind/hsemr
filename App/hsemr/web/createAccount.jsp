@@ -10,10 +10,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+
         <!--Web Title-->
         <title>EMR | User Management | Create Account</title>
-        
+
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
         <link rel="stylesheet" href="css/original.css" />
@@ -82,18 +82,22 @@
                         <input type="password" id="password" name="password" required>
                     </label>  
                     <br/>
-                    
+
                     <!--Confirm Password-->
                     <label><strong>Confirm Password</strong>
                         <input type="password" id="confirmPassword" name="confirmPassword" required>
                     </label>  
-                    <br/>
+                    <br/><br/>
 
                     <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
-                    <center>
-                    <input type="submit" class="button tiny" value="Add account"> 
-                    <input type="button" value="Cancel" class="button tiny" onClick="window.location = '<%=location%>'"/>
-                    </center>
+                    <table style="border-color: white; width:400px">
+                        <col width="50%">
+                        <col width="50%">
+                        <tr>
+                            <td><center><input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/></center> </td>
+                        <td><center><input type="submit" class="button important" value="Add Account"></center></td>
+                        </tr>
+                    </table>
                 </form>   
             </div>
         </div>

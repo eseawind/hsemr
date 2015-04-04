@@ -140,22 +140,22 @@
                         temperature0 = "";
                     }
                     if (RR0.equals("0")) {
-                        RR0 = "";
+                        RR0 = "-";
                     }
                     if (HR0.equals("0")) {
-                        HR0 = "";
+                        HR0 = "-";
                     }
                     if (BPS.equals("0")) {
-                        BPS = "";
+                        BPS = "-";
                     }
                     if (BPD.equals("0")) {
-                        BPD = "";
+                        BPD = "-";
                     }
                     if (SPO0.equals("0")) {
-                        SPO0 = "";
+                        SPO0 = "-";
                     }
                     
-                    if (intragastricType.equals("-")) {
+                    /*if (intragastricType.equals("-")) {
                         intragastricType = "";
                     }
                     
@@ -173,7 +173,7 @@
                     
                     if (output.equals("-")) {
                         output = "";
-                    }
+                    }*/
             %>
 
             <form data-abide action ="viewState.jsp" method ="POST">
@@ -262,10 +262,15 @@
                             </div> 
                             <div class="large-4 columns">
                                 <label>Blood Pressure Diastolic</label>
-                                <p><%=BPD%></p>
+                                <p><%=BPD%></p></label>
                             </div>
                             <div class="large-4 columns">
                                 <label>SpO<sub>2</sub></label>
+                                <%
+                                    if(SPO0.equals("")) {
+                                        SPO0 = "-";
+                                    }
+                                %>
                                 <p><%=SPO0%></p>
                             </div>
                                     
@@ -290,7 +295,6 @@
                                 <p><%=output%></p>
                             </div>
                                 <div class="large-4 columns">
-                                
                             </div>
                         </div>
                     </div>

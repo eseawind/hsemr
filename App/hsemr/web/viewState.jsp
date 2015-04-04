@@ -37,7 +37,7 @@
             <li><a href="viewCaseAdmin.jsp">Case Information</a></li>
             <li class="current">State Information</li>
             <li><a href="viewMedication.jsp">Medication </a></li>
-            <li><a href="editReportDocument.jsp">Report and Document </a></li>
+            <li><a href="viewReportDocument.jsp">Report and Document </a></li>
         </ul><br/>
 
         <%            String success = "";

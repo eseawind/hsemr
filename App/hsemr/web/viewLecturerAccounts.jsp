@@ -74,9 +74,9 @@
                         <col width="10%">
                         <thead>
                         <tr>
-                            <th><b>User ID</b></th>
-                            <th><b>Password</b></th>
-                            <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
+                            <th>User ID</th>
+                            <th>Password</th>
+                            <th colspan="2" align="center" valign="middle">Actions</th>
                         </tr>
                         </thead>
                         <%

@@ -18,17 +18,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+
         <!--Web Title-->
         <title>EMR | User Management | Edit Account</title>
-        
+
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
         <link rel="stylesheet" href="css/original.css" />
         <script type="text/javascript" src="js/humane.js"></script>
         <script src="responsive-tables.js"></script>
         <%@include file="/topbar/topbarAdmin.jsp" %>
-        
+
     </head>
     <body> 
         <%            String userID = "";
@@ -54,8 +54,8 @@
 
         %>
         <div class="large-10 large-centered columns">  
-            <div class="row" style="width:400px; padding-top: 50px">
-                <center><h1>Edit <%=userID%>'s details</h1></center>
+            <div class="row" style="width:500px; padding-top: 50px">
+                <center><h1>Edit <%=userID%>'s details</h1></center><br/>
                     <%
                         String error = (String) request.getAttribute("error");
                         if (error == null) {
@@ -86,11 +86,15 @@
                     <br/>
                     <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
                     <br/>
-
-                    <center> 
-                        <input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/>
-                        <input type="submit" class="button small" value="Save"></center>
-
+                    <table style="border-color: white; width:500px">
+                        <col width="50%">
+                        <col width="50%">
+                        <tr>
+                            <td><center><input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/></center> </td>
+                        <td><center><input type="submit" class="button important" value="Save"></center></td>
+                        </tr>
+                    </table>
+                        
                 </form>
             </div>
         </div>

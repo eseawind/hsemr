@@ -20,7 +20,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        
+
         <!--Web Title-->
         <title>EMR | User Management | Practical Group</title>
         <link rel="stylesheet" href="css/foundation.css" />
@@ -70,10 +70,10 @@
                         <col width="10%">
                         <thead>
                             <tr>
-                                <td><b>User ID</b></td>
-                                <td><b>Password</b></td>
-                                <td><b>Lecturer-in-charge</b></td>
-                                <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
+                                <th>User ID</th>
+                                <th>Password</th>
+                                <th>Lecturer-in-charge</th>
+                                <th colspan="2" align="center" valign="middle">Actions</th>
                             </tr>
                         </thead>
                         <%
@@ -104,14 +104,14 @@
                                     %>
                                     <!--<input type = "submit" class="button tinytable" value="delete" disabled>-->
                                     <center><div class style="padding-top:7px"><b><font color="#368a55">LOGGED IN</font></b></div></center>
-                                            <%
-                                            } else {
-                                            %>
-                                        <center><input type="submit" class="button tinytable" onclick="if (!deleteConfirmation())
-                                            return false" value="delete" ></center>
-                                    <%
-                                        }
-                                    %>
+                                                <%
+                                                } else {
+                                                %>
+                                    <center><input type="submit" class="button tinytable" onclick="if (!deleteConfirmation())
+                                                return false" value="delete" ></center>
+                                        <%
+                                            }
+                                        %>
                                 </form>
                             </td>
                             <%

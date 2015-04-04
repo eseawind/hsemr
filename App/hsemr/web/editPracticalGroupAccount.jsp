@@ -52,8 +52,8 @@
 
         %>
         <div class="large-10 large-centered columns">  
-            <div class="row" style="width:400px; padding-top: 50px">
-                <center><h1>Edit <%=userID%>'s details</h1></center>
+            <div class="row" style="width:500px; padding-top: 50px">
+                <center><h1>Edit <%=userID%>'s details</h1></center><br/>
 
 
                 <%
@@ -105,9 +105,15 @@
                     </div>
                     <br/>
                     <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">
-                    <center><input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/>
-                        <input type="submit" class="button small" value="Save"> 
-                    </center>
+                    <table style="border-color: white; width:500px">
+                        <col width="50%">
+                        <col width="50%">
+                        <tr>
+                            <td><center><input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/></center> </td>
+                            <td><center><input type="submit" class="button important" value="Save"></center></td>
+                        </tr>
+                    </table>
+
                 </form>
             </div>
         </div>

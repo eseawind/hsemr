@@ -17,10 +17,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+
         <!--Web Title-->
         <title>EMR | Case Management | Manage Case | Edit Report and Document</title>
-        
+
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="responsive-tables.css">
         <link rel="stylesheet" href="css/original.css" />
@@ -173,13 +173,12 @@
             <h3>Current Reports</h3>
             <!-- Report table -->
 
-            <table class="responsive" id="cssTable" align="center">
-
+            <table class="responsive" id="cssTable">
                 <col width="10%">
                 <col width="20%">
                 <col width="40%">
                 <col width="20%">
-                <col width="30%">
+                <col width="10%">
                 <thead>
                     <tr>
                         <th>State</th>
@@ -209,13 +208,15 @@
                     <td><%=reportName%></td>
                     <td><%=reportFile%></td>
 
-
-
                     <td><a href="<%=reportURL%>" target="_blank" >View Report</a></td>
-                    <td><form action ="ProcessDeleteReport" method = "POST">
+                    <td>
+                        <form action ="ProcessDeleteReport" method = "post">
                             <input type="hidden" name="reportFile" value="<%=reportFile%>">
-                            <input type = "submit" Value ="Delete Report" class="deletebutton tiny">
-                        </form></td>
+                            <center><input type="submit" class="deletebutton tinytable" value="Delete Report"></center>
+                        </form>
+                    </td>
+
+
                 </tr>
                 <%
                         counter++;

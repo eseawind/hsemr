@@ -19,10 +19,10 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        
+
         <!--Web Title-->
         <title>EMR | User Management | Admin</title>
-        
+
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="css/original.css" />
         <script type="text/javascript" src="js/humane.js"></script>
@@ -67,9 +67,9 @@
                         <col width="10%">
                         <thead>
                             <tr>
-                                <td><b>User ID</b></td>
-                                <td><b>Password</b></td>
-                                <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
+                                <th>User ID</th>
+                                <th>Password</th>
+                                <th colspan="2" align="center" valign="middle">Actions</th>
                             </tr>
                         </thead>
                         <%
@@ -99,14 +99,14 @@
                                     %>
                                     <!--<input type="submit" class="button tinytable" value="delete" disabled>-->
                                     <center><div class style="padding-top:7px"><b><font size="2" color="#368a55">LOGGED IN</font></b></div></center>
-                                            <%
-                                            } else {
-                                            %>
+                                                <%
+                                                } else {
+                                                %>
                                     <center><input type="submit" class="button tinytable" onclick="if (!deleteConfirmation())
-                                        return false" value="delete" ></center>
-                                    <%
-                                        }
-                                    %>
+                                                return false" value="delete" ></center>
+                                        <%
+                                            }
+                                        %>
                                 </form>
                             </td>
                             <%

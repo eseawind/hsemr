@@ -149,12 +149,12 @@
                                 <%  }%>
                             </td>
                             <td><h2>Patient's Information</h2>
-                                <table style="border-color: white; width:1000px">
+                                <table style="border-color: white; width:800px">
                                     <col width="20%">
-                                    <col width="15%">
-                                    <col width="15%">
-                                    <col width="15%">
-                                    <col width="35%">
+                                    <col width="20%">
+                                    <col width="20%">
+                                    <col width="20%">
+                                    <col width="20%">
                                     <tr>
                                         <td><b>Name: <font color="#666666"><%=fullName%></font></b></td>
                                         <td><b>NRIC: <font color="#666666"><%=patientNRIC%></font></b></td>
@@ -942,9 +942,9 @@
                                                         </div>  
                                                     </form>
 
-                                                    <div class="large-centered large-12 columns">
+                                                    <div class="large-centered large-10 columns">
                                                         <hr>
-                                                    </div><br><br/>
+                                                    <br><br/>
                                                     <h4>Multidisciplinary Notes History</h4><br> 
                                                     <%
                                                         if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
@@ -953,8 +953,8 @@
                                                     <!--TABLE-->
                                                     <table class="responsive" id="cssTable">
                                                         <col width="20%">
-                                                        <col width="30%">
-                                                        <col width="15%">
+                                                        <col width="60%">
+                                                        <col width="20%">
                                                         <thead>
                                                             <tr>
                                                                 <th>Nurses In-Charge</th>
@@ -978,6 +978,7 @@
                                                             }//end of else %>
 
                                                     </table>
+                                                </div>
                                                 </div>
                                                 <!--END OF MULTIDISCIPLINARY NOTES-->
 

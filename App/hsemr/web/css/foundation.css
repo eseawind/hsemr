@@ -1388,6 +1388,20 @@ deletebutton.tiny, .deletebutton.tiny {
     padding-bottom: 0.3875rem;
     padding-left: 1.05rem;
     font-size: 1.1000rem; }
+deletebutton.tinytable, .deletebutton.tinytable {
+    padding-top: 0.325rem;
+    padding-right: 1.05rem;
+    padding-bottom: 0.3875rem;
+    padding-left: 1.05rem;
+    margin-bottom: -13%;
+    font-size: 1.1000rem; }
+deletebutton.small, .deletebutton.small {
+    padding-top: 0.875rem;
+    padding-right: 3.75rem;
+    padding-bottom: 0.9375rem;
+    padding-left: 3.75rem;
+    font-weight: 400;
+    font-size: 1.2125rem; }
 
 resetbutton, .resetbutton {
     border-style: solid;
@@ -1505,10 +1519,17 @@ button.large, .button.large {
     font-size: 1.25rem; }
 button.small, .button.small {
     padding-top: 0.875rem;
-    padding-right: 1.75rem;
+    padding-right: 3.75rem;
     padding-bottom: 0.9375rem;
-    padding-left: 1.75rem;
-    font-size: 1.0125rem; }
+    padding-left: 3.75rem;
+    font-size: 1.2125rem; }
+button.important, .button.important {
+    padding-top: 0.875rem;
+    padding-right: 3.75rem;
+    padding-bottom: 0.9375rem;
+    padding-left: 3.75rem;
+    font-weight: 400;
+    font-size: 1.2125rem; }
 button.tiny, .button.tiny {
     padding-top: 0.325rem;
     padding-right: 1.05rem;
@@ -3976,8 +3997,7 @@ table thead {
 table thead tr th,
 table thead tr td {
     padding: 0.5rem 0.625rem 0.625rem;
-    font-size: 1.075rem;
-    font-weight: bold;
+    font-size: 1.275rem;
     background: #368a55;
     color: white; }
 table tfoot {
@@ -4031,7 +4051,7 @@ form .row textarea.columns {
 
 /* Label Styles */
 label {
-    font-size: 1.200rem;
+    font-size: 1.300rem;
     color: #4d4d4d;
     cursor: pointer;
     display: block;

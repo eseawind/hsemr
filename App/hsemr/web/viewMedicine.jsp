@@ -80,7 +80,7 @@
                             <td> 
                                 <form action="editMedicine.jsp" method="post">
                                     <input type="hidden" name="medicineBarcode" value="<%=medicine.getMedicineBarcode()%>">       
-                                    <input type="submit" class="button tinytable" value="edit">
+                                    <center><input type="submit" class="button tinytable" value="edit"></center>
                                 </form>
                             </td>
                             <%
@@ -89,7 +89,7 @@
                             <td>
                                 <form action="ProcessDeleteMedicine" method="post">
                                     <input type="hidden" name="medicineBarcode" value="<%=medicine.getMedicineBarcode()%>">       
-                                    <input type="submit" class="button tinytable" value="delete">
+                                    <center><input type="submit" class="button tinytable" value="delete"></center>
                                 </form>
                             </td>
                             <%

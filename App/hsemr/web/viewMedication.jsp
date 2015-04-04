@@ -265,7 +265,7 @@
                         </thead>
                         <%
                             List<Frequency> fList = FrequencyDAO.retrieveAll();
-                            out.print("<h3>Medication(s) Created</h3>");
+                            out.print("<h3>Medication(s) Created</h3><br/>");
 
                             String doctorOrder = "";
                             String doctorName = "";

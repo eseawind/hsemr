@@ -53,7 +53,7 @@
                         </tr>
 
                     </table><br/><br/><br/><br/>
-                    <input type="submit" class="button" value="Proceed">
+                    <input type="submit" class="button small" value="Proceed">
                 </form>
                 <%
             } else { %>

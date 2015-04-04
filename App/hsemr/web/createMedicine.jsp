@@ -40,10 +40,8 @@
         </script>
     </head>
     <body> 
-        <div class="row" style="padding-top: 30px;">
+        <div class="row" style="padding-top: 100px;">
             <div class="large-centered large-12 columns">
-        
-        
          <h1>Add New Medicine</h1>
                          <p>Create the medicine barcode <a href="http://www.barcode-generator.org/" target="_blank">here</a>. Under "Create Free", please select <b>Code 128 (Standard)</b></p><br>
             <form action ="ProcessAddNewMedicine" method ="POST" data-abide>
@@ -51,11 +49,11 @@
                 <label>Medicine Barcode <input type ="text" name ="newMedicineBarcode" style="text-transform:uppercase;" required pattern ="^[0-9a-zA-Z]+$"></label>
                 
                 <small class="error">No space and numbers allowed.</small> 
-
+                <br/><br/><br/>
                 <input type ="hidden" name ="route" value ="I.V.">
                 <!--To differentiate it comes from which page. If edit medicine, route it back to editMedicationPage-->
                 <input type ="hidden" name ="createMedicine" value ="Yes">
-                <input type ="submit" class ="button" value ="Create Medicine">
+                <center><input type ="submit" class ="button important" value ="Create Medicine"></center>
             </form>
          
             </div>

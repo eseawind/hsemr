@@ -119,7 +119,8 @@
                 <p>Note: One lecturer can only activate one case at a time. If you select lecturers who have activated other cases, it will <font color = "b20000"><b>automatically deactivate the case that they have activated.</b></font> </p>
                 <table>
                     <tr>
-                        <th scope="row">Activate Case For Lecturer</th>
+                        <th>Activate Case For Lecturer</th> 
+                        <td> 
                             <%
                                 List<String> lecWhoDidNotActivateAnyCaseList = LecturerScenarioDAO.retrieveDistinctLecturersWhoDidNotActivateAnyCase(); //they can activate because they have not activated any cases
 
@@ -127,17 +128,18 @@
                                     out.println("This case is not activated by any lecturers at the moment.<br>");
                                 } else {
                                     for (String lecDidNotActivate : lecWhoDidNotActivateList) {%>
-                        <td>  
+                        
                             <input type="checkbox" name="lecturerToActivateCase" class="css-checkbox" id="<%=lecDidNotActivate%>" value = "<%=lecDidNotActivate%>"/>
                             <label for="<%=lecDidNotActivate%>"  class="css-label lite-green-check"><%=lecDidNotActivate%></label>
-                        </td>
+                       
                         <%}
                             }
                         %>  
+                    </td> 
                     </tr>
 
                     <tr>
-                        <th scope ="row">Lecturers who activated other cases (hover for case information)</th>
+                        <th>Lecturers who activated other cases (hover for case information)</th>
                             <%
                                 List<String> lecWhoHasOtherCasesActivatedList = LecturerScenarioDAO.retrieveDistinctActivatedLecturers();
 
@@ -156,29 +158,24 @@
 
                     </tr>
                 </table>
-                <br/><br/>
+                <br/><br/> 
+                </div> <!--End of panel case div-->
+                
                   <%
                     String location = "viewScenarioAdmin.jsp";
                 %>
-                <center><input type="button" value="Cancel" class="button" onClick="window.location = '<%=location%>'"/>
-                <input type="submit" value="Activate" class="button"></center>
+                    <table style="border-color: white; width:700px">
+                        <col width="50%">
+                        <col width="50%">
+                        <tr>
+                            <td><center><input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/></center> </td>
+                        <td><center><input type="submit" class="button important" value="Activate"></center></td>
+                        </tr>
+                    </table>
+            </form>
 
-            </form></p>
-
-
-
-            </div> <!--End of panel case div-->
-
-
-              
-            <center>
-
-  
-
+           
         </div>
-
-
-
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
 
