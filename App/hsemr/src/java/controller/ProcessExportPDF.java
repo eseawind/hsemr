@@ -144,7 +144,12 @@ public class ProcessExportPDF extends HttpServlet {
             
             //Table 1
             PdfPTable tableOfNotes = new PdfPTable(4);
-            PdfPCell c1 = new PdfPCell(new Phrase("Practical Group ID"));
+            
+            PdfPCell c1 = new PdfPCell(new Phrase("Time submited"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfNotes.addCell(c1);
+            
+            c1 = new PdfPCell(new Phrase("Practical Group ID"));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             tableOfNotes.addCell(c1);
 
@@ -156,9 +161,6 @@ public class ProcessExportPDF extends HttpServlet {
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             tableOfNotes.addCell(c1);
             
-            c1 = new PdfPCell(new Phrase("Time submited"));
-            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tableOfNotes.addCell(c1);
             
             tableOfNotes.setHeaderRows(1);
             
@@ -169,10 +171,11 @@ public class ProcessExportPDF extends HttpServlet {
             }else{
                 //for the content in table 1
                 for (Note note : notesList){ 
+                    tableOfNotes.addCell(df.format(note.getNoteDatetime()));
                     tableOfNotes.addCell(note.getPracticalGroupID());
                     tableOfNotes.addCell(note.getGrpMemberNames());
                     tableOfNotes.addCell(note.getMultidisciplinaryNote());
-                    tableOfNotes.addCell(df.format(note.getNoteDatetime()));
+                    
                 }
             }
             //Contents of table 1
@@ -282,7 +285,7 @@ public class ProcessExportPDF extends HttpServlet {
             document.add(new Paragraph(" "));
             
             //Header 4 for Vitals submission
-            document.add(new Paragraph(practialGroupID + " Input & Output"));
+            document.add(new Paragraph(practialGroupID + " Intake & Output"));
             document.add(new Paragraph(" "));
             
             //Table 4
