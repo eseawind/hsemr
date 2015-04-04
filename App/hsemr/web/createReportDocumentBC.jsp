@@ -167,6 +167,13 @@
 
             <br/><br/>
             <form action="viewScenarioAdmin.jsp" method="POST">
+                
+                <%
+                    session.removeAttribute("scenarioName");
+                    session.removeAttribute("scenarioDescription");
+                    session.removeAttribute("admissionInfo");
+                %>
+           
                 <center><input type ="submit" class ="button small" value ="Proceed to Admin Homepage"></center>
             </form>
         </div>
