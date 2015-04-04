@@ -219,7 +219,7 @@ public class ProcessExtractPDF extends HttpServlet {
             //Scenario Table
             Integer scNumber = ScenarioDAO.retrieveMaxBedNumber() + 1;
             String scenarioID = "SC" + scNumber;
-            ScenarioDAO.add(scenarioID, scenarioNameExtracted, scenarioDescExtracted.trim(), scenarioAdmissionNotesExtracted.trim(), scNumber);
+            ScenarioDAO.add(scenarioID, scenarioNameExtracted.trim(), scenarioDescExtracted.trim(), scenarioAdmissionNotesExtracted.trim(), scNumber);
 
             //State Table
            // StateDAO.add("ST0", scenarioID, "default state", "-");

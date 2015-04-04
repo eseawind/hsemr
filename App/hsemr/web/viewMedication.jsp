@@ -66,25 +66,7 @@
         %>
 
     <center>
-        <h5><a href="#" data-reveal-id="addNewMedication">Click here to Add New Medication for <%=scenario%></a></h5>    
-        <!--add new medicine reveal modal-->
-        <div id="addNewMedicine" class="reveal-modal" data-reveal>
-            <h2>Add New Medicine</h2>
-            <form action ="viewReportDocument" method ="POST" data-abide>
-                <label>Medicine Name <input type="text" name="newMedicineName" disabled/></label>
-                <label>Medicine Barcode <input type ="text" name ="newMedicineBarcode" style="text-transform:uppercase;" disabled></label>
-
-                <small class="error">No space and numbers allowed.</small> 
-
-                <input type ="hidden" name ="route" value ="I.V.">
-                <!--To differentiate it comes from which page. If edit medicine, route it back to editMedicationPage-->
-                <input type ="hidden" name ="editMedicine" value ="Yes">
-                <input type ="submit" class ="button" value ="Create Medicine">
-            </form>
-
-            <a class="close-reveal-modal">&#215;</a>
-        </div>
-        <!--end of add new medicine reveal modal-->
+ 
 
         <!--Add medication form-->
         <!--add new medicine reveal modal-->
@@ -380,12 +362,15 @@
                                     counter++;
                                 }
                     }%>
-                        <input type = "submit" Value ="Next  >>" class="button small"></center>  
+                       
                         <%}
 
 
                         %> 
                     </table>
+                    <br>
+                    
+                     <input type = "submit" Value ="Next  >>" class="button small"></center>  
                     <br>
                     <br>
                     <br>

@@ -106,7 +106,7 @@
             if (sizeList > 0) {
         %> 
 
-   <h3>Current Reports</h3>
+        <center><h3>Current Reports</h3></center>
     <!-- Report table -->
  </div>
     <table class="responsive" id="cssTable" align="center">
@@ -170,7 +170,7 @@
         if (currentDocumentList.size() > 0) {
     %>
 
-    <h3> Current Documents</h3>
+    <center><h3> Current Documents</h3></center>
 
     <!-- Documents table -->
     <table class="responsive" id="cssTable" align="center">

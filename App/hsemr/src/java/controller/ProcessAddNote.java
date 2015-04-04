@@ -86,18 +86,26 @@ public class ProcessAddNote extends HttpServlet {
 
                 String notes = (String) request.getParameter("notes");
                 String grpNames = (String) request.getParameter("grpNames");
+                HttpSession session = request.getSession(false);
+                if(notes.isEmpty() && grpNames.isEmpty()){
+                    session.setAttribute("active", "multidisciplinary");
+                   session.setAttribute("error", "Please fill up at least one field before saving.");
+                    response.sendRedirect("./viewPatientInformation.jsp");
+                }else{
+                    
+
+                   session.setAttribute("notes", notes);
+                   session.setAttribute("grpNames", grpNames);
+
+                   session.setAttribute("active", "multidisciplinary");
+                   session.setAttribute("success", "You have successfully saved the multidisciplinary notes!");
+                    response.sendRedirect("./viewPatientInformation.jsp");
+                }
 
                 //request.setAttribute("notes", notes);
                 //request.setAttribute("grpNames", grpNames);
                 
-                HttpSession session = request.getSession(false);
-                
-                session.setAttribute("notes", notes);
-                session.setAttribute("grpNames", grpNames);
-                
-                session.setAttribute("active", "multidisciplinary");
-                session.setAttribute("success", "You have successfully saved the multidisciplinary notes!");
-                 response.sendRedirect("./viewPatientInformation.jsp");
+               
                 //MUST BE Request dispatcher if not saved won't work
                // RequestDispatcher rd = request.getRequestDispatcher("/viewPatientInformation.jsp");
                // rd.forward(request, response); 
