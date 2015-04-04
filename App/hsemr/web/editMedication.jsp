@@ -126,6 +126,7 @@
                     <div class="small-9 columns">
                         <select name = "discontinueStateID" required>
                             <option disabled="disabled" selected="selected" value = "">--Please select the state that this medicine discontinues--</option>
+                            <option>NA</option>
                             <%
                                 for (State state : stateList) {%>
                             <option><%=state.getStateID()%></option>
@@ -178,7 +179,7 @@
                             <%
                                 for (Frequency freq : freqList) {
                                     //out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
-                            %>
+%>
                             <option><%=freq.getFreqAbbr()%></option>
                             <%}
                             %>
@@ -233,7 +234,7 @@
                         out.println("<h3><br/><br/>" + "There are no medication created yet." + "</h3>");%>
                 <form action ="editReportDocument.jsp" method ="POST">
                     <br/><br/>
-                    <input type = "submit" Value ="Continue  >>" class="button small"> 
+                    <input type = "submit" Value ="Save and Proceed  >>" class="button small"> 
                 </form>               
                 <%} else {
                 %>
@@ -398,36 +399,40 @@
                         <%
                                     counter++;
                                 }
-                            }}%>
+                            }%>
+                        <input type = "submit" value ="Save and Proceed  >>" class="button small"></center>  
+                        </form>
+                        <%
+    }%>
                     </table> <br/><br/>
-                    <input type = "submit" Value ="Save and Proceed  >>" class="button small"></center>  
+
                     <br>
                     <br>
                     <br>
                     <center>
 
-                </form>
-        </div>
-        <script src="js/vendor/jquery.js"></script>
-        <script src="js/foundation.min.js"></script>
 
-        <script>
+                        </div>
+                        <script src="js/vendor/jquery.js"></script>
+                        <script src="js/foundation.min.js"></script>
 
-            $(document).ready(function() {
-                $(document).foundation();
-                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
-                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+                        <script>
 
-                var success1 = "<%=success%>";
-                var error1 = "<%=error%>";
-                if (success1 !== "") {
-                    humaneSuccess.log(success1);
-                } else if (error1 !== "") {
-                    humaneError.log(error1);
-                }
+                            $(document).ready(function() {
+                                $(document).foundation();
+                                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
-            });
-        </script>
-        <script type="text/javascript" src="js/humane.js"></script>
-    </body>
-</html>
+                                var success1 = "<%=success%>";
+                                var error1 = "<%=error%>";
+                                if (success1 !== "") {
+                                    humaneSuccess.log(success1);
+                                } else if (error1 !== "") {
+                                    humaneError.log(error1);
+                                }
+
+                            });
+                        </script>
+                        <script type="text/javascript" src="js/humane.js"></script>
+                        </body>
+                        </html>
