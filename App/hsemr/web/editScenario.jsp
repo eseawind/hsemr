@@ -203,6 +203,7 @@
                     <div class="row">
                         <label>Case Name
                             <input type="text" name="scenarioName" value = "<%=scenarioName%>" required pattern ="^[a-zA-Z0-9 ]+$">
+                            <input type="hidden" name="initialScenarioName" value="<%=scenarioName%>">  
                             <small class="error">Please enter a case name.</small>
                         </label>
                     </div>

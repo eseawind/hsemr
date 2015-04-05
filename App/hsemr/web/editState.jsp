@@ -40,7 +40,8 @@
             <li><a href="editReportDocument.jsp">Edit Report and Document </a></li>
         </ul><br/>
 
-        <%            String success = "";
+        <%            
+            String success = "";
             String error = "";
             if (session.getAttribute("success") != null && !session.getAttribute("success").equals("")) {
                 success = (String) session.getAttribute("success");

@@ -10,8 +10,12 @@ import dao.PatientDAO;
 import dao.ScenarioDAO;
 import dao.StateDAO;
 import dao.VitalDAO;
+import entity.Patient;
+import entity.Scenario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,12 +49,14 @@ public class ProcessEditScenario extends HttpServlet {
             try {
                 /* TODO output your page here. You may use following sample code. */
 
+                String initialScenarioName = request.getParameter("initialScenarioName");
+                String retrieveNRIC = request.getParameter("retrieveNRIC");
+                
                 String scenarioID = request.getParameter("scenarioID");
                 String scenarioName = request.getParameter("scenarioName");
                 String scenarioDescription = request.getParameter("scenarioDescription");
                 String admissionInfo = request.getParameter("admissionInfo");
 
-                String retrieveNRIC = request.getParameter("retrieveNRIC");
                 String patientNRIC = request.getParameter("patientNRIC");
                 String firstName = request.getParameter("firstName");
                 String lastName = request.getParameter("lastName");
@@ -105,6 +111,30 @@ public class ProcessEditScenario extends HttpServlet {
                 if (output.equals("")) {
                     output = "-";
                 }            
+                
+                if (!patientNRIC.equals(retrieveNRIC)) {
+                    Patient retrievedPatient = PatientDAO.retrieve(patientNRIC);
+                    if (retrievedPatient != null) {
+                        session.setAttribute("error", "Patient NRIC: " + retrievedPatient.getPatientNRIC() +  " exists. Patient NRIC needs to be unique.");
+                        RequestDispatcher rd = request.getRequestDispatcher("editScenario.jsp");
+                        rd.forward(request, response);
+                    }
+                }
+                List<Scenario> allScenario = ScenarioDAO.retrieveAll();
+                if (!scenarioName.equals(initialScenarioName)) {
+                    Boolean scenarioExist = false;
+                    for (Scenario scenario: allScenario) {
+                        if (scenario.getScenarioName().equals(scenarioName)) {
+                            scenarioExist = true;
+                        }
+                    }
+                    if (scenarioExist == true) {
+                        session.setAttribute("error", "Scenario: " + scenarioName +  " exists. Please ensure there is no duplication of case name.");
+                        RequestDispatcher rd = request.getRequestDispatcher("editScenario.jsp");
+                        rd.forward(request, response);
+                    }
+                }
+                
                 double temperature = Double.parseDouble(temperatureStr);
                 int rr = Integer.parseInt(rrStr);
                 int hr = Integer.parseInt(hrStr);
@@ -112,21 +142,28 @@ public class ProcessEditScenario extends HttpServlet {
                 int bpd = Integer.parseInt(bpdStr);
                 int spo = Integer.parseInt(spoStr);
                 String newDefaultVital = request.getParameter("newDefaultVital");
-
+                
+               
                 AllergyPatientDAO.update(patientNRIC, allergy, retrieveNRIC);
                 StateDAO.updateNRIC(patientNRIC, retrieveNRIC);
                 PatientDAO.update(patientNRIC, firstName, lastName, gender, dob, retrieveNRIC);
 
-
-                if(newDefaultVital.equals("yes")) {
-                    VitalDAO.add(scenarioID, temperature, rr, bps, bpd, hr, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1, "NA");
+                if (!bpsStr.equals("") && !bpdStr.equals("") && bps < bpd) {
+                    session.setAttribute("error", "The value of Blood Pressure Systolic should be more than Blood Pressure Diastolic. Please fill in again.");
+                    //session.setAttribute("scenarioID", scenarioID);
+                    RequestDispatcher rd = request.getRequestDispatcher("editScenario.jsp");
+                    rd.forward(request, response);
                 } else {
-                    VitalDAO.update(temperature, rr, hr, bps, bpd, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, scenarioID);
+                    if(newDefaultVital.equals("yes")) {
+                        VitalDAO.add(scenarioID, temperature, rr, bps, bpd, hr, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1, "NA");
+                    } else {
+                        VitalDAO.update(temperature, rr, hr, bps, bpd, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, scenarioID);
+                    }
                 }
 
                 ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, admissionInfo);
                 session.setAttribute("patientNRIC", patientNRIC);
-
+                session.setAttribute("success", "Scenario Name: " + scenarioName + " information successfully updated!");
 
                 response.sendRedirect("editState.jsp");
                 
