@@ -41,14 +41,15 @@ public class ProcessAddNewMedicine extends HttpServlet {
             HttpSession session = request.getSession(false);
             
             Medicine existedMedicine = MedicineDAO.retrieve(newMedicineBarcode);
+            Medicine existedMedicineByName = MedicineDAO.retrieveByMedicineName(newMedicineName);
             
-            MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName);
+           
             
             String editMedicine = request.getParameter("editMedicine");
             String createMedicine = request.getParameter("createMedicine");
                 
-            if (existedMedicine != null) {
-                session.setAttribute("error", "This medicine barcode (" + newMedicineBarcode + ") already exist. It has to be unique. Please enter a new medicine barcode.");
+            if (existedMedicine != null || existedMedicineByName != null) {
+                session.setAttribute("error", "This medicine barcode (" + newMedicineBarcode + ") or medicine name (" + newMedicineName + ") already exist. It has to be unique. Please enter a new medicine barcode.");
                 request.setAttribute("medicineName", newMedicineName);
                 request.setAttribute("medicineBarcode", newMedicineBarcode);
                 if(createMedicine != null){
@@ -56,6 +57,7 @@ public class ProcessAddNewMedicine extends HttpServlet {
                     rd.forward(request, response);
                 }
             } else {
+                MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName);
                 session.setAttribute("success", "Medicine: " + newMedicineName + " (Barcode: " + newMedicineBarcode + ") is successfully created.");
             }
             if(createMedicine != null){
