@@ -84,19 +84,19 @@
                 String intravenousAmount = "";
                 String output = "";
 
-                if (session.getAttribute("scenarioName") != null) {
-                    scenarioName = (String) session.getAttribute("scenarioName");
-                    session.setAttribute("scenarioName", "");
+                if (request.getAttribute("scenarioName") != null) {
+                    scenarioName = (String) request.getAttribute("scenarioName");
+                   // session.setAttribute("scenarioName", "");
                 }
 
-                if (session.getAttribute("scenarioDescription") != null) {
-                    scenarioDescription = (String) session.getAttribute("scenarioDescription");
-                    session.setAttribute("scenarioDescription", "");
+                if (request.getAttribute("scenarioDescription") != null) {
+                    scenarioDescription = (String) request.getAttribute("scenarioDescription");
+                    //session.setAttribute("scenarioDescription", "");
                 }
 
-                if (session.getAttribute("admissionInfo") != null) {
-                    admissionInfo = (String) session.getAttribute("admissionInfo");
-                    session.setAttribute("admissionInfo", "");
+                if (request.getAttribute("admissionInfo") != null) {
+                    admissionInfo = (String) request.getAttribute("admissionInfo");
+                    //session.setAttribute("admissionInfo", "");
                 }
 
                 if (request.getAttribute("patientNRIC") != null) {
