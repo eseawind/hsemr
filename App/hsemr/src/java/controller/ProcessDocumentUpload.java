@@ -133,10 +133,7 @@ public class ProcessDocumentUpload extends HttpServlet {
                 }
             }
             
-            //save it to database
-            DocumentDAO.add(documentName, fileName, 1, scenarioID, stateID);
-            HttpSession session = request.getSession(false);
-            session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
+           
             
         } catch (Exception ex) {
             request.setAttribute("message",
@@ -144,9 +141,19 @@ public class ProcessDocumentUpload extends HttpServlet {
             HttpSession session = request.getSession(false);
             session.setAttribute("error", "There was an error in uploading " + fileName + " .");
         }
-        // redirects client to message page
         HttpSession session = request.getSession(false);
-        session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
+         
+        if(DocumentDAO.retrieveReportByConsentFile(fileName, scenarioID) == null){
+         //save it to database
+            DocumentDAO.add(documentName, fileName, 1, scenarioID, stateID);         
+            session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
+        
+        }else{
+              session.setAttribute("error", "The file name needs to be unique. Ensure that no other cases have the same file name. It is suggested that you name it in this format SC4ST0 - CXG to prevent duplication.");
+        }
+        
+        // redirects client to message page
+
         if(editDocument == null  || editDocument.equals("") ){
             response.sendRedirect("createReportDocumentBC.jsp");
         } else {

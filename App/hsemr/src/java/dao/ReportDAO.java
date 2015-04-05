@@ -52,6 +52,34 @@ public class ReportDAO {
         return reports;
     }
     
+    public static Report retrieveReportByReportFile(String reportFile, String scenarioID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Report report = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from report where reportFile = ? and scenarioID = ?");
+            stmt.setString(1, reportFile);
+            stmt.setString(2, scenarioID);
+            
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                report = new Report(rs.getInt(1), rs.getTimestamp(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+    
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return report;
+    }
+    
+    
     public static List<Report> retrieveReportsByState(String scenarioID, String stateID) {
         Connection conn = null;
         PreparedStatement stmt = null;

@@ -264,8 +264,9 @@
                 %>
 
                 <tr>
-                    <td><%=consentName%></td>
+                  
                     <td><%=docStateID%></td>
+                    <td><%=consentName%></td>
                     <td><%=docURL%></td>
                     <td><a href="<%=documentURL%>" target="_blank" >View Document</a></td>
                     <td><form action ="ProcessDeleteDocument">
