@@ -9,6 +9,7 @@ package controller;
 import dao.*;
 import entity.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,7 +37,9 @@ public class ProcessAddScenario extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException { //Retrieve case information
-            
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
         try{ 
             HttpSession session = request.getSession(false);
             if(session.getAttribute("admin") == null){
@@ -90,14 +93,27 @@ public class ProcessAddScenario extends HttpServlet {
             int SPO0 =0;
 
             try{
-                temperature0 = Double.parseDouble(temperatureString0);
-                RR0= Integer.parseInt(RRString0);
-                HR0= Integer.parseInt(HRString0);
-                BPS0= Integer.parseInt(BPSString0);
-                BPD0= Integer.parseInt(BPDString0);
-                SPO0= Integer.parseInt(SPOString0);
+                if (temperatureString0 != null && temperatureString0.length() != 0) {
+                    temperature0 = Double.parseDouble(temperatureString0);
+                }
+                if(RRString0 != null && RRString0.length() != 0) {
+                    RR0= Integer.parseInt(RRString0);
+                }
+                if(HRString0 != null && HRString0.length() != 0) {
+                    HR0= Integer.parseInt(HRString0);
+                }
+                if(BPSString0 != null && BPSString0.length() != 0) {
+                    BPS0= Integer.parseInt(BPSString0);
+                }
+                if(BPDString0 != null && BPDString0.length() != 0) {
+                    BPD0= Integer.parseInt(BPDString0);
+                }
+                if(SPOString0 != null && SPOString0.length() != 0) {
+                    SPO0= Integer.parseInt(SPOString0);
+                }
             }catch(NumberFormatException e){
                 //do nothing
+                out.println("Please enter the correct values.");
             }
             
             String stateDescription0 = "default state"; //for the default state only
@@ -121,9 +137,9 @@ public class ProcessAddScenario extends HttpServlet {
             if (output.equals("")) {
                 output = "-";
             }
-            session.setAttribute("scenarioName",scenarioName);
-            session.setAttribute("scenarioDescription", scenarioDescription); 
-            session.setAttribute("admissionInfo", admissionInfo);
+            request.setAttribute("scenarioName",scenarioName);
+            request.setAttribute("scenarioDescription", scenarioDescription); 
+            request.setAttribute("admissionInfo", admissionInfo);
             if(retrievedPatient != null){ // patientNRIC exists
                 session.setAttribute("error", "Patient NRIC: " + retrievedPatient.getPatientNRIC() +  " exists. Patient NRIC needs to be unique.");
                 
@@ -150,7 +166,34 @@ public class ProcessAddScenario extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("createScenario.jsp");
                 rd.forward(request, response);
             } else if(scenarioExist == true) {
-                session.setAttribute("error", "Scenario: " + scenarioName +  " exists. Please ensure there is no duplication of case.");
+                session.setAttribute("error", "Scenario: " + scenarioName +  " exists. Please ensure there is no duplication of case name.");
+                
+                //for repopulating the fields in createScenario.jsp 
+                request.setAttribute("scenarioName",scenarioName);
+                request.setAttribute("scenarioDescription", scenarioDescription);
+                request.setAttribute("admissionInfo", admissionInfo);
+                request.setAttribute("patientNRIC", patientNRIC);
+                request.setAttribute("firstName", firstName);
+                request.setAttribute("lastName", lastName);
+                request.setAttribute("gender", gender);
+                request.setAttribute("dobString",dobString);
+                request.setAttribute("allergy",allergy);
+                request.setAttribute("temperature0",temperature0);
+                request.setAttribute("RR0",RRString0);
+                request.setAttribute("HR0",HR0);
+                request.setAttribute("BPS",BPSString0);
+                request.setAttribute("BPD",BPDString0);
+                request.setAttribute("SPO0",SPOString0);
+                request.setAttribute("intragastricType",intragastricType);
+                request.setAttribute("intragastricAmount",intragastricAmount);
+                request.setAttribute("intravenousType",intravenousType);
+                request.setAttribute("intravenousAmount",intravenousAmount);
+                request.setAttribute("output",output);
+                
+                RequestDispatcher rd = request.getRequestDispatcher("createScenario.jsp");
+                rd.forward(request, response);
+            } else if(BPSString0 != null && BPDString0 != null && BPS0 < BPD0) {
+                session.setAttribute("error", "The value of Blood Pressure Systolic should be more than Blood Pressure Diastolic. Please check again.");
                 
                 //for repopulating the fields in createScenario.jsp 
                 request.setAttribute("scenarioName",scenarioName);
@@ -184,14 +227,15 @@ public class ProcessAddScenario extends HttpServlet {
                 ScenarioDAO.add(scenarioID, scenarioName, scenarioDescription, admissionInfo, newBed);
                 StateDAO.add(stateID0, scenarioID, stateDescription0, patientNRIC); //1 because default state status will be activate
                 VitalDAO.add(scenarioID, temperature0, RR0, BPS0, BPD0, HR0, SPO0, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1, "NA");
-                
+          
+                session.setAttribute("success", "Case successfully created! To modify case information, please proceed to Manage Case > Edit.");
                 session.setAttribute("scenarioID", scenarioID);
                 session.setAttribute("patientNRIC", patientNRIC);
-                response.sendRedirect("createStateBC.jsp");
+       //         response.sendRedirect("createStateBC.jsp");
                 
             }
         } catch (Exception e) {
-            System.out.println("Please contact administrator. Click <a href='viewMainLogin.jsp'>here</a> to login again.");
+            out.println("Please contact administrator. Click <a href='viewMainLogin.jsp'>here</a> to login again.");
         }   
             
             
