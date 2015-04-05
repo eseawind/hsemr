@@ -151,9 +151,8 @@
                     <tr>
                         <th>Time Submitted</th>
                         <th>Practical Group ID</th> 
-                        <th>Nurses In-Charge</th>
                         <th>Multidisciplinary Notes</th>
-                        
+                         <th>Nurses In-Charge</th>
                     </tr>
                     </thead>
                     <%for (Note note : noteList) {
@@ -163,9 +162,8 @@
                     <tr>
                         <td><%=df.format(note.getNoteDatetime())%></td>
                         <td><%=note.getPracticalGroupID()%></td>
-                        <td><%=note.getGrpMemberNames()%></td>
                         <td><%=note.getMultidisciplinaryNote()%></td>
-                       
+                        <td><%=note.getGrpMemberNames()%></td>
                     </tr>
                     <%
                             }//end of for
@@ -227,7 +225,7 @@
                     } else {
                         boolean allZero = true;
                         for (Vital vitals : vitalList) {
-                            if (vitals.getTemperature() == 0.0 || vitals.getRr() == 0 || vitals.getBpSystolic() == 0 || vitals.getBpDiastolic() == 0 || vitals.getHr() == 0 || vitals.getSpo() == 0) {
+                            if (vitals.getTemperature() != 0.0 || vitals.getRr() != 0 || vitals.getBpSystolic() != 0 || vitals.getBpDiastolic() != 0 || vitals.getHr() != 0 || vitals.getSpo() != 0) {
                                 allZero = false;
                             }
                         }

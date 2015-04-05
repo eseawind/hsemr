@@ -136,15 +136,15 @@ public class ProcessAddScenario extends HttpServlet {
             if (output.equals("")) {
                 output = "-";
             }
-            request.setAttribute("scenarioName",scenarioName);
-            request.setAttribute("scenarioDescription", scenarioDescription); 
-            request.setAttribute("admissionInfo", admissionInfo);
+            
             // patientNRIC exists
             if(retrievedPatient != null){ 
                 session.setAttribute("error", "Patient NRIC: " + retrievedPatient.getPatientNRIC() +  " exists. Patient NRIC needs to be unique.");
                 
                 //for repopulating the fields in createScenario.jsp 
-                
+                request.setAttribute("scenarioName",scenarioName);
+                request.setAttribute("scenarioDescription", scenarioDescription); 
+                request.setAttribute("admissionInfo", admissionInfo);
                 request.setAttribute("patientNRIC", patientNRIC);
                 request.setAttribute("firstName", firstName);
                 request.setAttribute("lastName", lastName);
