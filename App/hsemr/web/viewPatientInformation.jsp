@@ -1230,7 +1230,7 @@
 
                                                     <dl class="accordion" data-accordion>
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelPatientInfo"><b>Patient Information</b></a>
+                                                            <a href="#panelPatientInfo"><b><center>Patient Information</center></b></a>
                                                             <div id="panelPatientInfo" class="content active">
                                                                 <ul class="pricing-table">
                                                                     <li class="price"><%=fullName%></li>
@@ -1243,7 +1243,7 @@
                                                         </dd>
 
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelAdmissionNotes"><b>Admission Notes</b></a>
+                                                            <a href="#panelAdmissionNotes"><b><center>Admission Notes</center></b></a>
                                                             <div id="panelAdmissionNotes" class="content">
                                                                 <%
                                                                     if (scenarioActivated.getAdmissionNote() != null) {%>
@@ -1259,7 +1259,7 @@
                                                         </dd>
 
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelInvestigations"><b>Investigations</b></a>
+                                                            <a href="#panelInvestigations"><b><center>Investigations</center></b></a>
                                                             <div id="panelInvestigations" class="content">
                                                                 <ul class="pricing-table">
                                                                     <li class="price">Despatched Reports</li>
@@ -1286,7 +1286,7 @@
                                                         </dd>
 
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelDocuments"><b>Documents</b></a>
+                                                            <a href="#panelDocuments"><b><center>Documents</center></b></a>
                                                             <div id="panelDocuments" class="content">
                                                                 <ul class="pricing-table">
 
@@ -1314,7 +1314,7 @@
                                                         </dd>
 
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelMultiNotes"><b>Notes</b></a>
+                                                            <a href="#panelMultiNotes"><b><center>Notes</center></b></a>
                                                             <div id="panelMultiNotes" class="content">
                                                                 <ul class="pricing-table">
                                                                     <li class="price">Notes History</li>
@@ -1342,7 +1342,7 @@
                                                         </dd>
 
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelClinicalCharts"><b>Clinical Charts</b></a>
+                                                            <a href="#panelClinicalCharts"><b><center>Clinical Charts</center></b></a>
                                                             <div id="panelClinicalCharts" class="content">
                                                                 You have no access to medication. Medication is only available in the web. 
                                                                 <ul class="pricing-table">
@@ -1420,7 +1420,7 @@
                                                             </div>
                                                         </dd>
                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelMedicationHistory"><b>Medication History</b></a>
+                                                            <a href="#panelMedicationHistory"><b><center>Medication History</center></b></a>
                                                             <div id="panelMedicationHistory" class="content">
                                                                 You have no access to medication. Medication is only available in the web. 
                                                                 <ul class="pricing-table">
@@ -1517,7 +1517,7 @@
                                                     <%
                                                         } //end of else
                                                     %>
-                                                    <h1><a href="viewMainLogin.jsp" >Log Out</a></h1>
+                                                    <center><h1><a href="viewMainLogin.jsp" >Log Out</a></h1></center>
                                                 </div>
                                                 <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
 
