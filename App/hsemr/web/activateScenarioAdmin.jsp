@@ -20,6 +20,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="protectPage/protectAdmin.jsp" %>
+<%@include file="/topbar/topbarAdmin.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,15 +32,15 @@
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="responsive-tables.css">
+        <link rel="stylesheet" href="css/original.css" />
         <script src="responsive-tables.js"></script>
-        <%@include file="/topbar/topbarAdmin.jsp" %>
 
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
         <link rel="stylesheet" href="/resources/demos/style.css">
         <script type="text/javascript" src="js/humane.js"></script>
-        <link rel="stylesheet" href="css/original.css" />
+        <script src="js/vendor/modernizr.js"></script>
         <script>
             $(function() {
                 $("#datepicker").datepicker();
@@ -48,15 +49,16 @@
         </script>
 
 
-        <%            String success = "";
+        <%            
+            String success = "";
             String error = "";
 
-            if (session.getAttribute("success") != null && !session.getAttribute("success").equals("")) {
+            if (session.getAttribute("success") != null) {
                 success = (String) session.getAttribute("success");
                 session.setAttribute("success", "");
             }
+            if (session.getAttribute("error") != null) {
 
-            if (session.getAttribute("error") != null && !session.getAttribute("error").equals("")) {
                 error = (String) session.getAttribute("error");
                 session.setAttribute("error", "");
             }
@@ -176,20 +178,19 @@
     <script src="js/foundation.min.js"></script>
 
     <script>
-                        $(document).ready(function() {
-                            $(document).foundation();
-                            var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
-                            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+        $(document).ready(function() {
+            $(document).foundation();
+            var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+            var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
-                            var success1 = "<%=success%>";
-                            var error1 = "<%=error%>";
-                            if (success1 !== "") {
-                                humaneSuccess.log(success1);
-                            } else if (error1 !== "") {
-                                humaneError.log(error1);
-                            }
-
-                        });
+            var success1 = "<%=success%>";
+            var error1 = "<%=error%>";
+            if (success1 !== "") {
+             humaneSuccess.log(success1);
+            } else if (error1 !== "") {
+             humaneError.log(error1);
+            }
+        });
     </script>
     <script type="text/javascript" src="js/humane.js"></script>
 </body>

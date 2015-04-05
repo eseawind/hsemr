@@ -69,7 +69,6 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
 
             if(combinedLecturerToActivate == null || combinedLecturerToActivate.size() == 0){
                 session.setAttribute("error", "Please select at least 1 lecturer to activate the case for.");
-
                 response.sendRedirect("activateScenarioAdmin.jsp");
             }else{
                 response.getWriter().println(combinedLecturerToActivate.size());
