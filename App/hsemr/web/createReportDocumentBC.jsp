@@ -71,7 +71,7 @@
                         stateNumber.replace("ST", "State ");
                         String stateDesc = stateNumber.replace("ST", "State ") + " - " + reportName + "(" + reportFile + ")";%>
 
-                <a href="#" class="button casecreationbutton tiny"><%=stateDesc%></a>
+                  <input type = "submit" class="casecreationbutton tiny" value="<%=stateDesc%>" disabled>
                 <%}
                     }%>
             </div>
@@ -133,8 +133,7 @@
                         stateNumber.replace("ST", "State ");
                         String stateDesc = stateNumber.replace("ST", "State ") + " - " + consentName + "(" + consentFile + ")";%>
 
-                <a href="#" class="button casecreationbutton tiny"><%=stateDesc%></a>
-
+                        <input type = "submit" class="casecreationbutton tiny" value="<%=stateDesc%>" disabled>
 
                 <%}
                     }%>

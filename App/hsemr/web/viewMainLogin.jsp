@@ -113,7 +113,9 @@
             </div>  
             <!--Footer-->
             <center><font size="2" color="#666666"> Ngee Ann Polytechnic | School of Health Sciences | Electronic Medical Records
-                <br/>Copyright &copy; HS EMR. All rights reserved.</font></center>
+                <br/>Copyright &copy; HS EMR. All rights reserved.
+                <br/>Developed by <a href ="https://wiki.smu.edu.sg/is480/IS480_Team_wiki%3A_2015T2_White_Pinnacle">White Pinnacle</a>
+           
         </div>
         <!--Scripts-->
         <script src="js/vendor/jquery.js"></script>
