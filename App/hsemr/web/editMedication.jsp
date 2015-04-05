@@ -310,11 +310,12 @@
                                 String medicineNameNumber = "";
 
                                 String docOrderDefault = "";
+                                String docOrderDefaultNumber = "";
 
                                 if (!medBarcode.equals("NA")) {
                                     stateDesc = stateID.replace("ST", "State ");
                                     discontinueStateDesc = discontinueStateID.replace("ST", "State ");
-                                    
+                                    docOrderDefaultNumber = "docOrderDefault" + counter;
                                     medBarcodeNumber = "medBarcode" + counter;
                                     routeNumber = "route" + counter;
                                     routeDefault = "routeDefault" + counter;
@@ -330,6 +331,7 @@
                                     p = PrescriptionDAO.retrieve(scenarioID, stateID, medBarcode, doctorOrder);
                                     route = p.getRouteAbbr();
                                     dosage = p.getDosage();
+                                    docOrderDefault = p.getDoctorOrder();
 
                                     m = MedicineDAO.retrieve(medBarcode);
                                     medicineName = m.getMedicineName();
@@ -345,7 +347,7 @@
                                 <input type="hidden" name="<%=stateIDNumber%>" value="<%=stateID%>">
                                 <input type="hidden" name="stateDesc" value="<%=stateDesc%>">
                                 <input type="hidden" name ="prescriptionListSize" value="<%=prescriptionList.size()%>">
-
+                                <input type="hidden" name="<%=docOrderDefaultNumber%>" value="<%=docOrderDefault%>">
                                 <%=stateDesc%>
                             </td>
                             <td>

@@ -129,12 +129,7 @@ public class ProcessAddVital extends HttpServlet {
                 session.setAttribute("error", "Update failed: At least 1 field must be filled up before updating.");
                 session.setAttribute("active", "vital");
                 response.sendRedirect("./viewPatientInformation.jsp");
-            }else if(BPsystolic < BPdiastolic){
-                session.setAttribute("error", "Update failed: BP Systolic must be higher than BP Diastolic.");
-                session.setAttribute("active", "vital");
-                response.sendRedirect("./viewPatientInformation.jsp");
-            }
-            else if (BPsystolic != 0 && BPdiastolic == 0) {
+            }else if (BPsystolic != 0 && BPdiastolic == 0) {
                 session.setAttribute("error", "Update failed: Please update BOTH Systolic and Diastolic values.");
                 session.setAttribute("active", "vital");
                 response.sendRedirect("./viewPatientInformation.jsp");
@@ -142,7 +137,12 @@ public class ProcessAddVital extends HttpServlet {
                 session.setAttribute("error", "Update failed: Please update BOTH Systolic and Diastolic values.");
                 session.setAttribute("active", "vital");
                 response.sendRedirect("./viewPatientInformation.jsp");
-            } else if (!oralAmount.equals("-") && oralType.equals("-")) {
+            } else if(BPsystolic < BPdiastolic){
+                session.setAttribute("error", "Update failed: BP Systolic must be higher than BP Diastolic.");
+                session.setAttribute("active", "vital");
+                response.sendRedirect("./viewPatientInformation.jsp");
+            }
+            else if (!oralAmount.equals("-") && oralType.equals("-")) {
                 session.setAttribute("error", "Update failed: Please update BOTH Oral/Intragastric Intake Type and Amount.");
                 session.setAttribute("active", "vital");
                 response.sendRedirect("./viewPatientInformation.jsp");

@@ -46,7 +46,14 @@ public class ProcessAddMedication extends HttpServlet {
             String discontinueStateID = (String) request.getParameter("discontinueStateID");
             
             String fullTextStateID = stateID.replace("ST", "State ");
-
+            
+            //to get the state number to compare
+            String stateNumberStr = stateID.replaceAll("ST", "");
+            int stateNumber = Integer.parseInt(stateNumberStr);
+            
+            String discontinueStateNumberStr = discontinueStateID.replaceAll("ST", "");
+            int discontNumber = Integer.parseInt(discontinueStateNumberStr);
+            
             //retrieve values for Medicine table
             String medicineName = request.getParameter("medicineName");
             Medicine medicineRetrieved = MedicineDAO.retrieveByMedicineName(medicineName);
@@ -62,19 +69,24 @@ public class ProcessAddMedication extends HttpServlet {
             String dosage = request.getParameter("dosage");
 
 
-            if (medicineName != null && (!stateID.equals(discontinueStateID)) ) {
+            if (medicineName != null && (!stateID.equals(discontinueStateID)) && stateNumber < discontNumber) {
                 PrescriptionDAO.add(scenarioID, stateID, doctorName, doctorOrder, freq, medicineBarcode, discontinueStateID, dosage, route);
+                if (editMedicine == null || editMedicine.equals("")) {
+                    session.setAttribute("success", "Medication created successfully.");
+                    response.sendRedirect("createMedicationBC.jsp");
+                } else {
+                    session.setAttribute("success", "Medication created successfully.");
+                    response.sendRedirect("editMedication.jsp");
+                }
             }else{
-                  session.setAttribute("error", "You cannot select the same state for state and discontinue state.");
-            }
-            
-            if (editMedicine == null || editMedicine.equals("")) {
-                session.setAttribute("success", "Medication added successfully.");
-                response.sendRedirect("createMedicationBC.jsp");
+                if (editMedicine == null || editMedicine.equals("")) {
+                    session.setAttribute("error", "Failed to create medication: You cannot select the same state for state and discontinue state.");
+                    response.sendRedirect("createMedicationBC.jsp");
+                } else {
+                    session.setAttribute("error", "Failed to create medication: You cannot select the same state for state and discontinue state.");
+                    response.sendRedirect("editMedication.jsp");
+                }
                 
-            } else {
-                session.setAttribute("success", "Medication updated successfully.");
-                response.sendRedirect("editMedication.jsp");
             }
         } finally {
             out.close();

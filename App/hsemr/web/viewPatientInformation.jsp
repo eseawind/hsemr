@@ -894,15 +894,13 @@
                                                                     }%>" >
 
                                                                 <label style="text-align:left">Multidisciplinary Notes</label>
-                                                                <textarea name="notes" id="notes" rows="7" cols="10" >
-                                                                    <%
+                                                                <textarea name="notes" id="notes" rows="7" cols="10" ><%
                                                                         if (notes == null || notes == "") {
                                                                             out.print("");
                                                                         } else {
                                                                             out.print(notes);
                                                                         }
-                                                                    %>
-                                                                </textarea>
+                                                                    %></textarea>
                                                             </div>
                                                             <br>
                                                             <table style="border-color: white; width:300px">
