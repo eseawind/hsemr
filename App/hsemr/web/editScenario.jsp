@@ -305,40 +305,45 @@
                                     <small class="error">Heart Rate must be between 0 - 200.</small>
                                 </label>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="large-4 columns">
-                                <label>Blood Pressure Systolic
+                                <label>Blood Pressure <br>Systolic
                                     <input type="text" name="BPS" value="<%=BPS%>" maxlength ="3" pattern = "^([0-9]{1,2}|[12][0-9]{2}|300)$">
                                     <small class="error">BP systolic must be numeric and between 0 - 300.</small>
                                 </label>
                             </div> 
                             <div class="large-4 columns">
-                                <label>Blood Pressure Diastolic
+                                <label>Blood Pressure <br>Diastolic
                                     <input type="text" name="BPD" value="<%=BPD%>" maxlength ="3" pattern = "^([0-9]{1,2}|1[0-9]{2}|200)$">
                                     <small class="error">BP diastolic must be numeric and between 0 - 200.</small>
                                 </label>
                             </div>
                             <div class="large-4 columns">
-                                <label>SpO<sub>2</sub>
+                                <label><br>SpO<sub>2</sub>
                                     <input type="text" name="SPO0" value="<%=SPO0%>" maxlength = "3" pattern ="^[0-9][0-9]?$|^100$">
                                     <small class="error">SPO must be numeric and between 0 - 100%.</small>
                                 </label>
                             </div>
-                                    
+                        </div>
+                        <div class="row">                                    
                             <div class="large-4 columns">
-                                <label>Intake - Oral/Intragastric <br>(Type)
+                                <label>Intake - <br>Oral/Intragastric <br>(Type)
                                     <input type="text" name="intragastricType" value="<%=intragastricType%>">
                                 </label>
                             </div>
                             <div class="large-4 columns">
-                                <label>Intake - Oral/Intragastric <br>(Amount)
+                                <label>Intake - <br>Oral/Intragastric <br>(Amount)
                                     <input type="text" name="intragastricAmount" value="<%=intragastricAmount%>">
                                 </label>
                             </div>  
                             <div class="large-4 columns">
-                                <label>Intake - Intravenous <br>(Type)
+                                <label>Intake - <br>Intravenous <br>(Type)
                                     <input type="text" name="intravenousType" value="<%=intravenousType%>">
                                 </label>
                             </div>  
+                        </div>
+                        <div class="row">
                             <div class="large-4 columns">
                                 <label>Intake - Intravenous <br>(Amount)
                                     <input type="text" name="intravenousAmount" value="<%=intravenousAmount%>">
@@ -352,6 +357,7 @@
                                 <div class="large-4 columns">
                                 
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
