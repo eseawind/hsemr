@@ -280,7 +280,7 @@
                     <td><a href="<%=documentURL%>" target="_blank" >View Document</a></td>
                     <td><form action ="ProcessDeleteDocument">
                             <input type="hidden" name="consentFile" value="<%=docURL%>">
-                            <input type = "submit" Value ="Delete Document" class="button tiny">
+                            <input type = "submit" Value ="Delete Document" class="deletebutton tinytable">
                         </form></td>
                 </tr>
                 <%
