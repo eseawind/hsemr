@@ -159,13 +159,14 @@ public class ProcessEditScenario extends HttpServlet {
                     } else {
                         VitalDAO.update(temperature, rr, hr, bps, bpd, spo, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, scenarioID);
                     }
+                    ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, admissionInfo);
+                    session.setAttribute("patientNRIC", patientNRIC);
+                    session.setAttribute("success", "Scenario Name: " + scenarioName + " information successfully saved!");
+
+                    response.sendRedirect("editState.jsp");
                 }
 
-                ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, admissionInfo);
-                session.setAttribute("patientNRIC", patientNRIC);
-                session.setAttribute("success", "Scenario Name: " + scenarioName + " information successfully saved!");
-
-                response.sendRedirect("editState.jsp");
+               
                 
            
             } catch (Exception e) {
