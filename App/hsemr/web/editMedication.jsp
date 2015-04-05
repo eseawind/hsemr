@@ -72,7 +72,10 @@
             <form action ="ProcessAddNewMedicine" method ="POST" data-abide>
                 <label>Medicine Name <input type="text" name="newMedicineName" required/></label>
                 <label>Medicine Barcode <input type ="text" name ="newMedicineBarcode" style="text-transform:uppercase;" required pattern ="^[0-9a-zA-Z]+$"></label>
-
+                
+                <p>To generate the medicine barcode for printing on medicine, click <a href="http://www.barcode-generator.org/" target="_blank">here</a>. <br>Under "Create Free", please select <b>Code 128 (Standard)</b></p><br>
+                
+                
                 <small class="error">No space and numbers allowed.</small> 
 
                 <input type ="hidden" name ="route" value ="I.V.">

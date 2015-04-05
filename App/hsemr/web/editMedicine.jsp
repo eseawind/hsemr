@@ -39,7 +39,8 @@
         <div class="large-10 large-centered columns">  
             <div class="row" style="width:500px; padding-top: 50px">
                 <center><h1>Edit <%=medicine.getMedicineName() %>'s details</h1></center><br/>
-                        <%            String success = "";
+        <%            
+            String success = "";
             String error = "";
 
             if (session.getAttribute("success") != null && !session.getAttribute("success").equals("")) {
@@ -67,7 +68,7 @@
                             <input type="text" id="medicineName" name="medicineName" value ="<%=medicine.getMedicineName()%>" required autofocus>
                         </label>  
                         <br/>
-
+                    
                     </div>
                     <br/>
                     <input type="hidden" id="right-label" name="type" value="<%=request.getParameter("type")%>">

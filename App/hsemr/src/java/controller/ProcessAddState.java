@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -39,7 +40,7 @@ public class ProcessAddState extends HttpServlet {
         String patientNRIC = request.getParameter("patientNRIC");
         String stateDescription = request.getParameter("stateDescription");
         String doctorOrderForState = request.getParameter("doctorOrderForState");
-        
+        HttpSession session = request.getSession(false);
         ArrayList<State> stateList = (ArrayList<State>) StateDAO.retrieveAll(scenarioID);
         int stateNumber = stateList.size();
      
@@ -54,8 +55,10 @@ public class ProcessAddState extends HttpServlet {
         PrescriptionDAO.add(scenarioID, stateID, "Dr. Tan/01234Z", doctorOrderForState, "NA", "NA", "-", "-","N.A");
 
         if (edit== null || edit.equals(" ")) {
+            session.setAttribute("success", "State added successfully.");
             response.sendRedirect("createStateBC.jsp");
         } else {
+            session.setAttribute("success", "State updated successfully.");
             response.sendRedirect("editState.jsp");
         }
 

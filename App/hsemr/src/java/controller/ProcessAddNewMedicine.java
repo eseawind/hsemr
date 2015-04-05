@@ -7,12 +7,15 @@
 package controller;
 
 import dao.MedicineDAO;
+import entity.Medicine;
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,12 +38,26 @@ public class ProcessAddNewMedicine extends HttpServlet {
         
             String newMedicineName = request.getParameter("newMedicineName");
             String newMedicineBarcode = request.getParameter("newMedicineBarcode").trim().toUpperCase();
+            HttpSession session = request.getSession(false);
+            
+            Medicine existedMedicine = MedicineDAO.retrieve(newMedicineBarcode);
+            
             MedicineDAO.insertMedicine(newMedicineBarcode, newMedicineName);
             
             String editMedicine = request.getParameter("editMedicine");
             String createMedicine = request.getParameter("createMedicine");
-            
-
+                
+            if (existedMedicine != null) {
+                session.setAttribute("error", "This medicine barcode (" + newMedicineBarcode + ") already exist. It has to be unique. Please enter a new medicine barcode.");
+                request.setAttribute("medicineName", newMedicineName);
+                request.setAttribute("medicineBarcode", newMedicineBarcode);
+                if(createMedicine != null){
+                    RequestDispatcher rd = request.getRequestDispatcher("createMedicine.jsp");
+                    rd.forward(request, response);
+                }
+            } else {
+                session.setAttribute("success", "Medicine: " + newMedicineName + " (Barcode: " + newMedicineBarcode + ") is successfully created.");
+            }
             if(createMedicine != null){
                 response.sendRedirect("viewMedicine.jsp");
             }else if(editMedicine != null){

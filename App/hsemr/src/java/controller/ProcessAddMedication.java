@@ -73,8 +73,11 @@ public class ProcessAddMedication extends HttpServlet {
             }
             
             if (editMedicine == null || editMedicine.equals("")) {
+                session.setAttribute("success", "Medication added successfully.");
                 response.sendRedirect("createMedicationBC.jsp");
+                
             } else {
+                session.setAttribute("success", "Medication updated successfully.");
                 response.sendRedirect("editMedication.jsp");
             }
 

@@ -66,18 +66,18 @@
             %>
 
             <center><h4>Can't find the medicine you're looking for? Add new medicine <a href="#" data-reveal-id="addNewMedicine">here</a></h4></center>
-            <center><h4>Create the medicine barcode <a href="http://www.barcode-generator.org/">here</a></h4></center>
+            <center><h4>Generate the medicine barcode for printing <a href="http://www.barcode-generator.org/">here</a></h4></center>
 
             <!--add new medicine reveal modal-->
             <div id="addNewMedicine" class="reveal-modal" data-reveal>
                 <h2>Add New Medicine</h2>
-            
-                <p>Create the medicine barcode <a href="http://www.barcode-generator.org/" target="_blank">here</a>. Under "Create Free", please select <b>Code 128 (Standard)</b></p><br>
-                
+                            
                 <form action ="ProcessAddNewMedicine" method ="POST" data-abide>
                     <label>Medicine Name <input type="text" name="newMedicineName" required/></label>
                     <label>Medicine Barcode <input type ="text" name ="newMedicineBarcode" style="text-transform:uppercase;" required pattern ="^[0-9a-zA-Z]+$"></label>
 
+                    <p>To generate the medicine barcode for printing on medicine, click <a href="http://www.barcode-generator.org/" target="_blank">here</a>. <br>Under "Create Free", please select <b>Code 128 (Standard)</b></p><br>
+                
                     <small class="error">No space and numbers allowed.</small> 
 
                     <input type ="hidden" name ="route" value ="I.V.">
@@ -201,10 +201,17 @@
                 <%for (Prescription prescription : prescriptionList) {
                         String stateNumber = prescription.getStateID();
                         String doctorOrder = prescription.getDoctorOrder();
+                        String medicineBarcode = prescription.getMedicineBarcode();
+                        Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
+                        String medicineName = medicine.getMedicineName();
+                        String frequency = prescription.getFreqAbbr(); 
+                        String route = prescription.getRouteAbbr();
+                        String dosage = prescription.getDosage();
 
                         stateNumber.replace("ST", "State ");
-                        String stateDesc = stateNumber.replace("ST", "State ") + " - " + doctorOrder;%>
-
+                        String stateDesc = stateNumber.replace("ST", "State ") + " - " + medicineName + " (Frequency: " + frequency + " Route: " + route + " Dosage: " + dosage + ") " ;
+                %>
+                        
                 <input type = "submit" class="casecreationbutton tiny" value="<%=stateDesc%>" disabled>
 
                 <%

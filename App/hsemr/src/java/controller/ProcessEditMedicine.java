@@ -54,24 +54,8 @@ public class ProcessEditMedicine extends HttpServlet {
         for(Medicine medicine: medicineList){
             medicineNameList.add(medicine.getMedicineName());
             String medicineNameRetreived = medicine.getMedicineName();
-//            if(medicineNameRetreived.equalsIgnoreCase(medicineName)){
-//                medicineExist = true;
-//                break;
-//            }
         }
-        
-//        out.println(medicineExist);
-        
-//        for(String medicine: medicineNameList){
-//            out.println(medicine);
-//        }
-//        
-//        if(medicineNameList.contains("Codydramol")){
-//         out.println("HI");
-//        }
         if(medicineNameList.contains(medicineName)){
-            out.println(medicineNameList.contains(medicineName));
-            out.println("cannot edit!");
             String medicineBarcodeReturned = MedicineDAO.retrieveByMedicineName(medicineName).getMedicineBarcode();
             request.setAttribute("medicineBarcode", medicineBarcodeReturned);
             out.println(medicineBarcodeReturned);
@@ -85,13 +69,6 @@ public class ProcessEditMedicine extends HttpServlet {
             session.setAttribute("success",  "You have successfully changed the medicine name.");
             response.sendRedirect("./viewMedicine.jsp");
         }
-        
-        
-        
-        
-     
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

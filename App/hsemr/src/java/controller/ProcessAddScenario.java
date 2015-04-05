@@ -231,7 +231,7 @@ public class ProcessAddScenario extends HttpServlet {
                 session.setAttribute("success", "Case successfully created! To modify case information, please proceed to Manage Case > Edit.");
                 session.setAttribute("scenarioID", scenarioID);
                 session.setAttribute("patientNRIC", patientNRIC);
-       //         response.sendRedirect("createStateBC.jsp");
+                response.sendRedirect("createStateBC.jsp");
                 
             }
         } catch (Exception e) {
