@@ -886,7 +886,7 @@
                                                 <a name="step3"></a>
                                                 <h3 data-magellan-destination="step3">Step 3: Administer Medicine</h3>
                                                 <br/>
-                                                <font color ="red">Click "Administer Medicine" once you are done scanning with the medicine(s). Medicine will be added to history once "Administer" is clicked.</font><br><br>   
+                                                <h4><font color ="red">Click "Administer Medicine" once you are done scanning with the medicine(s). Medicine will be added to history once "Administer" is clicked.</font></h4><br><br>   
                                                 <br/>
                                                 <form action ="ProcessAdministerMedicine" method="post">
                                                     <input type = "submit" class="deletebutton tiny" onclick="if (!administerConfirmation())
@@ -1600,7 +1600,7 @@
 
 
                                                     %>
-                                                    <font size="6"><a href="viewMainLogin.jsp" >Log Out</a></font>
+                                                    <h1><a href="viewMainLogin.jsp" >Log Out</a></h1>
                                                 </div>
 
 

@@ -118,7 +118,7 @@
         </form>
             
           
-         <font size="6"><a href="viewMainLogin.jsp" >Log Out</a></font>
+            <h1><a href="viewMainLogin.jsp" >Log Out</a></h1>
      
         <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
         </div>
