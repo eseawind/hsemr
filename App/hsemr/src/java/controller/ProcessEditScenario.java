@@ -163,7 +163,7 @@ public class ProcessEditScenario extends HttpServlet {
 
                 ScenarioDAO.update(scenarioID, scenarioName, scenarioDescription, admissionInfo);
                 session.setAttribute("patientNRIC", patientNRIC);
-                session.setAttribute("success", "Scenario Name: " + scenarioName + " information successfully updated!");
+                session.setAttribute("success", "Scenario Name: " + scenarioName + " information successfully saved!");
 
                 response.sendRedirect("editState.jsp");
                 
