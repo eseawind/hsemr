@@ -38,6 +38,7 @@ public class ProcessLogoutLecturer extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             session.removeAttribute("lecturer");
+  
             response.sendRedirect("viewMainLogin.jsp");
         } finally {
             out.close();

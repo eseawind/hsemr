@@ -38,7 +38,17 @@ public class ProcessLogoutNurse extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             session.removeAttribute("nurse");
-            
+            session.removeAttribute("temperature");
+            session.removeAttribute("HR");
+            session.removeAttribute("RR");
+            session.removeAttribute("SPO");
+            session.removeAttribute("BPsystolic");
+            session.removeAttribute("BPdiastolic");
+            session.removeAttribute("oralAmount");
+            session.removeAttribute("oralType");
+            session.removeAttribute("intravenousType");
+            session.removeAttribute("intravenousAmount");
+            session.removeAttribute("output");
             response.sendRedirect("viewMainLogin.jsp");
         } finally {
             out.close();
