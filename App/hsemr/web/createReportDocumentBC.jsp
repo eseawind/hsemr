@@ -89,7 +89,8 @@
                             <label>State
                                 <select name = "stateID" required>
                                     <option disabled="disabled" selected="selected" value = "">--Please select the state that this report will be tag to--</option>
-                                    <%                             for (State state : stateList) {%>
+                                    <%                             
+                            for (State state : stateList) {%>
                                     <option><%=state.getStateID()%></option>
                                     <% }
                                     %>
