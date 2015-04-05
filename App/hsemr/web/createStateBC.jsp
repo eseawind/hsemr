@@ -42,8 +42,19 @@
 
         <div class="large-centered large-6 columns">
 
-            <%            String success = "";
+            <%            
+                String success = "";
                 String error = "";
+
+                if (session.getAttribute("success") != null && !session.getAttribute("success").equals("")) {
+                    success = (String) session.getAttribute("success");
+                    session.setAttribute("success", "");
+                }
+
+                if (session.getAttribute("error") != null && !session.getAttribute("error").equals("")) {
+                    error = (String) session.getAttribute("error");
+                    session.setAttribute("error", "");
+                }
 
                 String scenarioID = (String) session.getAttribute("scenarioID");
                 String patientNRIC = (String) session.getAttribute("patientNRIC");

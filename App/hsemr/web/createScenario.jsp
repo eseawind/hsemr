@@ -34,7 +34,8 @@
             });
 
         </script>
-        <%            String success = "";
+        <%            
+            String success = "";
             String error = "";
 
             if (session.getAttribute("success") != null && !session.getAttribute("success").equals("")) {
@@ -46,11 +47,7 @@
                 error = (String) session.getAttribute("error");
                 session.setAttribute("error", "");
             }
-            if (session.getAttribute("s") != null && !session.getAttribute("s").equals("")) {
-                String s = (String) session.getAttribute("s");
-                out.println(s);
 
-            }
         %>
     </head>
     <body>
@@ -134,11 +131,11 @@
                     HR0 = String.valueOf(request.getAttribute("HR0"));
                 }
 
-                if (request.getAttribute("BPS") != null && !!String.valueOf(request.getAttribute("BPS")).equals("0")) {
+                if (request.getAttribute("BPS") != null && !String.valueOf(request.getAttribute("BPS")).equals("0")) {
                     BPS = String.valueOf(request.getAttribute("BPS"));
                 }
 
-                if (request.getAttribute("BPD") != null && !!String.valueOf(request.getAttribute("BPD")).equals("0")) {
+                if (request.getAttribute("BPD") != null && !String.valueOf(request.getAttribute("BPD")).equals("0")) {
                     BPD = String.valueOf(request.getAttribute("BPD"));
                 }
 
