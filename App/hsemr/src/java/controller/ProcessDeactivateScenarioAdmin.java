@@ -53,7 +53,7 @@ public class ProcessDeactivateScenarioAdmin extends HttpServlet {
                     LecturerScenarioDAO.deactivateScenario(deactivateLecturer, scenarioID);
                     StateHistoryDAO.clearAllHistoryByLecturer(deactivateLecturer);
                 }
-                session.setAttribute("success", "You have successfully deactivated the casae.");
+                session.setAttribute("success", "You have successfully deactivated the case.");
                 response.sendRedirect("viewScenarioAdmin.jsp");
             }
         }
