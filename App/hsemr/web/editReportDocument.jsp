@@ -189,13 +189,13 @@
                 </thead>
 
                 <%for (Report r : currentReportList) {
-                    stateID = r.getStateID();
-                    reportName = r.getReportName();
-                    reportFile = r.getReportFile();
-                    date = r.getReportDatetime();
-                    dateTime = df.format(date);
-                    reportURL = "reports/" + reportFile;
-                    String dateTimeNum = "dateTime" + counter;
+                        stateID = r.getStateID();
+                        reportName = r.getReportName();
+                        reportFile = r.getReportFile();
+                        date = r.getReportDatetime();
+                        dateTime = df.format(date);
+                        reportURL = "reports/" + reportFile;
+                        String dateTimeNum = "dateTime" + counter;
                 %>
 
                 <tr>
@@ -214,8 +214,8 @@
 
                 </tr>
                 <%
-                    counter++;
-                }
+                        counter++;
+                    }
 
                 %>
             </table>
@@ -270,7 +270,7 @@
                     <td><a href="<%=documentURL%>" target="_blank" >View Document</a></td>
                     <td><form action ="ProcessDeleteDocument">
                             <input type="hidden" name="consentFile" value="<%=docURL%>">
-                            <input type = "submit" Value ="Delete Document" class="deletebutton tinytableYES">
+                            <input type = "submit" Value ="Delete Document" class="deletebutton big">
                         </form>
                     </td>
                 </tr>
@@ -280,12 +280,11 @@
                 %>
             </table>
             <%}%>
-
+            <br/><br/><br/>
             <!-- End Report table -->
             <form action="viewScenarioAdmin.jsp" method="POST">
-                <br>
-                <br>
-                <center><input type ="submit" class ="button small" value ="Proceed to Admin Homepage"></center>
+
+                <center><input type ="submit" class ="button important" value ="Proceed to Admin Homepage"></center>
             </form>
         </div>
         <script src="js/vendor/jquery.js"></script>
@@ -309,6 +308,6 @@
 
             });
         </script>
-    <script type="text/javascript" src="js/humane.js"></script>
+        <script type="text/javascript" src="js/humane.js"></script>
     </body>
 </html>

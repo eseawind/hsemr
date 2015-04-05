@@ -71,16 +71,15 @@
 
         <body style="font-size:14px; background-color: #ffffff;">
         <div class="row" style="padding-top: 30px; width: 300px;">
-                <center><h1>Case Management</h1></center><br/>
-                <form action ="ProcessResetAll" method="post">
-                    <input type = "submit" class="resetbutton tiny" onclick="if (!resetConfirmation())
-                                return false" value="Reset All Cases" >
-                </form>
+            <center><h1>Case Management</h1></center><br/>
+            <form action ="ProcessResetAll" method="post">
+                <input type = "submit" class="resetbutton tiny" onclick="if (!resetConfirmation())
+                            return false" value="Reset All Cases" >
+            </form>
         </div>
 
         <div class="large-12 columns" style="padding-top: 0px;">
-            <%  
-                //Retrieve all the successful messages 
+            <%                //Retrieve all the successful messages 
                 String success = "";
                 if (session.getAttribute("success") != null) {
                     success = (String) session.getAttribute("success");
@@ -126,12 +125,18 @@
                         if (lecScenario != null) {
                         %>
                         <font color= "green"><b>Activated</b></font> by<br>
-                        
+
                         <%
                             List<String> lecActivatedList = LecturerScenarioDAO.retrieveLecturerActivatedScenario(scenarioID);
-                            
-                            for(String lecturer: lecActivatedList){
-                                out.println(lecturer + " ");
+
+                            for (int i = 0; i < lecActivatedList.size(); i++) {
+                                String lecturer = lecActivatedList.get(i);
+
+                                if (i == lecActivatedList.size() - 1) {
+                                    out.println(lecturer);
+                                } else {
+                                    out.println(lecturer + ", ");
+                                }
                             }
                         %>
                         <%} else {%>
@@ -140,8 +145,7 @@
 
                         %></td>
                     <td>
-                        <%                         
-                            int first = 0;
+                        <%                            int first = 0;
                             for (int i = 0; i < scenarioDescription.length(); i++) {
                                 first = scenarioDescription.indexOf(".") + 1;
                                 if (first == -1) {
@@ -196,7 +200,7 @@
                             <a href="#" id="<%=scenarioID2%>-hide" class="hideLink" onclick="showHide('<%=scenarioID2%>');
                                     return false;"> < Hide Healthcare Provider's Order</a>
                         </div>
-                        <% } %>
+                        <% }%>
                     </td>
 
 
@@ -210,9 +214,9 @@
                     <%                    if (lecScenario != null) { //it is activated by some lecturer
 
                     %>
-                    
-                    
-                   
+
+
+
                     <form action ="deactivateScenarioAdmin.jsp" method ="POST">
                         <input type ="submit" class="button tiny" value = "Deactivate">
                         <input type="hidden" name="status" value="deactivated">
@@ -282,15 +286,15 @@
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
         <script>
-                $(document).ready(function() {
-                    $(document).foundation();
-                    var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
+                            $(document).ready(function() {
+                                $(document).foundation();
+                                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
 
-                    var success1 = "<%=success%>";
-                    if (success1 !== "") {
-                        humaneSuccess.log(success1);
-                    }
-                });
+                                var success1 = "<%=success%>";
+                                if (success1 !== "") {
+                                    humaneSuccess.log(success1);
+                                }
+                            });
         </script>
         <script type="text/javascript">
             function resetConfirmation() {

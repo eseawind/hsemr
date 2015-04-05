@@ -91,7 +91,7 @@
                         <td>
                             <form action="ProcessDeleteMedicine" method="post">
                                 <input type="hidden" name="medicineBarcode" value="<%=medicine.getMedicineBarcode()%>">       
-                                <center><input type="submit" class="button tinytable" value="delete"></center>
+                                <center><input type="submit" class="deletebutton tinytableone" value="delete"></center>
                             </form>
                         </td>
                         <%
@@ -104,7 +104,7 @@
                 <!--Create New Account button-->
                 <form action="createMedicine.jsp" method="post">
                     <input type="hidden" name="type" value="admin">
-                    <input type="submit" class="button small" value="Create New Medicine">
+                    <input type="submit" class="button important" value="Create New Medicine">
                 </form>
                 </center>
             </div>

@@ -399,7 +399,7 @@
                         <%
     }%>
                     </table> <br/><br/>
-                <input type = "submit" value ="Save and Proceed  >>" class="button small"></center>  
+                <!--<input type = "submit" value ="Save and Proceed  >>" class="button small"></center>-->
             </form>
 
             <br>

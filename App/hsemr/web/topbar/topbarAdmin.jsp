@@ -64,7 +64,7 @@
                     </ul>
 
                     <ul class="right"> 
-                        <li><a href="./viewAdminHomePage.jsp">Welcome, Admin!</a></li>
+                        <li><a href="#">Welcome, Admin!</a></li>
                         <li><a href="ProcessLogoutAdmin">Log Out</a></li>
                     </ul>
 

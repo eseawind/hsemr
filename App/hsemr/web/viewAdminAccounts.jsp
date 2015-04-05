@@ -97,7 +97,7 @@
                                     <%
                                         } else {
                                     %>
-                                    <center><input type="submit" class="button tinytable" onclick="if (!deleteConfirmation())
+                                    <center><input type="submit" class="deletebutton tinytableone" onclick="if (!deleteConfirmation())
                                                 return false" value="delete" ></center>
                                     <%
                                         }
@@ -114,7 +114,7 @@
                     <!--Create New Account button-->
                     <form action="createAccount.jsp" method="post">
                         <input type="hidden" name="type" value="admin">
-                        <input type="submit" class="button small" value="Create New Account">
+                        <input type="submit" class="button important" value="Create New Account">
                     </form>
                 </center>
             </div>

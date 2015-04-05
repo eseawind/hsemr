@@ -36,7 +36,7 @@
                     if (scenarioActivated != null) {%>
                         <!--Display Case Info-->
                         <form action ="viewPatientInformation.jsp" method="post">
-                            <table style="border-color: #EEEEEE">
+                            <table style="border-color: #999">
                                 <col width="25%">
                                 <col width="75%">
 
@@ -51,7 +51,7 @@
 
                             </table>
                             <br/><br/><br/><br/>
-                            <input type="submit" class="button small" value="Proceed">
+                            <input type="submit" class="button important" value="Proceed">
                         </form>
                 <%
                     } else { 
