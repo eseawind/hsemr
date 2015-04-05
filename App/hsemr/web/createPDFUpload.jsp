@@ -44,7 +44,50 @@
             <div class="row" style="width:600px; padding-top: 50px">
                 <h1>PDF Text Recognition Case Setup</h1> 
                 <br/><br/>
-                <center><h3>Step 1: Add Keywords (optional):</h3></center>
+       
+                <center><h3>Select Case PDF File:</h3></center>
+                <div class="panelCase">
+                    <form action = "ProcessPDFCreation" method = "POST" enctype = "multipart/form-data"> 
+                        <%
+
+                            String success = "";
+                            String error = "";
+
+                            if (session.getAttribute("success") != null) {
+
+                                success = (String) session.getAttribute("success");
+                                session.setAttribute("success", "");
+                            }
+
+                            if (session.getAttribute("error") != null) {
+
+                                error = (String) session.getAttribute("error");
+                                session.setAttribute("error", "");
+                            }
+
+                            if (session.getAttribute("s") != null) {
+
+                                String s = (String) session.getAttribute("s");
+                                session.setAttribute("s", "");
+                            }
+
+                            List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
+                            int max = scenarioList.size() - 1;
+                            Scenario lastScenario = scenarioList.get(max);
+                            int nextScenarioID = lastScenario.getBedNumber() + 1;
+                            String nextScenarioIDStr = "SC" + nextScenarioID;
+
+                        %>
+
+                        <input type ="file" name = "file" required /><br>
+                        <input type ="hidden" name ="scenarioID" value ="<%=nextScenarioIDStr%>"/> 
+                        <br/><br/>
+                        <center><input type ="submit" class ="button small" value ="Upload Case"></center>
+
+                    </form>
+                </div>
+                
+                         <center><h3>Add New Keywords (optional):</h3></center>
 
                 <form action = "ProcessAddKeyword" method = "post">
                     <br/>
@@ -243,47 +286,6 @@
                 <% } %>
                 <br/>
                 <br/>
-                <center><h3>Step 2: Select PDF File:</h3></center>
-                <div class="panelCase">
-                    <form action = "ProcessPDFCreation" method = "POST" enctype = "multipart/form-data"> 
-                        <%
-
-                            String success = "";
-                            String error = "";
-
-                            if (session.getAttribute("success") != null) {
-
-                                success = (String) session.getAttribute("success");
-                                session.setAttribute("success", "");
-                            }
-
-                            if (session.getAttribute("error") != null) {
-
-                                error = (String) session.getAttribute("error");
-                                session.setAttribute("error", "");
-                            }
-
-                            if (session.getAttribute("s") != null) {
-
-                                String s = (String) session.getAttribute("s");
-                                session.setAttribute("s", "");
-                            }
-
-                            List<Scenario> scenarioList = ScenarioDAO.retrieveAll();
-                            int max = scenarioList.size() - 1;
-                            Scenario lastScenario = scenarioList.get(max);
-                            int nextScenarioID = lastScenario.getBedNumber() + 1;
-                            String nextScenarioIDStr = "SC" + nextScenarioID;
-
-                        %>
-
-                        <input type ="file" name = "file" required /><br>
-                        <input type ="hidden" name ="scenarioID" value ="<%=nextScenarioIDStr%>"/> 
-                        <br/><br/>
-                        <center><input type ="submit" class ="button small" value ="Upload Case"></center>
-
-                    </form>
-                </div>
             </div>
         </div>
         <script>
