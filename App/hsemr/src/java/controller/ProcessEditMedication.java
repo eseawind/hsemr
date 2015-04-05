@@ -34,6 +34,7 @@ public class ProcessEditMedication extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(false);
         if(session.getAttribute("admin") == null){
             response.sendRedirect("viewMainLogin.jsp");
@@ -56,9 +57,11 @@ public class ProcessEditMedication extends HttpServlet {
                     String routeDefault = "routeDefault" + i;
                     String frequencyDefault = "frequencyDefault" + i;
                     String stateIDNumber = "stateID" + i;
+                    String docOrderDefaultNumber = "docOrderDefault" + i;
                     
                     String stateID = request.getParameter(stateIDNumber);
-
+                    String initialDoctorOrder = request.getParameter(docOrderDefaultNumber);
+                    
                     String medicineName = request.getParameter(medicineNameNumber);
                     String route = request.getParameter(routeNumber);
                     if (route == null) {
@@ -73,12 +76,13 @@ public class ProcessEditMedication extends HttpServlet {
                     String dosage = request.getParameter(dosageNumber);
                     String medBarcode = request.getParameter(medBarcodeNumber);
 
-                    String initialRoute = request.getParameter(routeDefault);
+                //    String initialRoute = request.getParameter(routeDefault);
                     String initialFreq= request.getParameter(frequencyDefault);
-
-                    PrescriptionDAO.updatePres(doctorName, doctorOrder, frequency, scenarioID, stateID, medBarcode, route, dosage, initialRoute, initialFreq);
-
+                    
+                    PrescriptionDAO.updatePres(doctorName, doctorOrder, frequency, scenarioID, stateID, medBarcode, route, dosage, initialDoctorOrder,initialFreq);
+                    
                 }
+                session.setAttribute("success", "Medication updated successfully.");
                 response.sendRedirect("editReportDocument.jsp");
 
             } catch (Exception e) {

@@ -223,11 +223,11 @@ public class PrescriptionDAO {
     }
     
 
-    public static void updatePres(String doctorName, String doctorOrder, String freqAbbr, String scenarioID, String stateID, String medicineBarcode, String route, String dosage, String initialRoute, String initialFreq) {
+    public static void updatePres(String doctorName, String doctorOrder, String freqAbbr, String scenarioID, String stateID, String medicineBarcode, String route, String dosage, String initialDoctorOrder, String initialFreq) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
-        String query = "UPDATE prescription SET doctorName=? , doctorOrder=?, freqAbbr=?, routeAbbr=?, dosage=? WHERE scenarioID=? AND stateID=? AND medicineBarcode=? AND routeAbbr=? AND freqAbbr=?";
-
+        String query = "UPDATE prescription SET doctorName=? , doctorOrder=?, freqAbbr=?, routeAbbr=?, dosage=? WHERE scenarioID=? AND stateID=? AND medicineBarcode=? AND freqAbbr=? AND doctorOrder=?";
+        
         try {
             conn = ConnectionManager.getConnection();
 
@@ -240,8 +240,9 @@ public class PrescriptionDAO {
             preparedStatement.setString(6, scenarioID);
             preparedStatement.setString(7, stateID);
             preparedStatement.setString(8, medicineBarcode);
-            preparedStatement.setString(9, initialRoute);
-            preparedStatement.setString(10, initialFreq);
+            preparedStatement.setString(9, initialFreq);
+            preparedStatement.setString(10, initialDoctorOrder);
+            
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
