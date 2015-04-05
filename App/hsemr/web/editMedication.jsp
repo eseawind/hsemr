@@ -235,11 +235,12 @@
 
                     if (prescriptionList == null || prescriptionList.size() == 0) {
                         out.println("<h3><br/><br/>" + "There are no medication created yet." + "</h3>");%>
-                <form action ="editReportDocument.jsp" method ="POST">
-                    <br/><br/>
-                    <input type = "submit" Value ="Save and Proceed  >>" class="button small"> 
-                </form>               
-                <%} else {
+                         <form action ="editReportDocument.jsp" method ="POST">
+                            <br/><br/>
+                        <input type = "submit" Value ="Save and Proceed  >>" class="button small"> 
+                        </form>               
+                <%
+                    } else {
                 %>
 
                 <form action ="ProcessEditMedication" method ="POST">
@@ -395,12 +396,14 @@
                                     counter++;
                                 }
                             }%>
-                        
-                        <%
-    }%>
+    
                     </table> <br/><br/>
-                <!--<input type = "submit" value ="Save and Proceed  >>" class="button small"></center>-->
-            </form>
+                    <input type = "submit" value ="Save and Proceed  >>" class="button small"></center>
+                                        
+                </form>
+                <%
+                }
+                %>
 
             <br>
             <br>

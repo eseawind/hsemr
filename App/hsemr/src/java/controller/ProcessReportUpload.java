@@ -133,24 +133,31 @@ public class ProcessReportUpload extends HttpServlet {
                 }
             }
             
-            //save it to database
-            ReportDAO.add(reportName, fileName, scenarioID, stateID, 0);
-            response.getWriter().println(reportName);
-            response.getWriter().println(fileName);
-            response.getWriter().println(scenarioID);
-            response.getWriter().println(stateID);
-            HttpSession session = request.getSession(false);
-            session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
+         
+           
             
         } catch (Exception ex) {
-            request.setAttribute("message",
-                    "There was an error: " + ex.getMessage());
+            request.setAttribute("message","There was an error: " + ex.getMessage());
             HttpSession session = request.getSession(false);
             session.setAttribute("error", "There was an error in uploading " + fileName + " .");
         }
-        // redirects client to message page
+        
         HttpSession session = request.getSession(false);
-        session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
+         if(ReportDAO.retrieveReportByReportFile(fileName, scenarioID) == null){ // does not exists
+               //save it to database
+             ReportDAO.add(reportName, fileName, scenarioID, stateID, 0);
+             response.getWriter().println(reportName);
+             response.getWriter().println(fileName);
+             response.getWriter().println(scenarioID);
+             response.getWriter().println(stateID);
+
+             session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
+
+         }else{
+            session.setAttribute("error", "The file name needs to be unique. Ensure that no other cases have the same file name. It is suggested that you name it in this format SC4ST0 - CXG to prevent duplication.");
+         }
+            
+ 
         
         if (editReport == null || editReport.equals("")) {
             response.sendRedirect("createReportDocumentBC.jsp");

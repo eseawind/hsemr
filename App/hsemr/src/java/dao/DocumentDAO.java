@@ -7,6 +7,7 @@
 package dao;
 
 import entity.Document;
+import entity.Report;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -132,6 +133,32 @@ public class DocumentDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
 
+    }
+    
+     public static Document retrieveReportByConsentFile(String consentFile, String scenarioID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Document document = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("select * from document where consentFile = ? and scenarioID = ?");
+            stmt.setString(1, consentFile);
+            stmt.setString(2, scenarioID);
+            
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                document = new Document(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return document;
     }
     
     public static void delete(String scenarioID) {
