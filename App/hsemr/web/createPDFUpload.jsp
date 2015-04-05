@@ -122,7 +122,8 @@
                 <br/>
 
                 <!--Display states that are in the database-->
-                <%                    if (keywordList == null || keywordList.size() - 1 == 0 || keywordList.size() - 1 == -1) {
+                <%                    
+                    if (keywordList == null || keywordList.size() - 1 == 0 || keywordList.size() - 1 == -1) {
                         out.println("<center>" + "There are no keywords created yet." + "</center>");
 
                     } else {

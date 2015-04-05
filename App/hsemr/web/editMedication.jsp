@@ -284,7 +284,6 @@
                             Prescription p = null;
                             String route = "";
                             int counter = 0;
-                            //int counter2 = 0;
                             String stateDesc = "";
                             String discontinueStateDesc = "";
 
@@ -312,12 +311,10 @@
                                 String docOrderDefault = "";
 
                                 if (!medBarcode.equals("NA")) {
-                                    //stateID.replace("ST", "State ");
                                     stateDesc = stateID.replace("ST", "State ");
                                     discontinueStateDesc = discontinueStateID.replace("ST", "State ");
-                                    //out.println(counter);
+                                    
                                     medBarcodeNumber = "medBarcode" + counter;
-                                    //String stateDescNumber = "stateDesc" + counter;
                                     routeNumber = "route" + counter;
                                     routeDefault = "routeDefault" + counter;
                                     frequencyNumber = "frequency" + counter;
@@ -329,16 +326,12 @@
                                     medicineNameNumber = "medicineName" + counter;
                                     counterNumber = "counter" + counter;
 
-                                    //docOrderDefault= "doctorOrder" + counter;
-                                    //barcodeList.add(medBarcode);
                                     p = PrescriptionDAO.retrieve(scenarioID, stateID, medBarcode, doctorOrder);
                                     route = p.getRouteAbbr();
                                     dosage = p.getDosage();
 
                                     m = MedicineDAO.retrieve(medBarcode);
                                     medicineName = m.getMedicineName();
-
-                                    //dosage = MedicinePrescriptionDAO.retrieveDosage(scenarioID, stateID, medBarcode, freqAbbr);
 
                         %>
 
@@ -393,7 +386,6 @@
 
                             </td>
                             <td>
-                                <!-- <input type="hidden" name="<%=docOrderDefault%>" value="<%=doctorOrder%>"> -->
                                 <input type="text" name="<%=doctorNameNumber%>" value="<%=doctorName%>" required></td>
                             <td><input type="text" name="<%=doctorOrderNumber%>" value="<%=doctorOrder%>"></td>
                             <td><input type="text" name="<%=dosageNumber%>" value="<%=dosage%>" required></td>
@@ -407,36 +399,34 @@
                         <%
     }%>
                     </table> <br/><br/>
-                    <input type = "submit" value ="Save and Proceed  >>" class="button small"></center>  
-                        </form>
+                <input type = "submit" value ="Save and Proceed  >>" class="button small"></center>  
+            </form>
 
-                    <br>
-                    <br>
-                    <br>
-                    <center>
+            <br>
+            <br>
+            <br>
+            <center>
+        </div>
+        <script src="js/vendor/jquery.js"></script>
+        <script src="js/foundation.min.js"></script>
 
+        <script>
 
-                        </div>
-                        <script src="js/vendor/jquery.js"></script>
-                        <script src="js/foundation.min.js"></script>
+            $(document).ready(function() {
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
-                        <script>
+                var success1 = "<%=success%>";
+                var error1 = "<%=error%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                } else if (error1 !== "") {
+                    humaneError.log(error1);
+                }
 
-                            $(document).ready(function() {
-                                $(document).foundation();
-                                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
-                                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
-
-                                var success1 = "<%=success%>";
-                                var error1 = "<%=error%>";
-                                if (success1 !== "") {
-                                    humaneSuccess.log(success1);
-                                } else if (error1 !== "") {
-                                    humaneError.log(error1);
-                                }
-
-                            });
-                        </script>
-                        <script type="text/javascript" src="js/humane.js"></script>
-                        </body>
-                        </html>
+            });
+        </script>
+        <script type="text/javascript" src="js/humane.js"></script>
+    </body>
+</html>

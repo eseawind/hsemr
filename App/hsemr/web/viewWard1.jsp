@@ -49,14 +49,10 @@
                         int counterScenario = 0;
                         int bedCounter = 1;
                         String scID = "";
-                         //Scenario scen = ScenarioDAO.retrieveActivatedScenario();
-                        //Scenario scen = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
                         
                         if(pg == null){
                             out.println("No scenario activated, please contact lecturer/ administrator");
                         }else{
-                        
-                           
                             if ((ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID()) == null)) {
                                 out.println("No scenario activated, please contact lecturer/ administrator");
                             } else {
@@ -68,7 +64,8 @@
 
                     %>
                     <tr>
-                        <%                    for (int row = 0; row <= numOfRows; row++) {
+                        <%                    
+                        for (int row = 0; row <= numOfRows; row++) {
                         %>
 
                         <%
@@ -86,13 +83,13 @@
                                 %>
                         <td> <form method="POST" action="#"><input type="submit"  class="bed" value="<%="Bed " + bedCounter%>" disabled></form></td>
                                 <%
-                                            }
-                                            counterScenario++;
-                                            counter++;
-                                            bedCounter++;
-                                        }
-                                    }
-                                %> 
+                                }
+                                counterScenario++;
+                                counter++;
+                                bedCounter++;
+                            }
+                        }
+                    %> 
                     </tr>
                     <%
                         }

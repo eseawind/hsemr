@@ -87,19 +87,9 @@ public class ProcessExportPDF extends HttpServlet {
         try {
             
             HttpSession session = request.getSession(false);
-          //  ArrayList<Note> retrievedNote= (ArrayList<Note>) session.getAttribute("notesExport");
-            
-            //retrieve 1st note to get the practical group
-          /*  Note retrieved1Note = retrievedNote.get(0);
-            String practicalGroup = retrieved1Note.getPracticalGroupID();
-            String scenarioID = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioID();
-            String scenarioName= ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
-          */
-            
-            
-           String practialGroupID= (String) session.getAttribute("practicalGrpID");
+            String practialGroupID= (String) session.getAttribute("practicalGrpID");
             String scenarioID= (String) session.getAttribute("scenarioID");
-             String scenarioName= (String) session.getAttribute("scenarioName");
+            String scenarioName= (String) session.getAttribute("scenarioName");
              
             //retrieve notelist
             ArrayList<Note> notesList = (ArrayList<Note>) NoteDAO.retrieveNotesByPraticalGrpDesc(practialGroupID, scenarioID);
@@ -117,16 +107,9 @@ public class ProcessExportPDF extends HttpServlet {
             String fileLocation = "";
             if (pathToRoot == null){
                 fileLocation = getServletContext().getRealPath("") + File.separator + "public";
-                
-                // fileLocation= "C:\\Users\\Administrator\\Documents\\GitHub\\hsemr\\App\\hsemr\\build\\web\\tmp" + practicalGroup + "for" + scenarioID + "Submission.pdf";
-                //fileLocation= "C:\\Users\\hpkhoo.2012.SMUSTU\\Documents\\GitHub\\hsemr\\App\\hsemr\\build\\web\\tmp" + practicalGroup + "for" + scenarioID + "Submission.pdf";
-               
             } else{
                 fileLocation = pathToRoot + File.separator + "public" ; 
             }
-            //String fileLocation= "C:\\NPHSEMR\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
-           // String fileLocation= System.getProperty("user.home") + "\\desktop\\" + practicalGroup + "for" + scenarioID + "Submission.pdf";
-           // out.println(fileLocation);
             PdfWriter.getInstance(document, new FileOutputStream(fileLocation));
             document.open();
            
@@ -362,15 +345,13 @@ public class ProcessExportPDF extends HttpServlet {
             out.println("</body></html>");
             
             response.sendRedirect("viewExportPDF");
-            //session.setAttribute("success", "PDF Successfully Exported. Please find PDF at C:/NPHSEMR/.");
-            
+         
         } catch(Exception ex){
                
             HttpSession session = request.getSession(false);
             // to be used to determine whether to retrieve form for the first time
             session.setAttribute("error", "PDF Exported Failed. Please try again.");
             out.println(ex);
-           // response.sendRedirect("viewSubmissionLecturer.jsp");
             
         } finally {
             out.close();

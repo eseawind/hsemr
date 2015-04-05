@@ -50,9 +50,6 @@ public class ProcessReportUpload extends HttpServlet {
             return;
         }
         
-      
-       // String stateID = (String) request.getParameter("stateID");
-       // String reportName= (String) request.getParameter("reportName");;
         String editReport = "";
         String reportName = "";
         String scenarioID = ""; 
@@ -79,9 +76,6 @@ public class ProcessReportUpload extends HttpServlet {
         
         // constructs the directory path to store upload file
 //         this path is relative to application's directory
-//        String uploadPath = getServletContext().getRealPath("")
-//                + File.separator + UPLOAD_DIRECTORY;
-////        
         String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
         String uploadPath = "";
         
@@ -163,7 +157,5 @@ public class ProcessReportUpload extends HttpServlet {
         } else {
             response.sendRedirect("editReportDocument.jsp");
         }
-//        getServletContext().getRequestDispatcher("/createStateWithReports.jsp").forward(
-//                request, response);
     }
 }

@@ -513,25 +513,6 @@ public class VitalDAO {
             ConnectionManager.close(conn, preparedStatement, null);
         }
     }
-       /*
-        public static void resetVital(String scenarioID) {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        String query = "DELETE FROM vital WHERE scenarioID =? AND initialVital =0";
-
-        try {
-            conn = ConnectionManager.getConnection();
-
-            preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, scenarioID);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionManager.close(conn, preparedStatement, null);
-        }
-    }*/
         
     //Retrieve intake and output based on scenario     
     public static List<Vital> retrieveIntakeOutputHistoryByScenarioID(String scenarioID) {

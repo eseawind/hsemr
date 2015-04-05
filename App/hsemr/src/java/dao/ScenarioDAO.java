@@ -93,32 +93,6 @@ public class ScenarioDAO {
         return scenario;
     }
     
-
-/*
-    public static Scenario retrieveActivatedScenario() {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        Scenario scenario = null;
-
-        try {
-            conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("select * from scenario where scenarioStatus = ?");
-            stmt.setInt(1, 1);
-
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                scenario = new Scenario(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionManager.close(conn, stmt, rs);
-        }
-        return scenario;
-    }
-*/
     public static void add(String scenarioID, String scenarioName, String scenarioDescription, String admissionNote, int bedNumber) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -189,26 +163,6 @@ public class ScenarioDAO {
         }
         return scenarioList;
     }
-    //not in use now
-//    public static void updateScenarioStatus(String scenarioID, int scenarioStatus) {
-//        Connection conn = null;
-//        PreparedStatement stmt = null;
-//
-//        try {
-//            conn = ConnectionManager.getConnection();
-//            stmt = conn.prepareStatement("UPDATE scenario SET scenarioStatus = ? WHERE  scenarioID = ?");
-//            stmt.setInt(1, scenarioStatus);
-//            stmt.setString(2, scenarioID);
-//
-//            stmt.executeUpdate();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            ConnectionManager.close(conn, stmt);
-//        }
-//
-//    }
 
     public static void update(String scenarioID, String scenarioName, String scenarioDescription, int scenarioStatus, String admissionNote) {
         Connection conn = null;
@@ -275,24 +229,7 @@ public class ScenarioDAO {
         }
         return scenarioList;
     }
-    /*
-    public static void resetScenario() {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        String query = "UPDATE scenario SET scenarioStatus =0";
-
-        try {
-            conn = ConnectionManager.getConnection();
-
-            preparedStatement = conn.prepareStatement(query);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionManager.close(conn, preparedStatement, null);
-        }
-    }*/
+   
     public static void update(String scenarioID, String scenarioName, String scenarioDescription, String admissionNote) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;

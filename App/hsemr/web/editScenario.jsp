@@ -279,10 +279,6 @@
                         </div>
                     </div>
 
-                    <!--</dd>-->
-                    <!--<dd class="accordion-navigation">-->
-                    <!--<a href="#panel3">Default Vital Signs for State 0</a>-->
-                    <!--State 0-->
                     <!--Health Details-->
                     <center>Leave the fields below empty if not applicable.</center><br/>
                     <div class="panelCase">
@@ -362,8 +358,6 @@
                         </div>
                     </div>
                 </div>
-                <!--</dd>-->
-                <!--</dl>-->
                 <br/>
                 <center><input type="submit" value="Save and Proceed  >>" class="button small"></center>
             </form>
@@ -395,5 +389,4 @@
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
     </body>
-
 </html>

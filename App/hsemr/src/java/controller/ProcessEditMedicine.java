@@ -62,7 +62,7 @@ public class ProcessEditMedicine extends HttpServlet {
             session.setAttribute("error",  "Please ensure that your medicine name is unique.");
             RequestDispatcher rd = request.getRequestDispatcher("./editMedicine.jsp");
             rd.forward(request, response);
-            //response.sendRedirect("./editMedicine.jsp");
+          
         }else{
             out.println(medicineNameList.contains(medicineName));
             MedicineDAO.update(medicineBarcode, medicineName);

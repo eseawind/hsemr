@@ -28,14 +28,6 @@
             <center>
                 <div class="row" style="width: 440px; padding-top:20px">
                     <!--To insert icon if needed-->
-                    <!--<table style="border-color: white ">
-                        <col width="5%">
-                        <col width="95%">
-                        <tr>
-                            <td><img src="img/MainIcon.png" width="100" height="100" alt="MainIcon"/></td>
-                            <td><h0><font color="##368a55">HS EMR</font></h0></td>
-                        </tr>
-                    </table>-->
                     <h0><font color="#368a55">HS EMR</font></h0><br/>
                     <h00><font color="#009a4d">Passion to Touch Lives</font></h00>  
                     <hr>
@@ -113,9 +105,8 @@
             </div>  
             <!--Footer-->
             <center><font size="2" color="#666666"> Ngee Ann Polytechnic | School of Health Sciences | Electronic Medical Records
-                <br/>Copyright &copy; HS EMR. All rights reserved.
-                <br/>Developed by <a href ="https://wiki.smu.edu.sg/is480/IS480_Team_wiki%3A_2015T2_White_Pinnacle">White Pinnacle</a>
-           
+            <br/>Copyright &copy; HS EMR. All rights reserved.
+            <br/>Developed by <a href ="https://wiki.smu.edu.sg/is480/IS480_Team_wiki%3A_2015T2_White_Pinnacle">White Pinnacle</a>
         </div>
         <!--Scripts-->
         <script src="js/vendor/jquery.js"></script>

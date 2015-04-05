@@ -79,7 +79,8 @@
         </div>
 
         <div class="large-12 columns" style="padding-top: 0px;">
-            <%  //Retrieve all the successful messages 
+            <%  
+                //Retrieve all the successful messages 
                 String success = "";
                 if (session.getAttribute("success") != null) {
                     success = (String) session.getAttribute("success");
@@ -139,7 +140,8 @@
 
                         %></td>
                     <td>
-                        <%                         int first = 0;
+                        <%                         
+                            int first = 0;
                             for (int i = 0; i < scenarioDescription.length(); i++) {
                                 first = scenarioDescription.indexOf(".") + 1;
                                 if (first == -1) {
@@ -280,15 +282,15 @@
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
         <script>
-                            $(document).ready(function() {
-                                $(document).foundation();
-                                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
+                $(document).ready(function() {
+                    $(document).foundation();
+                    var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
 
-                                var success1 = "<%=success%>";
-                                if (success1 !== "") {
-                                    humaneSuccess.log(success1);
-                                }
-                            });
+                    var success1 = "<%=success%>";
+                    if (success1 !== "") {
+                        humaneSuccess.log(success1);
+                    }
+                });
         </script>
         <script type="text/javascript">
             function resetConfirmation() {

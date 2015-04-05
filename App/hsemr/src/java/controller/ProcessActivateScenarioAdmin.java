@@ -45,7 +45,7 @@ public class ProcessActivateScenarioAdmin extends HttpServlet {
             String[] lecturerToActivateCase = (String[]) request.getParameterValues("lecturerToActivateCase");
             String[] lecturerToActivateCaseWhoHasOtherCase = (String[]) request.getParameterValues("lecturerToActivateCaseWhoHasOtherCase");
 
-            //add all into the arraylist of string (COMBINING THEM)
+            //add all into the arraylist of string
             ArrayList<String> combinedLecturerToActivate = new ArrayList<String>(); 
 
             if(lecturerToActivateCase != null){

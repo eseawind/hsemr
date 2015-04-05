@@ -25,7 +25,8 @@
         <div class="large-10 large-centered columns">  
             <div class="row" style="width:400px; padding-top: 50px">
                 <center>
-                    <%                    String location = "";
+                    <%                    
+                        String location = "";
                         String userType = "";
                         if (request.getParameter("type") != null && !request.getParameter("type").equals("")) {
                             if (request.getParameter("type").equals("admin")) {
@@ -57,7 +58,6 @@
                     <h1>Create Account</h1>
                     <h4>Account Type: <%=userType%><br></h4></center>
                         <%
-
                             String error = (String) request.getAttribute("error");
                             if (error == null) {
                                 error = "";
@@ -67,7 +67,6 @@
                             if (request.getParameter("userID") != null || !userID.equals("")) {
                                 userID = (String) request.getParameter("userID");
                             }
-
                         %> 
                 <form action="ProcessCreateAccount" method="post">
                     <br/>

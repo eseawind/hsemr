@@ -81,10 +81,6 @@ public class ProcessDocumentUpload extends HttpServlet {
         
         // constructs the directory path to store upload file
 //         this path is relative to application's directory
-//        String uploadPath = getServletContext().getRealPath("")
-//                + File.separator + UPLOAD_DIRECTORY;
-        
-        //String uploadPath = System.getenv("OPENSHIFT_DATA_DIR") + UPLOAD_DIRECTORY;
 
         String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
         String uploadPath = "";
@@ -120,10 +116,7 @@ public class ProcessDocumentUpload extends HttpServlet {
 
                         // saves the file on disk
                         item.write(storeFile);
-                        request.setAttribute("message",
-                                "Upload has been done successfully!");
-
-                        
+                        request.setAttribute("message", "Upload has been done successfully!");
                     } else {
                         if (item.getFieldName().equals("scenarioID")) {
                             scenarioID = item.getString();
@@ -160,8 +153,6 @@ public class ProcessDocumentUpload extends HttpServlet {
 
             response.sendRedirect("editReportDocument.jsp");
         }
-//        getServletContext().getRequestDispatcher("/createStateWithReports.jsp").forward(
-//                request, response);
     }
     
 }

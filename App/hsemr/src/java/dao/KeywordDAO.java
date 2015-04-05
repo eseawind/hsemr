@@ -60,7 +60,6 @@ public class KeywordDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-              //  keyword = new Keyword(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
                 entity = rs.getString(1);
             }
 

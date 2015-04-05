@@ -101,15 +101,6 @@ public class ProcessAddNote extends HttpServlet {
                    session.setAttribute("success", "You have successfully saved the multidisciplinary notes!");
                     response.sendRedirect("./viewPatientInformation.jsp");
                 }
-
-                //request.setAttribute("notes", notes);
-                //request.setAttribute("grpNames", grpNames);
-                
-               
-                //MUST BE Request dispatcher if not saved won't work
-               // RequestDispatcher rd = request.getRequestDispatcher("/viewPatientInformation.jsp");
-               // rd.forward(request, response); 
-               
             }
 
         } finally {

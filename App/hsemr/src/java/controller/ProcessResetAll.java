@@ -37,7 +37,6 @@ public class ProcessResetAll extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
-            //ReportDAO.resetToDefault();
             PracticalGroupReportDAO.deleteAll();
             StateHistoryDAO.reset();
             MedicationHistoryDAO.deleteAll();

@@ -154,26 +154,6 @@
                     if (SPO0.equals("0")) {
                         SPO0 = "-";
                     }
-                    
-                    /*if (intragastricType.equals("-")) {
-                        intragastricType = "";
-                    }
-                    
-                    if (intragastricAmount.equals("-")) {
-                        intragastricAmount = "";
-                    }
-                    
-                    if (intravenousType.equals("-")) {
-                        intravenousType = "";
-                    }
-                    
-                    if (intravenousAmount.equals("-")) {
-                        intravenousAmount = "";
-                    }
-                    
-                    if (output.equals("-")) {
-                        output = "";
-                    }*/
             %>
 
             <form data-abide action ="viewState.jsp" method ="POST">
@@ -324,7 +304,6 @@
                 } else if (error1 !== "") {
                     humaneError.log(error1);
                 }
-
             });
 
         </script>

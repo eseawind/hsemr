@@ -42,7 +42,8 @@
             <li><a href="viewReportDocument.jsp">Report and Document </a></li>
         </ul><br/>
 
-        <%             //for printing of error/success messages
+        <%             
+            //for printing of error/success messages
             String success = "";
             String error = "";
 
@@ -83,7 +84,6 @@
                 <input type="hidden" name="editingMedicine" value="<%=editMedicine%>" >
                 <%
                     List<Medicine> medicineList = MedicineDAO.retrieveAll();
-
                     List<Frequency> freqList = FrequencyDAO.retrieveAll();
                 %>
 
@@ -104,15 +104,17 @@
                 </div>
                 <div class="row">
                     <div class="small-3 columns">
-                        <label for="right-label" class="right inline" >Discontinue State</label>
+                        <label for="right-label" class="right inline">Discontinue State</label>
                     </div>   
                     <div class="small-9 columns">
                         <select name = "discontinueStateID" required>
                             <option disabled="disabled" selected="selected" value = "">--Please select the state that this medicine discontinues--</option>
                             <%
-                                for (State state : stateList) {%>
-                            <option><%=state.getStateID()%></option>
-                            <% }
+                                for (State state : stateList) {
+                            %>
+                                    <option><%=state.getStateID()%></option>
+                            <% 
+                                }
                             %>
                         </select>
                     </div>
@@ -120,15 +122,17 @@
 
                 <div class="row">
                     <div class="small-3 columns">
-                        <label for="right-label" class="right inline" > Medicine Name </label>
+                        <label for="right-label" class="right inline"> Medicine Name </label>
                     </div>
                     <div class="small-9 columns">
                         <select name="medicineName" required>
                             <option disabled="disabled" selected="selected" value = "">--Please select the Medicine--</option>
                             <%
-                                for (Medicine medicine : medicineList) {%>
+                                for (Medicine medicine : medicineList) {
+                            %>
                             <option><%=medicine.getMedicineName()%></option>
-                            <%}
+                            <%
+                                }
                             %>
                         </select>
                     </div>
@@ -136,7 +140,7 @@
 
                 <div class="row">
                     <div class="small-3 columns">
-                        <label for="right-label" class="right inline" > Route </label>
+                        <label for="right-label" class="right inline"> Route </label>
                     </div>
                     <div class="small-9 columns">
                         <select name="route" required>
@@ -146,24 +150,8 @@
                                 for (Route route : routeList) {
                             %>
                             <option><%=route.getRouteAbbr()%></option>
-                            <%}%>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="small-3 columns">
-                        <label for="right-label" class="right inline" > Frequency </label>
-                    </div>
-                    <div class="small-9 columns">
-                        <select name="frequency" required>
-                            <option disabled="disabled" selected="selected" value = "">--Please select the Frequency--</option>
                             <%
-                                for (Frequency freq : freqList) {
-                                //out.println(freq.getFreqAbbr() + " [" + freq.getFreqDescription() + "]");
-%>
-                            <option><%=freq.getFreqAbbr()%></option>
-                            <%}
+                                }
                             %>
                         </select>
                     </div>
@@ -171,7 +159,25 @@
 
                 <div class="row">
                     <div class="small-3 columns">
-                        <label for="right-label" class="right inline" > Doctor's Name/MCR No. </label>
+                        <label for="right-label" class="right inline"> Frequency </label>
+                    </div>
+                    <div class="small-9 columns">
+                        <select name="frequency" required>
+                            <option disabled="disabled" selected="selected" value = "">--Please select the Frequency--</option>
+                            <%
+                                for (Frequency freq : freqList) {
+                            %>
+                                    <option><%=freq.getFreqAbbr()%></option>
+                            <%
+                                }
+                            %>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="small-3 columns">
+                        <label for="right-label" class="right inline"> Doctor's Name/MCR No. </label>
                     </div>
                     <div class="small-9 columns">
                         <input type="text" name="doctorName" value="Dr.Tan/01234Z" disabled>
@@ -180,7 +186,7 @@
 
                 <div class="row">
                     <div class="small-3 columns">
-                        <label for="right-label" class="right inline" > Doctor's Order </label>
+                        <label for="right-label" class="right inline"> Doctor's Order </label>
                     </div>
                     <div class="small-9 columns">
                         <input type="text" name="doctorOrder" disabled>
@@ -189,13 +195,12 @@
 
                 <div class="row">
                     <div class="small-3 columns">
-                        <label for="right-label" class="right inline" > Dosage </label>
+                        <label for="right-label" class="right inline"> Dosage </label>
                     </div>
                     <div class="small-9 columns">
                         <input type="text" name="dosage" disabled>
                     </div>
                 </div>
-
 
                 <center>
                     <input type="submit" value="Add Medication" class="button tiny">
@@ -291,12 +296,9 @@
                                 String docOrderDefault = "";
 
                                 if (!medBarcode.equals("NA")) {
-                                    //stateID.replace("ST", "State ");
                                     stateDesc = stateID.replace("ST", "State ");
                                     discontinueStateDesc = discontinueStateID.replace("ST", "State ");
-                                    //out.println(counter);
                                     medBarcodeNumber = "medBarcode" + counter;
-                                    //String stateDescNumber = "stateDesc" + counter;
                                     routeNumber = "route" + counter;
                                     routeDefault = "routeDefault" + counter;
                                     frequencyNumber = "frequency" + counter;
@@ -308,8 +310,6 @@
                                     medicineNameNumber = "medicineName" + counter;
                                     counterNumber = "counter" + counter;
 
-                                    //docOrderDefault= "doctorOrder" + counter;
-                                    //barcodeList.add(medBarcode);
                                     p = PrescriptionDAO.retrieve(scenarioID, stateID, medBarcode, doctorOrder);
                                     route = p.getRouteAbbr();
                                     dosage = p.getDosage();
@@ -317,72 +317,59 @@
                                     m = MedicineDAO.retrieve(medBarcode);
                                     medicineName = m.getMedicineName();
 
-                                    //dosage = MedicinePrescriptionDAO.retrieveDosage(scenarioID, stateID, medBarcode, freqAbbr);
-
                         %>
 
-                        <!--End of display medication in the database-->
+                                    <!--End of display medication in the database-->
 
-                        <tr>
-
-                            <td>
-                                <input type="hidden" name="<%=counterNumber%>" value="<%=counter%>">
-                                <input type="hidden" name="<%=stateIDNumber%>" value="<%=stateID%>">
-                                <input type="hidden" name="stateDesc" value="<%=stateDesc%>">
-                                <input type="hidden" name ="prescriptionListSize" value="<%=prescriptionList.size()%>">
-
-                                <%=stateDesc%>
-                            </td>
-                            <td>
-                                <%=discontinueStateDesc%>
-                            </td>
-                            <td>
-                                <%=medBarcode%>
-                                <input type="hidden" name="<%=medBarcodeNumber%>" value="<%=medBarcode%>">
-                            </td>
-                            <td>
-                                <input type="hidden" name="<%=medicineNameNumber%>" value="<%=medicineName%>">
-                                <%=medicineName%>
-                            </td>
-                            <td>
-                                <%=route%>
-   
-
-                            </td>
-                            <td> 
-                                <%=freqAbbr%>
-
-                            </td>
-                            <td><%=doctorName%></td>
-                            <td><%=doctorOrder%></td>
-                            <td><%=dosage%></td>
-
-                        </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="hidden" name="<%=counterNumber%>" value="<%=counter%>">
+                                            <input type="hidden" name="<%=stateIDNumber%>" value="<%=stateID%>">
+                                            <input type="hidden" name="stateDesc" value="<%=stateDesc%>">
+                                            <input type="hidden" name ="prescriptionListSize" value="<%=prescriptionList.size()%>">
+                                            <%=stateDesc%>
+                                        </td>
+                                        <td>
+                                            <%=discontinueStateDesc%>
+                                        </td>
+                                        <td>
+                                            <%=medBarcode%>
+                                            <input type="hidden" name="<%=medBarcodeNumber%>" value="<%=medBarcode%>">
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="<%=medicineNameNumber%>" value="<%=medicineName%>">
+                                            <%=medicineName%>
+                                        </td>
+                                        <td>
+                                            <%=route%>
+                                        </td>
+                                        <td> 
+                                            <%=freqAbbr%>
+                                        </td>
+                                        <td><%=doctorName%></td>
+                                        <td><%=doctorOrder%></td>
+                                        <td><%=dosage%></td>
+                                    </tr>
                         <%
                                     counter++;
                                 }
-                    }%>
-                       
-                        <%}
-
-
-                        %> 
+                            }
+                        }
+                    %> 
                     </table>
-                    <br>
-                    
-                     <input type = "submit" Value ="Next  >>" class="button small"></center>  
-                    <br>
-                    <br>
-                    <br>
-                    <center>
+                <br>
 
-                </form>
+                <input type = "submit" Value ="Next  >>" class="button small"></center>  
+                <br>
+                <br>
+                <br>
+                <center>
+            </form>
         </div>
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
 
         <script>
-
             $(document).ready(function() {
                 $(document).foundation();
                 var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
@@ -395,7 +382,6 @@
                 } else if (error1 !== "") {
                     humaneError.log(error1);
                 }
-
             });
         </script>
         <script type="text/javascript" src="js/humane.js"></script>

@@ -40,70 +40,72 @@
         </script>
     </head>
     <body>
-        <%            List<Medicine> medicineList = MedicineDAO.retrieveAll();
+        <%            
+            List<Medicine> medicineList = MedicineDAO.retrieveAll();
         %>
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center><h1>Medicine Management</h1><br/><br/>
-                     <%            String success = "";
-            String error = "";
+            <%            
+                String success = "";
+                String error = "";
 
-            if (session.getAttribute("success") != null && !session.getAttribute("success").equals("")) {
-                success = (String) session.getAttribute("success");
-                session.setAttribute("success", "");
-            }
+                if (session.getAttribute("success") != null && !session.getAttribute("success").equals("")) {
+                    success = (String) session.getAttribute("success");
+                    session.setAttribute("success", "");
+                }
 
-            if (session.getAttribute("error") != null && !session.getAttribute("error").equals("")) {
-                error = (String) session.getAttribute("error");
-                session.setAttribute("error", "");
-            }
-        %>
-                    <!--TABLE-->
-                    <table class="responsive" id="cssTable">
-                        <col width="30%">
-                        <col width="30%">
-                        <col width="10%">
-                        <col width="10%">
-                        <thead>
-                            <tr>
-                                <td><b>Medicine Name</b></td>
-                                <td><b>Medicine Barcode</b></td>
-                                <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
-                            </tr>
-                        </thead>
-                        <%
-                            for (Medicine medicine : medicineList) {
-                        %>
+                if (session.getAttribute("error") != null && !session.getAttribute("error").equals("")) {
+                    error = (String) session.getAttribute("error");
+                    session.setAttribute("error", "");
+                }
+            %>
+                <!--TABLE-->
+                <table class="responsive" id="cssTable">
+                    <col width="30%">
+                    <col width="30%">
+                    <col width="10%">
+                    <col width="10%">
+                    <thead>
                         <tr>
-                            <td> <%=medicine.getMedicineName()%> </td>
-                            <td> <%=medicine.getMedicineBarcode()%> </td>
-                            <td> 
-                                <form action="editMedicine.jsp" method="post">
-                                    <input type="hidden" name="medicineBarcode" value="<%=medicine.getMedicineBarcode()%>">       
-                                    <center><input type="submit" class="button tinytable" value="edit"></center>
-                                </form>
-                            </td>
-                            <%
-                                String userLoggedIn = (String) session.getAttribute("admin");
-                            %>
-                            <td>
-                                <form action="ProcessDeleteMedicine" method="post">
-                                    <input type="hidden" name="medicineBarcode" value="<%=medicine.getMedicineBarcode()%>">       
-                                    <center><input type="submit" class="button tinytable" value="delete"></center>
-                                </form>
-                            </td>
-                            <%
-                                }
-                            %>
+                            <td><b>Medicine Name</b></td>
+                            <td><b>Medicine Barcode</b></td>
+                            <td colspan="2" align="center" valign="middle"><b>Actions</b></td>
                         </tr>
+                    </thead>
+                    <%
+                        for (Medicine medicine : medicineList) {
+                    %>
+                    <tr>
+                        <td> <%=medicine.getMedicineName()%> </td>
+                        <td> <%=medicine.getMedicineBarcode()%> </td>
+                        <td> 
+                            <form action="editMedicine.jsp" method="post">
+                                <input type="hidden" name="medicineBarcode" value="<%=medicine.getMedicineBarcode()%>">       
+                                <center><input type="submit" class="button tinytable" value="edit"></center>
+                            </form>
+                        </td>
+                        <%
+                            String userLoggedIn = (String) session.getAttribute("admin");
+                        %>
+                        <td>
+                            <form action="ProcessDeleteMedicine" method="post">
+                                <input type="hidden" name="medicineBarcode" value="<%=medicine.getMedicineBarcode()%>">       
+                                <center><input type="submit" class="button tinytable" value="delete"></center>
+                            </form>
+                        </td>
+                        <%
+                            }
+                        %>
+                    </tr>
 
-                    </table><br/><br/><br/>
+                </table><br/><br/><br/>
 
-                    <!--Create New Account button-->
-                    <form action="createMedicine.jsp" method="post">
-                        <input type="hidden" name="type" value="admin">
-                        <input type="submit" class="button small" value="Create New Medicine">
-                    </form>
+                <!--Create New Account button-->
+                <form action="createMedicine.jsp" method="post">
+                    <input type="hidden" name="type" value="admin">
+                    <input type="submit" class="button small" value="Create New Medicine">
+                </form>
                 </center>
             </div>
         </div>
@@ -112,19 +114,18 @@
         <script src="js/foundation.min.js"></script>
         <script>
             $(document).ready(function() {
-              $(document).foundation();
-              var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
-              var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
-              var success1 = "<%=success%>";
-              var error1 = "<%=error%>";
-              if (success1 !== "") {
-                  humaneSuccess.log(success1);
-              } else if (error1 !== "") {
-                  humaneError.log(error1);
-              }
-
-          });
+                var success1 = "<%=success%>";
+                var error1 = "<%=error%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                } else if (error1 !== "") {
+                    humaneError.log(error1);
+                }
+            });
 
         </script>
         <script type="text/javascript" src="js/humane.js"></script>

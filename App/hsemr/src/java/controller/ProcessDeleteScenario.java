@@ -48,25 +48,14 @@ public class ProcessDeleteScenario extends HttpServlet {
             AllergyPatientDAO.delete(patientNRIC);
             DocumentDAO.delete(scenarioID);
             ReportDAO.delete(scenarioID);
-          //MedicinePrescriptionDAO.delete(scenarioID); after refractoring of db no longer available
             MedicationHistoryDAO.delete(scenarioID);
-
             PrescriptionDAO.delete(scenarioID); 
             ReportDAO.delete(scenarioID);
-
             StateDAO.delete(scenarioID);
             PatientDAO.delete(patientNRIC);
-
-
             NoteDAO.delete(scenarioID);
-
-
-
             VitalDAO.delete(scenarioID);
-
-
             ScenarioDAO.delete(scenarioID);
-
           
             session.setAttribute("success", "Successfully deleted: " + scenarioID);
             response.sendRedirect("./viewScenarioAdmin.jsp");

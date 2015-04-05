@@ -56,15 +56,12 @@ public class ProcessEditState extends HttpServlet {
 
                     if (prescription == null || prescription.equals("null")) {
                         if (doctorOrder != null && !doctorOrder.equals("") ) {
-                           // MedicinePrescriptionDAO.add("NA", scenarioID, stateID, "NA", "Nil");
                             PrescriptionDAO.add(scenarioID, stateID, "Dr.Tan/01234Z", doctorOrder, "NA", "NA", "-","-","N.A") ;
                         }
                     } else {
                         if(doctorOrder == null || doctorOrder.equals("")) {
-                            //MedicinePrescriptionDAO.deleteNA(scenarioID, stateID);
                             PrescriptionDAO.deletePrescriptionNA(scenarioID, stateID) ;
                         } else {
-                            //PrescriptionDAO.updatePres("Dr.Tan/01234Z", doctorOrder, "NA", scenarioID, stateID, "NA");
                             PrescriptionDAO.updatePresOrderDesc(scenarioID, stateID , "Dr.Tan/01234Z", doctorOrder, "NA");
                         }
                     }

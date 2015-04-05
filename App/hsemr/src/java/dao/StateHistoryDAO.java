@@ -22,30 +22,6 @@ import java.util.TimeZone;
  * @author weiyi.ngow.2012
  */
 public class StateHistoryDAO {
-    //Not in use anymore
-//    public static StateHistory retrieveLastestStateActivatedByLecturer(String lecturerID) {
-//        Connection conn = null;
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//        StateHistory stateHistory= null;
-//
-//        try {
-//            conn = ConnectionManager.getConnection();
-//            stmt = conn.prepareStatement("SELECT * FROM state_history where lecturerID=? order by timeActivated DESC");
-//            stmt.setString(1, lecturerID);
-//            rs = stmt.executeQuery();
-//
-//            while (rs.next()) {
-//                stateHistory= new StateHistory(rs.getString(1), rs.getString(2), rs.getTimestamp(3), rs.getString(4));
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            ConnectionManager.close(conn, stmt, rs);
-//        }
-//        return stateHistory;
-//    }
     
     public static StateHistory retrieveLatestStateActivatedByLecturer(String lecturerID) {
         Connection conn = null;
@@ -174,9 +150,6 @@ public class StateHistoryDAO {
         }
         return list;
     }
-    
-    
-    
     //delete all StateHistory in scenario
     public static void reset(String scenarioID) {
         Connection conn = null;

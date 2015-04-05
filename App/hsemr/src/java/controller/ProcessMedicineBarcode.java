@@ -48,10 +48,7 @@ public class ProcessMedicineBarcode extends HttpServlet {
 
 
             if (medicineBarcode.equals(medicineBarcodeInput)) {//correct combination
-                //MedicationHistoryDAO.add(medicineBarcode, practicalGroupID, scenarioID);
-
                 //add new medicine to arraylist and pass back to previous page
-
                 if(!medicineVerifiedListReturned.contains(medicineBarcode)){
                     medicineVerifiedListReturned.add(medicineBarcode);
                 }

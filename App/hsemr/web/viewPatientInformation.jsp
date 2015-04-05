@@ -33,9 +33,6 @@
         <link rel="stylesheet" href="css/original.css" />
         <script src="js/vendor/modernizr.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
-
-
-        
         
         <!--Web Title-->
         <title>EMR | Patient Information</title>
@@ -45,6 +42,7 @@
             $(document).ready(function() {
                 $(document).foundation();
             });
+            
             function administerConfirmation() {
                 var activateButton = confirm("Once administered, it will be added to medication history. Please check before you administer.")
                 if (activateButton) {
@@ -54,12 +52,8 @@
                     return false;
                 }
             }
-
-
         </script>
-
         <%@include file="/topbar/topbar.jsp"%>
-
     </head>
     <body>
         <script src="js/foundation.min.js"></script>
@@ -71,14 +65,22 @@
 
                     <%
                         DateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
-                        //DateFormat df = new SimpleDateFormat("dd-MM-yyyy H:m:s");
-                        //DateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
-                        
                         
                         String active = (String) session.getAttribute("active");
+                        
                         String success = "";
                         String error = "";
-                        //retrieve all successfulmessages
+                        
+                        if (session.getAttribute("success") != null) {
+                            success = (String) session.getAttribute("success");
+                            session.setAttribute("success", "");
+                        }
+                        if (session.getAttribute("error") != null) {
+
+                            error = (String) session.getAttribute("error");
+                            session.setAttribute("error", "");
+                        }
+                    
                         //retrieve patient's information
                         String patientNRIC = "";
                         Patient retrievePatient = PatientDAO.retrieve(patientNRIC);
@@ -86,8 +88,6 @@
                         State retrieveScenarioState = null;
                         StateHistory stateActivatedLastest = null;
                         Scenario scenarioActivated = null;
-                        //retrieve current scenario
-                        //Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
                         
                         if(pg != null){
                             scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
@@ -133,51 +133,42 @@
                             }
 
                     %>
-                    <br>   
-                    <!--Patient's Information-->
-                    <!--To insert icon if needed-->
-                    <table style="border-color: #368a55; ">
-                        <col width="5%">
-                        <col width="95%">
-                        <tr>
-                            <td>
-                                <%if (gender.equals("Female")) { %>
-                                <img src="img/Female.png" width="100" height="100" alt="Female"/>
-                                <% } else { %>
-                                <img src="img/Male.png" width="100" height="100" alt="Male"/>
-                                <%  }%>
-                            </td>
-                            <td><h2>Patient's Information</h2>
-                                <table style="border-color: white; width:800px">
-                                    <col width="20%">
-                                    <col width="20%">
-                                    <col width="20%">
-                                    <col width="20%">
-                                    <col width="20%">
-                                    <tr>
-                                        <td><b>Name: <font color="#666666"><%=fullName%></font></b></td>
-                                        <td><b>NRIC: <font color="#666666"><%=patientNRIC%></font></b></td>
-                                        <td><b>DOB: <font color="#666666"><%=dob%></font></b></td>
-                                        <td><b>Gender: <font color="#666666"><%=gender%></font></b></td>
-                                        <td><b><img src="img/warning.png" width="20" height="20" alt="Warning"/> Allergy: <font color="red">  <%=allergy%></font></b></td>                                        
-                                    </tr>
-                                </table>
-                        </tr>
-                    </table> <br/><br/>
-
-                    <%
-                        if (session.getAttribute("success") != null) {
-                            success = (String) session.getAttribute("success");
-                            session.setAttribute("success", "");
-                        }
-                        if (session.getAttribute("error") != null) {
-
-                            error = (String) session.getAttribute("error");
-                            session.setAttribute("error", "");
-                        }
-                    %>
-
-                    <div class="tabs-content">
+                        <br>   
+                        <!--Patient's Information-->
+                        <!--To insert icon if needed-->
+                        <table style="border-color: #368a55; ">
+                            <col width="5%">
+                            <col width="95%">
+                            <tr>
+                                <td>
+                                    <%if (gender.equals("Female")) { %>
+                                    <img src="img/Female.png" width="100" height="100" alt="Female"/>
+                                    <% } else { %>
+                                    <img src="img/Male.png" width="100" height="100" alt="Male"/>
+                                    <%  }%>
+                                </td>
+                                <td>
+                                    <h2>Patient's Information</h2>
+                                    <table style="border-color: white; width:800px">
+                                        <col width="20%">
+                                        <col width="20%">
+                                        <col width="20%">
+                                        <col width="20%">
+                                        <col width="20%">
+                                        <tr>
+                                            <td><b>Name: <font color="#666666"><%=fullName%></font></b></td>
+                                            <td><b>NRIC: <font color="#666666"><%=patientNRIC%></font></b></td>
+                                            <td><b>DOB: <font color="#666666"><%=dob%></font></b></td>
+                                            <td><b>Gender: <font color="#666666"><%=gender%></font></b></td>
+                                            <td><b><img src="img/warning.png" width="20" height="20" alt="Warning"/> Allergy: <font color="red">  <%=allergy%></font></b></td>                                        
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table> 
+                        <br/><br/>
+                    
+                        <div class="tabs-content">
                         <dl class="tabs" data-tab>
                             <dd class="<% if (active == null || active.equals("") || active.equals("admission")) {
                                     out.println("active");
@@ -217,8 +208,6 @@
                             } else {
                                 out.println("content");
                             }%>" id="admission">
-
-
                             <p style="margin-left:1em; margin-right:1em; text-align:justify;"><%=admissionNotes%></p>
                         </div>
                         <!--END OF ADMISSION NOTES-->
@@ -238,11 +227,11 @@
                                     StateHistoryDAO.addStateHistory(scenarioID, stateID, pg.getLecturerID());
                                 }
                                 HashMap<String, String> activatedStates = StateHistoryDAO.retrieveAll(scenarioID);
-                                // to store reports of all activated states
+                                //to store reports of all activated states
                                 HashMap<List<Report>, String> stateReportsHM = new HashMap<List<Report>, String>();
-                                // remove duplicates
+                                //remove duplicates
                                 List<String> tempList = new ArrayList<String>();
-                                // remove duplicates and add reports of that state into array reports
+                                //remove duplicates and add reports of that state into array reports
                                 for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
                                     String state = entry.getKey();
                                     if (tempList.size() == 0) {
@@ -273,8 +262,6 @@
 
                                 <%
                                     if (StateHistoryDAO.retrieveAll(scenarioID).isEmpty()) {
-                                        // StateHistoryDAO.addStateHistory(scenarioID, stateID);
-
                                         StateHistoryDAO.addStateHistory(scenarioID, stateID, pg.getLecturerID());
                                     }
 
@@ -283,7 +270,6 @@
                                     for (Map.Entry<List<Report>, String> entry : stateReportsHM.entrySet()) {
                                         List<Report> stateReports = entry.getKey();
 
-                                        // if needed to display:
                                         String doctorOrderTime = entry.getValue();
 
                                         for (Report report : stateReports) {
@@ -293,13 +279,11 @@
                                             String reportDatetime = df.format(report.getReportDatetime());
                                             int reportID = report.getReportID();
                                             PracticalGroupReport practicalGroupReport = PracticalGroupReportDAO.retrieve(reportID, practicalGrp);
-                                            //int dispatchStatus = report.getDispatchStatus();
-
+                                        
                                             String reportResults = "";
 
                                             if (practicalGroupReport != null || report.getInitialReport() == 1) {
-
-                                                reportResults = "reports/" + reportFile;
+                                               reportResults = "reports/" + reportFile;
                                             }
 
 
@@ -311,66 +295,80 @@
                                     <%
                                         // check if require retrieve process 
                                         // despatch Date time column 
-
                                         String counterStr = String.valueOf(counter);
                                         String firstDespatch = (String) session.getAttribute("clickedID");
 
                                         if (practicalGroupReport != null || report.getInitialReport() == 1) {
                                             if (firstDespatch != null && !firstDespatch.equals("") && firstDespatch.equals(counterStr)) {%>
-                                    <td><div id="reportDateWaiting">Waiting..</div>
-                                        <div id="reportDateDisplay" style="display:none;"><%=reportDatetime%></div></td>
+                                                <td>
+                                                    <div id="reportDateWaiting">Waiting..</div>
+                                                    <div id="reportDateDisplay" style="display:none;"><%=reportDatetime%></div>
+                                                </td>
                                         <%
-                                        } else {%>  
-                                    <td><%=reportDatetime%></td>
-                                    <% }
+                                             } else {
+                                        %>  
+                                                <td>
+                                                    <%=reportDatetime%>
+                                                </td>
+                                        <% 
+                                            }
                                         } else {
                                             out.println("<td>-</td>");
-                                        }%> 
+                                        }
+                                    %> 
 
-                                    <td><% // action (despatch status) column 
+                                        <% 
+                                        // action (despatch status) column 
                                         if (practicalGroupReport != null || report.getInitialReport() == 1) {
                                             if (firstDespatch != null && !firstDespatch.equals("") && firstDespatch.equals(counterStr)) {%>
-                                        <div id="reportStatusWaiting">Waiting..</div>
-                                        <div id="reportStatusDisplay" style="display:none;">Despatched</div></td>
-                                        <%
-                                        } else {%> 
-                                    Despatched</td>
-                                    <%  }
-                                    } else {
-                                    %>
-                                <form action="ProcessDespatch" method="POST">
-                                    <input type="hidden" name="reportName" value="<%=reportName%>">
-                                    <input type="hidden" name="reportID" value="<%=reportID%>">
-                                    <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
-                                    <input type="hidden" name="practicalGroup" value="<%=practicalGrp%>">
-                                    <input type="hidden" name="stateID" value="<%=report.getStateID()%>">
-                                    <input type ="hidden" name="clickedID" value ="<%=counter%>">
-                                    <input type="submit" id="downloadReport" class="report-despatch button tinytable" value="Despatch">
-                                </form>
-                                <% } %>
-                                </td>
-
-                                <td>
-                                    <% // results column (link) 
-                                        if (practicalGroupReport != null || report.getInitialReport() == 1) {
-                                            if (firstDespatch != null && !firstDespatch.equals("") && firstDespatch.equals(counterStr)) {
-                                    %>
-
-                                    <div id="reportLinkMsg">Loading..</div>
-                                    <a href="<%=reportResults%>" id="reportLink" target="_blank" style="display:none;">View Report</a>
-                                    <%
-                                    } else {
-                                    %>
-                                    <a href="<%=reportResults%>" target="_blank">View Report</a>
-                                    <%  }
+                                            <td>
+                                                <div id="reportStatusWaiting">Waiting..</div>
+                                                <div id="reportStatusDisplay" style="display:none;">Despatched</div>
+                                            </td>
+                                            <%
+                                            } else {
+                                            %> 
+                                                <td>
+                                                    Despatched
+                                                </td>
+                                            <%  
+                                            }
                                         } else {
-                                            out.println("N/A");
+                                        %>
+                                        <td>
+                                            <form action="ProcessDespatch" method="POST">
+                                                <input type="hidden" name="reportName" value="<%=reportName%>">
+                                                <input type="hidden" name="reportID" value="<%=reportID%>">
+                                                <input type="hidden" name="scenarioID" value="<%=scenarioID%>">
+                                                <input type="hidden" name="practicalGroup" value="<%=practicalGrp%>">
+                                                <input type="hidden" name="stateID" value="<%=report.getStateID()%>">
+                                                <input type ="hidden" name="clickedID" value ="<%=counter%>">
+                                                <input type="submit" id="downloadReport" class="report-despatch button tinytable" value="Despatch">
+                                            </form>
+                                        <% 
+                                        } 
+                                        %>
+                                        </td>
 
-                                        }
-                                    %>
-                                </td>
-
-
+                                        <td>
+                                        <% 
+                                        // results column (link) 
+                                            if (practicalGroupReport != null || report.getInitialReport() == 1) {
+                                                if (firstDespatch != null && !firstDespatch.equals("") && firstDespatch.equals(counterStr)) {
+                                        %>
+                                                    <div id="reportLinkMsg">Loading..</div>
+                                                    <a href="<%=reportResults%>" id="reportLink" target="_blank" style="display:none;">View Report</a>
+                                        <%
+                                                } else {
+                                        %>
+                                                    <a href="<%=reportResults%>" target="_blank">View Report</a>
+                                        <%  
+                                                }
+                                            } else {
+                                                out.println("N/A");
+                                            }
+                                        %>
+                                    </td>
                                 </tr>
 
                                 <%
@@ -382,16 +380,12 @@
                             </table>
                             <%
                                 } else {
-                                    // if no reports in the array
+                                    //if no reports in the array
                                     out.println("<h5>There is no doctor's order at the moment.</h5>");
 
                                 }
                                 session.setAttribute("active", null);
-
-                            %>  
-
-
-
+                            %>
                         </div>
                         <!--END OF INVESTIGATIONS-->
 
@@ -460,7 +454,6 @@
 
                             <form data-abide action="ProcessAddVital" method="POST">
 
-
                                 <table width='65%'>
                                     <br/>
                                     <col width="35%">  
@@ -503,7 +496,6 @@
                                     <tr><td><b>Blood Pressure</b><a href="#" data-reveal-id="BPchart" style="color:green"><br><i><u>View BP history</u></i></a></td>
                                         <td><div class="row">
                                                 <div class="small-4 columns" style="width:200px">
-                                                    <!--<input type="text" name ="BPsystolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
                                                     <input type="text" name ="BPsystolic" maxlength = "3" pattern = "^([0-9]{1,2}|[12][0-9]{2}|300)$" value="<%=BPsystolic1%>"/>
                                                     <small class="error">BP systolic must be numeric and between 0 - 300.</small>
                                                 </div>
@@ -513,7 +505,6 @@
                                             </div>
                                             <div class="row">
                                                 <div class="small-4 columns" style="width:200px">
-                                                    <!--<input type="text" name ="BPdiastolic" style="width:200px" value= "0" maxlength = "3" pattern = "^(\d{2,3}|\d{2})$"/>-->
                                                     <input type="text" name ="BPdiastolic" maxlength = "3" pattern = "^([0-9]{1,2}|1[0-9]{2}|200)$" value="<%=BPdiastolic1%>"/>
                                                     <div class ="input wrapper">
                                                         <small class="error">BP diastolic must be numeric and between 0 - 200.</small>
@@ -617,7 +608,6 @@
                                 <h2>Medication History</h2>
 
                                 <%
-                                    // List<MedicationHistory> medicationHistoryList = new ArrayList<MedicationHistory>();
                                     String practicalGroupID = (String) session.getAttribute("nurse");
                                     List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAllInPracticalGroup(scenarioID, practicalGroupID);
                                     if (medicationHistoryList == null || medicationHistoryList.size() == 0) {
@@ -753,7 +743,6 @@
                                         //Check if medicine has been discontinued
                                         ArrayList<String> activatedStateList = new ArrayList<String>();
                                         for (StateHistory stateHistory : stateHistoryList) {
-                                            //out.println(stateHistory.getStateID());
                                             activatedStateList.add(stateHistory.getStateID());
                                         }
 
@@ -771,29 +760,22 @@
                                                         medicineBarcodeInput = "";
                                                     }
                                                     String discontinueState = prescription.getDiscontinueState();
-
-
+                                                    if (discontinueState != null) {
+                                                    //has been activated, disable the textbox
+                                                        if (activatedStateList.contains(discontinueState)) {
+                                                            medicineBarcodeDisabled = "disabled";
+                                                        }
+                                                    }
                                     %>
-
-
-                                    <%                                                        if (discontinueState != null) {
-                                            //has been activated, disable the textbox
-                                            if (activatedStateList.contains(discontinueState)) {
-                                                medicineBarcodeDisabled = "disabled";
-
-                                            }
-                                        }
-
-                                    %>
-                                    <td><%
-                                        String presScenario = prescription.getScenarioID();
-                                        String presState = prescription.getStateID();
+                                    <td>
+                                        <%
+                                                    String presScenario = prescription.getScenarioID();
+                                                    String presState = prescription.getStateID();
                                         
-                                        StateHistory stateHistory =  StateHistoryDAO.retrieve(presScenario, presState, pg.getLecturerID());
-                                        
-                                        out.println(df.format(stateHistory.getTimeActivated()));
-                                    
-                                    %></td>
+                                                    StateHistory stateHistory =  StateHistoryDAO.retrieve(presScenario, presState, pg.getLecturerID());
+                                                    out.println(df.format(stateHistory.getTimeActivated()));
+                                        %>
+                                    </td>
                         
                                     <td>   
                                         <form action = "ProcessMedicineBarcode" method = "POST">
@@ -804,83 +786,68 @@
                                             </div>
                                         </form>
                                     </td>
-                                                    <%//reset it back to enabled
-                                                        medicineBarcodeDisabled = "";
-                                                    %>
-                                                    <td>
-                                                        <%=MedicineDAO.retrieve(prescription.getMedicineBarcode()).getMedicineName()%>
-                                                    </td>
-
-                                                    <td>
-                                                        <%
-                                                            String medicineBarcode = prescription.getMedicineBarcode();
-                                                            if (medicineBarcode != null) {
-                                                                // Prescription presc= PrescriptionDAO.retrieve(scenarioID, stateID, medicineBarcode, doctorOrder);
-                                                                // out.println(presc.getRouteAbbr());
-
-                                                                out.println(prescription.getRouteAbbr());
-                                                                //Medicine medicine = MedicineDAO.retrieve(medicineBarcode);
-                                                                //out.println(medicine.getRouteAbbr());
-                                                            }
-
-                                                        %> 
-
-                                                    </td>
-                                                    <td><%                                                            //MedicinePrescriptionDAO.retrieve(prescription.getMedicineBarcode()).getDosage();
-                                                        // Prescription presc= PrescriptionDAO.retrieve(scenarioID, stateID, medicineBarcode, doctorOrder);
-                                                        // out.println(presc.getDosage());
-                                                        out.println(prescription.getDosage());
-                                                        %>
-                                                    </td>
-
-
-                                                    <td><%=prescription.getFreqAbbr()%></td>                                          
-                                                    <td>Dr.Tan/01234Z</td>
-                                                    <td><%=prescription.getDoctorOrder()%></td>
-                                                    <td>
-                                                        <%
-                                                            if (medicineVerifiedList != null) {
-                                                                if (medicineVerifiedList.contains(medicineBarcode)) {
-                                                        %>
-                                                        <b><font color="#368a55"> YES</font></b>
-                                                        <img src="img/verified.gif" width = "15" height = "15"/>
-
-                                                        <%}
-                                                            }
-                                                        %>  
-
-
-                                                    </td>
-                                                    <td>
-                                                        <%
-                                                            if (activatedStateList.contains(discontinueState)) {
-                                                                out.println("YES");
-                                                            }
-                                                        %>
-                                                    </td>
-
-                                                </tr>    
                                                 <%
-                                                            }
+                                                    //reset it back to enabled
+                                                    medicineBarcodeDisabled = "";
+                                                %>
+                                                <td>
+                                                    <%=MedicineDAO.retrieve(prescription.getMedicineBarcode()).getMedicineName()%>
+                                                </td>
+
+                                                <td>
+                                                    <%
+                                                        String medicineBarcode = prescription.getMedicineBarcode();
+                                                        if (medicineBarcode != null) {
+                                                            out.println(prescription.getRouteAbbr());
                                                         }
-
-                                                        session.removeAttribute("patientBarcodeInput");
-                                                    }
-                                                    session.removeAttribute("isMedicationVerified");
+                                                    %> 
+                                                </td>
+                                                <td>
+                                                <%                                                            //MedicinePrescriptionDAO.retrieve(prescription.getMedicineBarcode()).getDosage();
+                                                    out.println(prescription.getDosage());
                                                 %>
-                                                </table>
+                                                </td>
+
+                                                <td><%=prescription.getFreqAbbr()%></td>                                          
+                                                <td>Dr.Tan/01234Z</td>
+                                                <td><%=prescription.getDoctorOrder()%></td>
+                                                <td>
                                                 <%
-                                                    } //end of else statement
-
-                                                    // ArrayList<MedicinePrescription> medicinePrescriptionList = MedicinePrescriptionDAO.retrieve(scenarioID, stateID);
+                                                    if (medicineVerifiedList != null) {
+                                                        if (medicineVerifiedList.contains(medicineBarcode)) {
                                                 %>
-
-
-                                                <br>
-                                                <%if (prescriptionHM.size() != 0) {%>
-
-                                                <div class="large-centered large-12 columns">
-                                                    <hr>
+                                                            <b><font color="#368a55"> YES</font></b>
+                                                            <img src="img/verified.gif" width = "15" height = "15"/>
+                                                <%
+                                                        }
+                                                    }
+                                                %>  
+                                                </td>
+                                                <td>
+                                                    <%
+                                                        if (activatedStateList.contains(discontinueState)) {
+                                                            out.println("YES");
+                                                        }
+                                                    %>
+                                                </td>
+                                            </tr>    
+                                            <%
+                                                    }
+                                                }
+                                                session.removeAttribute("patientBarcodeInput");
+                                            }
+                                            session.removeAttribute("isMedicationVerified");
+                                            %>
+                                            </table>
+                                            <%
+                                                } //end of else statement
+                                            %>
+                                            <br>
+                                            <%
+                                            if (prescriptionHM.size() != 0) {
+                                            %>
+                                            <div class="large-centered large-12 columns">
+                                                <hr>
                                                 </div><br/><br/><br/><br/>
 
                                                 <a name="step3"></a>
@@ -928,11 +895,15 @@
                                                                     }%>" >
 
                                                                 <label style="text-align:left">Multidisciplinary Notes</label>
-                                                                <textarea name="notes" id="notes" rows="7" cols="10" ><% if (notes == null || notes == "") {
+                                                                <textarea name="notes" id="notes" rows="7" cols="10" >
+                                                                    <% 
+                                                                    if (notes == null || notes == "") {
                                                                         out.print("");
                                                                     } else {
                                                                         out.print(notes);
-                                                                    }%></textarea>
+                                                                    }
+                                                                %>
+                                                                </textarea>
                                                             </div>
                                                             <br>
                                                             <input type="submit" name="buttonChoosen" value="Save" class="button tiny"> 
@@ -946,9 +917,12 @@
                                                     <br><br/>
                                                     <h4>Multidisciplinary Notes History</h4><br> 
                                                     <%
-                                                        if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
+                                                    if (notesListRetrieved == null || notesListRetrieved.size() == 0) {%>
                                                     <label for="right-label" class="right inline"><h5><center>No past notes yet.</center></h5></label>
-                                                    <% } else { %> <br/>
+                                                    <% 
+                                                    } else { 
+                                                    %> 
+                                                    <br/>
                                                     <!--TABLE-->
                                                     <table class="responsive" id="cssTable">
                                                         <col width="20%">
@@ -962,20 +936,17 @@
                                                             </tr>
                                                         </thead>
                                                         <%
-                                                             
-                                                                //String reportDatetime = df.format(notesRetrieve.getNoteDatetime());
-                                                                for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
-                                                                    Note notesRetrieve = notesListRetrieved.get(i);
-                                                                    // out.print("<b>Practical Group: </b>" + notes.getPracticalGroupID() + "<br>");
-                                                                    out.println("<tr>");
-                                                                    out.print("<td>" + notesRetrieve.getGrpMemberNames() + "</td>");
-                                                                    out.print("<td>" + notesRetrieve.getMultidisciplinaryNote() + "</td>");
-                                                                    out.print("<td>" + df.format(notesRetrieve.getNoteDatetime()) + "</td>");
-                                                                    out.println("</tr>");
-                                                                }
+                                                            for (int i = notesListRetrieved.size() - 1; i >= 0; i--) {
+                                                                Note notesRetrieve = notesListRetrieved.get(i);
+                                                                out.println("<tr>");
+                                                                out.print("<td>" + notesRetrieve.getGrpMemberNames() + "</td>");
+                                                                out.print("<td>" + notesRetrieve.getMultidisciplinaryNote() + "</td>");
+                                                                out.print("<td>" + df.format(notesRetrieve.getNoteDatetime()) + "</td>");
+                                                                out.println("</tr>");
+                                                            }
 
-                                                            }//end of else %>
-
+                                                        }//end of else 
+                                                        %>
                                                     </table>
                                                 </div>
                                                 </div>
@@ -995,7 +966,6 @@
 
                                                         List<Document> documents = DocumentDAO.retrieveDocumentsByScenario(scenarioID);
 
-                                                        //List<Document> documentList = DocumentDAO.retrieveDocumentsByState(scenarioID, stateID);
                                                         if (documents != null && documents.size() != 0) {
                                                     %>
 
@@ -1009,7 +979,6 @@
                                                             // Create an instance of SimpleDateFormat used for formatting 
                                                             // the string representation of date (month/day/year)
                                                             
-                                                            //String firstObtain = (String) session.getAttribute("obtained");
                                                             for (Document document : documents) {
                                                                 String consentName = document.getConsentName();
                                                                 String consentFile = document.getConsentFile();
@@ -1058,7 +1027,6 @@
                                                             for (Map.Entry<List<Prescription>, String> entry : stateDoctorOrderHM.entrySet()) {
                                                                 List<Prescription> prescriptions = entry.getKey();
 
-                                                                // if needed to display:
                                                                 String doctorOrderTime = entry.getValue();
 
                                                                 for (Prescription prescription : prescriptions) {
@@ -1192,466 +1160,406 @@
                                                 </div>
                                                 <!-- END OF REVEAL MODAL FOR ALL CLINICAL CHARTS -->
 
-                                                <% }
+                                                <% 
+                                                }
+                                                %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--RESPONSIVE. END OF WEB VERSION HERE-->
+                                <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
+                                <div class ="show-for-touch">
+                                <%
+                                String fromMobile = (String)(session.getAttribute("fromMobile"));
+                                if(fromMobile != null){
+                                %> 
+                                <!--For pull to refresh-->
+                                    <script>
+                                        if (screen && screen.width < 480) {
+                                          document.write('<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"><\/script>');
+                                          document.write('<script src="js/hook.js" type="text/javascript"><\/script>');
+                                          document.write('<link rel="stylesheet" href="css/hook.css" type="text/css"/>');
+                                        }
+                                    </script>
+                                <!--end of for pull to refresh-->
+                                <!--hook.js pull to refresh-->     
+                                <div id="hook">
+                                    <div id="loader">
+                                        <div class="spinner"></div>
+                                    </div>
+                                    <span id="hook-text">Reloading, please wait...</span>
+                                </div>
+                                <!--hook.js pull to refresh-->
+                                <%
+                                    }
+                                if (scenarioActivated == null || stateActivatedLastest.getScenarioID() == null) {
+                                    out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
+                                } else {
+                                    String stateID = retrieveScenarioState.getStateID();
+                                    //get the most recently activated scenario's state
+                                    retrieveScenarioState = StateDAO.retrieveStateInScenario(stateActivatedLastest.getScenarioID());
+
+                                    patientNRIC = retrieveScenarioState.getPatientNRIC();
+                                    retrievePatient = PatientDAO.retrieve(patientNRIC);
+
+                                    String scenarioID = scenarioActivated.getScenarioID();
+                                    //retrieve case's information
+                                    String admissionNotes = scenarioActivated.getAdmissionNote();
+
+                                    //retrieve nurse praticalGroup ID
+                                    String practicalGrp = (String) session.getAttribute("nurse");
+
+                                    //retrieve note's information
+                                    List<Note> notesListRetrieved = NoteDAO.retrieveNotesByPraticalGrp(practicalGrp, scenarioID);
+
+                                    //retrieve patient's information
+                                    String firstName = retrievePatient.getFirstName();
+                                    String lastName = retrievePatient.getLastName();
+                                    String fullName = firstName + " " + lastName;
+                                    String dob = retrievePatient.getDob();
+                                    String gender = retrievePatient.getGender();
+                                    String allergy = PatientDAO.retrieveAllergy(patientNRIC);
+
+                                    if (allergy == null) {
+                                        allergy = "none";
+                                    }
+                            %>    
+
+
+                            <dl class="accordion" data-accordion>
+                                <dd class="accordion-navigation">
+                                    <a href="#panelPatientInfo"><b>Patient Information</b></a>
+                                    <div id="panelPatientInfo" class="content active">
+                                        <ul class="pricing-table">
+                                            <li class="price"><%=fullName%></li>
+                                            <li class="bullet-item"><%=patientNRIC%></li>
+                                            <li class="bullet-item"><%=dob%></li>
+                                            <li class="bullet-item"><%=gender%></li>
+                                            <li class="bullet-item"><img src="img/warning.png" width="20" height="20" alt="Warning"/><font color="red"><%=allergy%></font></li>
+                                        </ul>
+                                    </div>
+                                </dd>
+
+                                <dd class="accordion-navigation">
+                                    <a href="#panelAdmissionNotes"><b>Admission Notes</b></a>
+                                    <div id="panelAdmissionNotes" class="content">
+                                        <%
+                                            if (scenarioActivated.getAdmissionNote() != null) {%>
+                                        <%=scenarioActivated.getAdmissionNote()%>
+
+                                        <%} else {
+                                                out.println("There are no admission notes.");
+
+                                            }
+
+                                        %>
+                                    </div>
+                                </dd>
+
+                                <dd class="accordion-navigation">
+                                    <a href="#panelInvestigations"><b>Investigations</b></a>
+                                    <div id="panelInvestigations" class="content">
+                                        <ul class="pricing-table">
+                                            <li class="price">Despatched Reports</li>
+                                                <%                                                    List<Report> reportList = ReportDAO.retrieveDespatchedReports(scenarioID, practicalGrp);
+
+                                                    if (reportList == null || reportList.size() == 0) {
+                                                        out.println("<center>There are no records at the moment</center>");
+                                                    } else {
+
+                                                        for (Report report : reportList) {
+                                                            String reportName = report.getReportName() + " | ";
+                                                            String reportFile = "reports/" + report.getReportFile();
+                                                %>
+
+                                            <li class="bullet-item"> <%=reportName%>
+                                                <a href="<%=reportFile%>" target="_blank">View Report</a>
+                                            </li>
+                                            <%}
+                                                }
+
+                                            %>
+                                        </ul>
+                                    </div>
+                                </dd>
+
+                                 <dd class="accordion-navigation">
+                                    <a href="#panelDocuments"><b>Documents</b></a>
+                                    <div id="panelDocuments" class="content">
+                                        <ul class="pricing-table">
+
+                                            <%
+                                                List<Document> documentsList = DocumentDAO.retrieveDocumentsByScenario(scenarioID);
+
+                                                if (documentsList == null || documentsList.size() == 0) {
+                                                    out.println("<center>There are no documents at the moment</center>");
+
+                                                } else {
+
+                                                    for (Document document : documentsList) {
+                                                        String consentName = document.getConsentName() + " | ";
+                                                        String consentFile = "documents/" + document.getConsentFile();
+                                            %>
+
+                                            <li class="bullet-item"> <%=consentName%>
+                                                <a href="<%=consentFile%>" target="_blank">View Document</a>
+                                            </li>
+                                            <%}
+                                                }
+
+                                            %>
+                                        </ul>
+                                    </div>
+                                </dd>
+
+                                <dd class="accordion-navigation">
+                                    <a href="#panelMultiNotes"><b>Notes</b></a>
+                                    <div id="panelMultiNotes" class="content">
+                                       <ul class="pricing-table">
+                                            <li class="price">Notes History</li>
+
+                                            <%
+                                                List<Note> notesRetrieved = NoteDAO.retrieveNotesByPraticalGrpDesc(practicalGrp, scenarioID);
+
+                                                if(notesRetrieved == null || notesRetrieved.size() == 0){
+                                                    %>
+                                                    <center>There are no notes at the moment.</center>
+
+                                                <%
+                                                }else{
+                                                    for(Note note: notesRetrieved){
+                                                        String multidisciplinaryNotes = note.getMultidisciplinaryNote();%>
+                                                        <li class="bullet-item"><b><%=df.format(note.getNoteDatetime())%></b><br> | <%=multidisciplinaryNotes%></li>  
+
+                                                   <% 
+                                                    }//end of for loop
+
+                                                }//end of else
+
+                                            %>
+                                        </ul>
+                                    </div>
+                                </dd>
+
+                                <dd class="accordion-navigation">
+                                    <a href="#panelClinicalCharts"><b>Clinical Charts</b></a>
+                                    <div id="panelClinicalCharts" class="content">
+                                        You have no access to medication. Medication is only available in the web. 
+                                        <ul class="pricing-table">
+
+                                            <li class="price">Last Updated Vitals</li>        
+
+                                            <%                                                                        List<Vital> vitalList = VitalDAO.retrieveAllVitalByScenarioID(scenarioID);
+                                                if (vitalList.size() > 0) {
+                                            %>
+                                            <li class="bullet-item">Temperature - <%=vitalList.get(vitalList.size() - 1).getTemperature()%></li>  
+                                            <li class="bullet-item">Respiratory Rate - <%=vitalList.get(vitalList.size() - 1).getRr()%></li>  
+                                            <li class="bullet-item">Heart Rate - <%=vitalList.get(vitalList.size() - 1).getHr()%></li>  
+                                            <li class="bullet-item">BP(Systolic) - <%=vitalList.get(vitalList.size() - 1).getBpSystolic()%></li>  
+                                            <li class="bullet-item">BP(Diastolic) - <%=vitalList.get(vitalList.size() - 1).getBpDiastolic()%></li>  
+                                            <li class="bullet-item">SpO<sub>2</sub> - <%=vitalList.get(vitalList.size() - 1).getSpo()%></li>  
+                                                <%} else {
+                                                        out.println("<br>There are no vital signs at the moment.");
+                                                    }%>
+
+                                        </ul> 
+
+                                        <ul class="pricing-table">
+                                            <li class="price"><b>Intake - Oral</b></li>        
+                                                <%
+                                                    List<Vital> intakeOralList = VitalDAO.retrieveIntakeOralByScenarioID(scenarioID);
+                                                    if (intakeOralList == null || intakeOralList.size() == 0) {
+                                                        out.println("<center>There are no records at the moment</center>");
+                                                    } else {
+                                                        for (Vital intakeOutput : intakeOralList) {
+                                                            String medicationHistoryInformation = intakeOutput.getOralType() + " | " + intakeOutput.getOralAmount();
+                                                %>
+
+                                            <li class="bullet-item"><b><%=df.format(intakeOutput.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
+                                                    <% }
+                                                        } %>
+                                        </ul>
+
+                                        <ul class="pricing-table">
+                                            <li class="price"><b>Intake - Intravenous</b></li>        
+                                                <%
+                                                    List<Vital> intakeIntravenousList = VitalDAO.retrieveIntakeIntraByScenarioID(scenarioID);
+                                                    if (intakeIntravenousList == null || intakeIntravenousList.size() == 0) {
+                                                        out.println("<center>There are no records at the moment</center>");
+                                                    } else {
+
+                                                        for (Vital intakeIntravenous : intakeIntravenousList) {
+                                                            String medicationHistoryInformation = intakeIntravenous.getIntravenousType() + " | " + intakeIntravenous.getIntravenousAmount();
+                                                %>
+
+                                            <li class="bullet-item"><b><%=df.format(intakeIntravenous.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
+                                                    <% }
+                                                        } %>
+
+                                        </ul> 
+
+                                        <ul class="pricing-table">
+                                            <li class="price"><b>Output</b></li>        
+                                                <%
+                                                    List<Vital> outputList = VitalDAO.retrieveOutputByScenarioID(scenarioID);
+                                                    if (outputList == null || outputList.size() == 0) {
+                                                        out.println("<center>There are no records at the moment</center>");
+                                                    } else {
+
+                                                        for (Vital output : outputList) {
+                                                            String medicationHistoryInformation = output.getOutput();
 
                                                 %>
-                                                </div>
-                                                </div>
 
-                                                </div>
-
-
-                                                </div>
-
-                                                <!--RESPONSIVE. END OF WEB VERSION HERE-->
-
-                                                <!--RESPONSIVE. START OF iTOUCH VERSION HERE-->
-
-                                                <div class ="show-for-touch">
-                                                                
-                                                  
-
-                                                    <%
-                                                    String fromMobile = (String)(session.getAttribute("fromMobile"));
-                                                    
-                                                    
-                                                 
-                                                    if(fromMobile != null){
-                                                    
-                                                    
-                                                    %> 
-                                                    
-                                                      <!--For pull to refresh-->
-                                                    
-                                                    
-                                                    
-                                                    
-                                                    <script>
-                                                        if (screen && screen.width < 480) {
-                                                          document.write('<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"><\/script>');
-                                                          document.write('<script src="js/hook.js" type="text/javascript"><\/script>');
-                                                          document.write('<link rel="stylesheet" href="css/hook.css" type="text/css"/>');
+                                            <li class="bullet-item"><b><%=df.format(output.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
+                                                    <% 
                                                         }
-                                                    </script>
-                                                    <!--end of for pull to refresh-->
-                                                    
-                                                        <!--hook.js pull to refresh-->     
-                                                            <div id="hook">
-                                                                <div id="loader">
-                                                                    <div class="spinner"></div>
-                                                                </div>
-                                                                <span id="hook-text">Reloading, please wait...</span>
-                                                            </div>
-                                                        <!--hook.js pull to refresh-->
-                                                        
+                                                    } 
+                                                    %>
+                                        </ul>  
+                                    </div>
+                                </dd>
+                                <dd class="accordion-navigation">
+                                    <a href="#panelMedicationHistory"><b>Medication History</b></a>
+                                    <div id="panelMedicationHistory" class="content">
+                                        You have no access to medication. Medication is only available in the web. 
+                                        <ul class="pricing-table">
 
-                                                    <%
+                                            <li class="price">Medication History</li>           
+                                                <%
+                                                    String practicalGroupID = (String) session.getAttribute("nurse");
+                                                    List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAllInPracticalGroup(scenarioID, practicalGroupID);
+                                                    if (medicationHistoryList == null || medicationHistoryList.size() == 0) {
+                                                        out.println("<center>There are no records at the moment</center>");
+                                                    } else {
+
+                                                        for (MedicationHistory medicationHistory : medicationHistoryList) {
+                                                            String medicationHistoryInformation = medicationHistory.getMedicineBarcode() + " | " + session.getAttribute("nurse");
+
+                                                %>
+
+                                            <li class="bullet-item"><b><%=df.format(medicationHistory.getMedicineDatetime())%></b><br><%=medicationHistoryInformation%></li>
+                                        <% 
+                                            }
+                                        } 
+                                        %>
+
+                                    </ul>      
+
+                                    <ul class="pricing-table">
+                                        <li class="price">Past Doctor's Order</li>
+
+                                        <%
+                                            PracticalGroup practicalGroupRetrieved = PracticalGroupDAO.retrieveLecturer(practicalGrp);
+
+                                            if (StateHistoryDAO.retrieveAll(scenarioID, practicalGroupRetrieved.getLecturerID()).isEmpty()) {
+                                                StateHistoryDAO.addStateHistory(scenarioID, stateID, pg.getLecturerID());
+                                            }
+                                            HashMap<String, String> activatedStates = StateHistoryDAO.retrieveAll(scenarioID, practicalGroupRetrieved.getLecturerID());
+                                            // to store reports of all activated states
+                                            HashMap<List<Report>, String> stateReportsHM = new HashMap<List<Report>, String>();
+                                            // remove duplicates
+                                            List<String> tempList = new ArrayList<String>();
+                                            // remove duplicates and add reports of that state into array reports
+                                            for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
+                                                String state = entry.getKey();
+                                                if (tempList.size() == 0) {
+                                                    tempList = new ArrayList<String>();
+                                                }
+                                                if (tempList.contains(state)) {
+                                                    activatedStates.remove(state);
+                                                } else {
+                                                    tempList.add(state);
+                                                    List<Report> reports = ReportDAO.retrieveReportsByState(scenarioID, state);
+                                                    String doctorOrderTime = entry.getValue();
+                                                    if (reports != null && reports.size() != 0) {
+                                                        stateReportsHM.put(reports, doctorOrderTime);
                                                     }
-                                                    %>
-                                                   
-
-                                                    <%                                
-                                                        if (scenarioActivated == null || stateActivatedLastest.getScenarioID() == null) {
-
-                                                            out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
-                                                        } else {
-
-                                                            String stateID = retrieveScenarioState.getStateID();
-                                                            //get the most recently activated scenario's state
-                                                            retrieveScenarioState = StateDAO.retrieveStateInScenario(stateActivatedLastest.getScenarioID());
-
-                                                            patientNRIC = retrieveScenarioState.getPatientNRIC();
-                                                            retrievePatient = PatientDAO.retrieve(patientNRIC);
-
-                                                            String scenarioID = scenarioActivated.getScenarioID();
-                                                            //retrieve case's information
-                                                            String admissionNotes = scenarioActivated.getAdmissionNote();
-
-                                                            //retrieve nurse praticalGroup ID
-                                                            String practicalGrp = (String) session.getAttribute("nurse");
-
-                                                            //retrieve note's information
-                                                            List<Note> notesListRetrieved = NoteDAO.retrieveNotesByPraticalGrp(practicalGrp, scenarioID);
-
-                                                            //retrieve patient's information
-                                                            String firstName = retrievePatient.getFirstName();
-                                                            String lastName = retrievePatient.getLastName();
-                                                            String fullName = firstName + " " + lastName;
-                                                            String dob = retrievePatient.getDob();
-                                                            String gender = retrievePatient.getGender();
-                                                            String allergy = PatientDAO.retrieveAllergy(patientNRIC);
-
-                                                            if (allergy == null) {
-                                                                allergy = "none";
-                                                            }
-                                                    %>    
-
-                                                  
-                                                    <dl class="accordion" data-accordion>
-                                                        <dd class="accordion-navigation">
-                                                            <a href="#panelPatientInfo"><b>Patient Information</b></a>
-                                                            <div id="panelPatientInfo" class="content active">
-                                                                <ul class="pricing-table">
-                                                                    <li class="price"><%=fullName%></li>
-                                                                    <li class="bullet-item"><%=patientNRIC%></li>
-                                                                    <li class="bullet-item"><%=dob%></li>
-                                                                    <li class="bullet-item"><%=gender%></li>
-                                                                    <li class="bullet-item"><img src="img/warning.png" width="20" height="20" alt="Warning"/><font color="red"><%=allergy%></font></li>
-                                                                </ul>
-                                                            </div>
-                                                        </dd>
-
-                                                        <dd class="accordion-navigation">
-                                                            <a href="#panelAdmissionNotes"><b>Admission Notes</b></a>
-                                                            <div id="panelAdmissionNotes" class="content">
-                                                                <%
-                                                                    if (scenarioActivated.getAdmissionNote() != null) {%>
-                                                                <%=scenarioActivated.getAdmissionNote()%>
-
-                                                                <%} else {
-                                                                        out.println("There are no admission notes.");
-
-                                                                    }
-
-                                                                %>
-                                                            </div>
-                                                        </dd>
-
-                                                        <dd class="accordion-navigation">
-                                                            <a href="#panelInvestigations"><b>Investigations</b></a>
-                                                            <div id="panelInvestigations" class="content">
-                                                                <ul class="pricing-table">
-                                                                    <li class="price">Despatched Reports</li>
-                                                                        <%                                                    List<Report> reportList = ReportDAO.retrieveDespatchedReports(scenarioID, practicalGrp);
-
-                                                                            if (reportList == null || reportList.size() == 0) {
-                                                                                out.println("<center>There are no records at the moment</center>");
-                                                                            } else {
-
-                                                                                for (Report report : reportList) {
-                                                                                    String reportName = report.getReportName() + " | ";
-                                                                                    String reportFile = "reports/" + report.getReportFile();
-                                                                        %>
-
-                                                                    <li class="bullet-item"> <%=reportName%>
-                                                                        <a href="<%=reportFile%>" target="_blank">View Report</a>
-                                                                    </li>
-                                                                    <%}
-                                                                        }
-
-                                                                    %>
-                                                                </ul>
-                                                            </div>
-                                                        </dd>
-                                                        
-                                                         <dd class="accordion-navigation">
-                                                            <a href="#panelDocuments"><b>Documents</b></a>
-                                                            <div id="panelDocuments" class="content">
-                                                                <ul class="pricing-table">
-
-                                                                    <%
-                                                                        List<Document> documentsList = DocumentDAO.retrieveDocumentsByScenario(scenarioID);
-
-                                                                        if (documentsList == null || documentsList.size() == 0) {
-                                                                            out.println("<center>There are no documents at the moment</center>");
-
-                                                                        } else {
-
-                                                                            for (Document document : documentsList) {
-                                                                                String consentName = document.getConsentName() + " | ";
-                                                                                String consentFile = "documents/" + document.getConsentFile();
-                                                                    %>
-
-                                                                    <li class="bullet-item"> <%=consentName%>
-                                                                        <a href="<%=consentFile%>" target="_blank">View Document</a>
-                                                                    </li>
-                                                                    <%}
-                                                                        }
-
-                                                                    %>
-                                                                </ul>
-                                                            </div>
-                                                        </dd>
-                                                        
-                                                        <dd class="accordion-navigation">
-                                                            <a href="#panelMultiNotes"><b>Notes</b></a>
-                                                            <div id="panelMultiNotes" class="content">
-                                                               <ul class="pricing-table">
-                                                                    <li class="price">Notes History</li>
-                                                                    
-                                                                    <%
-                                                                        List<Note> notesRetrieved = NoteDAO.retrieveNotesByPraticalGrpDesc(practicalGrp, scenarioID);
-                                                                        
-                                                                        if(notesRetrieved == null || notesRetrieved.size() == 0){
-                                                                            %>
-                                                                            <center>There are no notes at the moment.</center>
-                                                                            
-                                                                        <%
-                                                                        }else{
-                                                                            for(Note note: notesRetrieved){
-                                                                                String multidisciplinaryNotes = note.getMultidisciplinaryNote();%>
-                                                                            	<li class="bullet-item"><b><%=df.format(note.getNoteDatetime())%></b><br> | <%=multidisciplinaryNotes%></li>  
-                                                                            
-                                                                           <% 
-                                                                            }//end of for loop
-                                                                        
-                                                                        }//end of else
-                                                                    
-                                                                    %>
-                                                                </ul>
-                                                            </div>
-                                                        </dd>
-
-                                                        <dd class="accordion-navigation">
-                                                            <a href="#panelClinicalCharts"><b>Clinical Charts</b></a>
-                                                            <div id="panelClinicalCharts" class="content">
-                                                                You have no access to medication. Medication is only available in the web. 
-                                                                <ul class="pricing-table">
-
-                                                                    <li class="price">Last Updated Vitals</li>        
-
-                                                                    <%                                                                        List<Vital> vitalList = VitalDAO.retrieveAllVitalByScenarioID(scenarioID);
-                                                                        if (vitalList.size() > 0) {
-
-                                                                    %>
-                                                                    <li class="bullet-item">Temperature - <%=vitalList.get(vitalList.size() - 1).getTemperature()%></li>  
-                                                                    <li class="bullet-item">Respiratory Rate - <%=vitalList.get(vitalList.size() - 1).getRr()%></li>  
-                                                                    <li class="bullet-item">Heart Rate - <%=vitalList.get(vitalList.size() - 1).getHr()%></li>  
-                                                                    <li class="bullet-item">BP(Systolic) - <%=vitalList.get(vitalList.size() - 1).getBpSystolic()%></li>  
-                                                                    <li class="bullet-item">BP(Diastolic) - <%=vitalList.get(vitalList.size() - 1).getBpDiastolic()%></li>  
-                                                                    <li class="bullet-item">SpO<sub>2</sub> - <%=vitalList.get(vitalList.size() - 1).getSpo()%></li>  
-                                                                        <%} else {
-                                                                                out.println("<br>There are no vital signs at the moment.");
-
-                                                                            }%>
-
-
-                                                                </ul> 
-
-                                                                <ul class="pricing-table">
-                                                                    <li class="price"><b>Intake - Oral</b></li>        
-                                                                        <%
-                                                                            List<Vital> intakeOralList = VitalDAO.retrieveIntakeOralByScenarioID(scenarioID);
-                                                                            if (intakeOralList == null || intakeOralList.size() == 0) {
-                                                                                out.println("<center>There are no records at the moment</center>");
-                                                                            } else {
-                                                                     
-
-                                                                                for (Vital intakeOutput : intakeOralList) {
-                                                                                    String medicationHistoryInformation = intakeOutput.getOralType() + " | " + intakeOutput.getOralAmount();
-
-                                                                        %>
-
-                                                                    <li class="bullet-item"><b><%=df.format(intakeOutput.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
-                                                                            <% }
-                                                                                } %>
-
-                                                                </ul>
-
-                                                                <ul class="pricing-table">
-                                                                    <li class="price"><b>Intake - Intravenous</b></li>        
-                                                                        <%
-                                                                            List<Vital> intakeIntravenousList = VitalDAO.retrieveIntakeIntraByScenarioID(scenarioID);
-                                                                            if (intakeIntravenousList == null || intakeIntravenousList.size() == 0) {
-                                                                                out.println("<center>There are no records at the moment</center>");
-                                                                            } else {
-
-                                                                                for (Vital intakeIntravenous : intakeIntravenousList) {
-                                                                                    String medicationHistoryInformation = intakeIntravenous.getIntravenousType() + " | " + intakeIntravenous.getIntravenousAmount();
-
-                                                                        %>
-
-                                                                    <li class="bullet-item"><b><%=df.format(intakeIntravenous.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
-                                                                            <% }
-                                                                                } %>
-
-                                                                </ul> 
-
-                                                                <ul class="pricing-table">
-                                                                    <li class="price"><b>Output</b></li>        
-                                                                        <%
-                                                                            List<Vital> outputList = VitalDAO.retrieveOutputByScenarioID(scenarioID);
-                                                                            if (outputList == null || outputList.size() == 0) {
-                                                                                out.println("<center>There are no records at the moment</center>");
-                                                                            } else {
-
-                                                                                for (Vital output : outputList) {
-                                                                                    String medicationHistoryInformation = output.getOutput();
-
-                                                                        %>
-
-                                                                    <li class="bullet-item"><b><%=df.format(output.getVitalDatetime())%></b><br><%=medicationHistoryInformation%></li>
-                                                                            <% }
-                                                                                } %>
-
-                                                                </ul>  
-                                                            </div>
-                                                        </dd>
-                                                        
-                                                        
-                                                        
-                                                        <dd class="accordion-navigation">
-                                                            <a href="#panelMedicationHistory"><b>Medication History</b></a>
-                                                            <div id="panelMedicationHistory" class="content">
-                                                                You have no access to medication. Medication is only available in the web. 
-                                                                <ul class="pricing-table">
-
-                                                                    <li class="price">Medication History</li>           
-                                                                        <%
-                                                                            String practicalGroupID = (String) session.getAttribute("nurse");
-                                                                            List<MedicationHistory> medicationHistoryList = MedicationHistoryDAO.retrieveAllInPracticalGroup(scenarioID, practicalGroupID);
-                                                                            if (medicationHistoryList == null || medicationHistoryList.size() == 0) {
-                                                                                out.println("<center>There are no records at the moment</center>");
-                                                                            } else {
-
-                                                                                for (MedicationHistory medicationHistory : medicationHistoryList) {
-                                                                                    String medicationHistoryInformation = medicationHistory.getMedicineBarcode() + " | " + session.getAttribute("nurse");
-
-                                                                        %>
-
-                                                                    <li class="bullet-item"><b><%=df.format(medicationHistory.getMedicineDatetime())%></b><br><%=medicationHistoryInformation%></li>
-                                                                            <% }
-                                                                                } %>
-
-                                                                </ul>      
-
-                                                                <ul class="pricing-table">
-                                                                    <li class="price">Past Doctor's Order</li>
-
-                                                                    <%
-                                                                        PracticalGroup practicalGroupRetrieved = PracticalGroupDAO.retrieveLecturer(practicalGrp);
-
-                                                                        if (StateHistoryDAO.retrieveAll(scenarioID, practicalGroupRetrieved.getLecturerID()).isEmpty()) {
-
-                                                                            StateHistoryDAO.addStateHistory(scenarioID, stateID, pg.getLecturerID());
-                                                                        }
-                                                                        HashMap<String, String> activatedStates = StateHistoryDAO.retrieveAll(scenarioID, practicalGroupRetrieved.getLecturerID());
-                                                                        // to store reports of all activated states
-                                                                        HashMap<List<Report>, String> stateReportsHM = new HashMap<List<Report>, String>();
-                                                                        // remove duplicates
-                                                                        List<String> tempList = new ArrayList<String>();
-                                                                        // remove duplicates and add reports of that state into array reports
-                                                                        for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
-                                                                            String state = entry.getKey();
-                                                                            if (tempList.size() == 0) {
-                                                                                tempList = new ArrayList<String>();
-                                                                            }
-                                                                            if (tempList.contains(state)) {
-                                                                                activatedStates.remove(state);
-                                                                            } else {
-                                                                                tempList.add(state);
-                                                                                List<Report> reports = ReportDAO.retrieveReportsByState(scenarioID, state);
-                                                                                String doctorOrderTime = entry.getValue();
-                                                                                if (reports != null && reports.size() != 0) {
-                                                                                    stateReportsHM.put(reports, doctorOrderTime);
-                                                                                }
-                                                                            }
-                                                                        }
-
-                                                                        LinkedHashMap<List<Prescription>, String> stateDoctorOrderHM = new LinkedHashMap<List<Prescription>, String>();
-                                                                        for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
-
-                                                                            String state = entry.getKey();
-                                                                            List<Prescription> prescriptions = PrescriptionDAO.retrieveOnlyNA(scenarioID, state);
-                                                                            String doctorOrderTime = entry.getValue();
-                                                                            if (prescriptions != null && prescriptions.size() != 0) {
-                                                                                stateDoctorOrderHM.put(prescriptions, doctorOrderTime);
-                                                                            }
-                                                                        }
-                                                                        if (stateDoctorOrderHM != null && stateDoctorOrderHM.size() != 0) {
-
-                                                                            for (Map.Entry<List<Prescription>, String> entry : stateDoctorOrderHM.entrySet()) {
-                                                                                List<Prescription> prescriptions = entry.getKey();
-
-                                                                                // if needed to display:
-                                                                                String doctorOrderTime = entry.getValue();
-
-                                                                                for (Prescription prescription : prescriptions) {
-                                                                                    String doctorName = prescription.getDoctorName();
-                                                                                    String doctorOrder = prescription.getDoctorOrder();
-                                                                    %>
-
-
-                                                                    <li class="bullet-item"><b><%=doctorOrderTime%></b><br> <%=doctorOrder%></li>
-                                                                            <%
-                                                                                    }
-                                                                                }
-                                                                            %>
-
-
-
-                                                                    <%
-                                                                    } else {%>
-                                                                    <li class="bullet-item">There are no records at the moment</li>
-                                                                        <%
-                                                                            }
-                                                                        %>    
-
-                                                                </ul>
-                                                            </div>
-                                                        </dd>
-                                                        
-                                                       
-                                                       
-                                                    </dl>
-
-
-                                                    <%} //end of else
-
-
-                                                    %>
-                                                    <h1><a href="viewMainLogin.jsp" >Log Out</a></h1>
-                                                </div>
-
-
-                                                    
-                                                <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
-
-                                                <script>
-
-                                                    $(document).ready(function() {
-                                                        $(document).foundation();
-                                                        var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
-                                                        var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
-
-                                                        var success1 = "<%=success%>";
-                                                        var error1 = "<%=error%>";
-                                                        if (success1 !== "") {
-                                                            humaneSuccess.log(success1);
-                                                        } else if (error1 !== "") {
-                                                            humaneError.log(error1);
-                                                        }
-
-                                                    });
-
-                                                    $(document).ready(function() {
-                                                        var counter = 10;
-                                                        var id = setInterval(function() {
-                                                            counter--;
-
-                                                            if (counter > 0) {
-
-                                                                var msg = 'Waiting for response..';
-                                                                $('#reportLinkMsg').text(msg);
-                                                            } else {
-                                                                $('#reportLinkMsg').hide();
-                                                                $('#reportDateWaiting').hide();
-                                                                $('#reportStatusWaiting').hide();
-                                                                $('#downloadReport').show();
-                                                                $('#reportDateDisplay').show();
-                                                                $('#reportStatusDisplay').show();
-                                                                $('#reportLink').show();
-                                                                clearInterval(id);
-                                                            }
-                                                        }, 3000);
-                                                    });
-                                                </script>
-
-
-                                                </body>
-                                                <script type="text/javascript" src="js/humane.js"></script>
-                                                <script src="js/vendor/jquery.js"></script>
-                                                <script src="js/foundation.min.js"></script>
-                                                <script src="js/foundation/foundation.magellan.js"></script>
-
-                                                </html>
+                                                }
+                                            }
+
+                                            LinkedHashMap<List<Prescription>, String> stateDoctorOrderHM = new LinkedHashMap<List<Prescription>, String>();
+                                            for (Map.Entry<String, String> entry : activatedStates.entrySet()) {
+
+                                                String state = entry.getKey();
+                                                List<Prescription> prescriptions = PrescriptionDAO.retrieveOnlyNA(scenarioID, state);
+                                                String doctorOrderTime = entry.getValue();
+                                                if (prescriptions != null && prescriptions.size() != 0) {
+                                                    stateDoctorOrderHM.put(prescriptions, doctorOrderTime);
+                                                }
+                                            }
+                                            if (stateDoctorOrderHM != null && stateDoctorOrderHM.size() != 0) {
+
+                                                for (Map.Entry<List<Prescription>, String> entry : stateDoctorOrderHM.entrySet()) {
+                                                    List<Prescription> prescriptions = entry.getKey();
+
+                                                    // if needed to display:
+                                                    String doctorOrderTime = entry.getValue();
+
+                                                    for (Prescription prescription : prescriptions) {
+                                                        String doctorName = prescription.getDoctorName();
+                                                        String doctorOrder = prescription.getDoctorOrder();
+                                        %>
+                                                        <li class="bullet-item"><b><%=doctorOrderTime%></b><br> <%=doctorOrder%></li>
+                                        <%
+                                                    }
+                                                }
+                                            } else {
+                                        %>
+                                            <li class="bullet-item">There are no records at the moment</li>
+                                        <%
+                                            }
+                                        %>    
+                                        </ul>
+                                    </div>
+                                </dd>
+                            </dl>
+                            <%
+                                } //end of else
+                            %>
+                            <h1><a href="viewMainLogin.jsp" >Log Out</a></h1>
+                        </div>
+            <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
+
+        <script>
+            $(document).ready(function() {
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+
+                var success1 = "<%=success%>";
+                var error1 = "<%=error%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                } else if (error1 !== "") {
+                    humaneError.log(error1);
+                }
+            });
+
+            $(document).ready(function() {
+                var counter = 10;
+                var id = setInterval(function() {
+                    counter--;
+                    if (counter > 0) {
+                        var msg = 'Waiting for response..';
+                        $('#reportLinkMsg').text(msg);
+                    } else {
+                        $('#reportLinkMsg').hide();
+                        $('#reportDateWaiting').hide();
+                        $('#reportStatusWaiting').hide();
+                        $('#downloadReport').show();
+                        $('#reportDateDisplay').show();
+                        $('#reportStatusDisplay').show();
+                        $('#reportLink').show();
+                        clearInterval(id);
+                    }
+                }, 3000);
+            });
+        </script>
+    </body>
+    <script type="text/javascript" src="js/humane.js"></script>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script src="js/foundation/foundation.magellan.js"></script>
+</html>

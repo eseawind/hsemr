@@ -131,8 +131,6 @@
                 date = r.getReportDatetime();
                 dateTime = df.format(date);
                 reportURL = "reports/" + reportFile;
-                //                String currentStateID = "state" + counter;
-                //                String stateIDNum = "state" + counter;
                 String dateTimeNum = "dateTime" + counter;
 
 

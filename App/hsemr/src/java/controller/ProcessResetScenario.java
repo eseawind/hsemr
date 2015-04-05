@@ -43,8 +43,6 @@ public class ProcessResetScenario extends HttpServlet {
                 for(String pgID : practicalGrpID){
                 VitalDAO.resetVitalByPracticalGrp(scenarioID, pgID);
                 StateHistoryDAO.reset(scenarioID);
-                //ReportDAO.resetStatus(scenarioID);
-               // ReportDAO.resetToInitialValues(scenarioID);
                 PracticalGroupReportDAO.delete(pgID);
                 MedicationHistoryDAO.delete(scenarioID, pgID);
                 NoteDAO.reset(scenarioID,pgID);

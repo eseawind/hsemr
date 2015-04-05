@@ -45,20 +45,12 @@ public class ProcessDeleteAccount extends HttpServlet {
             AdminDAO.delete(userID);
             HttpSession session = request.getSession(false);
             session.setAttribute("success", "Account: " + userID + " has been deleted successfully.");
-       
-//            RequestDispatcher rd = request.getRequestDispatcher("./viewAdminAccounts.jsp");
-//            rd.forward(request, response);
-
-           response.sendRedirect("./viewAdminAccounts.jsp");
+            response.sendRedirect("./viewAdminAccounts.jsp");
         } else if (userType.equals("lecturer")) {
            if(PracticalGroupDAO.retrieveByLecturer(userID) == null) {
-
                 LecturerDAO.delete(userID);
                 HttpSession session = request.getSession(false);
                 session.setAttribute("success", "Account: " + userID + " has been deleted successfully.");
-    //            RequestDispatcher rd = request.getRequestDispatcher("./viewLecturerAccounts.jsp");
-    //            rd.forward(request, response);
-
                 response.sendRedirect("./viewLecturerAccounts.jsp");
            } else { 
                HttpSession session = request.getSession(false);
@@ -71,9 +63,6 @@ public class ProcessDeleteAccount extends HttpServlet {
             PracticalGroupDAO.delete(userID);
             HttpSession session = request.getSession(false);
             session.setAttribute("success", "Account: " + userID + " has been deleted successfully.");
-//            RequestDispatcher rd = request.getRequestDispatcher("./viewNurseAccounts.jsp");
-//            rd.forward(request, response);
-
             response.sendRedirect("./viewPracticalGroupAccounts.jsp");
         }
     }

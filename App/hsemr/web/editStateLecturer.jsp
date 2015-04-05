@@ -115,7 +115,7 @@
                             int counter = 0;
 
                             for (int i = 0; i <= numOfRows; i++) {
-                                // out.println(numOfRows);
+                                
                         %>
 
                         <col width ="20%">
@@ -126,77 +126,72 @@
                         <tr valign="top">
                             <%
                                 State state = null;
-                                //out.println(counter + "counter");
                                 for (int j = 0; j < numPerRow; j++) {
-
-                            %>
-                            <%        if (sizeOfList > counter) {
-                                    state = stateList.get(counter); //supposed to get Counter, but somehow arrayindexoutofbounds when i put counter.
-
-                                    stateID = state.getStateID();
-
-                                    caseNo = counter;
+                                    if (sizeOfList > counter) {
+                                        state = stateList.get(counter);
+                                        stateID = state.getStateID();
+                                        caseNo = counter;
 
                             %>
                             <td><center><a href="#" data-reveal-id="<%=stateID%>">
 
                                 <%
-                                    //if (state.getStateID() == 1) {
                                     if (stateIDCurrent.equals(stateID)) {
                                 %>
-
                                 <input type="submit" class="case" value="<%=counter%>"><br/>
-
                                 <% } else {%>
                                 <input type="submit" class="case off" value="<%=counter%>"><br/>
-
                                 <%
                                     }
-                                %><font color="black"><%=state.getStateDescription()%></font></a></center></td>
+                                %>
+                                <font color="black"><%=state.getStateDescription()%></font></a></center></td>
                                 <%
                                     }
                                     counter++;
-                                %>
-                                <%
-                                    }
-                                %>
+                                }
+                            %>
                         </tr>
                         <%
                             }
-                        %> </table>
+                        %> 
+                    </table>
                 </center>
             </div>    
         </div>
 
-        <%            for (int i = 0; i < stateList.size(); i++) {
+        <%            
+            for (int i = 0; i < stateList.size(); i++) {
                 State state = stateList.get(i);
-                //int status = state.getStateStatus();
-%>
+        %>
 
         <div id="<%=state.getStateID()%>" class="reveal-modal" data-reveal>
 
             <form action = "ProcessActivateState" method = "POST">   
                 <h2>State Information</h2> 
                 <%
-                    // if (status == 1) {
                     if (stateIDCurrent.equals(state.getStateID())) {
                 %>
                 <p><i>State is currently activated.</i></p>
                 <input type ="hidden" id= "status" name = "status" value = "deactivated">
                 <input type ="submit" class="deletebutton tiny" value = "Deactivate State">
 
-                <% } else { %>
-
-                <p>State is deactivated.</p>
-                <input type ="hidden" id= "status" name = "status" value = "activated">               
+                <% 
+                    } else { 
+                %>
+                        <p>State is deactivated.</p>
+                        <input type ="hidden" id= "status" name = "status" value = "activated">               
                 <%
-                    if (activatedScenario != null) { %>
-                <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
-                            return false" value="Activate State" >
-                <%} else { %>
-                <input type ="submit" class="button tiny" value="Activate State">
-                <% }
-                    }%>
+                        if (activatedScenario != null) { %>
+                            <input type ="submit" class="button tiny" onclick="if (!activateConfirmation())
+                                return false" value="Activate State" >
+                    <%
+                        } else { 
+                    %>
+                            <input type ="submit" class="button tiny" value="Activate State">
+                <% 
+                        }
+                    }
+                %>
 
                 <p class="lead"><b>Case Number:</b> <%=activatedScenario.getScenarioID()%> </p>
                 <p class="lead"><b>Case Name:</b> <%=activatedScenario.getScenarioName()%> </p>
@@ -211,21 +206,22 @@
             <a class="close-reveal-modal">&#215;</a>
         </div>
 
-        <% }%>
+        <% 
+            }
+        %>
 
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
         <script>
-                    $(document).ready(function() {
-                        $(document).foundation();
-                        var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
+            $(document).ready(function() {
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 2000, clickToClose: true});
 
-                        var success1 = "<%=success%>";
-                        if (success1 !== "") {
-                            humaneSuccess.log(success1);
-                        }
-
-                    });
+                var success1 = "<%=success%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                }
+            });
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
 

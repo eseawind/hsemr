@@ -30,33 +30,32 @@
                     ArrayList<String> medicineVerifiedList = new ArrayList<String>();
                     medicineVerifiedList.add("TESTING");
                     session.setAttribute("medicineVerifiedList", medicineVerifiedList);
+              
+                    Scenario scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
 
+                    if (scenarioActivated != null) {%>
+                        <!--Display Case Info-->
+                        <form action ="viewPatientInformation.jsp" method="post">
+                            <table style="border-color: #EEEEEE">
+                                <col width="25%">
+                                <col width="75%">
 
-                %>
-                <%                Scenario scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
+                            <tr>
+                                <td><b>Scenario Name</b></td>
+                                <td><%=scenarioActivated.getScenarioName()%></td>
+                            </tr>
+                            <tr>
+                                <td><b>Scenario Description</b></td>
+                                <td><%=scenarioActivated.getScenarioDescription()%></td>
+                            </tr>
 
-                    //Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
-                if (scenarioActivated != null) {%>
-                <!--Display Case Info-->
-                <form action ="viewPatientInformation.jsp" method="post">
-                    <table style="border-color: #EEEEEE">
-                        <col width="25%">
-                        <col width="75%">
-
-                        <tr>
-                            <td><b>Scenario Name</b></td>
-                            <td><%=scenarioActivated.getScenarioName()%></td>
-                        </tr>
-                        <tr>
-                            <td><b>Scenario Description</b></td>
-                            <td><%=scenarioActivated.getScenarioDescription()%></td>
-                        </tr>
-
-                    </table><br/><br/><br/><br/>
-                    <input type="submit" class="button small" value="Proceed">
-                </form>
+                            </table>
+                            <br/><br/><br/><br/>
+                            <input type="submit" class="button small" value="Proceed">
+                        </form>
                 <%
-            } else { %>
+                    } else { 
+                %>
                 <p><font size="6">NO CASE ACTIVATED</font><br>
                     Please contact administrator/lecturer for case activation.</p>
                     <%
@@ -65,7 +64,5 @@
             </div>
         </div>
     </center>
-
-
 </body>
 </html>

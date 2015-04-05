@@ -48,18 +48,15 @@
 
             //format date to be printed in string format
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-           //a string to store all dates in format to be used in javascript 
+            //a string to store all dates in format to be used in javascript 
             //e.g. new Date ('2012-01-02T22:25:15'), new Date ('2012-02-02T22:25:17'), new Date ('2012-02-02T22:25:20'),new Date ('2012-02-02T22:25:23') 
             String vitalsDate = "";
             if (vitalsDateTime.size() > 0) {
                 for (int i = 0; i < vitalsDateTime.size(); i++) {
                     String dateTimeVital = df.format(vitalsDateTime.get(i));
-                    //dateTimeVital = dateTimeVital.replace(" ", "T");
                     if (i != vitalsDateTime.size() - 1) {
-                        //vitalsDate += "new Date ('" + dateTimeVital + "'), ";
                         vitalsDate += "'" + dateTimeVital + "', ";
                     } else {
-                        //vitalsDate += "new Date ('" + dateTimeVital + "')";
                         vitalsDate += "'" + dateTimeVital + "'";
                     }
                 }
@@ -80,8 +77,8 @@
 
         <div id="chart"></div>
 
-
-        <%            if (bpSystolicList == null || bpDiastolicList == null || bpSystolicList.size() == 0 || bpDiastolicList.size() == 0) {
+        <%            
+            if (bpSystolicList == null || bpDiastolicList == null || bpSystolicList.size() == 0 || bpDiastolicList.size() == 0) {
                 out.println("<h5>There is no historial data at the moment.</h5>");
             } else {
         %>
@@ -94,16 +91,12 @@
                     right: 100 // add 10px for some spacing
                 },
                 data: {
-                    //x: 'x',
                     columns: [
                             ['BPsystolic', <% out.println(dataOfBPsystolic); %>],
                             ['BPdiastolic', <% out.println(dataOfBPdiastolic); %>]
                     ],
                     labels: true,
                     type: 'line',
-//                    color: {
-//                        pattern: ['#d00', '#363FBC']
-//                    }
                     color: function(color, d) {
                         return d.id === 'BPdiastolic' ? "#d00" : "#d00";
                     }
@@ -114,20 +107,8 @@
                 },
                 axis: {
                     x: {
-//                       type: 'timeseries',
-//                       localtime: false,  
                         type: 'category',
-                            categories: [<% out.println(vitalsDate);%>],
-//                       label: { // ADD
-//                            text: 'Time',
-//                            position: 'right'
-//                        }, 
-//                        tick: { 
-//                           format: '%Y-%m-%d %H:%M:%S', 
-//                            rotate: 45,
-//                            multiline: false
-//                       },
-
+                        categories: [<% out.println(vitalsDate);%>],
                     },
                     y: {
                         label: {// ADD
@@ -153,13 +134,6 @@
 
             });
             chart.resize({height: 300, width: 700});
-
-//        chart.load({
-//            columns: [
-//            ['data1', 300, 100, 250, 150, 300, 150, 500],
-//            ['data2', 100, 200, 150, 50, 100, 250]
-//            ]
-//        });
         </script>  
         <% }%>
     </body>

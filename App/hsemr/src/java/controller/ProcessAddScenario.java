@@ -112,7 +112,6 @@ public class ProcessAddScenario extends HttpServlet {
                     SPO0= Integer.parseInt(SPOString0);
                 }
             }catch(NumberFormatException e){
-                //do nothing
                 out.println("Please enter the correct values.");
             }
             
@@ -140,7 +139,8 @@ public class ProcessAddScenario extends HttpServlet {
             request.setAttribute("scenarioName",scenarioName);
             request.setAttribute("scenarioDescription", scenarioDescription); 
             request.setAttribute("admissionInfo", admissionInfo);
-            if(retrievedPatient != null){ // patientNRIC exists
+            // patientNRIC exists
+            if(retrievedPatient != null){ 
                 session.setAttribute("error", "Patient NRIC: " + retrievedPatient.getPatientNRIC() +  " exists. Patient NRIC needs to be unique.");
                 
                 //for repopulating the fields in createScenario.jsp 
@@ -225,7 +225,8 @@ public class ProcessAddScenario extends HttpServlet {
                 PatientDAO.add(patientNRIC, firstName, lastName, gender, dobString);
                 AllergyPatientDAO.add(patientNRIC, allergy);
                 ScenarioDAO.add(scenarioID, scenarioName, scenarioDescription, admissionInfo, newBed);
-                StateDAO.add(stateID0, scenarioID, stateDescription0, patientNRIC); //1 because default state status will be activate
+                StateDAO.add(stateID0, scenarioID, stateDescription0, patientNRIC); 
+                //1 because default state status will be activate
                 VitalDAO.add(scenarioID, temperature0, RR0, BPS0, BPD0, HR0, SPO0, output, intragastricType, intragastricAmount, intravenousType, intravenousAmount, 1, "NA");
           
                 session.setAttribute("success", "Case successfully created! To modify case information, please proceed to Manage Case > Edit.");

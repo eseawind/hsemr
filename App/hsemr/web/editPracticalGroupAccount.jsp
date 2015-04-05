@@ -29,7 +29,8 @@
         <title>EMR | User Management | Edit Account</title>
     </head>
     <body>
-        <%                String userID = "";
+        <%                
+            String userID = "";
             String location = "";
             if (request.getParameter("userID") != null) {
                 userID = request.getParameter("userID");

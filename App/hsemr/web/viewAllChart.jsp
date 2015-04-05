@@ -20,7 +20,6 @@
         <!-- Load d3.js and c3.js -->
         <script src="js/d3.min.js" charset="utf-8"></script>
         <script src="js/c3/c3.min.js"></script>
-        
         <link rel="stylesheet" href="css/foundation.css" />
         <link rel="stylesheet" href="css/original.css" />
         <script src="js/vendor/modernizr.js"></script>
@@ -47,23 +46,17 @@
            if (vitalsDateTime.size() > 0) { 
                 for (int i = 0; i < vitalsDateTime.size(); i++ ) { 
                     String dateTimeVital = df.format(vitalsDateTime.get(i));
-                    //dateTimeVital = dateTimeVital.replace(" ", "T");
                     if (i != vitalsDateTime.size()-1) {
-                        //vitalsDate += "new Date ('" + dateTimeVital + "'), ";
                         vitalsDate += "'" + dateTimeVital + "', ";
                     } else { 
-                        //vitalsDate += "new Date ('" + dateTimeVital + "')";
                         vitalsDate += "'" +  dateTimeVital + "'";
                     }
                 }
-           }
-
-                     
+           }    
            //converting templist to string for mainpulation
            String tempStringArr= tempList.toString();
            String withoutbracket = tempStringArr.replace("[", ""); 
            String dataOfTemp= withoutbracket.replace("]", "") ;
-         
         %>
         <h3>Temperature Chart</h3>           
         <div id="chart"></div>
@@ -77,13 +70,11 @@
             var chart = c3.generate({
                 padding: {
                     left: 60, //at least 60 for y axis to be seen
-                    right: 100 // add 10px for some spacing
+                    right: 100 // add 100px for some spacing
                 },
                 data: {
-                    //x: 'x',
                     columns: [
-                        //   ['x', '2014-12-28T11:44:51'],
-                            ['Temperature', <% out.println(dataOfTemp); %>]
+                        ['Temperature', <% out.println(dataOfTemp); %>]
                     ],
                     labels: true,
                     type: 'line',
@@ -91,24 +82,10 @@
                 axis: {
                     x: {
                         type: 'category',
-                            categories: [<% out.println(vitalsDate);%>],
-                        //type: 'timeseries',
-                        //localtime: false,
-//                       label: { // ADD
-//                            text: 'Time',
-//                            position: 'outer-right'
-//                        },
-//                        
-//                        tick: { 
-//                           //format: '%Y-%m-%d %H:%M:%S', 
-//                            rotate: 45,
-//                            multiline: false
-                        // },
-                        // height: 100,
-
+                        categories: [<% out.println(vitalsDate);%>],
                     },
                     y: {
-                        label: {// ADD
+                        label: {
                             text: 'Temperature (ºC)',
                             position: 'outer-middle'
                         },
@@ -117,7 +94,6 @@
                                 return (x === Math.floor(x)) ? x : "";
                             }
                         }
-
                     }
 
                 },
@@ -137,7 +113,6 @@
         }
        //retrieve list of temperature based on scenario
            
-       //List<Double> tempList= VitalDAO.retrieveTemp(scenarioID); 
        List<Integer> hrList= VitalDAO.retrieveHR(scenarioID); 
        List<Integer> spoList= VitalDAO.retrieveSPO(scenarioID); 
        List<Integer> rrList= VitalDAO.retrieveRR(scenarioID); 
@@ -156,12 +131,10 @@
        if (vitalsDateTimeAll.size() > 0) { 
             for (int i = 0; i < vitalsDateTimeAll.size(); i++ ) { 
                 String dateTimeVital = df.format(vitalsDateTimeAll.get(i));
-                //dateTimeVital = dateTimeVital.replace(" ", "T");
+                
                 if (i != vitalsDateTimeAll.size()-1) {
-                    //vitalsDate += "new Date ('" + dateTimeVital + "'), ";
                     vitalsDateAll += "'" + dateTimeVital + "', ";
                 } else { 
-                    //vitalsDate += "new Date ('" + dateTimeVital + "')";
                     vitalsDateAll += "'" +  dateTimeVital + "'";
                 }
             }
@@ -170,11 +143,6 @@
          
                      
        //converting templist to string for mainpulation
-       //String tempStringArr= tempList.toString();
-       //String withoutbracket = tempStringArr.replace("[", ""); 
-       //String dataOfTemp= withoutbracket.replace("]", "") ;
-         
-           
        String hrStringArr= hrList.toString();
        String withoutbracketHR = hrStringArr.replace("[", ""); 
        String dataOfHR= withoutbracketHR.replace("]", "") ;
@@ -214,14 +182,12 @@
                     right: 100 // add 10px for some spacing
                 },
                 data: {
-                    //x: 'x',
                     columns: [
-                        //   ['x', '2014-12-28T11:44:51'],
-                            ['Respiratory', <% out.println(dataOfRR); %>],
-                            ['HeartRate', <% out.println(dataOfHR); %>],
-                            ['SPO', <% out.println(dataOfSPO); %>],
-                            ['BPsystolic', <% out.println(dataOfBPsystolic); %>],
-                            ['BPdiastolic', <% out.println(dataOfBPdiastolic); %>]
+                        ['Respiratory', <% out.println(dataOfRR); %>],
+                        ['HeartRate', <% out.println(dataOfHR); %>],
+                        ['SPO', <% out.println(dataOfSPO); %>],
+                        ['BPsystolic', <% out.println(dataOfBPsystolic); %>],
+                        ['BPdiastolic', <% out.println(dataOfBPdiastolic); %>]
                     ],
                     labels: true,
                     type: 'line',
@@ -239,21 +205,7 @@
                 axis: {
                     x: {
                         type: 'category',
-                            categories: [<% out.println(vitalsDateAll);%>],
-                        //type: 'timeseries',
-                        //localtime: false,
-//                       label: { // ADD
-//                            text: 'Time',
-//                            position: 'outer-right'
-//                        },
-//                        
-//                        tick: { 
-//                           //format: '%Y-%m-%d %H:%M:%S', 
-//                            rotate: 45,
-//                            multiline: false
-                        // },
-                        // height: 100,
-
+                        categories: [<% out.println(vitalsDateAll);%>],
                     },
                     y: {
                         label: {// ADD
@@ -277,18 +229,8 @@
                         show: true
                     }
                 }
-
             });
-
             chart2.resize({height: 300, width: 700});
-
-//        chart.load({
-//            columns: [
-//            ['data1', 300, 100, 250, 150, 300, 150, 500],
-//            ['data2', 100, 200, 150, 50, 100, 250]
-//            ]
-//        });
-
         </script>  
         <% } %>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="img/Legend.PNG" width = "400" height = "30"/>

@@ -42,14 +42,8 @@ public class ProcessAddKeyword extends HttpServlet {
         int keywordID = Integer.parseInt(request.getParameter("keywordID"));
         String keywordDesc = (String) request.getParameter("keywordDesc");
         String fieldsToMap = (String) request.getParameter("fieldsToMap");
-       // Keyword keyword= KeywordDAO.retrieveEntity(fieldsToMap);
         String entityToMap= KeywordDAO.retrieveEntity(fieldsToMap);
-        //String entityToMap = keyword.getEntityToMap();
-        
-        /*if (keywordID != 0 && keywordID == 0) {
-         session.setAttribute("error", "Update failed: Please update BOTH Systolic and Diastolic values.");
-         response.sendRedirect("./createPDFUpload.jsp");
-         } */
+       
         if (keywordDesc == null || keywordDesc.equals(" ") || keywordDesc.equals("")) {
             session.setAttribute("error", "Please enter a valid keyword.");
             response.sendRedirect("./createPDFUpload.jsp");
@@ -58,7 +52,6 @@ public class ProcessAddKeyword extends HttpServlet {
             response.sendRedirect("./createPDFUpload.jsp");
         } else {
             KeywordDAO.insertKeyword(keywordID, keywordDesc, fieldsToMap, entityToMap);
-            //out.println("keywordid: " + keywordID + "KeyDesc: " + keywordDesc + "FieldsToMap: " + fieldsToMap + "entityToMap: " + entityToMap);
             session.setAttribute("success", "Added new keyword " + keywordDesc);
             response.sendRedirect("./createPDFUpload.jsp");
         }

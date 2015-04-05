@@ -72,9 +72,6 @@ public class ProcessRetrieveNotesByPracticalGroup extends HttpServlet {
             rd.forward(request, response);
         }else{
             response.getWriter().println(scenarioName);
-//            session.setAttribute("error", "There are no notes available for " + scenarioName + " for " + practicalGrpID + ".");
-//            RequestDispatcher rd = request.getRequestDispatcher("/viewSubmissionLecturer.jsp");
-//            rd.forward(request, response);
         }
 
     }

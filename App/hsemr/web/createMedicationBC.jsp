@@ -43,7 +43,8 @@
 
         <div class="large-centered large-6 columns">
 
-            <%             //for printing of error/success messages
+            <%             
+                //for printing of error/success messages
                 String success = "";
                 String error = "";
 

@@ -81,7 +81,6 @@ public class ProcessExtractPDF extends HttpServlet {
         name = name.replaceAll(".pdf", "");
         String outputName = name + "output.pdf";
         
-        //retrievePDF = "C:\\\\HealthLab\\\\ECS UK ARF Adult (Faculty) - remove.pdf";
         //for cleaning the pdf file
         String SRC = retrievePDF;
         String DEST = uploadFolder + File.separator + outputName;
@@ -148,8 +147,6 @@ public class ProcessExtractPDF extends HttpServlet {
             //Scenario Name Keywords
             for (Keyword keywordsScenarioName : keywordsForScenarioName) {
                 keywordScenarioName = keywordsScenarioName.getKeywordDesc();
-
-                //out.println(keywordsScenarioName.getKeywordDesc());
                 if (pageOne.contains(keywordScenarioName)) {
                     //if found, this is the START of the substring for scenarioName
                     break;
@@ -188,32 +185,24 @@ public class ProcessExtractPDF extends HttpServlet {
 
             //4. Extracting Information based on keywords found earlier in step 3
             //Scenario Name
-            //         out.println("<h1>Case Name</h1>");
             int startPositionScenarioName = pageOne.indexOf(keywordScenarioName) + keywordScenarioName.length();
             int endPositionScenarioName = pageOne.indexOf(keywordScenarioDesc, startPositionScenarioName);
             String scenarioNameExtracted = pageOne.substring(startPositionScenarioName, endPositionScenarioName);
-   //         out.println(scenarioNameExtracted);
 
             //Scenario Description
-            // out.println("<h1>Case Description</h1>");
             int startPositionScenarioDesc = pageOne.indexOf("Synopsis:") + ("Synopsis:").length();
             int endPositionScenarioDesc = pageOne.indexOf(keywordAdmissionInformation, startPositionScenarioDesc);
             String scenarioDescExtracted = pageOne.substring(startPositionScenarioDesc, endPositionScenarioDesc);
-  //          out.println(scenarioDescExtracted);
 
             //AdmissionNotes
-            //          out.println("<h1>Admission Notes</h1>");
             int startPositionAdmissionNotes = pageOne.indexOf(keywordAdmissionInformation) + keywordAdmissionInformation.length();
             int endPositionAdmissionNotes = pageOne.indexOf(keywordDoctorOrder, startPositionAdmissionNotes);
             String scenarioAdmissionNotesExtracted = pageOne.substring(startPositionAdmissionNotes, endPositionAdmissionNotes);
- //           out.println(scenarioAdmissionNotesExtracted);
 
             //State 0 Healthcare Provider Order
-            //           out.println("<h1>State 0 Healthcare Provider Order</h1>");
             int startPositionInitialStateOrders = pageOne.indexOf(keywordDoctorOrder) + keywordDoctorOrder.length();
             int endPositionInitialStateOrders = pageOne.indexOf("®", startPositionInitialStateOrders);
             String initialStateOrdersExtracted = pageOne.substring(startPositionInitialStateOrders, endPositionInitialStateOrders);
-   //         out.println(initialStateOrdersExtracted);
 
             //Insertion into database:
             //Scenario Table
@@ -222,7 +211,6 @@ public class ProcessExtractPDF extends HttpServlet {
             ScenarioDAO.add(scenarioID, scenarioNameExtracted.trim(), scenarioDescExtracted.trim(), scenarioAdmissionNotesExtracted.trim(), scNumber);
 
             //State Table
-           // StateDAO.add("ST0", scenarioID, "default state", "-");
             StateDAO.add("ST0", scenarioID, "default state", patientNRIC);
             
             //Prescription Table
@@ -242,18 +230,7 @@ public class ProcessExtractPDF extends HttpServlet {
             List<Keyword> keywordsForState = (List<Keyword>) KeywordDAO.retrieveKeywordsByFields("stateID");
 
             //2. Loop through ALL the keywords in state information
-//            out.println("<h1>Keywords for States in this case</h1>");
-//            for (Keyword keywordsState : keywordsForState) {
-//                String keywordState = keywordsState.getKeywordDesc();
-//
-//        
-//                if (contentsOfCase.contains(keywordState)) {
-//                    //if it contains, then substring to extract the words
-//                    out.println(keywordState);
-//                }
-//
-//               
-//            }
+
             //State 1 Healthcare Provider Order
             out.println("<h1>State Information</h1>");
 
@@ -282,32 +259,23 @@ public class ProcessExtractPDF extends HttpServlet {
                     // State ID
 
                     if (contentInLine.contains(keywordState)) {
-
-//                        out.println("<h2>" + keywordState + "</h2>");
                         int lineNumberOfKeywordOfState = i;
-                        // out.println(lineNumberOfKeywordOfState);
-                        // out.println(contentInLine);
                         stateID = keywordState.replaceAll(":", "");
                         stateID = "ST" + stateID.replaceAll("\\D+", "");
                         if(!stateID.equals("")) {
                             session.setAttribute("pdfState", stateID);
                         }
-//                        healthcareProviderOrder += stateID + "THISISSTATE";
 
                         //get line 1 of state information 
                         contentsInLineArrayList.get(lineNumberOfKeywordOfState + 1);
-                        //out.println(contentsInLineArrayList.get(lineNumberOfKeywordOfState +1) + "<br>");
                         String contentsInLine1 = contentsInLineArrayList.get(lineNumberOfKeywordOfState + 1);
 
-                        //out.println(contentsInLine1 + "<br>");
                         int startPositionForStateLine1 = 0;
                         int endPositionForStateLine1 = contentsInLine1.indexOf("HR", startPositionForStateLine1);
                         String stateLine1Extracted = contentsInLine1.substring(startPositionForStateLine1, endPositionForStateLine1);
-//                        out.println(stateLine1Extracted);                     
 
                         String contentsInLine2 = contentsInLineArrayList.get(lineNumberOfKeywordOfState + 2);
 
-                        //out.println(contentsInLine1 + "<br>");
                         int startPositionForStateLine2 = 0;
                         int endPositionForStateLine2 = contentsInLine2.indexOf("BP", startPositionForStateLine2);
                         String stateLine2Extracted = "";
@@ -347,21 +315,7 @@ public class ProcessExtractPDF extends HttpServlet {
                 
                 //Adding in state information
                if (!stateID.isEmpty() && !stateInformation.isEmpty()) {
-//                    Random rand = new Random();
-//                    int randomNum = rand.nextInt((99999 - 10000) + 10000);
-//                    String patientNRIC = "S38" + randomNum + "Q";
-//                   
-//                    Patient retrievedPatient = PatientDAO.retrieve(patientNRIC);
-//                    while (retrievedPatient != null) {
-//                        randomNum = rand.nextInt((99999 - 10000) + 10000);
-//                        patientNRIC = "S38" + randomNum + "Q";
-//                        retrievedPatient = PatientDAO.retrieve(patientNRIC);
-//                    }
-                    
                     StateDAO.add(stateID, scenarioID, stateInformation, patientNRIC);
-//                    StateDAO.updateNRICForState0(scenarioID, patientNRIC);
-//                    AllergyPatientDAO.add(patientNRIC, "");
-//                    PatientDAO.add(patientNRIC, "", "", "", "");
                }
 
                 stateID = (String) session.getAttribute("pdfState");
@@ -369,7 +323,6 @@ public class ProcessExtractPDF extends HttpServlet {
                 if (!healthcareProviderOrder.isEmpty()) {
                     PrescriptionDAO.add(scenarioID, stateID, "Dr.Tan/01234Z", healthcareProviderOrder, "NA", "NA", "-", "-", "N.A");
                 }
-
             }
             session.setAttribute("scenarioID", scenarioID);
             

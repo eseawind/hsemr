@@ -60,7 +60,6 @@
                     session.setAttribute("error", "");
                 }
                 String scenarioID = (String) session.getAttribute("scenarioID");
-                //String patientNRIC = (String) session.getAttribute("patientNRIC");
                 List<State> stateList = StateDAO.retrieveAll(scenarioID);
 
             %>
@@ -190,17 +189,13 @@
                 </thead>
 
                 <%for (Report r : currentReportList) {
-                        stateID = r.getStateID();
-                        reportName = r.getReportName();
-                        reportFile = r.getReportFile();
-                        date = r.getReportDatetime();
-                        dateTime = df.format(date);
-                        reportURL = "reports/" + reportFile;
-                        //                String currentStateID = "state" + counter;
-                        //                String stateIDNum = "state" + counter;
-                        String dateTimeNum = "dateTime" + counter;
-
-
+                    stateID = r.getStateID();
+                    reportName = r.getReportName();
+                    reportFile = r.getReportFile();
+                    date = r.getReportDatetime();
+                    dateTime = df.format(date);
+                    reportURL = "reports/" + reportFile;
+                    String dateTimeNum = "dateTime" + counter;
                 %>
 
                 <tr>
@@ -219,8 +214,8 @@
 
                 </tr>
                 <%
-                        counter++;
-                    }
+                    counter++;
+                }
 
                 %>
             </table>
@@ -270,18 +265,14 @@
 
                 <tr>
                     <td><%=consentName%></td>
-                    <td>
-
-                        <%=docStateID%>
-
-                    </td>
+                    <td><%=docStateID%></td>
                     <td><%=docURL%></td>
-
                     <td><a href="<%=documentURL%>" target="_blank" >View Document</a></td>
                     <td><form action ="ProcessDeleteDocument">
                             <input type="hidden" name="consentFile" value="<%=docURL%>">
                             <input type = "submit" Value ="Delete Document" class="deletebutton tinytableYES">
-                        </form></td>
+                        </form>
+                    </td>
                 </tr>
                 <%
                         counterDoc++;
@@ -318,9 +309,6 @@
 
             });
         </script>
-
-
-
-        <script type="text/javascript" src="js/humane.js"></script>
+    <script type="text/javascript" src="js/humane.js"></script>
     </body>
 </html>

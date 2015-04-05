@@ -109,9 +109,6 @@
 
             <%
                 //retrieve 1st note to get the practical group
-                //Note retrieved1Note = retrievedNoteList.get(0);
-                // String practicalGroup = retrieved1Note.getPracticalGroupID();
-                //String scenarioName = ScenarioDAO.retrieve(retrieved1Note.getScenarioID()).getScenarioName();
                 DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
 
                 //retrieve practicalgrpID & scenarioID & scenarioName
@@ -254,7 +251,6 @@
                     </tr>
                     </thead>
                     <%
-                        //DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
                         for (Vital vitals : vitalList) {
                             if (vitals.getTemperature() == 0.0 && vitals.getRr() == 0 && vitals.getBpSystolic() == 0 && vitals.getBpDiastolic() == 0 && vitals.getHr() == 0 && vitals.getSpo() == 0) {
                                 out.println("");
@@ -338,14 +334,9 @@
                             }
                         }%>
                 </table>
-
-
-
-                <%//end of else
-                        // } //end of big if
-
+                <%
                     }
-        //end of big else
+                    //end of else
                 %> 
 
                 <form action="ProcessExportPDF" method="POST" target="_blank">
@@ -365,7 +356,7 @@
                             }
                         }
                     %>
-                    <!-- <center> <input type="submit" class="report-despatch button tinytable" value="Export to PDF"> </center> -->
+
                 </form>
 
             </div>

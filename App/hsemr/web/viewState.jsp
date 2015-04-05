@@ -75,7 +75,6 @@
                         String stateNumber = "";
                         if (!stateRetrieved.equals("ST0")) {
                             int number = Integer.parseInt(stateRetrieved.replace("ST", ""));
-                            //stateNumber.replace("ST", "State ");
                             String stateDescriptionNumber = "statedescription" + counter;
                             session.setAttribute("dNum", stateDescriptionNumber);
                             String stateDesc = stateRetrieved.replace("ST", "State ");
@@ -168,7 +167,5 @@
                 });
             </script>
             <script type="text/javascript" src="js/humane.js"></script>
-
-
     </body>
 </html>

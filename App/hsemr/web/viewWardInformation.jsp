@@ -69,8 +69,7 @@
                         out.println("<p>Please contact lecturer/administrator.</p>");
                     } else {
                         //get the most recently activated scenario's state
-
-                      retrieveScenarioState= StateHistoryDAO.retrieveLatestStateActivatedByLecturer(pg.getLecturerID());
+                        retrieveScenarioState= StateHistoryDAO.retrieveLatestStateActivatedByLecturer(pg.getLecturerID());
 
                         if (retrieveScenarioState == null) {
                              out.println("<center><h1>No Case/States Activated</h1><br>Please contact administrator/lecturer for case activation.</center>");
@@ -85,27 +84,23 @@
                             int bedCounter = 1;
 
                     Scenario scenarioActivated = ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
-                       
-                  //Scenario scenarioActivated = ScenarioDAO.retrieveActivatedScenario();
-        if (scenarioActivated != null) {%>
-        
-        <dl class="accordion" data-accordion>
-            <dd class="accordion-navigation">
-                <a href="#panelCaseName"><b>Case Name</b></a>
-                <div id="panelCaseName" class="content active">
-                    <%=scenarioActivated.getScenarioName()%>
-                </div>
-            </dd>
-            
-            <dd class="accordion-navigation">
-                <a href="#panelCaseName"><b>Case Information</b></a>
-                <div id="panelCaseName" class="content active">
-                    <%=scenarioActivated.getScenarioDescription()%>
-                </div>
-            </dd>
-            
-        </dl>
-                
+               
+                    if (scenarioActivated != null) {%>
+                        <dl class="accordion" data-accordion>
+                            <dd class="accordion-navigation">
+                                <a href="#panelCaseName"><b>Case Name</b></a>
+                                <div id="panelCaseName" class="content active">
+                                    <%=scenarioActivated.getScenarioName()%>
+                                </div>
+                            </dd>
+
+                            <dd class="accordion-navigation">
+                                <a href="#panelCaseName"><b>Case Information</b></a>
+                                <div id="panelCaseName" class="content active">
+                                    <%=scenarioActivated.getScenarioDescription()%>
+                                </div>
+                            </dd>
+                        </dl>
         <%
                 }
             }
@@ -116,8 +111,6 @@
             <%session.setAttribute("fromMobile", "true");%>          
             <input type="submit" value="View Patient Management" class="button large"> 
         </form>
-            
-          
             <h1><a href="viewMainLogin.jsp" >Log Out</a></h1>
      
         <!--RESPONSIVE. END OF iTOUCH VERSION HERE-->
@@ -132,17 +125,12 @@
                            
                              <%
                                Scenario scenario =  ScenarioDAO.retrieveScenarioActivatedByLecturer(pg.getLecturerID());
-                               // Scenario scenario = ScenarioDAO.retrieveActivatedScenario();
-
-                               // if (scenario == null || StateDAO.retrieveActivateState(scenario.getScenarioID()) == null) {
                                if (scenario == null || retrieveScenarioState == null) {
                                     out.println("<center><h1>No Case/States Activated</h1><br><p>Please contact administrator/lecturer for case activation.</p></center>");
                                 } else {%>
                         <h1>Please select a ward:</h1>
                         <%
-                            //String[] wards = {"Ward A", "Ward B", "Ward C"};
                             String[] wardList = new String[]{"Simulation Lab 1", "Simulation Lab 2", "Simulation Lab 3", "Simulation Lab 4"};
-                            //String[] wardList = 
                             for (String ward : wardList) {
                                 if (ward.equals("Simulation Lab 1")) {%>
                         <td> <form method="POST" action="viewWard1.jsp"><input type="submit"  class="ward" value="Ward 1"/></form></td>
@@ -160,17 +148,14 @@
                         </tr>
                     </table>
 
-                    <%}
-                }%>
-
-
+                    <%
+                               }
+                            }
+                    %>
                 </div>
             </div>
         </div>
-        <!--RESPONSIVE. END OF WEB VERSION HERE-->        
-
-   
-
+        <!--RESPONSIVE. END OF WEB VERSION HERE-->    
     </center>
 </body>
 </html>

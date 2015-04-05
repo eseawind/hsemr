@@ -179,56 +179,6 @@ public class PrescriptionDAO {
         return list;
     }
     
-//    public static void updateDiscontinueStatus(String scenarioID, String stateID, String doctorOrder, int discontinueStatus) {
-//        Connection conn = null;
-//        PreparedStatement preparedStatement = null;
-//        String query = "UPDATE prescription SET  discontinueStatus = ?  WHERE scenarioID = ? and stateID = ? and doctorOrder = ? ";
-//
-//        try {
-//            conn = ConnectionManager.getConnection();
-//            DateFormat dateFormatter;
-//            dateFormatter = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
-//            dateFormatter.setTimeZone(TimeZone.getTimeZone("Singapore"));
-//            preparedStatement = conn.prepareStatement(query);
-//            preparedStatement.setInt(1, discontinueStatus);
-//            preparedStatement.setString(2, scenarioID);
-//            preparedStatement.setString(3, stateID);
-//            preparedStatement.setString(4, doctorOrder);
-//            preparedStatement.executeUpdate();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            ConnectionManager.close(conn, preparedStatement, null);
-//        }
-//    }
-//    
-//    public static ArrayList<Prescription> retrieveBasedOnDiscontinueState(String scenarioID, String discontinueState) {
-//        ArrayList<Prescription> list = new ArrayList<Prescription>();
-//        Connection conn = null;
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//
-//        try {
-//            conn = ConnectionManager.getConnection();
-//            stmt = conn.prepareStatement("select * from prescription WHERE scenarioID = ? and discontinueState = ?");
-//            stmt.setString(1, scenarioID);
-//            stmt.setString(2, discontinueState);
-//
-//            rs = stmt.executeQuery();
-//            while (rs.next()) {
-//                Prescription prescription = new Prescription(rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5), rs.getString(6),rs.getString(7), rs.getInt(8));
-//                list.add(prescription);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            ConnectionManager.close(conn, stmt, rs);
-//        }
-//        return list;
-//    }
-    
-    
     public static void delete(String scenarioID) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;

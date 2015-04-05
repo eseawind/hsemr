@@ -30,7 +30,6 @@
         <%@include file="/topbar/topbarAdmin.jsp" %>
 
         <script type="text/javascript">
-
             function deleteConfirmation() {
                 var deleteButton = confirm("Are you sure you want to delete? ")
                 if (deleteButton) {
@@ -40,23 +39,20 @@
                     return false;
                 }
             }
-
         </script>
     </head>
     <body>
-        <%            List<Admin> adminList = AdminDAO.retrieveAll();
+        <%            
+            List<Admin> adminList = AdminDAO.retrieveAll();
         %>
         <div class="row" style="padding-top: 30px;">
             <div class="large-centered large-12 columns">
                 <center><h1>Administrator Accounts Management</h1><br/><br/>
                     <%
                         String success = "";
-
                         if (session.getAttribute("success") != null) {
-
                             success = (String) session.getAttribute("success");
                             session.setAttribute("success", "");
-
                         }
                     %>
                     <!--TABLE-->
@@ -97,16 +93,15 @@
                                     <%
                                         if (userLoggedIn != null && userLoggedIn.equals(admin.getAdminID())) {
                                     %>
-                                    <!--<input type="submit" class="button tinytable" value="delete" disabled>-->
                                     <center><div class style="padding-top:7px"><b><font size="2" color="#368a55">LOGGED IN</font></b></div></center>
-                                                <%
-                                                } else {
-                                                %>
+                                    <%
+                                        } else {
+                                    %>
                                     <center><input type="submit" class="button tinytable" onclick="if (!deleteConfirmation())
                                                 return false" value="delete" ></center>
-                                        <%
-                                            }
-                                        %>
+                                    <%
+                                        }
+                                    %>
                                 </form>
                             </td>
                             <%
@@ -128,19 +123,17 @@
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
         <script>
+            $(document).ready(function() {
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 1000, clickToClose: true})
 
-                                        $(document).ready(function() {
-                                            $(document).foundation();
-                                            var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 1000, clickToClose: true})
+                var success1 = "<%=success%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                }
 
-                                            var success1 = "<%=success%>";
-                                            if (success1 !== "") {
-                                                humaneSuccess.log(success1);
-                                            }
-
-                                        });
+            });
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
     </body>
-
 </html>

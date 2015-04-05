@@ -66,7 +66,8 @@
         %>
     </head>
     <body>
-        <%            String scenarioID = "";
+        <%            
+            String scenarioID = "";
             String sessionScenario = (String) session.getAttribute("scenarioID");
             if (request.getParameter("scenarioID") != null) {
                 scenarioID = request.getParameter("scenarioID");
@@ -118,37 +119,34 @@
                 %>
                 <br/>
 
-                    <table style="border-color: white; width:700px">
-                        <col width="50%">
-                        <col width="50%">
-                        <tr>
-                            <td><center><input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/></center> </td>
-                        <td><center><input type="submit" class="deletebutton small" value="Deactivate"></center></td>
-                        </tr>
-                    </table></form>
-            
+                <table style="border-color: white; width:700px">
+                    <col width="50%">
+                    <col width="50%">
+                    <tr>
+                        <td><center><input type="button" value="Cancel" class="button small" onClick="window.location = '<%=location%>'"/></center> </td>
+                    <td><center><input type="submit" class="deletebutton small" value="Deactivate"></center></td>
+                    </tr>
+                </table>
+            </form>
         </div>
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
 
         <script>
-                                $(document).ready(function() {
-                                    $(document).foundation();
-                                    var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
-                                    var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
+            $(document).ready(function() {
+                $(document).foundation();
+                var humaneSuccess = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-success', timeout: 8000, clickToClose: true})
+                var humaneError = humane.create({baseCls: 'humane-original', addnCls: 'humane-original-error', timeout: 8000, clickToClose: true})
 
-                                    var success1 = "<%=success%>";
-                                    var error1 = "<%=error%>";
-                                    if (success1 !== "") {
-                                        humaneSuccess.log(success1);
-                                    } else if (error1 !== "") {
-                                        humaneError.log(error1);
-                                    }
-
-                                });
-
+                var success1 = "<%=success%>";
+                var error1 = "<%=error%>";
+                if (success1 !== "") {
+                    humaneSuccess.log(success1);
+                } else if (error1 !== "") {
+                    humaneError.log(error1);
+                }
+            });
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
     </body>
-
 </html>

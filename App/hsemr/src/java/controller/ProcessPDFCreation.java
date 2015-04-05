@@ -125,10 +125,6 @@ public class ProcessPDFCreation extends HttpServlet {
         
         // constructs the directory path to store upload file
 //         this path is relative to application's directory
-//        String uploadPath = getServletContext().getRealPath("")
-//                + File.separator + UPLOAD_DIRECTORY;
-//        
- //       String uploadPath = System.getenv("OPENSHIFT_DATA_DIR") + UPLOAD_DIRECTORY;
         
         String pathToRoot =  System.getenv("OPENSHIFT_DATA_DIR");
         String uploadFolder = "";
@@ -183,22 +179,14 @@ public class ProcessPDFCreation extends HttpServlet {
                 }
             }
             
-            //save it to database
-            //DocumentDAO.add(documentName, fileName, 1, scenarioID, stateID);
-            
-            //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
-            
         } catch (Exception ex) {
             request.setAttribute("message",
                     "There was an error: " + ex.getMessage());
             session.setAttribute("error", "There was an error in uploading " + fileName + " .");
         }
         // redirects client to message page
-        //session.setAttribute("success", "You have successfully uploaded: " + fileName + " .");
         response.sendRedirect("ProcessExtractPDF");
-        
-//        getServletContext().getRequestDispatcher("/createStateWithReports.jsp").forward(
-//                request, response);
+  
     }
     
 

@@ -74,10 +74,6 @@
 
                         for (int i = 0; i < scenarioList.size(); i++) {
                             Scenario scenario = scenarioList.get(i);
-                    %>
-
-                    <!-- <span class="label"> scenario.getScenarioStatus()%></span> -->
-                    <%
                         }
                     %>
                     <!--Legend-->
@@ -110,19 +106,18 @@
                         <col width ="20%">
                         <col width ="20%">
                         <tr valign="top">
-                            <%                        Scenario scenario = null;
+                            <%                        
+                                Scenario scenario = null;
 
                                 for (int j = 0; j < numPerRow; j++) {
+                                    if (sizeOfList > counter) {
+                                        scenario = scenarioList.get(counter);
 
-                            %>
-                            <%        if (sizeOfList > counter) {
-                                    scenario = scenarioList.get(counter);
+                                        scenarioID = scenario.getScenarioID();
 
-                                    scenarioID = scenario.getScenarioID();
-
-                                    LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerID, scenarioID);
-                                    counter++;
-                                    caseNo = counter;
+                                        LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerID, scenarioID);
+                                        counter++;
+                                        caseNo = counter;
                             %>
                             <td><center><a href="#" data-reveal-id="<%=scenarioID%>">
 
@@ -138,21 +133,19 @@
                                 %><font color="black"><%=scenario.getScenarioName()%></font></a></center></td>
                                 <%
                                     }
+                                }
                                 %>
-                                <%
-                                    }
-                                %>
-
                         </tr>
                         <%
                             }
-                        %> </table> 
+                        %> 
+                    </table> 
                 </center>
             </div>    
         </div>
 
         <%            for (int i = 0; i < scenarioList.size(); i++) {
-                Scenario scenario = scenarioList.get(i);
+                        Scenario scenario = scenarioList.get(i);
 
         %>
 

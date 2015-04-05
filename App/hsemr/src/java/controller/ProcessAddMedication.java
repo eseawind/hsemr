@@ -52,10 +52,6 @@ public class ProcessAddMedication extends HttpServlet {
             Medicine medicineRetrieved = MedicineDAO.retrieveByMedicineName(medicineName);
             String medicineBarcode = medicineRetrieved.getMedicineBarcode();
        
-
-           // String routeRetrieved = medicineRetrieved.getRouteAbbr(); //commented out after db refactor
-
-            
             //retrieve values for Prescription table
             String doctorName = request.getParameter("doctorName");
             String doctorOrder = request.getParameter("doctorOrder");
@@ -80,9 +76,6 @@ public class ProcessAddMedication extends HttpServlet {
                 session.setAttribute("success", "Medication updated successfully.");
                 response.sendRedirect("editMedication.jsp");
             }
-
-            
-            
         } finally {
             out.close();
         }

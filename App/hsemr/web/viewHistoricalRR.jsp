@@ -50,12 +50,9 @@
             if (vitalsDateTime.size() > 0) {
                 for (int i = 0; i < vitalsDateTime.size(); i++) {
                     String dateTimeVital = df.format(vitalsDateTime.get(i));
-                    //dateTimeVital = dateTimeVital.replace(" ", "T");
                     if (i != vitalsDateTime.size() - 1) {
-                        //vitalsDate += "new Date ('" + dateTimeVital + "'), ";
                         vitalsDate += "'" + dateTimeVital + "', ";
                     } else {
-                        //vitalsDate += "new Date ('" + dateTimeVital + "')";
                         vitalsDate += "'" + dateTimeVital + "'";
                     }
                 }
@@ -72,7 +69,8 @@
 
         <div id="chart"></div>
 
-        <%                if (rrList == null || rrList.size() == 0) {
+        <%                
+            if (rrList == null || rrList.size() == 0) {
                 out.println("<h5>There is no historial data at the moment.</h5>");
             } else {
 
@@ -83,10 +81,9 @@
                 bindto: '#chart',
                 padding: {
                     left: 60, //at least 60 for y axis to be seen
-                    right: 100 // add 10px for some spacing
+                    right: 100 // add 100px for some spacing
                 },
                 data: {
-                    //  x: 'x',
                     columns: [
                             ['Respiratory Rate', <% out.println(dataOfRR); %>]
                     ],
@@ -96,21 +93,7 @@
                 axis: {
                     x: {
                         type: 'category',
-                            categories: [<% out.println(vitalsDate);%>],
-                        //type: 'timeseries',
-                        //localtime: false,
-//                       label: { // ADD
-//                            text: 'Time',
-//                            position: 'outer-right'
-//                        },
-//                        
-//                        tick: { 
-//                           //format: '%Y-%m-%d %H:%M:%S', 
-//                            rotate: 45,
-//                            multiline: false
-//                       },
-//                       height: 100,
-
+                        categories: [<% out.println(vitalsDate);%>],
                     },
                     y: {
                         label: {// ADD
@@ -122,9 +105,7 @@
                                 return (x === Math.floor(x)) ? x : "";
                             }
                         }
-
                     }
-
                 },
                 grid: {
                     x: {
@@ -137,13 +118,6 @@
 
             });
             chart.resize({height: 300, width: 700});
-
-//        chart.load({
-//            columns: [
-//            ['data1', 300, 100, 250, 150, 300, 150, 500],
-//            ['data2', 100, 200, 150, 50, 100, 250]
-//            ]
-//        });
         </script>  
         <% }%>
     </body>

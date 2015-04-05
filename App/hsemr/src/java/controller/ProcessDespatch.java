@@ -46,7 +46,7 @@ public class ProcessDespatch extends HttpServlet {
         String clickedID = request.getParameter("clickedID");
         PracticalGroupReportDAO.add(reportID, practicalGroup);
         HttpSession session = request.getSession(false);
-        // to be used to determine whether to retrieve report for the first time
+        //to be used to determine whether to retrieve report for the first time
         session.setAttribute("clickedID", clickedID);
         session.setAttribute("success", "Despatching Report: " + reportName + " to the lab. Please follow up on the results. ");
         

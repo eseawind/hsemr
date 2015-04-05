@@ -62,7 +62,8 @@
             <div class="large-centered large-12 columns">
                 <center>
                     <h1>Select case to reset</h1>
-                    <%  //Retrieve all the successful messages 
+                    <%  
+                        //Retrieve all the successful messages 
                         String success = "";
                         if (session.getAttribute("success") != null) {
                             success = (String) session.getAttribute("success");
@@ -79,8 +80,8 @@
 
                         List<Scenario> scenarioList = ScenarioDAO.retrieveAndSortByBedNum();
 
-
                     %>
+                    
                     <!--Legend-->
                     <table style="border-color: white; width: 420px">
                         <col width ="10%">
@@ -89,7 +90,7 @@
                         <tr>
                             <td>Legend:</td>
                             <td><legend style="background-color: #cf2a0e"></legend>  Activated Case</td>
-                        <td><legend style="background-color: #DBDBDB"></legend>  Deactivated Case</td>
+                            <td><legend style="background-color: #DBDBDB"></legend>  Deactivated Case</td>
                         <tr/>
                     </table>
                     <br/>
@@ -101,7 +102,7 @@
                             int counter = 0;
 
                             for (int i = 0; i <= numOfRows; i++) {
-                                // out.println(numOfRows);
+                                
                         %>
 
                         <col width ="20%">
@@ -110,45 +111,41 @@
                         <col width ="20%">
                         <col width ="20%">
                         <tr valign="top">
-                            <%                            Scenario scenario = null;
-                                //out.println(counter + "counter");
+                            <%                            
+                                Scenario scenario = null;
+                                
                                 for (int j = 0; j < numPerRow; j++) {
+                                   if (sizeOfList > counter) {
+                                        scenario = scenarioList.get(counter); 
+                                        scenarioID = scenario.getScenarioID();
+                                        LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerID, scenarioID);
 
-                            %>
-                            <%        if (sizeOfList > counter) {
-                                    scenario = scenarioList.get(counter); //supposed to get Counter, but somehow arrayindexoutofbounds when i put counter.
-
-                                    scenarioID = scenario.getScenarioID();
-
-                                    LecturerScenario lecScenario = LecturerScenarioDAO.retrieve(lecturerID, scenarioID);
-
-                                    counter++;
-                                    caseNo = counter;
+                                        counter++;
+                                        caseNo = counter;
                             %>
                             <td><center><a href="#" data-reveal-id="<%=scenarioID%>">
 
-                                <%
-                                    //if (scenario.getScenarioStatus() == 1) {
-                                    if (lecScenario != null) {%>
-
-                                <input type="submit" class="resetcase" value="<%=counter%>"><br/>
-
-                                <% } else {%>
-                                <input type="submit" class="resetcase off" value="<%=counter%>"><br/>
-
-                                <%
-                                    }
-                                %><font color="black"><%=scenario.getScenarioName()%></font></a></center></td>
-                                <%
-                                    }
-                                %>
+                                    <%
+                                        if (lecScenario != null) {
+                                    %>
+                                            <input type="submit" class="resetcase" value="<%=counter%>"><br/>
+                                     <% 
+                                        } else {
+                                     %>
+                                            <input type="submit" class="resetcase off" value="<%=counter%>"><br/>
+                                    <%
+                                        }
+                                    %>
+                                    <font color="black"><%=scenario.getScenarioName()%></font></a></center></td>
                                 <%
                                     }
+                                }
                                 %>
                         </tr>
                         <%
                             }
-                        %> </table>
+                        %> 
+                    </table>
                 </center>
             </div>    
         </div>
@@ -158,42 +155,40 @@
                 Scenario scenario = scenarioList.get(i);
         %>
 
-        <div id="<%=scenario.getScenarioID()%>" class="reveal-modal" data-reveal>
+                <div id="<%=scenario.getScenarioID()%>" class="reveal-modal" data-reveal>
 
-            <form action = "ProcessResetScenario" method = "POST">   
-                <h2>Case Information</h2> 
-                <br/>
-                <%
+                <form action = "ProcessResetScenario" method = "POST">   
+                    <h2>Case Information</h2> 
+                    <br/>
+                    <%
+                        List<PracticalGroup> pgList = PracticalGroupDAO.retrieveByLecturerID(lecturerID);
 
-                    List<PracticalGroup> pgList = PracticalGroupDAO.retrieveByLecturerID(lecturerID);
-
-                    if (pgList == null || pgList.size() == 0) {
-                        out.println("There is no practical group for this lecturer, please contact admin to assign.<br>");
-                    } else {
-                        for (PracticalGroup pg : pgList) {%>
-                <input type="checkbox" name = "pgSelected" value = "<%=pg.getPracticalGroupID()%>"><label><%=pg.getPracticalGroupID()%></label>
+                        if (pgList == null || pgList.size() == 0) {
+                            out.println("There is no practical group for this lecturer, please contact admin to assign.<br>");
+                        } else {
+                            for (PracticalGroup pg : pgList) {
+                    %>
+                                <input type="checkbox" name = "pgSelected" value = "<%=pg.getPracticalGroupID()%>"><label><%=pg.getPracticalGroupID()%></label>
                     <%
                             }
                         }
                     %>    
 
-                <input type ="hidden" id= "status" name = "status" value = "reset">
-                <input type ="hidden" id= "scenarioID" name = "scenarioID" value = "<%=scenario.getScenarioID()%>">
+                <input type ="hidden" id= "status" name ="status" value ="reset">
+                <input type ="hidden" id= "scenarioID" name ="scenarioID" value ="<%=scenario.getScenarioID()%>">
                 <input type ="submit" class="deletebutton tiny" value = "Reset Case">
 
                 <p class="lead"><b>Case Number:</b> <%=scenario.getScenarioID()%> </p>
                 <p class="lead"><b>Case Name:</b> <%=scenario.getScenarioName()%> </p>
                 <p class="lead"><b>Case Description:</b> <%=scenario.getScenarioDescription()%> </p>
                 <p class="lead"><b>Admission Info:</b> <%=scenario.getAdmissionNote()%> </p>
-
-
-
-
             </form>
             <a class="close-reveal-modal">&#215;</a>
         </div>
 
-        <% }%>
+        <% 
+            }
+        %>
 
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
@@ -210,7 +205,6 @@
                 } else if (error1 !== "") {
                     humaneError.log(error1);
                 }
-
             });
         </script>
         <script type="text/javascript" src="js/humane.js"></script>
