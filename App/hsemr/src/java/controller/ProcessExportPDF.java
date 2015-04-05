@@ -135,15 +135,15 @@ public class ProcessExportPDF extends HttpServlet {
             c1 = new PdfPCell(new Phrase("Practical Group ID"));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             tableOfNotes.addCell(c1);
-
-            c1 = new PdfPCell(new Phrase("Nurse In-Charge"));
-            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tableOfNotes.addCell(c1);
-
+            
             c1 = new PdfPCell(new Phrase("Multidisciplinary Notes"));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             tableOfNotes.addCell(c1);
             
+            c1 = new PdfPCell(new Phrase("Nurse In-Charge"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tableOfNotes.addCell(c1);
+
             
             tableOfNotes.setHeaderRows(1);
             
@@ -156,9 +156,8 @@ public class ProcessExportPDF extends HttpServlet {
                 for (Note note : notesList){ 
                     tableOfNotes.addCell(df.format(note.getNoteDatetime()));
                     tableOfNotes.addCell(note.getPracticalGroupID());
-                    tableOfNotes.addCell(note.getGrpMemberNames());
                     tableOfNotes.addCell(note.getMultidisciplinaryNote());
-                    
+                     tableOfNotes.addCell(note.getGrpMemberNames());
                 }
             }
             //Contents of table 1
@@ -242,7 +241,7 @@ public class ProcessExportPDF extends HttpServlet {
             }else {
                 boolean allZero = true; 
                 for (Vital vitals : vitalList){ 
-                   if(vitals.getTemperature()==0.0 || vitals.getRr() == 0 || vitals.getBpSystolic() == 0 || vitals.getBpDiastolic() == 0 || vitals.getHr() == 0 || vitals.getSpo() == 0 ) {
+                   if(vitals.getTemperature()!=0.0 || vitals.getRr() != 0 || vitals.getBpSystolic() != 0 || vitals.getBpDiastolic() != 0 || vitals.getHr() != 0 || vitals.getSpo() != 0 ) {
                         allZero = false; 
                    }
                }
