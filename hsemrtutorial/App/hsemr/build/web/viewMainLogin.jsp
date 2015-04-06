@@ -1,0 +1,163 @@
+<%-- 
+    Document   : mainLogin
+    Created on : Sep 24, 2014, 4:48:29 PM
+    Author     : Jocelyn
+--%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="shortcut icon" href="img/DefaultLogo-favicon.ico">
+        <!--CSS-->
+        <link rel="stylesheet" href="css/foundation.css" />
+        <link href='http://fonts.googleapis.com/css?family=Playfair+Display+SC:400,700,900' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+        <script src="js/vendor/modernizr.js"></script>
+
+        <!--ICON-->
+        <link rel="stylesheet" type="text/css" href="css/foundation-icons/foundation-icons.css">
+        <link rel="stylesheet" type="text/css" href="css/foundation-icons/foundation-icons.svg">
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>NP Health Sciences | Hospital Ward Management System</title>
+    </head>
+    <body>
+        <div class="large-centered large-12 columns">
+            <!--HS EMR LOGO-->
+            <center>
+                <div class="row" style="width: 440px; padding-top:20px">
+                    <!--To insert icon if needed-->
+                    <h0 id="firstStop"><font color="#368a55">HS EMR</font></h0><br/>
+                    <h00><font color="#009a4d">Passion to Touch Lives</font></h00>  
+                    <hr>
+                </div>
+                <h1>Tutorial Mode</h1>
+            </center>
+
+            <div class="row" style="width:440px;">
+                <!--Error Validation-->
+                <%
+                    String userid = "";
+                    String error = (String) request.getAttribute("error");
+                    if (error != null) {
+                        userid = request.getParameter("userid");
+                %>
+                <!--Error Alert Box-->
+                <div data-alert class="alert-box alert">
+                    <%=error%>
+                    <a href="viewMainLogin.jsp" class="close">&times;</a>
+                </div>
+                <%
+                    }
+                %> 
+                <!--Post form to ProcessLogin to validate the user's credentials-->
+                <form action="ProcessLogin" method="post">
+                    <br/><br/>
+
+                    <!--User ID-->
+                    <label id="numero1"><strong>User ID</strong>
+                        <div class="row collapse">
+                            <div class="small-3 columns">
+                                <span class="prefix radius"><i class="fi-torso size-24"></i></span>
+                            </div>
+                            <div class="small-9 columns">
+                                <input type="text" name="userid" placeholder="Enter your user ID" value="<%=userid%>" required>
+
+                            </div>
+                        </div> 
+                    </label>
+                    <br/>
+
+                    <!--Password-->
+                    <label id="numero2"><strong>Password</strong>
+                        <div class="row collapse">
+                            <div class="small-3 columns">
+                                <span class="prefix radius"><i class="fi-lock size-24"></i></span>
+                            </div>
+                            <div class="small-9 columns">
+                                <input type="password" name="password" placeholder="Enter your password" required>
+                            </div>
+                        </div> 
+                    </label>  
+                    <br/>
+
+                    <!--Role-->
+                    <label id="numero3"><strong>Role</strong>
+                        <div class="row collapse">
+                            <div class="small-3 columns">
+                                <span class="prefix radius"><i class="fi-torsos-all size-24"></i></span>
+                            </div>
+                            <div class="small-9 columns">
+                                <select name = "userType">
+                                    <option value="practicalGroup">STUDENT</option>
+                                    <option value="lecturer">NP STAFF</option>
+                                    <option value="admin">ADMIN</option>
+                                </select> 
+                                <br/>
+                            </div>
+                        </div>    
+                    </label>
+                    <br/><br/>
+
+                    <!--Submit-->
+                    <center><input type="submit" class="login normal radius expand" value="LOGIN"></center>
+                </form>
+            </div>  
+            <!--Footer-->
+            <center><font size="2" color="#666666"> Ngee Ann Polytechnic | School of Health Sciences | Electronic Medical Records
+                <br/>Copyright &copy; HS EMR. All rights reserved.
+                <br/>Developed by <a href ="https://wiki.smu.edu.sg/is480/IS480_Team_wiki%3A_2015T2_White_Pinnacle">White Pinnacle</a>
+
+        </div> 
+
+        <p><!-- TOUR STOPS --></p>
+        <ol class="joyride-list" data-joyride>
+            <li data-id="firstStop" data-button="Next" data-options="tip_location: top;prev_button: false">
+                <h4>Start</h4>
+                <font size="3">
+                Hello and welcome to the HS EMR Tutorial Page<br/>
+                </font><br/><br/>
+            </li>
+            <li data-id="numero1" data-button="Next" data-prev-button="Previous">
+                <h4>Step 1:</h4>
+                <font size="3">
+                Student: studenttutorial <br/>
+                Lecturer: lecturertutorial <br/>
+                Administrator: admintutorial <br/>
+                </font><br/><br/>
+            </li>
+            <li data-id="numero2" data-button="Next" data-prev-button="Previous">
+                <h4>Step 2:</h4>
+                <font size="3">
+                Student: S123 <br/>
+                Lecturer: L123 <br/>
+                Administrator: A123 <br/>
+                </font><br/><br/>
+            </li>
+            <li data-id="numero3" data-button="Next" data-prev-button="Previous">
+                <h4>Step 3:</h4>
+                <font size="3">
+                Student: STUDENT <br/>
+                Lecturer: NP STAFF <br/>
+                Administrator: ADMIN <br/>
+                </font><br/><br/>
+            </li>
+            <li data-button="End" data-prev-text="Previous">
+                <h4>End</h4>
+                <font size="3">
+                Please proceed by pressing Login button. <br/>
+                You have successfully completed the Login tutorial. <br/>
+                </font><br/><br/>
+            </li>
+        </ol>
+
+        <!--Scripts-->
+        <script src="js/vendor/jquery.js"></script>
+        <script src="js/foundation.min.js"></script>
+        <script src="js/foundation/foundation.joyride.js"></script>
+        <script>$(document).foundation();
+            $(document).foundation().foundation('joyride', 'start');</script>
+
+    </body>
+</html>
