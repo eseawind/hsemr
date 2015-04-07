@@ -52,7 +52,8 @@ public class ProcessAddKeyword extends HttpServlet {
             response.sendRedirect("./createPDFUpload.jsp");
         } else {
             KeywordDAO.insertKeyword(keywordID, keywordDesc, fieldsToMap, entityToMap);
-            session.setAttribute("success", "Added new keyword " + keywordDesc);
+            //out.println(keywordID + " " + keywordDesc + " " + fieldsToMap + " " + entityToMap);
+            session.setAttribute("success", "Added new keyword: " + keywordDesc);
             response.sendRedirect("./createPDFUpload.jsp");
         }
     }

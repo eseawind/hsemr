@@ -36,7 +36,11 @@
 
             List<Keyword> keywordList = KeywordDAO.retrieveAll();
             if (keywordList != null) {
-                keywordID = Integer.toString(keywordList.size() + 1);
+                //keywordID = Integer.toString(keywordList.size() + 1);
+                int length = keywordList.size();
+                Keyword lastKeyword = keywordList.get(length-1);
+                int lastKeywordID = lastKeyword.getKeywordID();
+                keywordID = Integer.toString(lastKeywordID + 1);
             }
 
         %>
