@@ -83,12 +83,17 @@
                         String stateRetrieved = state.getStateID();
                         stateDescription = state.getStateDescription();
                         String stateNumber = "";
-                        if (!stateRetrieved.equals("ST0")) {
+                        String stateDesc = "";
+                            
                             int number = Integer.parseInt(stateRetrieved.replace("ST", ""));
                             
                             String stateDescriptionNumber = "statedescription" + counter;
                             session.setAttribute("dNum", stateDescriptionNumber);
-                            String stateDesc = stateRetrieved.replace("ST", "State ");
+                            if (stateRetrieved.equals("ST0")) {
+                               stateDesc = "Initial State";
+                            } else { 
+                                stateDesc = stateRetrieved.replace("ST", "State ");
+                            }
 
                             Prescription prescription = PrescriptionDAO.retrieve(scenarioID, stateRetrieved, "NA");
                             String doNum = "doctorOrder" + counter;
@@ -116,7 +121,7 @@
 
                 <input type ="hidden" name ="scenarioID" value ="<%=scenarioID%>">
                 <input type ="hidden" name="<%=pNum%>" value="<%=p%>">
-                <% }
+                <% 
                             counter++;
 
                         }%>

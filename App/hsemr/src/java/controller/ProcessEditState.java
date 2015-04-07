@@ -43,14 +43,14 @@ public class ProcessEditState extends HttpServlet {
                 String scenarioID = request.getParameter("scenarioID");
                 int stateListSize = Integer.parseInt(request.getParameter("stateListSize"));
                 for (int i = 0; i < stateListSize; i++) {
-                    int num = i+1; 
+                    int num = i; 
                     String descNum = "statedescription" + num;
                     String doNum = "doctorOrder" + num;
                     String pNum = "p" + num;
                     String desc = request.getParameter(descNum);
                     String doctorOrder = request.getParameter(doNum);
                     String prescription = request.getParameter(pNum);
-                    int statenum = i + 1;
+                    int statenum = i;
                     String stateID = "ST" + statenum;
 
 
