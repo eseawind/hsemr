@@ -48,6 +48,15 @@ public class ProcessExtractPDF extends HttpServlet {
      */
     // location to store file uploaded
     private static final String DATA_DIRECTORY = "scenarioPDF";
+    float llx = 97f; //lower left x page1
+    float lly = 470f; //lower left y page1
+    float urx = 430f; //upper right x page1
+    float ury = 3000f;//upper right y page1
+
+    float llx2 = 95f; //lower left x 
+    float lly2 = 330f; //lower left y 
+    float urx2 = 550f; //upper right x
+    float ury2 = 3000f;//upper right y
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -351,8 +360,7 @@ public class ProcessExtractPDF extends HttpServlet {
         PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
         List<PdfCleanUpLocation> cleanUpLocations = new ArrayList<PdfCleanUpLocation>();
         //block in first page
-        //cleanUpLocations.add(new PdfCleanUpLocation(1, new Rectangle(97f, 750f, 430f, 450f), BaseColor.BLACK));
-        cleanUpLocations.add(new PdfCleanUpLocation(1, new Rectangle(97f, 470f, 430f, 3000f), BaseColor.BLACK));
+        cleanUpLocations.add(new PdfCleanUpLocation(1, new Rectangle(llx, lly, urx, ury), BaseColor.BLACK));
         PdfCleanUpProcessor cleaner = new PdfCleanUpProcessor(cleanUpLocations, stamper);
         cleaner.cleanUp();
 
@@ -360,8 +368,7 @@ public class ProcessExtractPDF extends HttpServlet {
 
         //loop from 3rd page onwards, 2 confirm not used
         for (int i = 2; i <= totalPages; i++) {
-            //cleanUpLocations.add(new PdfCleanUpLocation(i, new Rectangle(95f, 330f, 550f, 3000f), BaseColor.BLACK));
-            cleanUpLocations.add(new PdfCleanUpLocation(i, new Rectangle(95f, 330f, 550f, 3000f), BaseColor.BLACK));
+            cleanUpLocations.add(new PdfCleanUpLocation(i, new Rectangle(llx2, lly2, urx2, ury2), BaseColor.BLACK));
             cleaner = new PdfCleanUpProcessor(cleanUpLocations, stamper);
             cleaner.cleanUp();
         }
