@@ -619,11 +619,13 @@
                                         <td><b>Medicine Name</b></td>
                                         <td><b>Administered By</b></td>
                                     </tr>
+                                    <tr>
                                     <%
                                         
                                         for (MedicationHistory medicationHistory : medicationHistoryList) {
-                                            String timeMedicine = df.format(medicationHistory.getMedicineDatetime());%>
-                                    <tr>
+                                             String timeMedicine = df.format(medicationHistory.getMedicineDatetime());
+                                    %>
+                                           
                                         <td><%=timeMedicine%></td>
                                         <td><%=MedicineDAO.retrieve(medicationHistory.getMedicineBarcode()).getMedicineName()%></td>
                                         <td><%=medicationHistory.getPracticalGroupID()%></td>
