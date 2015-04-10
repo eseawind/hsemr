@@ -125,7 +125,7 @@ public class ProcessAddVital extends HttpServlet {
             session.setAttribute("output", request.getParameter("output"));
             
             
-            if(temperature == 0.0 && RR == 0 && HR == 0 && BPsystolic == 0 && BPdiastolic == 0 && SPO == 0 && BPsystolic == 0 && oralAmount.equals("-")  && oralType.equals("-") && intravenousType.equals("-") && intravenousType.equals("-")){
+            if(temperature == 0.0 && RR == 0 && HR == 0 && BPsystolic == 0 && BPdiastolic == 0 && SPO == 0 && BPsystolic == 0 && oralAmount.equals("-")  && oralType.equals("-") && intravenousType.equals("-") && intravenousType.equals("-") && output.equals("-")){
                 session.setAttribute("error", "Update failed: At least 1 field must be filled up before updating.");
                 session.setAttribute("active", "vital");
                 response.sendRedirect("./viewPatientInformation.jsp");

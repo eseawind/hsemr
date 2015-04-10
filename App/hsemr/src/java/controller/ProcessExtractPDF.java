@@ -365,7 +365,7 @@ public class ProcessExtractPDF extends HttpServlet {
         cleaner.cleanUp();
 
         int totalPages = reader.getNumberOfPages();
-
+        
         //loop from 3rd page onwards, 2 confirm not used
         for (int i = 2; i <= totalPages; i++) {
             cleanUpLocations.add(new PdfCleanUpLocation(i, new Rectangle(llx2, lly2, urx2, ury2), BaseColor.BLACK));
