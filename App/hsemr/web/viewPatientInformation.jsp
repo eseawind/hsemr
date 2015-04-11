@@ -64,7 +64,7 @@
 
 
                     <%
-                        DateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
                         String active = (String) session.getAttribute("active");
 
