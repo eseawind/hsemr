@@ -24,7 +24,7 @@
         <script src="js/vendor/modernizr.js"></script>
         <script type="text/javascript">
             function activateConfirmation() {
-                var activateButton = confirm("Only one state can be activate each round. Activating this state will deactivate the rest.")
+                var activateButton = confirm("Only one case can be activate each round. Activating this case will deactivate the rest.")
                 if (activateButton) {
                     return true;
                 }
