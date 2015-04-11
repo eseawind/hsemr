@@ -64,7 +64,7 @@
 
 
                     <%
-                        DateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+                        DateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 
                         String active = (String) session.getAttribute("active");
 
@@ -621,9 +621,14 @@
                                     </tr>
                                     <%
 
-                                        for (MedicationHistory medicationHistory : medicationHistoryList) {%>
+                                        for (MedicationHistory medicationHistory : medicationHistoryList) {
+                                    
+                                        df.setTimeZone(TimeZone.getTimeZone("Singapore"));
+                                        String timeMedicine = df.format(medicationHistory.getMedicineDatetime());
+                                    %>
+                                        
                                     <tr>
-                                        <td><%=df.format(medicationHistory.getMedicineDatetime())%></td>
+                                        <td><%=timeMedicine%></td>
                                         <td><%=MedicineDAO.retrieve(medicationHistory.getMedicineBarcode()).getMedicineName()%></td>
                                         <td><%=medicationHistory.getPracticalGroupID()%></td>
                                     </tr> 
