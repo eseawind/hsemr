@@ -147,7 +147,7 @@ public class ProcessExportPDF extends HttpServlet {
             
             tableOfNotes.setHeaderRows(1);
             
-            DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             
             if(notesList == null || notesList.isEmpty()){
                 document.add(new Paragraph("There are no notes submmited"));
