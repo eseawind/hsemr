@@ -1352,11 +1352,14 @@
                                                                 You have no access to medication. Medication is only available in the web. 
                                                                 <ul class="pricing-table">
 
-                                                                    <li class="price">Last Updated Vitals</li>        
+                                                                    <li class="price"><b>Last Updated Vitals</b></li> 
+                                                                 
 
                                                                     <%                                                                        List<Vital> vitalList = VitalDAO.retrieveAllVitalByScenarioID(scenarioID);
                                                                         if (vitalList.size() > 0) {
                                                                     %>
+                                                                    
+                                                                    Last updated as of: <%=df.format(vitalList.get(vitalList.size() - 1).getVitalDatetime())%>
                                                                     <li class="bullet-item">Temperature - <%=vitalList.get(vitalList.size() - 1).getTemperature()%></li>  
                                                                     <li class="bullet-item">Respiratory Rate - <%=vitalList.get(vitalList.size() - 1).getRr()%></li>  
                                                                     <li class="bullet-item">Heart Rate - <%=vitalList.get(vitalList.size() - 1).getHr()%></li>  
