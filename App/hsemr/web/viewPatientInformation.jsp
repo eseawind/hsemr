@@ -1068,7 +1068,7 @@
                                                 <!-- Reveal model for temperature chart -->
                                                 <div id="tempchart" class="reveal-modal large-10" data-reveal>
 
-                                                    <iframe src = "viewHistoricalTemp.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
+                                                    <iframe src = "viewHistoricalTemp.jsp" frameborder ="0" width = "900" height = "400"></iframe> 
                                                     <a class="close-reveal-modal">&#215;</a>
 
                                                 </div>
@@ -1076,7 +1076,7 @@
                                                 <!-- Reveal model for Respiratory chart -->
                                                 <div id="RRchart" class="reveal-modal large-10" data-reveal>
 
-                                                    <iframe src = "viewHistoricalRR.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
+                                                    <iframe src = "viewHistoricalRR.jsp" frameborder ="0" width = "900" height = "400"></iframe> 
                                                     <a class="close-reveal-modal">&#215;</a>
 
                                                 </div>
@@ -1085,13 +1085,13 @@
                                                 <!-- Reveal model for Heart Rate chart -->
                                                 <div id="HRchart" class="reveal-modal large-10" data-reveal>
 
-                                                    <iframe src = "viewHistoricalHR.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
+                                                    <iframe src = "viewHistoricalHR.jsp" frameborder ="0" width = "900" height = "400"></iframe> 
                                                     <a class="close-reveal-modal">&#215;</a>
 
                                                 </div>
                                                 <div id="BPchart" class="reveal-modal large-10" data-reveal>
                                                     <!-- Reveal model for Blood Pressure chart -->
-                                                    <iframe src = "viewHistoricalBP.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
+                                                    <iframe src = "viewHistoricalBP.jsp" frameborder ="0" width = "900" height = "400"></iframe> 
                                                     <a class="close-reveal-modal">&#215;</a>
 
                                                 </div>
@@ -1099,13 +1099,13 @@
                                                 <!-- Reveal model for SPO chart -->
                                                 <div id="SPOchart" class="reveal-modal large-10" data-reveal>
 
-                                                    <iframe src = "viewHistoricalSPO.jsp" frameborder ="0" width = "1000" height = "400"></iframe> 
+                                                    <iframe src = "viewHistoricalSPO.jsp" frameborder ="0" width = "900" height = "400"></iframe> 
                                                     <a class="close-reveal-modal">&#215;</a>
 
                                                 </div>
                                                 <div id="AllChart" class="reveal-modal large-10" data-reveal>
 
-                                                    <iframe src = "viewAllChart.jsp" frameborder ="0" width = "1000" height = "900"></iframe> 
+                                                    <iframe src = "viewAllChart.jsp" frameborder ="0" width = "900" height = "900"></iframe> 
                                                     <a class="close-reveal-modal">&#215;</a>
 
                                                 </div>
@@ -1352,14 +1352,14 @@
                                                                 You have no access to medication. Medication is only available in the web. 
                                                                 <ul class="pricing-table">
 
-                                                                    <li class="price"><b>Last Updated Vitals</b></li> 
+                                                                    <li class="price">Last Updated Vitals</li> 
                                                                  
 
                                                                     <%                                                                        List<Vital> vitalList = VitalDAO.retrieveAllVitalByScenarioID(scenarioID);
                                                                         if (vitalList.size() > 0) {
                                                                     %>
                                                                     
-                                                                    Last updated as of: <%=df.format(vitalList.get(vitalList.size() - 1).getVitalDatetime())%>
+                                                                    <center> Last updated as of: <%=df.format(vitalList.get(vitalList.size() - 1).getVitalDatetime())%> </center>
                                                                     <li class="bullet-item">Temperature - <%=vitalList.get(vitalList.size() - 1).getTemperature()%></li>  
                                                                     <li class="bullet-item">Respiratory Rate - <%=vitalList.get(vitalList.size() - 1).getRr()%></li>  
                                                                     <li class="bullet-item">Heart Rate - <%=vitalList.get(vitalList.size() - 1).getHr()%></li>  
@@ -1373,7 +1373,7 @@
                                                                 </ul> 
 
                                                                 <ul class="pricing-table">
-                                                                    <li class="price"><b>Intake - Oral</b></li>        
+                                                                    <li class="price">Intake - Oral</li>        
                                                                         <%
                                                                             List<Vital> intakeOralList = VitalDAO.retrieveIntakeOralByScenarioID(scenarioID);
                                                                             if (intakeOralList == null || intakeOralList.size() == 0) {
@@ -1389,7 +1389,7 @@
                                                                 </ul>
 
                                                                 <ul class="pricing-table">
-                                                                    <li class="price"><b>Intake - Intravenous</b></li>        
+                                                                    <li class="price">Intake - Intravenous</li>        
                                                                         <%
                                                                             List<Vital> intakeIntravenousList = VitalDAO.retrieveIntakeIntraByScenarioID(scenarioID);
                                                                             if (intakeIntravenousList == null || intakeIntravenousList.size() == 0) {
@@ -1407,7 +1407,7 @@
                                                                 </ul> 
 
                                                                 <ul class="pricing-table">
-                                                                    <li class="price"><b>Output</b></li>        
+                                                                    <li class="price">Output</li>        
                                                                         <%
                                                                             List<Vital> outputList = VitalDAO.retrieveOutputByScenarioID(scenarioID);
                                                                             if (outputList == null || outputList.size() == 0) {
