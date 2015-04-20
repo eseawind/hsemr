@@ -65,11 +65,9 @@
                                     String scenarioName = scenarioActivated1.getScenarioName();
                                     String scenarioDescription = scenarioActivated1.getScenarioDescription();
                             %>
-                        <li><a href="viewCaseInformation.jsp"><span data-tooltip aria-haspopup="true" class="has-tip" title="<b>Scenario Name:</b> <%=scenarioName%><br><br>
-                            <b>Scenario Description: </b> <%=scenarioDescription%>
-                            ">Case Information</span></a></li>
+                        <li><a href="viewCaseInformation.jsp">Case Information</a></li>
                             <% } else { %> 
-                                <li><a href="#"><span data-tooltip aria-haspopup="true" class="has-tip" title="No activated case yet">Case Information</span></a></li>  
+                                <li><a href="#">Case Information</a></li>  
                             <%}
                             }
                         }%> 

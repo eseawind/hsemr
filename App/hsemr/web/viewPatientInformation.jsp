@@ -194,7 +194,7 @@
                                     out.println("active");
                                 } else {
                                     out.println("");
-                                } %>"><a href="#multidisciplinary">Notes</a></dd>
+                                } %>"><a href="#multidisciplinary">Multidisciplinary Notes</a></dd>
                             <dd class="<% if (active != null && active.equals("documents")) {
                                     out.println("active");
                                 } else {
